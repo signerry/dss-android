@@ -7,13 +7,18 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-document')
-    implementation project(':dss-utils')
+    api project(':dss-document')
+    api project(':dss-utils')
+    api project(':specs-asic-manifest')
+
+
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     testImplementation 'ch.qos.logback:logback-classic:1.2.10'
-    testImplementation project(':specs-asic-manifest')
-    testImplementation project(':dss-test')
+
+    testImplementation files(project(':specs-asic-manifest').sourceSets.test.output.classesDirs)
+    testImplementation files(project(':dss-test').sourceSets.test.output.classesDirs)
+
 }
 
 description = 'DSS ASiC Common'

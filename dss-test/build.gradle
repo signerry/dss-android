@@ -7,9 +7,9 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-document')
-    implementation project(':dss-token')
-    implementation project(':dss-service')
+    api project(':dss-document')
+    api project(':dss-token')
+    api project(':dss-service')
     implementation 'org.apache.santuario:xmlsec:2.3.0'
     implementation 'org.slf4j:jcl-over-slf4j:1.7.35'
     implementation 'ch.qos.logback:logback-classic:1.2.10'
@@ -20,8 +20,8 @@ dependencies {
     implementation 'org.awaitility:awaitility:4.1.1'
     implementation 'org.mockito:mockito-core:3.12.4'
     implementation 'com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.13.2'
-    implementation project(':dss-utils-apache-commons')
-    implementation project(':dss-crl-parser-stream')
+    api project(':dss-utils-apache-commons')
+    api project(':dss-crl-parser-stream')
     implementation 'org.apache.xmlgraphics:fop-core:2.7'
 }
 

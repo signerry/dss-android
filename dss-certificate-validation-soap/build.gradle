@@ -7,8 +7,8 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-certificate-validation-common')
-    implementation project(':dss-certificate-validation-soap-client')
+    api project(':dss-certificate-validation-common')
+    api project(':dss-certificate-validation-soap-client')
 }
 
 description = 'DSS Certificate Validation SOAP Service'

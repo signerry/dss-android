@@ -4,13 +4,22 @@
 
 plugins {
     id 'eu.europa.ec.joinup.sd-dss.java-conventions'
+    id("org.unbroken-dome.xjc") version "2.0.0"
 }
 
+
 dependencies {
-    implementation project(':specs-xmldsig')
-    implementation project(':dss-jaxb-parsers')
+    api project(':specs-xmldsig')
+    xjcEpisodes project(':specs-xmldsig')
+    api project(':dss-jaxb-parsers')
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+}
+
+xjc {
+    srcDirName = 'resources/xsd'
+    strictCheck=false
+    extension = true
 }
 
 description = 'JAXB SAML Assertion Model'
@@ -24,4 +33,31 @@ publishing.publications.maven.artifact(testsJar)
 
 java {
     withJavadocJar()
+}
+
+sourceSets {
+
+    main {
+        xjcGenerateEpisode = true
+
+
+        xjcSchema {
+            includes = [ "saml-schema-assertion-2.0.xsd",
+                         "saml-schema-dce-2.0.xsd",
+                         "saml-schema-ecp-2.0.xsd",
+                         "saml-schema-protocol-2.0.xsd",
+                         "saml-schema-x500-2.0.xsd",
+                         "saml-schema-xacml-2.0.xsd",
+                         "saml-schema-xacml-2.0.xsd",
+                        "saml-schema-authn-context-2.0.xsd"
+            ]
+        }
+
+        xjcBinding {
+            includes = ['bindings.xml']
+        }
+
+        compileClasspath += sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.runtimeClasspath
+    }
 }

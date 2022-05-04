@@ -7,10 +7,10 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-asic-common')
-    implementation project(':dss-xades')
-    testImplementation project(':dss-test')
-    testImplementation project(':dss-asic-common')
+    api project(':dss-asic-common')
+    api project(':dss-xades')
+    testImplementation files(project(':dss-test').sourceSets.test.output.classesDirs)
+    testImplementation files(project(':dss-asic-common').sourceSets.test.output.classesDirs)
 }
 
 description = 'DSS ASiC with XAdES signature(s)'

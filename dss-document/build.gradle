@@ -7,8 +7,8 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-spi')
-    implementation project(':validation-policy')
+    api project(':dss-spi')
+    api project(':validation-policy')
     testImplementation 'ch.qos.logback:logback-classic:1.2.10'
     testImplementation 'com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.13.2'
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'

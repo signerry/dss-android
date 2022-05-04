@@ -7,9 +7,14 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-document')
+    api project(':dss-document')
+    api project(':dss-service')
+    api project(':dss-token')
+
     implementation 'org.apache.santuario:xmlsec:2.3.0'
-    testImplementation project(':dss-test')
+    testImplementation files(project(':dss-test').sourceSets.test.output.classesDirs)
+    testImplementation files(project(':dss-service').sourceSets.test.output.classesDirs)
+
 }
 
 description = 'DSS XAdES'

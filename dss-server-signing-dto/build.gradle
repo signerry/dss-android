@@ -7,7 +7,9 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-common-remote-dto')
+    api project(':dss-common-remote-dto')
+    api project(':dss-document')
+
 }
 
 description = 'DSS Server Signing DTO'

@@ -7,7 +7,7 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-signature-dto')
+    api project(':dss-signature-dto')
     implementation 'jakarta.ws.rs:jakarta.ws.rs-api:2.1.6'
 }
 

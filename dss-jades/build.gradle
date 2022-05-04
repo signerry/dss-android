@@ -7,8 +7,9 @@ plugins {
 }
 
 dependencies {
-    implementation project(':specs-jades')
-    implementation project(':dss-document')
+    api project(':specs-jades')
+    api project(':dss-document')
+    testImplementation files(project(':dss-test').sourceSets.test.output.classesDirs)
     implementation 'org.bitbucket.b_c:jose4j:0.7.9'
     testImplementation project(':dss-test')
 }

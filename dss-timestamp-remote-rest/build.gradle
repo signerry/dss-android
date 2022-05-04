@@ -7,8 +7,8 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-timestamp-remote')
-    implementation project(':dss-timestamp-remote-rest-client')
+    api project(':dss-timestamp-remote')
+    api project(':dss-timestamp-remote-rest-client')
 }
 
 description = 'DSS Remote Timestamp REST Service'

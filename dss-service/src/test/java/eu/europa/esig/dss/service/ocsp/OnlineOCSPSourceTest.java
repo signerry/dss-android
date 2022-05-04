@@ -129,7 +129,7 @@ public class OnlineOCSPSourceTest {
 
 	@Test
 	public void testOCSPWithFileCache() {
-		File cacheFolder = new File("target/ocsp-cache");
+		File cacheFolder = new File("resources/test/ocsp-cache");
 
 		// clean cache if exists
 		if (cacheFolder.exists()) {

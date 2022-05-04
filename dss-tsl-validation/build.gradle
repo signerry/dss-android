@@ -7,8 +7,8 @@ plugins {
 }
 
 dependencies {
-    implementation project(':specs-trusted-list')
-    implementation project(':dss-xades')
+    api project(':specs-trusted-list')
+    api project(':dss-xades')
     testImplementation project(':dss-test')
 }
 

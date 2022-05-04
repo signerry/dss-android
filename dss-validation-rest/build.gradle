@@ -7,8 +7,8 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-validation-rest-client')
-    implementation project(':dss-validation-server-common')
+    api project(':dss-validation-rest-client')
+    api project(':dss-validation-server-common')
 }
 
 description = 'DSS Validation REST Service'

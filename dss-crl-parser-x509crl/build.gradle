@@ -7,7 +7,10 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-crl-parser')
+    api project(':dss-crl-parser')
+    testImplementation files(project(':dss-crl-parser').sourceSets.test.output.classesDirs)
+
+
     testImplementation project(':dss-crl-parser')
     testImplementation 'ch.qos.logback:logback-classic:1.2.10'
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'

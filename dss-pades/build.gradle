@@ -7,8 +7,15 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-cades')
-    testImplementation project(':dss-test')
+    api project(':dss-cades')
+    api project(':dss-service')
+    api project(':dss-token')
+
+
+    testImplementation files(project(':dss-test').sourceSets.test.output.classesDirs)
+    testImplementation files(project(':dss-cades').sourceSets.test.output.classesDirs)
+    testImplementation files(project(':dss-service').sourceSets.test.output.classesDirs)
+
 }
 
 description = 'DSS PAdES'

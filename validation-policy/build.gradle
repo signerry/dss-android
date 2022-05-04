@@ -7,14 +7,14 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-utils')
-    implementation project(':dss-policy-jaxb')
-    implementation project(':dss-diagnostic-jaxb')
-    implementation project(':dss-simple-report-jaxb')
-    implementation project(':dss-simple-certificate-report-jaxb')
-    implementation project(':dss-detailed-report-jaxb')
-    implementation project(':specs-validation-report')
-    implementation project(':dss-i18n')
+    api project(':dss-utils')
+    api project(':dss-policy-jaxb')
+    api project(':dss-diagnostic-jaxb')
+    api project(':dss-simple-report-jaxb')
+    api project(':dss-simple-certificate-report-jaxb')
+    api project(':dss-detailed-report-jaxb')
+    api project(':specs-validation-report')
+    api project(':dss-i18n')
     implementation 'org.slf4j:slf4j-api:1.7.35'
     testImplementation 'ch.qos.logback:logback-classic:1.2.10'
     testImplementation 'com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.13.2'

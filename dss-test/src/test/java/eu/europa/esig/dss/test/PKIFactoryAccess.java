@@ -69,18 +69,28 @@ public abstract class PKIFactoryAccess {
 	private static final JdbcDataSource dataSource;
 
 	static {
-		try (InputStream is = PKIFactoryAccess.class.getResourceAsStream("/pki-factory.properties")) {
-			Properties props = new Properties();
-			props.load(is);
+		File file = new File("C:/w/signerry/dss-android/dss-test/src/test/resources/pki-factory.properties");
+		System.out.println("file:" + file.exists());
 
-			PKI_FACTORY_HOST = props.getProperty("pki.factory.host");
-			PKI_FACTORY_KEYSTORE_PASSWORD = props.getProperty("pki.factory.keystore.password");
-			
-			dataSource = new JdbcDataSource();
+		dataSource = new JdbcDataSource();
+
+		PKI_FACTORY_HOST="http://dss.nowina.lu/pki-factory/";
+		PKI_FACTORY_KEYSTORE_PASSWORD="ks-password";
+
 			dataSource.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
-		} catch (Exception e) {
-			throw new RuntimeException("Unable to initialize from pki-factory.properties", e);
-		}
+
+//		try (InputStream is = PKIFactoryAccess.class.getResourceAsStream("C:/w/signerry/dss-android/dss-test/src/test/resources/pki-factory.properties")) {
+//			Properties props = new Properties();
+//			props.load(is);
+//
+//			PKI_FACTORY_HOST = props.getProperty("pki.factory.host");
+//			PKI_FACTORY_KEYSTORE_PASSWORD = props.getProperty("pki.factory.keystore.password");
+//
+//			dataSource = new JdbcDataSource();
+//			dataSource.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
+//		} catch (Exception e) {
+//			throw new RuntimeException("Unable to initialize from pki-factory.properties", e);
+//		}
 	}
 
 	private static final String KEYSTORE_ROOT_PATH = "/keystore/";

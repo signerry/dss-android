@@ -7,9 +7,9 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-common-remote-converter')
-    implementation project(':dss-validation-dto')
-    implementation project(':dss-document')
+    api project(':dss-common-remote-converter')
+    api project(':dss-validation-dto')
+    api project(':dss-document')
     testImplementation project(':dss-test')
     testImplementation project(':dss-xades')
 }

@@ -7,8 +7,8 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-server-signing-common')
-    implementation project(':dss-server-signing-rest-client')
+    api project(':dss-server-signing-common')
+    api project(':dss-server-signing-rest-client')
 }
 
 description = 'DSS Server signing REST Service'

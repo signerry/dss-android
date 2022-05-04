@@ -7,10 +7,12 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-timestamp-dto')
-    implementation project(':dss-spi')
-    testImplementation project(':dss-test')
-    testImplementation project(':dss-xades')
+    api project(':dss-timestamp-dto')
+    api project(':dss-spi')
+    api project(':dss-xades')
+
+    testImplementation files(project(':dss-xades').sourceSets.test.output.classesDirs)
+    testImplementation files(project(':dss-test').sourceSets.test.output.classesDirs)
 }
 
 description = 'DSS Remote Timestamp Common'

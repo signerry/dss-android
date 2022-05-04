@@ -7,16 +7,20 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-signature-dto')
-    implementation project(':dss-common-remote-converter')
-    implementation project(':dss-xades')
-    implementation project(':dss-cades')
-    implementation project(':dss-pades')
-    implementation project(':dss-jades')
-    implementation project(':dss-asic-cades')
-    implementation project(':dss-asic-xades')
-    testImplementation project(':dss-test')
-    testImplementation project(':dss-pades-pdfbox')
+    api project(':dss-signature-dto')
+    api project(':dss-common-remote-converter')
+    api project(':dss-xades')
+    api project(':dss-cades')
+    api project(':dss-pades')
+    api project(':dss-jades')
+    api project(':dss-asic-cades')
+    api project(':dss-asic-xades')
+    api project(':dss-pades-pdfbox')
+
+    testImplementation files(project(':dss-pades-pdfbox').sourceSets.test.output.classesDirs)
+    testImplementation files(project(':dss-test').sourceSets.test.output.classesDirs)
+    testImplementation files(project(':dss-pades-pdfbox').sourceSets.test.output.classesDirs)
+
 }
 
 description = 'DSS Remote Signature Services'

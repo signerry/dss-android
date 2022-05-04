@@ -87,9 +87,9 @@ public class ASiCSXAdESLevelBMultiFilesParallelTest extends PKIFactoryAccess {
 		signatureValue = getToken().sign(dataToSign, signatureParameters.getDigestAlgorithm(), getPrivateKeyEntry());
 		DSSDocument resignedDocument = service.signDocument(signedDocument, signatureParameters, signatureValue);
 
-		resignedDocument.writeTo(new FileOutputStream("target/resigned.asics"));
+		resignedDocument.writeTo(new FileOutputStream("build/resources/test/resigned.asics"));
 
-		DSSDocument docToCheck = new FileDocument(new File("target/resigned.asics"));
+		DSSDocument docToCheck = new FileDocument(new File("build/resources/test/resigned.asics"));
 
 		SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(docToCheck);
 		validator.setCertificateVerifier(getCompleteCertificateVerifier());

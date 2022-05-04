@@ -7,10 +7,12 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-common-remote-dto')
-    implementation project(':dss-diagnostic-jaxb')
-    implementation project(':dss-simple-certificate-report-jaxb')
-    implementation project(':dss-detailed-report-jaxb')
+    api project(':dss-common-remote-dto')
+
+    api project(':dss-common-remote-converter')
+    api project(':dss-diagnostic-jaxb')
+    api project(':dss-simple-certificate-report-jaxb')
+    api project(':dss-detailed-report-jaxb')
 }
 
 description = 'DSS Certificate Validation DTO'

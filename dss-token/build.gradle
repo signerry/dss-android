@@ -7,7 +7,7 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-model')
+    api project(':dss-model')
     implementation 'org.slf4j:slf4j-api:1.7.35'
     testImplementation project(':dss-spi')
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'

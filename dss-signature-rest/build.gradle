@@ -7,8 +7,8 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-signature-rest-client')
-    implementation project(':dss-signature-remote')
+    api project(':dss-signature-rest-client')
+    api project(':dss-signature-remote')
 }
 
 description = 'DSS Signature REST Service'

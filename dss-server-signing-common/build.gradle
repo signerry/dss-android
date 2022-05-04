@@ -7,9 +7,9 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-server-signing-dto')
-    implementation project(':dss-common-remote-converter')
-    implementation project(':dss-token')
+    api project(':dss-server-signing-dto')
+    api project(':dss-common-remote-converter')
+    api project(':dss-token')
     testImplementation 'ch.qos.logback:logback-classic:1.2.10'
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'

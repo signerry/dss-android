@@ -7,11 +7,19 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-asic-common')
-    implementation project(':dss-cades')
-    testImplementation project(':dss-test')
-    testImplementation project(':dss-asic-common')
-    testImplementation project(':specs-asic-manifest')
+    api project(':dss-asic-common')
+    api project(':dss-cades')
+    api project(':specs-asic-manifest')
+    api project(':dss-service')
+    api project(':dss-token')
+
+
+
+    testImplementation files(project(':dss-test').sourceSets.test.output.classesDirs)
+    testImplementation files(project(':dss-asic-common').sourceSets.test.output.classesDirs)
+    testImplementation files(project(':specs-asic-manifest').sourceSets.test.output.classesDirs)
+
+
 }
 
 description = 'DSS ASiC with CAdES signature(s)'

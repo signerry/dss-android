@@ -7,7 +7,10 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-utils')
+    api project(':dss-utils')
+    testImplementation files(project(':dss-utils').sourceSets.test.output.classesDirs)
+
+
     implementation 'com.google.guava:guava:31.0.1-jre'
     testImplementation project(':dss-utils')
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'

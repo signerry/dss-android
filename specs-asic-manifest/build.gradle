@@ -4,11 +4,21 @@
 
 plugins {
     id 'eu.europa.ec.joinup.sd-dss.java-conventions'
+    id("org.unbroken-dome.xjc") version "2.0.0"
+}
+
+xjc {
+    strictCheck=false
+    extension = true
 }
 
 dependencies {
-    implementation project(':specs-xmldsig')
-    implementation project(':dss-jaxb-parsers')
+    api project(':specs-xmldsig')
+    api project(':specs-xades')
+
+    xjcEpisodes project(':specs-xades')
+
+    api project(':dss-jaxb-parsers')
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
@@ -24,4 +34,32 @@ publishing.publications.maven.artifact(testsJar)
 
 java {
     withJavadocJar()
+}
+
+xjc {
+    srcDirName = 'resources/xsd'
+}
+
+xjcGenerate.doLast {
+    project.delete(
+            files("${project.buildDir}/generated/sources/xjc/java/main/eu/europa/esig/xmldsig")
+    )
+}
+
+
+sourceSets {
+    main {
+
+        xjcSchema {
+            includes = [ "en_31916201v010101.xsd"]
+        }
+
+        xjcBinding {
+            includes = ['bindings.xml']
+        }
+
+        compileClasspath += sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.runtimeClasspath
+
+    }
 }

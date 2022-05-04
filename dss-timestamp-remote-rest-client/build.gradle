@@ -7,7 +7,7 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-timestamp-dto')
+    api project(':dss-timestamp-dto')
     implementation 'jakarta.ws.rs:jakarta.ws.rs-api:2.1.6'
 }
 

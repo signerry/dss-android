@@ -7,9 +7,9 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-model')
-    implementation project(':dss-utils')
-    implementation project(':dss-crl-parser')
+    api project(':dss-model')
+    api project(':dss-utils')
+    api project(':dss-crl-parser')
     implementation 'org.slf4j:slf4j-api:1.7.35'
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.70'
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'

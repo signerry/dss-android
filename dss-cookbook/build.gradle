@@ -7,27 +7,30 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-document')
-    implementation project(':dss-service')
-    implementation project(':dss-tsl-validation')
-    implementation project(':dss-test')
-    implementation project(':dss-asic-cades')
-    implementation project(':dss-asic-xades')
-    implementation project(':dss-cades')
-    implementation project(':dss-pades-pdfbox')
-    implementation project(':dss-xades')
-    implementation project(':dss-jades')
-    implementation project(':dss-token')
-    implementation project(':dss-signature-rest')
-    implementation project(':dss-signature-soap')
-    implementation project(':dss-server-signing-rest')
-    implementation project(':dss-server-signing-soap')
-    implementation project(':dss-validation-rest')
-    implementation project(':dss-validation-soap')
-    implementation project(':dss-certificate-validation-rest')
-    implementation project(':dss-certificate-validation-soap')
-    implementation project(':dss-timestamp-remote-rest')
-    implementation project(':dss-timestamp-remote-soap')
+    api project(':dss-document')
+    api project(':dss-service')
+    api project(':dss-tsl-validation')
+
+    api project(':dss-asic-cades')
+    api project(':dss-asic-xades')
+    api project(':dss-cades')
+    api project(':dss-pades-pdfbox')
+    api project(':dss-xades')
+    api project(':dss-jades')
+    api project(':dss-token')
+    api project(':dss-signature-rest')
+    api project(':dss-signature-soap')
+    api project(':dss-server-signing-rest')
+    api project(':dss-server-signing-soap')
+    api project(':dss-validation-rest')
+   api project(':dss-validation-soap')
+    api project(':dss-certificate-validation-rest')
+    api project(':dss-certificate-validation-soap')
+    api project(':dss-timestamp-remote-rest')
+    api project(':dss-timestamp-remote-soap')
+
+    testImplementation files(project(':dss-test').sourceSets.test.output.classesDirs)
+
 }
 
 description = 'CookBook'

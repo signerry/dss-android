@@ -7,11 +7,14 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-pades')
+    api project(':dss-pades')
     implementation 'org.apache.pdfbox:pdfbox:2.0.25'
     testImplementation 'org.apache.pdfbox:preflight:2.0.25'
-    testImplementation project(':dss-pades')
-    testImplementation project(':dss-test')
+
+    testImplementation files(project(':dss-pades').sourceSets.test.output.classesDirs)
+    testImplementation files(project(':dss-test').sourceSets.test.output.classesDirs)
+
+
     testImplementation 'org.junit.platform:junit-platform-suite-engine:1.8.2'
 }
 

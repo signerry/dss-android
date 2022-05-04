@@ -7,8 +7,11 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-document')
-    testImplementation project(':dss-test')
+    api project(':dss-document')
+    api project(':dss-service')
+    api project(':dss-token')
+
+    testImplementation files(project(':dss-test').sourceSets.test.output.classesDirs)
 }
 
 description = 'DSS CAdES'

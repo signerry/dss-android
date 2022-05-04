@@ -7,7 +7,7 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-spi')
+    api project(':dss-spi')
     implementation 'org.apache.httpcomponents.client5:httpclient5:5.1.2'
     implementation 'commons-codec:commons-codec:1.15'
     testImplementation 'ch.qos.logback:logback-classic:1.2.10'

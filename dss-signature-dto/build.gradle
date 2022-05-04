@@ -7,7 +7,7 @@ plugins {
 }
 
 dependencies {
-    implementation project(':dss-common-remote-dto')
+    api project(':dss-common-remote-dto')
 }
 
 description = 'DSS Signature DTO'

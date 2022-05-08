@@ -3,16 +3,20 @@
  */
 
 plugins {
-
+    id 'eu.europa.ec.joinup.sd-dss.java-conventions'
     id("org.unbroken-dome.xjc") version "2.0.0"
 }
 
-
+xjc {
+    strictCheck=false
+    extension = true
+}
 
 dependencies {
     api project(':specs-xmldsig')
     api project(':specs-xades')
 
+    xjcEpisodes project(':specs-xades')
 
     api project(':dss-jaxb-parsers')
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
@@ -21,6 +25,44 @@ dependencies {
 
 description = 'JAXB ETSI ASiC Manifest'
 
+tasks.register('testsJar', Jar) {
+    archiveClassifier = 'tests'
+    from(sourceSets.test.output)
+}
+
+publishing.publications.maven.artifact(testsJar)
+
+java {
+    withJavadocJar()
+}
+
+xjc {
+    srcDirName = 'resources/xsd'
+}
+
+xjcGenerate.doLast {
+    project.delete(
+            files("${project.buildDir}/generated/sources/xjc/java/main/eu/europa/esig/xmldsig")
+    )
+
+    copyGeneratedSources();
+}
 
 
 
+sourceSets {
+    main {
+
+        xjcSchema {
+            includes = [ "en_31916201v010101.xsd"]
+        }
+
+        xjcBinding {
+            includes = ['bindings.xml']
+        }
+
+       // compileClasspath += sourceSets.main.compileClasspath
+       // runtimeClasspath += sourceSets.main.runtimeClasspath
+
+    }
+}

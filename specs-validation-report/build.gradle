@@ -3,11 +3,14 @@
  */
 
 plugins {
-
+    id 'eu.europa.ec.joinup.sd-dss.java-conventions'
     id("org.unbroken-dome.xjc") version "2.0.0"
 }
 
+xjc {
+    srcDirName = 'resources/xsd'
 
+}
 
 dependencies {
 
@@ -18,18 +21,50 @@ dependencies {
     api 'org.slf4j:slf4j-api:1.7.35'
 
 
-
+    xjcEpisodes project(':specs-xmldsig')
+    xjcEpisodes project(':specs-xades')
+    xjcEpisodes project(':specs-trusted-list')
 
 
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
 
+xjcGenerate.doLast {
+    project.delete(
+            files("${project.buildDir}/generated/sources/xjc/java/main/eu/europa/esig/xmldsig")
+    )
 
+    copyGeneratedSources();
+}
 
+sourceSets {
+    main {
+        xjcGenerateEpisode = true
 
+        xjcSchema {
+            includes = [ "1910202xmlSchema.xsd"]
+        }
+
+        xjcBinding {
+            includes = ['bindings.xml']
+        }
+
+       // compileClasspath += sourceSets.main.compileClasspath
+       // runtimeClasspath += sourceSets.main.runtimeClasspath
+
+    }
+}
 
 description = 'JAXB ETSI Validation Report Model'
 
+tasks.register('testsJar', Jar) {
+    archiveClassifier = 'tests'
+    from(sourceSets.test.output)
+}
 
+publishing.publications.maven.artifact(testsJar)
 
+java {
+    withJavadocJar()
+}

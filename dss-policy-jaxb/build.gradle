@@ -3,13 +3,12 @@
  */
 
 plugins {
-    id 'eu.europa.ec.joinup.sd-dss.java-conventions'
+
     id("org.unbroken-dome.xjc") version "2.0.0"
 }
 
 dependencies {
     api project(':dss-jaxb-parsers')
-    xjcClasspath 'com.github.jaxb-xew-plugin:jaxb-xew-plugin:1.11'
 
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
@@ -17,38 +16,7 @@ dependencies {
 
 description = 'JAXB Validation Policy Data Model'
 
-tasks.register('testsJar', Jar) {
-    archiveClassifier = 'tests'
-    from(sourceSets.test.output)
-}
-
-publishing.publications.maven.artifact(testsJar)
-
-java {
-    withJavadocJar()
-}
 
 
-xjc {
-    extension = true
-}
-
-sourceSets {
-    main {
-        xjcSchema {
-            srcDir 'src/main/resources/xsd'
-            includes = ['policy.xsd']
-            xjcTargetPackage = 'eu.europa.esig.dss.policy.jaxb'
-        }
-
-        xjcBinding {
-            srcDir 'src/main/resources/xsd'
-            includes = ['binding.xml']
-        }
-
-        compileClasspath += sourceSets.main.compileClasspath
-        runtimeClasspath += sourceSets.main.runtimeClasspath
 
 
-    }
-}

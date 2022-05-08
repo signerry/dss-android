@@ -1,7 +1,69 @@
 
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+        maven { url "https://jitpack.io" }
+        maven { url "https://ec.europa.eu/digital-building-blocks/artifact/content/repositories/esignaturedss" }
 
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.4'
+        classpath "de.mannodermaus.gradle.plugins:android-junit5:1.7.1.1"
+
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 14
+    buildToolsVersion '17.0.0'
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            res.srcDirs = ['res']
+        }
+    }
+}
 
 allprojects {
+    apply plugin: 'com.android.library'
+    apply plugin: 'de.mannodermaus.android-junit5'
+
+
+
+    apply plugin: 'com.android.library'
+    apply plugin: 'de.mannodermaus.android-junit5'
+
+
+
+    android {
+        compileSdkVersion 30
+        buildToolsVersion '17.0.0'
+
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+
+        sourceSets {
+            main {
+                manifest.srcFile 'AndroidManifest.xml'
+                java.srcDir file('src/main/java')
+
+                res.srcDirs = ['res']
+            }
+
+            androidTest {
+                java.srcDir file('src/tests/java')
+            }
+        }
+    }
+
+
     ext.xjcAddIfExistsProperty = { ->
         ant.replaceregexp(
                 file: "build/generated/resources/xjc/main/META-INF/sun-jaxb.episode",
@@ -12,35 +74,14 @@ allprojects {
     }
 
 
-    apply plugin: 'java'
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 
-    compileJava.options.encoding = 'UTF-8'
-
-    tasks.withType(JavaCompile) {
-        options.encoding = 'UTF-8'
-    }
-
-    test {
-        useJUnitPlatform()
-    }
-
-    plugins.withType(JavaPlugin) {
-        test {
-            ignoreFailures true
-        }
-    }
 
 
-    compileTestJava {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-    }
 
-    tasks.withType(JavaCompile) {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
+
+
 
     repositories {
         mavenCentral()
@@ -78,6 +119,7 @@ allprojects {
 
 
     dependencies {
+        implementation 'com.github.ndpgroup:jaxb-android:0.2.0'
 
 
         implementation "org.apache.httpcomponents.client5:httpclient5:${httpclient5_version}"

@@ -3,12 +3,11 @@
  */
 
 plugins {
-    id 'eu.europa.ec.joinup.sd-dss.java-conventions'
+
     id("org.unbroken-dome.xjc") version "2.0.0"
 }
 
 dependencies {
-    xjcClasspath 'com.github.jaxb-xew-plugin:jaxb-xew-plugin:1.11'
 
     api project(':dss-jaxb-parsers')
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
@@ -20,44 +19,6 @@ dependencies {
 
 description = 'JAXB Simple Certificate Report Model'
 
-tasks.register('testsJar', Jar) {
-    archiveClassifier = 'tests'
-    from(sourceSets.test.output)
-}
-
-publishing.publications.maven.artifact(testsJar)
-
-java {
-    withJavadocJar()
-}
-
-
-xjc {
-    extraArgs.add '-Xxew'
-
-    extension = true
-    targetVersion  = "2.2"
-}
 
 
 
-sourceSets {
-    main {
-
-        xjcSchema {
-            srcDir 'src/main/resources/xsd'
-            includes = ['SimpleCertificateReport.xsd']
-            xjcTargetPackage = 'eu.europa.esig.dss.simplecertificatereport.jaxb'
-        }
-
-        xjcBinding {
-            srcDir 'src/main/resources/xsd'
-            includes = ['binding.xml']
-        }
-
-        compileClasspath += sourceSets.main.compileClasspath
-        runtimeClasspath += sourceSets.main.runtimeClasspath
-
-
-    }
-}

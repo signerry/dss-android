@@ -51,8 +51,8 @@ public class DocumentBuilderFactoryBuilder extends AbstractFactoryBuilder<Docume
         disableFeature("http://xml.org/sax/features/external-parameter-entities");
         disableFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd");
         // Sonar: XML parsers should not be vulnerable to XXE attacks
-        setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-        setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+//        setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+//        setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
     }
 
     /**

@@ -36,8 +36,8 @@ public class TransformerFactoryBuilder extends AbstractFactoryBuilder<Transforme
 	 */
 	protected TransformerFactoryBuilder() {
 		enableFeature(XMLConstants.FEATURE_SECURE_PROCESSING);
-		setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-		setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+//		setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+//		setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
 	}
 	
 	/**

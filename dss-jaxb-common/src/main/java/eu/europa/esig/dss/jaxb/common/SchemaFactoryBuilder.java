@@ -38,8 +38,8 @@ public class SchemaFactoryBuilder extends AbstractFactoryBuilder<SchemaFactory> 
 	 */
 	protected SchemaFactoryBuilder() {
 		enableFeature(XMLConstants.FEATURE_SECURE_PROCESSING);
-		setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-		setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+//		setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+//		setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
 	}
 	
 	/**

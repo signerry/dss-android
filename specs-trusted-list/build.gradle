@@ -4,67 +4,28 @@
 
 
 plugins {
-    id 'eu.europa.ec.joinup.sd-dss.java-conventions'
+
     id("org.unbroken-dome.xjc") version "2.0.0"
 }
 
-xjc {
-    srcDirName = 'resources/xsd'
-    strictCheck=false
-    extension = true
-    version="2.1"
-}
+
 
 dependencies {
-    xjcClasspath 'com.github.jaxb-xew-plugin:jaxb-xew-plugin:1.11'
 
     api project(':specs-xmldsig')
     api project(':specs-xades')
-    xjcEpisodes project(':specs-xades')
-    xjcEpisodes project(':specs-xmldsig')
+
 
     api project(':dss-jaxb-parsers')
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
 
-xjcGenerate.doLast {
-    xjcAddIfExistsProperty();
 
-    project.delete(
-            files("${project.buildDir}/generated/sources/xjc/java/main/eu/europa/esig/xmldsig")
-    )
-}
 
 description = 'JAXB ETSI Trusted List Model'
 
-tasks.register('testsJar', Jar) {
-    archiveClassifier = 'tests'
-    from(sourceSets.test.output)
-}
-
-publishing.publications.maven.artifact(testsJar)
-
-java {
-    withJavadocJar()
-}
 
 
-sourceSets {
-
-    main {
-        xjcGenerateEpisode = true
 
 
-        xjcSchema {
-            includes = [ "ts_119612v020101_sie_xsd.xsd", "ts_119612v020101_additionaltypes_xsd.xsd"]
-        }
-
-        xjcBinding {
-            includes = ['bindings.xml']
-        }
-
-        compileClasspath += sourceSets.main.compileClasspath
-        runtimeClasspath += sourceSets.main.runtimeClasspath
-    }
-}

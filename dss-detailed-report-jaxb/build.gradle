@@ -30,6 +30,14 @@ tasks.register('testsJar', Jar) {
     from(sourceSets.test.output)
 }
 
+xjcGenerate.doLast {
+    project.delete(
+            files("${project.buildDir}/generated/sources/xjc/java/main/eu/europa/esig/xmldsig")
+    )
+
+    copyGeneratedSources();
+}
+
 publishing.publications.maven.artifact(testsJar)
 
 java {

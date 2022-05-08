@@ -36,11 +36,13 @@ xjc {
 
 xjcGenerate.doLast {
     xjcAddIfExistsProperty();
+    copyGeneratedSources();
 };
 
 
 sourceSets {
     main {
+
         xjcGenerateEpisode = true
 
         xjcSchema {
@@ -51,8 +53,8 @@ sourceSets {
             includes = ['bindings.xml']
         }
 
-        compileClasspath += sourceSets.main.compileClasspath
-        runtimeClasspath += sourceSets.main.runtimeClasspath
+       // compileClasspath += sourceSets.main.compileClasspath
+       // runtimeClasspath += sourceSets.main.runtimeClasspath
 
     }
 }

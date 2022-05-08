@@ -20,6 +20,7 @@ tasks.register('testsJar', Jar) {
     from(sourceSets.test.output)
 }
 
+
 publishing.publications.maven.artifact(testsJar)
 
 java {

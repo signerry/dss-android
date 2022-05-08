@@ -28,12 +28,17 @@ java {
     withJavadocJar()
 }
 
+
+
 xjcGenerate.doLast {
     xjcAddIfExistsProperty();
 
     project.delete(
             files("${project.buildDir}/generated/sources/xjc/java/main/eu/europa/esig/xmldsig")
     )
+
+    copyGeneratedSources();
+
 }
 
 System.setProperty('javax.xml.accessExternalSchema', 'all')
@@ -58,7 +63,7 @@ sourceSets {
             includes = ['bindings.xml']
         }
 
-        compileClasspath += sourceSets.main.compileClasspath
-        runtimeClasspath += sourceSets.main.runtimeClasspath
+       // compileClasspath += sourceSets.main.compileClasspath
+       // runtimeClasspath += sourceSets.main.runtimeClasspath
     }
 }

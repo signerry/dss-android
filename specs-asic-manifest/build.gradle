@@ -44,7 +44,10 @@ xjcGenerate.doLast {
     project.delete(
             files("${project.buildDir}/generated/sources/xjc/java/main/eu/europa/esig/xmldsig")
     )
+
+    copyGeneratedSources();
 }
+
 
 
 sourceSets {
@@ -58,8 +61,8 @@ sourceSets {
             includes = ['bindings.xml']
         }
 
-        compileClasspath += sourceSets.main.compileClasspath
-        runtimeClasspath += sourceSets.main.runtimeClasspath
+       // compileClasspath += sourceSets.main.compileClasspath
+       // runtimeClasspath += sourceSets.main.runtimeClasspath
 
     }
 }

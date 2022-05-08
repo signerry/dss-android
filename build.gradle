@@ -11,6 +11,18 @@ allprojects {
         )
     }
 
+    ext.copyGeneratedSources = { ->
+        copy {
+            from 'build/generated/sources/xjc/java/main'
+            into "src/main/java"
+        }
+
+        delete {
+            delete "build/generated/sources/xjc/java/main"
+        }
+    }
+
+
 
     apply plugin: 'java'
     sourceCompatibility = JavaVersion.VERSION_1_8

@@ -35,6 +35,10 @@ java {
     withJavadocJar()
 }
 
+xjcGenerate.doLast {
+    copyGeneratedSources();
+}
+
 sourceSets {
 
     main {
@@ -57,7 +61,7 @@ sourceSets {
             includes = ['bindings.xml']
         }
 
-        compileClasspath += sourceSets.main.compileClasspath
-        runtimeClasspath += sourceSets.main.runtimeClasspath
+       // compileClasspath += sourceSets.main.compileClasspath
+       // runtimeClasspath += sourceSets.main.runtimeClasspath
     }
 }

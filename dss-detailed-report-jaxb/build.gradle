@@ -4,16 +4,6 @@
 
 
 
-
-
-plugins {
-    id 'eu.europa.ec.joinup.sd-dss.java-conventions'
-    id("org.unbroken-dome.xjc") version "2.0.0"
-
-}
-
-
-
 //dependencies {
 //    api project(':dss-jaxb-parsers')
 //    testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
@@ -30,19 +20,12 @@ tasks.register('testsJar', Jar) {
     from(sourceSets.test.output)
 }
 
-publishing.publications.maven.artifact(testsJar)
-
-java {
-    withJavadocJar()
-}
-
 
 /*-----------------*/
 
 // the whole dependency container could be left out
 dependencies {
     api project(':dss-jaxb-parsers')
-    xjcClasspath 'com.github.jaxb-xew-plugin:jaxb-xew-plugin:1.11'
 
 
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
@@ -56,30 +39,6 @@ dependencies {
     implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
     implementation("javax.xml.bind:jaxb-api:2.3.0")
 
-}
-
-xjc {
-    extension = true
-}
-
-sourceSets {
-    main {
-        xjcSchema {
-            srcDir 'src/main/resources/xsd'
-            includes = ['DetailedReport.xsd']
-            xjcTargetPackage = 'eu.europa.esig.dss.detailedreport.jaxb'
-        }
-
-        xjcBinding {
-            srcDir 'src/main/resources/xsd'
-            includes = ['binding.xml']
-        }
-
-       // compileClasspath += sourceSets.main.compileClasspath
-       // runtimeClasspath += sourceSets.main.runtimeClasspath
-
-
-    }
 }
 
 

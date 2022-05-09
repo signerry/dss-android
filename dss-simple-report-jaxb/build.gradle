@@ -33,6 +33,10 @@ java {
     withJavadocJar()
 }
 
+xjcGenerate.doLast {
+    copyGeneratedSources();
+}
+
 xjc {
     extension = true
 }

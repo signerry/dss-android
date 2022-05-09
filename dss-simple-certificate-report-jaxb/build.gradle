@@ -31,6 +31,10 @@ java {
     withJavadocJar()
 }
 
+xjcGenerate.doLast {
+    copyGeneratedSources();
+}
+
 
 xjc {
     extraArgs.add '-Xxew'

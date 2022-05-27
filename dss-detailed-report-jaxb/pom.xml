@@ -151,7 +151,7 @@
                 <jdk>[9,13)</jdk>
             </activation>
             <properties>
-				<!-- specs-xmldsig\target\generated-sources\xjc\eu\europa\esig\xmldsig\jaxb\package-info.java:8: error: unknown tag: javax.xml.bind.annotation.XmlSchema -->
+				<!-- specs-xmldsig\target\generated-sources\xjc\eu\europa\esig\xmldsig\jaxb\package-info.java:8: error: unknown tag: jakarta.xml.bind.annotation.XmlSchema -->
 				<maven.javadoc.skip>true</maven.javadoc.skip>
             </properties>
 		</profile>

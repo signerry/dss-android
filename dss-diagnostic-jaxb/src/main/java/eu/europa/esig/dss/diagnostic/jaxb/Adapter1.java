@@ -2,7 +2,7 @@
 package eu.europa.esig.dss.diagnostic.jaxb;
 
 import java.util.Date;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter1
     extends XmlAdapter<String, Date>

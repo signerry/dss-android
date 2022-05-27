@@ -1,7 +1,7 @@
 
 package eu.europa.esig.saml.jaxb.dce;
 
-import javax.xml.bind.annotation.XmlRegistry;
+import jakarta.xml.bind.annotation.XmlRegistry;
 
 
 /**

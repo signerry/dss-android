@@ -1,7 +1,7 @@
 
 package eu.europa.esig.trustedlist.jaxb.ecc;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import eu.europa.esig.dss.enumerations.KeyUsageBit;
 
 public class Adapter1

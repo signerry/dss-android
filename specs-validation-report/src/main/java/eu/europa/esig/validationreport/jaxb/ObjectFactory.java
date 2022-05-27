@@ -3,9 +3,9 @@ package eu.europa.esig.validationreport.jaxb;
 
 import java.math.BigInteger;
 import java.util.List;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.annotation.XmlElementDecl;
-import javax.xml.bind.annotation.XmlRegistry;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.annotation.XmlElementDecl;
+import jakarta.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 import eu.europa.esig.xades.jaxb.xades132.DigestAlgAndValueType;
 

@@ -138,7 +138,7 @@ import org.apache.fop.apps.MimeConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 import javax.xml.transform.Result;
 import javax.xml.transform.sax.SAXResult;
 import java.io.ByteArrayOutputStream;

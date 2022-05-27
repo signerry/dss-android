@@ -1,7 +1,7 @@
 
 package eu.europa.esig.dss.simplereport.jaxb;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import eu.europa.esig.dss.enumerations.SubIndication;
 
 public class Adapter4

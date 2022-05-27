@@ -29,7 +29,7 @@ import eu.europa.esig.dss.validation.process.qualification.trust.ServiceTypeIden
 import eu.europa.esig.dss.validation.process.qualification.trust.TrustedServiceStatus;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.bind.DatatypeConverter;
+import jakarta.xml.bind.DatatypeConverter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

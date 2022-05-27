@@ -1,9 +1,9 @@
 
 package eu.europa.esig.xades.jaxb.xades141;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.annotation.XmlElementDecl;
-import javax.xml.bind.annotation.XmlRegistry;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.annotation.XmlElementDecl;
+import jakarta.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 import eu.europa.esig.xades.jaxb.xades132.XAdESTimeStampType;
 

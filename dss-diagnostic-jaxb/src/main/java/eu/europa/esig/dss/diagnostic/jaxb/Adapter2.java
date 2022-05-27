@@ -1,7 +1,7 @@
 
 package eu.europa.esig.dss.diagnostic.jaxb;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import eu.europa.esig.dss.enumerations.ASiCContainerType;
 
 public class Adapter2

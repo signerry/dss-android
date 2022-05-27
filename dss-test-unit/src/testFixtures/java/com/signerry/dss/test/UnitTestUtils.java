@@ -23,7 +23,13 @@ public class UnitTestUtils implements ITestUtils {
 
     @Override
     public File getTmpFile(String filename) {
-        return new File(getTmpDirectory(), filename);
+        File file = new File(getTmpDirectory(), filename);
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return file;
     }
 
     @Override

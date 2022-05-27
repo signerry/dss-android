@@ -1,8 +1,8 @@
 
 package eu.europa.esig.xades.jaxb.xades111;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 import eu.europa.esig.dss.enumerations.ObjectIdentifierQualifier;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter1
     extends XmlAdapter<String, ObjectIdentifierQualifier>

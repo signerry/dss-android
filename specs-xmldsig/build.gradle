@@ -4,17 +4,39 @@
 
 
 dependencies {
-    implementation("javax.xml.bind:jaxb-api:2.3.0")
     api project(':dss-jaxb-common')
-    testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    implementation 'org.glassfish.jaxb:jaxb-runtime:3.1.0-M1'
+
+
+
+
+    androidTestImplementation("androidx.test:runner:1.4.0")
+    androidTestImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
+
+    androidTestImplementation("de.mannodermaus.junit5:android-test-core:1.2.2")
+    androidTestRuntimeOnly("de.mannodermaus.junit5:android-test-runner:1.2.2")
 }
 
-description = 'JAXB XMLDsig Model'
+description = 'JAXB XMLDsig Model2'
+android {
 
-tasks.register('testsJar', Jar) {
-    archiveClassifier = 'tests'
-    from(sourceSets.test.output)
+    defaultConfig {
+
+
+        compileSdkVersion 30
+
+        minSdkVersion 22
+        targetSdkVersion 30
+        multiDexEnabled true
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // 2) Connect JUnit 5 to the runner
+        testInstrumentationRunnerArguments["runnerBuilder"] = "de.mannodermaus.junit5.AndroidJUnit5Builder"
+
+    }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 

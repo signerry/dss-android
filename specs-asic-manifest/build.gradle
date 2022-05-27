@@ -16,7 +16,3 @@ dependencies {
 
 description = 'JAXB ETSI ASiC Manifest'
 
-tasks.register('testsJar', Jar) {
-    archiveClassifier = 'tests'
-    from(sourceSets.test.output)
-}

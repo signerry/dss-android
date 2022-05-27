@@ -12,10 +12,6 @@ dependencies {
 
 description = 'JWS Schema Module'
 
-tasks.register('testsJar', Jar) {
-    archiveClassifier = 'tests'
-    from(sourceSets.test.output)
-}
 
 
 

@@ -15,10 +15,6 @@ dependencies {
 
 description = 'JAXB Simple Certificate Report Model'
 
-tasks.register('testsJar', Jar) {
-    archiveClassifier = 'tests'
-    from(sourceSets.test.output)
-}
 
 
 

@@ -13,7 +13,3 @@ dependencies {
 
 description = 'JAXB SAML Assertion Model'
 
-tasks.register('testsJar', Jar) {
-    archiveClassifier = 'tests'
-    from(sourceSets.test.output)
-}

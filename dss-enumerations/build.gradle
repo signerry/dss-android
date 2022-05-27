@@ -13,3 +13,16 @@ description = 'DSS Enumerations'
 
 
 
+android {
+    defaultConfig {
+        compileSdkVersion 30
+
+        minSdkVersion 22
+        targetSdkVersion 30
+        multiDexEnabled true
+
+    }
+    lintOptions {
+        abortOnError false
+    }
+}

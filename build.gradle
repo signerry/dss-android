@@ -11,14 +11,29 @@ buildscript {
         classpath 'com.android.tools.build:gradle:7.0.4'
         classpath "de.mannodermaus.gradle.plugins:android-junit5:1.7.1.1"
 
+
+
     }
 }
 
+
 apply plugin: 'com.android.library'
+apply plugin: 'de.mannodermaus.android-junit5'
 
 android {
-    compileSdkVersion 14
-    buildToolsVersion '17.0.0'
+    defaultConfig {
+        compileSdkVersion 30
+        minSdkVersion 22
+        targetSdkVersion 30
+        multiDexEnabled true
+
+    }
+
+        lintOptions {
+            abortOnError false
+        }
+
+
 
     sourceSets {
         main {
@@ -33,16 +48,42 @@ allprojects {
     apply plugin: 'com.android.library'
     apply plugin: 'de.mannodermaus.android-junit5'
 
-
-
-    apply plugin: 'com.android.library'
-    apply plugin: 'de.mannodermaus.android-junit5'
-
-
+    configurations {
+        compile.exclude group: 'org.hamcrest', name: 'hamcrest'
+    }
 
     android {
-        compileSdkVersion 30
-        buildToolsVersion '17.0.0'
+
+
+
+        defaultConfig {
+            minSdkVersion 29
+            compileSdkVersion 29
+            targetSdkVersion 30
+            multiDexEnabled true
+            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+            // 2) Connect JUnit 5 to the runner
+            testInstrumentationRunnerArguments["runnerBuilder"] = "de.mannodermaus.junit5.AndroidJUnit5Builder"
+        }
+
+        packagingOptions {
+            exclude 'license/README.dom.txt'
+            exclude '**.md'
+            exclude 'license/NOTICE'
+            exclude 'license/LICENSE'
+            exclude 'license/LICENSE.dom-software.txt'
+
+            exclude 'license/LICENSE.dom-documentation.txt'
+            exclude 'META-INF/DEPENDENCIES'
+            exclude 'META-INF/LICENSE'
+            exclude 'META-INF/LICENSE.txt'
+            exclude 'META-INF/license.txt'
+            exclude 'META-INF/NOTICE'
+            exclude 'META-INF/NOTICE.txt'
+            exclude 'META-INF/notice.txt'
+            exclude 'META-INF/ASL2.0'
+            exclude("META-INF/*.kotlin_module")
+        }
 
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
@@ -57,12 +98,16 @@ allprojects {
                 manifest.srcFile 'AndroidManifest.xml'
                 java.srcDir file('src/main/java')
 
-                res.srcDirs = ['res']
+
+               // res.srcDirs = ['res']
             }
 
-            androidTest {
-                java.srcDir file('src/tests/java')
-            }
+//            androidTest {
+//                resources.srcDirs += ['src/test/res']
+//                java.srcDirs = ['src/test/java']
+//            }
+
+
         }
     }
 
@@ -101,6 +146,7 @@ allprojects {
     repositories {
         mavenCentral()
         google()
+        maven { url "https://maven.andob.info/repository/open_source" }
         maven { url "https://jitpack.io" }
         maven { url "https://ec.europa.eu/digital-building-blocks/artifact/content/repositories/esignaturedss" }
 
@@ -134,43 +180,62 @@ allprojects {
 
 
     dependencies {
-        implementation 'com.github.ndpgroup:jaxb-android:0.2.0'
+
+        androidTestImplementation("androidx.test:runner:1.4.0")
+        androidTestImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
+
+        androidTestImplementation("de.mannodermaus.junit5:android-test-core:1.2.2")
+        androidTestRuntimeOnly("de.mannodermaus.junit5:android-test-runner:1.2.2")
+
+//        implementation 'com.github.ndpgroup:jaxb-android:0.2.0'
+
+//        implementation 'com.github.andob:android-awt:1.0.0'
 
 
-        implementation "org.apache.httpcomponents.client5:httpclient5:${httpclient5_version}"
-        implementation "org.apache.pdfbox:pdfbox:${pdfbox_version}"
-        implementation "org.apache.pdfbox:preflight:${pdfbox_version}"
-        implementation "com.github.librepdf:openpdf:${openpdf_version}"
-        implementation "org.apache.santuario:xmlsec:${xmlsec_version}"
-        implementation "org.bouncycastle:bcprov-jdk15on:${bouncycastle_version}"
-        implementation "org.bouncycastle:bcpkix-jdk15on:${bouncycastle_version}"
-        implementation "org.bitbucket.b_c:jose4j:${jose4j_version}"
-        implementation "org.slf4j:slf4j-api:${slf4j_version}"
-        implementation "org.slf4j:jcl-over-slf4j:${slf4j_version}"
+
+
+//        implementation "org.apache.httpcomponents.client5:httpclient5:${httpclient5_version}"
+//        implementation "org.apache.pdfbox:pdfbox:${pdfbox_version}"
+//        implementation "org.apache.pdfbox:preflight:${pdfbox_version}"
+//        implementation "com.github.librepdf:openpdf:${openpdf_version}"
+//        implementation "org.apache.santuario:xmlsec:${xmlsec_version}"
+//        implementation "org.bouncycastle:bcprov-jdk15on:${bouncycastle_version}"
+//        implementation "org.bouncycastle:bcpkix-jdk15on:${bouncycastle_version}"
+//        implementation "org.bitbucket.b_c:jose4j:${jose4j_version}"
+//        implementation "org.slf4j:slf4j-api:${slf4j_version}"
+//        implementation "org.slf4j:jcl-over-slf4j:${slf4j_version}"
         implementation "ch.qos.logback:logback-classic:${logback_classic_version}"
         implementation "org.apache.xmlgraphics:fop-core:${fop_core_version}"
         implementation "org.apache.xmlgraphics:xmlgraphics-commons:${fop_core_version}"
-        implementation "xml-apis:xml-apis:${xml_apis_version}"
-        implementation "jakarta.xml.bind:jakarta.xml.bind-api:${jakarta_bind_api_version}"
-        implementation "jakarta.activation:jakarta.activation-api:${jakarta_activation_api_version}"
-        implementation "org.glassfish.jaxb:jaxb-runtime:${jaxb_runtime_version}"
-        implementation "jakarta.ws.rs:jakarta.ws.rs-api:${jakarta_rs_api_version}"
+//        implementation "xml-apis:xml-apis:${xml_apis_version}"
+//        implementation "jakarta.xml.bind:jakarta.xml.bind-api:${jakarta_bind_api_version}"
+        implementation 'xerces:xercesImpl:2.12.2'
+
+
+
+
+//        implementation "jakarta.activation:jakarta.activation-api:${jakarta_activation_api_version}"
+//        implementation "org.glassfish.jaxb:jaxb-runtime:${jaxb_runtime_version}"
+     //   implementation "jakarta.ws.rs:jakarta.ws.rs-api:${jakarta_rs_api_version}"
         implementation "jakarta.xml.ws:jakarta.xml.ws-api:${jakarta_ws_api_version}"
-        implementation "org.awaitility:awaitility:${awaitility_version}"
+      // // implementation "org.awaitility:awaitility:${awaitility_version}"
         implementation "org.mockito:mockito-core:${mockito_version}"
         testImplementation enforcedPlatform("org.junit:junit-bom:${junit_version}")
-        implementation "com.h2database:h2:${h2database_version}"
-        implementation "com.fasterxml.jackson.module:jackson-module-jaxb-annotations:${jackson_version}"
-        implementation "com.fasterxml.jackson.core:jackson-databind:${jackson_databind_version}"
+    //    implementation "com.fasterxml.jackson.module:jackson-module-jaxb-annotations:${jackson_version}"
+      //  implementation "com.fasterxml.jackson.core:jackson-databind:${jackson_databind_version}"
         implementation 'org.json:json:20220320'
-
-        implementation 'javax.jws:javax.jws-api:1.1'
+        implementation 'ro.andob.androidawt:androidawt:1.0.4'
+       // implementation 'com.github.orlleite:xerces-for-android:1.0'
+// https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api
+        implementation 'org.glassfish.jaxb:jaxb-runtime:3.1.0-M1'
         testImplementation('org.junit.jupiter:junit-jupiter:5.8.2')
-        testImplementation 'org.apache.commons:commons-lang3:3.12.0'
-        testImplementation 'org.apache.commons:commons-collections4:4.4'
-        testImplementation project(':dss-utils-google-guava')
-        testImplementation project(':dss-crl-parser-x509crl')
-        testImplementation project(':dss-pades-openpdf')
+
+
+//        testImplementation 'org.apache.commons:commons-lang3:3.12.0'
+//        testImplementation 'org.apache.commons:commons-collections4:4.4'
+        //testImplementation project(':dss-utils-google-guava')
+        //testImplementation project(':dss-crl-parser-x509crl')
+       // testImplementation project(':dss-pades-pdfbox')
 
 
 

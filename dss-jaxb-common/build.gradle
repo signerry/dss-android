@@ -8,8 +8,7 @@ dependencies {
     api project(':dss-enumerations')
     api project(':dss-alert')
     implementation 'org.slf4j:slf4j-api:1.7.35'
-    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:2.3.3'
-    runtimeOnly 'org.glassfish.jaxb:jaxb-runtime:2.3.5'
+
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     testImplementation 'ch.qos.logback:logback-classic:1.2.10'
@@ -18,4 +17,19 @@ dependencies {
 description = 'DSS JAXB Common'
 
 
+
+android {
+    defaultConfig {
+        compileSdkVersion 30
+
+        minSdkVersion 22
+        targetSdkVersion 30
+        multiDexEnabled true
+
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
 

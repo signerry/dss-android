@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.signerry"
-    android:versionCode="24"
+    package="com.signerry.dss.ws.cert.validation.rest.client"
     android:versionName="1.0" >
-
-    <uses-sdk android:minSdkVersion="24" />
-
-    <application/>
-
 </manifest>

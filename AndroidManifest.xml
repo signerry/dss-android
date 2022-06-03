@@ -3,7 +3,7 @@
     package="com.signerry"
  >
 
-    <uses-sdk android:minSdkVersion="29" />
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
     <application/>
 

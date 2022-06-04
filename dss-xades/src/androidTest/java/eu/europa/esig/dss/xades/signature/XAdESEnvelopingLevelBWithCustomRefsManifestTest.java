@@ -30,6 +30,7 @@ import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.enumerations.SignatureScopeType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.utils.Utils;
@@ -42,7 +43,7 @@ import eu.europa.esig.dss.xades.reference.XPathTransform;
 import org.apache.xml.security.transforms.Transforms;
 import org.junit.jupiter.api.BeforeEach;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -69,9 +70,9 @@ public class XAdESEnvelopingLevelBWithCustomRefsManifestTest extends AbstractXAd
         signatureParameters.setSignatureLevel(SignatureLevel.XAdES_BASELINE_B);
         signatureParameters.setManifestSignature(true);
 
-        DSSDocument firstDocument = new FileDocument("src/test/resources/sample-c14n.xml");
-        DSSDocument secondDocument = new FileDocument("src/test/resources/sample.xml");
-        FileDocument thirdDocument = new FileDocument("src/test/resources/sampleWithPlaceOfSignature.xml");
+        DSSDocument firstDocument = new FileDocument(getResourceAsFile("sample-c14n.xml"));
+        DSSDocument secondDocument = new FileDocument(getResourceAsFile("sample.xml"));
+        FileDocument thirdDocument = new FileDocument(getResourceAsFile("sampleWithPlaceOfSignature.xml"));
         detachedContents = Arrays.asList(firstDocument, secondDocument, thirdDocument);
 
         DSSReference referenceOne = new DSSReference();

@@ -28,6 +28,7 @@ import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.enumerations.TimestampType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.TimestampBinary;
@@ -65,8 +66,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class XAdESIndividualDataTimestampTest extends PKIFactoryAccess {
 
-	private static final String FILE1 = "src/test/resources/sample.xml";
-	private static final String FILE2 = "src/test/resources/sampleISO.xml";
+	private static final String FILE1 = "sample.xml";
+	private static final String FILE2 = "sampleISO.xml";
 
 	@Test
 	public void multiDocsEnveloping() throws Exception {

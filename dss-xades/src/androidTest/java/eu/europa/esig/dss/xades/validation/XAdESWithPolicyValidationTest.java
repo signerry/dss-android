@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 
 public class XAdESWithPolicyValidationTest extends AbstractXAdESTestValidation {
@@ -34,7 +35,7 @@ public class XAdESWithPolicyValidationTest extends AbstractXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/valid-xades.xml");
+		return new FileDocument(getResourceAsFile("validation/valid-xades.xml"));
 	}
 	
 	@Override

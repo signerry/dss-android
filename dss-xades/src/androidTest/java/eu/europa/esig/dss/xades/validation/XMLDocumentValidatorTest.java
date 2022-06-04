@@ -21,6 +21,7 @@
 package eu.europa.esig.dss.xades.validation;
 
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.model.MimeType;
@@ -65,26 +66,26 @@ public class XMLDocumentValidatorTest extends AbstractTestValidator {
 	@Override
 	protected List<DSSDocument> getValidDocuments() {
 		List<DSSDocument> documents = new ArrayList<>();
-		documents.add(new FileDocument("src/test/resources/validation/dss-signed.xml"));
-		documents.add(new FileDocument("src/test/resources/validation/valid-xades.xml"));
-		documents.add(new FileDocument("src/test/resources/validation/xades-x-level.xml"));
-		documents.add(new FileDocument("src/test/resources/validation/valid.xades"));
+		documents.add(new FileDocument(getResourceAsFile("validation/dss-signed.xml")));
+		documents.add(new FileDocument(getResourceAsFile("validation/valid-xades.xml")));
+		documents.add(new FileDocument(getResourceAsFile("validation/xades-x-level.xml")));
+		documents.add(new FileDocument(getResourceAsFile("validation/valid.xades")));
 		return documents;
 	}
 
 	@Override
 	protected DSSDocument getMalformedDocument() {
-		return new FileDocument("src/test/resources/validation/malformed-xades.xml");
+		return new FileDocument(getResourceAsFile("validation/malformed-xades.xml"));
 	}
 
 	@Override
 	protected DSSDocument getOtherTypeDocument() {
-		return new FileDocument("src/test/resources/sample.png");
+		return new FileDocument(getResourceAsFile("sample.png"));
 	}
 
 	@Override
 	protected DSSDocument getNoSignatureDocument() {
-		return new FileDocument("src/test/resources/sample.xml");
+		return new FileDocument(getResourceAsFile("sample.xml"));
 	}
 
 }

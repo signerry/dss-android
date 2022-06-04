@@ -25,8 +25,10 @@ import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.enumerations.CertificateRefOrigin;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,7 +39,7 @@ public class XAdESWithDoubleSignCertRefTest extends AbstractXAdESTestValidation 
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument(new File("src/test/resources/validation/sk-tsl.xml"));
+        return new FileDocument(getResourceAsFile("validation/sk-tsl.xml"));
     }
 
     @Override

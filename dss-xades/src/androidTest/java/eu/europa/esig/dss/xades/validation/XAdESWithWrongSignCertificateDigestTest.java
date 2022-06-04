@@ -28,6 +28,7 @@ import eu.europa.esig.dss.diagnostic.RelatedCertificateWrapper;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.enumerations.CertificateRefOrigin;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public class XAdESWithWrongSignCertificateDigestTest extends AbstractXAdESTestVa
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/validation/xades-wrong-sign-cert-digest.xml");
+        return new FileDocument(getResourceAsFile("validation/xades-wrong-sign-cert-digest.xml"));
     }
 
     @Override

@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -31,6 +32,7 @@ import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.enumerations.Indication;
 import eu.europa.esig.dss.enumerations.SubIndication;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.simplereport.SimpleReport;
@@ -44,7 +46,7 @@ public class XAdESEnvelopedFakeSignedPropertiesTest extends AbstractXAdESTestVal
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument(new File("src/test/resources/validation/xsw/XSW-enveloped-fake-signedProperties.xml"));
+		return new FileDocument(getResourceAsFile("validation/xsw/XSW-enveloped-fake-signedProperties.xml"));
 	}
 	
 	@Override

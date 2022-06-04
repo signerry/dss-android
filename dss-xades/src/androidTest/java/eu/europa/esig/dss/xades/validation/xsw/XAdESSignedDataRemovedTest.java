@@ -25,9 +25,11 @@ import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlDigestMatcher;
 import eu.europa.esig.dss.enumerations.DigestMatcherType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.xades.validation.AbstractXAdESTestValidation;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class XAdESSignedDataRemovedTest extends AbstractXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument(new File("src/test/resources/validation/dss-signed-altered-signedPropsRemoved.xml"));
+		return new FileDocument(getResourceAsFile("validation/dss-signed-altered-signedPropsRemoved.xml"));
 	}
 	
 	@Override

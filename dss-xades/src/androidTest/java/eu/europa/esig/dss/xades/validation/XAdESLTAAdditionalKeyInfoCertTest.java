@@ -25,6 +25,7 @@ import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.diagnostic.TimestampWrapper;
 import eu.europa.esig.dss.enumerations.CertificateOrigin;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.validation.AdvancedSignature;
 
@@ -38,7 +39,7 @@ public class XAdESLTAAdditionalKeyInfoCertTest extends AbstractXAdESTestValidati
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/xades-lta-with-additional-cert-in-keyinfo.xml");
+		return new FileDocument(getResourceAsFile("validation/xades-lta-with-additional-cert-in-keyinfo.xml"));
 	}
 	
 	@Override

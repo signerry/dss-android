@@ -26,6 +26,7 @@ import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlDigestMatcher;
 import eu.europa.esig.dss.enumerations.CertificateRefOrigin;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.validationreport.jaxb.SignerInformationType;
@@ -42,7 +43,7 @@ public class DSS2506Test extends AbstractXAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/validation/dss-2506.xml");
+        return new FileDocument(getResourceAsFile("validation/dss-2506.xml"));
     }
 
     protected void checkOrphanTokens(DiagnosticData diagnosticData) {

@@ -20,6 +20,7 @@
  */
 package eu.europa.esig.dss.xades.signature;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ import eu.europa.esig.dss.enumerations.SignatureAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.utils.Utils;
@@ -65,7 +67,7 @@ public class XAdESLevelBWithDSATest extends AbstractXAdESTestSignature {
 	@ParameterizedTest(name = "Combination {index} of DSA with digest algorithm {0}")
 	@MethodSource("data")
 	public void init(DigestAlgorithm digestAlgo) {
-		documentToSign = new FileDocument(new File("src/test/resources/sample.xml"));
+		documentToSign = new FileDocument(getResourceAsFile("sample.xml"));
 
 		signatureParameters = new XAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

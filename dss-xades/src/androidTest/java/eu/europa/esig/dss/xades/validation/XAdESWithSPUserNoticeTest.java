@@ -23,6 +23,7 @@ package eu.europa.esig.dss.xades.validation;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.spi.client.http.IgnoreDataLoader;
 import eu.europa.esig.dss.validation.SignaturePolicyProvider;
@@ -34,7 +35,7 @@ public class XAdESWithSPUserNoticeTest extends AbstractXAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/validation/Signature-X-UK_ASC-2.xml");
+        return new FileDocument(getResourceAsFile("validation/Signature-X-UK_ASC-2.xml"));
     }
 
     @Override

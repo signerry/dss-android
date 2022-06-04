@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.TimeZone;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
 
 import org.junit.jupiter.api.BeforeEach;
 
@@ -33,6 +33,7 @@ import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.validation.timestamp.TimestampToken;
@@ -51,7 +52,7 @@ public class XAdESLevelBXPathEnvelopedWithContentTstTest extends AbstractXAdESTe
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new FileDocument("src/test/resources/sample-c14n-dss.xml");
+		documentToSign = new FileDocument(getResourceAsFile("sample-c14n-dss.xml"));
 
 		signatureParameters = new XAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());

@@ -28,6 +28,7 @@ import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.TimestampWrapper;
 import eu.europa.esig.dss.enumerations.TimestampType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.xades.validation.AbstractXAdESTestValidation;
 
@@ -35,7 +36,7 @@ public class XAdESWithMultipleArchiveTimeStampsTest extends AbstractXAdESTestVal
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss2278/xades-with-multiple-archivetimestamps.xml");
+		return new FileDocument(getResourceAsFile("validation/dss2278/xades-with-multiple-archivetimestamps.xml"));
 	}
 
 	@Override

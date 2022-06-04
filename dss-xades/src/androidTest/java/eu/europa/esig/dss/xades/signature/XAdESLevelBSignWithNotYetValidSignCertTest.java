@@ -23,6 +23,7 @@ package eu.europa.esig.dss.xades.signature;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
@@ -41,7 +42,7 @@ public class XAdESLevelBSignWithNotYetValidSignCertTest extends AbstractXAdESTes
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new FileDocument("src/test/resources/sample.xml");
+        documentToSign = new FileDocument(getResourceAsFile("sample.xml"));
 
         signatureParameters = new XAdESSignatureParameters();
         signatureParameters.setSigningCertificate(getSigningCert());

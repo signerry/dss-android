@@ -25,6 +25,7 @@ import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.validation.timestamp.TimestampToken;
@@ -36,6 +37,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,7 +79,7 @@ public class XAdESTimestampCanonicalizationTest extends AbstractXAdESTestSignatu
 	@ParameterizedTest(name = "Canonicalization {index} : {0} - {1} - {2} - {3}")
 	@MethodSource("data")
 	public void test(String contentTstC14N, String otherTstC14N, SignaturePackaging packaging, SignatureLevel level) {
-		documentToSign = new FileDocument(new File("src/test/resources/sample-c14n.xml"));
+		documentToSign = new FileDocument(getResourceAsFile("sample-c14n.xml"));
 
 		signatureParameters = new XAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

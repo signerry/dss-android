@@ -36,6 +36,7 @@ import eu.europa.esig.dss.enumerations.DigestMatcherType;
 import eu.europa.esig.dss.enumerations.Indication;
 import eu.europa.esig.dss.enumerations.SubIndication;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.simplereport.SimpleReport;
 
@@ -43,7 +44,7 @@ public class XAdESNoSignedPropertiesTest extends AbstractXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss-signed-altered-signedPropsRemoved.xml");
+		return new FileDocument(getResourceAsFile("validation/dss-signed-altered-signedPropsRemoved.xml"));
 	}
 	
 	@Override

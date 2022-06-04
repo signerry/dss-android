@@ -23,6 +23,7 @@ package eu.europa.esig.dss.xades.extension;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.simplereport.SimpleReport;
@@ -48,7 +49,7 @@ public class ExtendXAdESBWithoutSignedDataObjectPropertiesToTTest extends PKIFac
 
 	@Test
 	public void test() throws Exception {
-		DSSDocument toSignDocument = new FileDocument("src/test/resources/XAdESBWithoutSignedDataObjectProperties.xml");
+		DSSDocument toSignDocument = new FileDocument(getResourceAsFile("XAdESBWithoutSignedDataObjectProperties.xml"));
 
 		SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(toSignDocument);
 		CertificateToken signingCertificateToken = validator.getSignatures().get(0).getSigningCertificateToken();
@@ -77,7 +78,7 @@ public class ExtendXAdESBWithoutSignedDataObjectPropertiesToTTest extends PKIFac
 		SignaturePolicyProvider signaturePolicyProvider = new SignaturePolicyProvider();
 		Map<String, DSSDocument> signaturePoliciesByUrl = new HashMap<>();
 		signaturePoliciesByUrl.put("http://www.facturae.es/politica_de_firma_formato_facturae/politica_de_firma_formato_facturae_v3_1.pdf",
-				new FileDocument("src/test/resources/validation/dss1135/politica_de_firma.pdf"));
+				new FileDocument(getResourceAsFile("validation/dss1135/politica_de_firma.pdf")));
 		signaturePolicyProvider.setSignaturePoliciesByUrl(signaturePoliciesByUrl);
 		validator.setSignaturePolicyProvider(signaturePolicyProvider);
 		validator.setCertificateVerifier(getCompleteCertificateVerifier());

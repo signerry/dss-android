@@ -25,6 +25,7 @@ import eu.europa.esig.dss.definition.xmldsig.XMLDSigPaths;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
@@ -40,7 +41,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.Date;
 
@@ -54,7 +56,7 @@ public class XAdESLevelBExternalSignatureTest extends AbstractXAdESTestSignature
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new FileDocument(new File("src/test/resources/sample.xml"));
+		documentToSign = new FileDocument(getResourceAsFile("sample.xml"));
 
 		signatureParameters = new XAdESSignatureParameters();
 		signatureParameters.setSignaturePackaging(SignaturePackaging.ENVELOPED);

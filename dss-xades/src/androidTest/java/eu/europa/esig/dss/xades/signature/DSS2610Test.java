@@ -26,6 +26,7 @@ import eu.europa.esig.dss.enumerations.RevocationOrigin;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.service.crl.OnlineCRLSource;
@@ -57,7 +58,7 @@ public class DSS2610Test extends AbstractXAdESTestSignature {
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new FileDocument("src/test/resources/sample.xml");
+        documentToSign = new FileDocument(getResourceAsFile("sample.xml"));
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());

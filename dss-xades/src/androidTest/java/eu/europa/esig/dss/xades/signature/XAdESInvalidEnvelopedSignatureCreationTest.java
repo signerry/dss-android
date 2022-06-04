@@ -24,6 +24,7 @@ import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.exception.IllegalInputException;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
@@ -37,6 +38,7 @@ import eu.europa.esig.dss.xades.reference.XPath2FilterEnvelopedSignatureTransfor
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,7 +49,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class XAdESInvalidEnvelopedSignatureCreationTest extends AbstractXAdESTestSignature {
 
-    private static final DSSDocument ORIGINAL_DOCUMENT = new FileDocument(new File("src/test/resources/sample.xml"));
+    private static final DSSDocument ORIGINAL_DOCUMENT = new FileDocument(getResourceAsFile("sample.xml"));
 
     private DocumentSignatureService<XAdESSignatureParameters, XAdESTimestampParameters> service;
     private XAdESSignatureParameters signatureParameters;

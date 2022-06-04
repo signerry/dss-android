@@ -37,6 +37,7 @@ import eu.europa.esig.dss.enumerations.CertificateOrigin;
 import eu.europa.esig.dss.enumerations.RevocationOrigin;
 import eu.europa.esig.dss.enumerations.RevocationType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.model.x509.revocation.crl.CRL;
@@ -51,7 +52,7 @@ public class XAdESAttrAuthoritiesValuesTest extends AbstractXAdESTestValidation 
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/xades-attr-authorities-values.xml");
+		return new FileDocument(getResourceAsFile("validation/xades-attr-authorities-values.xml"));
 	}
 	
 	@Override

@@ -23,6 +23,7 @@ package eu.europa.esig.dss.xades.validation.xsw;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
@@ -37,7 +38,7 @@ public class XSWProtectionDefaultBehaviorTest extends AbstractXAdESTestValidatio
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/xsw/disable-checks.xml");
+		return new FileDocument(getResourceAsFile("validation/xsw/disable-checks.xml"));
 	}
 	
 	@Override

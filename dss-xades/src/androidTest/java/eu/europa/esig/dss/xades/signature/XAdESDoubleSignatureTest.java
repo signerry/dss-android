@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +39,7 @@ import eu.europa.esig.dss.enumerations.Indication;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
@@ -54,7 +56,7 @@ public class XAdESDoubleSignatureTest extends PKIFactoryAccess {
 	@RepeatedTest(10)
 	public void testDoubleSignature() throws Exception {
 
-		DSSDocument toBeSigned = new FileDocument(new File("src/test/resources/sample.xml"));
+		DSSDocument toBeSigned = new FileDocument(getResourceAsFile("sample.xml"));
 
 		XAdESService service = new XAdESService(getCompleteCertificateVerifier());
 		service.setTspSource(getGoodTsa());

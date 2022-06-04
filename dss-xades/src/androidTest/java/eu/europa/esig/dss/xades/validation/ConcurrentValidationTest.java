@@ -21,6 +21,7 @@
 package eu.europa.esig.dss.xades.validation;
 
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.validation.CommonCertificateVerifier;
 import eu.europa.esig.dss.spi.x509.aia.DefaultAIASource;
@@ -81,7 +82,7 @@ public class ConcurrentValidationTest {
 
 		@Override
 		public Boolean call() throws Exception {
-			DSSDocument doc = new FileDocument("src/test/resources/dss-817-test.xml");
+			DSSDocument doc = new FileDocument(getResourceAsFile("dss-817-test.xml"));
 			SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(doc);
 			validator.setCertificateVerifier(certificateVerifier);
 

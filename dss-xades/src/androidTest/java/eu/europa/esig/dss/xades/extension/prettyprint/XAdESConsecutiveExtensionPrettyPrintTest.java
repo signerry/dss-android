@@ -22,6 +22,7 @@ package eu.europa.esig.dss.xades.extension.prettyprint;
 
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
 import eu.europa.esig.dss.xades.extension.AbstractXAdESConsecutiveExtension;
@@ -30,7 +31,7 @@ public class XAdESConsecutiveExtensionPrettyPrintTest extends AbstractXAdESConse
 
 	@Override
 	protected DSSDocument getOriginalDocument() {
-		return new FileDocument("src/test/resources/sample.xml");
+		return new FileDocument(getResourceAsFile("sample.xml"));
 	}
 
 	@Override

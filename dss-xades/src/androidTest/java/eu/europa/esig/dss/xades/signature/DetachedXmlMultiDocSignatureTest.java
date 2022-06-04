@@ -24,6 +24,7 @@ import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.signature.MultipleDocumentsSignatureService;
@@ -47,8 +48,8 @@ public class DetachedXmlMultiDocSignatureTest extends AbstractXAdESMultipleDocum
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSigns = Arrays.asList(new FileDocument("src/test/resources/sample.xml"),
-				new FileDocument("src/test/resources/sampleWithPlaceOfSignature.xml"),
+		documentToSigns = Arrays.asList(new FileDocument(getResourceAsFile("sample.xml")),
+				new FileDocument(getResourceAsFile("sampleWithPlaceOfSignature.xml")),
 				new InMemoryDocument(DSSUtils.EMPTY_BYTE_ARRAY, "emptyByteArray"));
 
 		signatureParameters = new XAdESSignatureParameters();

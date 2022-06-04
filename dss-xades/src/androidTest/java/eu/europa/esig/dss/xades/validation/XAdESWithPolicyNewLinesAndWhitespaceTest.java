@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 
 public class XAdESWithPolicyNewLinesAndWhitespaceTest extends AbstractXAdESTestValidation {
@@ -34,7 +35,7 @@ public class XAdESWithPolicyNewLinesAndWhitespaceTest extends AbstractXAdESTestV
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/valid-xades-policyId-newlines.xml");
+		return new FileDocument(getResourceAsFile("validation/valid-xades-policyId-newlines.xml"));
 	}
 	
 	@Override

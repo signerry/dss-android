@@ -33,6 +33,7 @@ import eu.europa.esig.dss.diagnostic.jaxb.XmlDigestMatcher;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlSignatureScope;
 import eu.europa.esig.dss.enumerations.SignatureScopeType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.xades.validation.AbstractXAdESTestValidation;
 
@@ -40,14 +41,14 @@ public class DSS1770NullUriWithMultipleDetachedTest extends AbstractXAdESTestVal
 			
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss1770/dss1770refUriRemoved.xml");
+		return new FileDocument(getResourceAsFile("validation/dss1770/dss1770refUriRemoved.xml"));
 	}
 	
 	@Override
 	protected List<DSSDocument> getDetachedContents() {
 		List<DSSDocument> detachedDocuments = new ArrayList<>();
-		detachedDocuments.add(new FileDocument("src/test/resources/sample.png"));
-		detachedDocuments.add(new FileDocument("src/test/resources/sample.xml"));
+		detachedDocuments.add(new FileDocument(getResourceAsFile("sample.png")));
+		detachedDocuments.add(new FileDocument(getResourceAsFile("sample.xml")));
 		return detachedDocuments;
 	}
 	

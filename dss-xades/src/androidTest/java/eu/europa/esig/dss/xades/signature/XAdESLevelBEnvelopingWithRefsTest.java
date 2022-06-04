@@ -42,6 +42,7 @@ import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.spi.DSSUtils;
@@ -59,13 +60,13 @@ public class XAdESLevelBEnvelopingWithRefsTest extends AbstractXAdESTestSignatur
 	private XAdESSignatureParameters signatureParameters;
 	private DSSDocument documentToSign;
 	
-	private static DSSDocument doc1 = new FileDocument("src/test/resources/sample.xml");
-	private static DSSDocument doc2 = new FileDocument("src/test/resources/sampleISO.xml");
+	private static DSSDocument doc1 = new FileDocument(getResourceAsFile("sample.xml"));
+	private static DSSDocument doc2 = new FileDocument(getResourceAsFile("sampleISO.xml"));
 
 	@BeforeEach
 	public void init() throws Exception {
 		
-		documentToSign = new FileDocument("src/test/resources/empty.xml");
+		documentToSign = new FileDocument(getResourceAsFile("empty.xml"));
 
 		signatureParameters = new XAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());

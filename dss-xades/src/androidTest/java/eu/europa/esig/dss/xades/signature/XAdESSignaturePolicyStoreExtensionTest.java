@@ -24,6 +24,7 @@ import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlDigestAlgoAndValue;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignaturePolicyStore;
 import eu.europa.esig.dss.model.SpDocSpecification;
@@ -42,14 +43,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class XAdESSignaturePolicyStoreExtensionTest extends AbstractXAdESTestValidation {
 
 	private static final String SIGNATURE_POLICY_ID = "urn:sbr:signature-policy:xml:2.0";
-	private static final DSSDocument POLICY_CONTENT = new FileDocument("src/test/resources/validation/dss2095/SBR-signature-policy-v2.0.xml");
+	private static final DSSDocument POLICY_CONTENT = new FileDocument(getResourceAsFile("validation/dss2095/SBR-signature-policy-v2.0.xml"));
 
 	private XAdESService service;
 	private DSSDocument signedDocument;
 
 	@BeforeEach
 	public void init() throws Exception {
-		signedDocument = new FileDocument("src/test/resources/validation/dss2095/sigPolicyWithTransforms.xml");
+		signedDocument = new FileDocument(getResourceAsFile("validation/dss2095/sigPolicyWithTransforms.xml"));
 		service = new XAdESService(getOfflineCertificateVerifier());
 	}
 

@@ -22,6 +22,7 @@ package eu.europa.esig.dss.xades.validation;
 
 import eu.europa.esig.dss.exception.IllegalInputException;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ public class BrokenDOMTest {
 
 	@Test
 	public void test() {
-		DSSDocument doc = new FileDocument("src/test/resources/validation/broken-dom.xml");
+		DSSDocument doc = new FileDocument(getResourceAsFile("validation/broken-dom.xml"));
 		Exception exception = assertThrows(IllegalInputException.class, () -> SignedDocumentValidator.fromDocument(doc));
 		assertTrue(exception.getMessage().contains("An XML file is expected : Unable to parse content (XML expected)"));
 	}

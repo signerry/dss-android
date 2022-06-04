@@ -23,6 +23,7 @@ package eu.europa.esig.dss.xades.validation;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
@@ -45,7 +46,7 @@ public class CounterSignatureValidationTest extends AbstractXAdESTestValidation 
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/TEST_S1a_C1a_InTL_VALID.xml");
+		return new FileDocument(getResourceAsFile("validation/TEST_S1a_C1a_InTL_VALID.xml"));
 	}
 	
 	@Override

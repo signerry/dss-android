@@ -29,6 +29,7 @@ import eu.europa.esig.dss.enumerations.RevocationOrigin;
 import eu.europa.esig.dss.enumerations.RevocationType;
 import eu.europa.esig.dss.enumerations.TokenExtractionStrategy;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.model.x509.revocation.ocsp.OCSP;
@@ -51,7 +52,7 @@ public class XAdESLTAWithValidOCSPCertValidityTest extends AbstractXAdESTestVali
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/validation/xades-lta-valid.xml");
+        return new FileDocument(getResourceAsFile("validation/xades-lta-valid.xml"));
     }
 
     @Override

@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Arrays;
 import java.util.Date;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
 
 import org.junit.jupiter.api.BeforeEach;
 

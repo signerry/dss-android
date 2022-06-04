@@ -29,6 +29,7 @@ import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.enumerations.RevocationOrigin;
 import eu.europa.esig.dss.enumerations.RevocationType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.validation.AdvancedSignature;
 import eu.europa.esig.dss.xades.validation.AbstractXAdESTestValidation;
@@ -37,7 +38,7 @@ public class XAdESOCSPSourceHUTest extends AbstractXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/Signature-X-HU_POL-3.xml");
+		return new FileDocument(getResourceAsFile("validation/Signature-X-HU_POL-3.xml"));
 	}
 	
 	@Override

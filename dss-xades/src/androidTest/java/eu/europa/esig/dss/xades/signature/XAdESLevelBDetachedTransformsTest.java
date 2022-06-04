@@ -28,6 +28,7 @@ import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
@@ -43,7 +44,7 @@ import eu.europa.esig.dss.xades.reference.DSSTransform;
 import eu.europa.esig.dss.xades.reference.XPathTransform;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -56,7 +57,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class XAdESLevelBDetachedTransformsTest extends PKIFactoryAccess {
 	
-	private static final DSSDocument document = new FileDocument("src/test/resources/sample-c14n.xml");
+	private static final DSSDocument document = new FileDocument(getResourceAsFile("sample-c14n.xml"));
 	
 	@Test
 	public void canonicalizationTest() throws Exception {

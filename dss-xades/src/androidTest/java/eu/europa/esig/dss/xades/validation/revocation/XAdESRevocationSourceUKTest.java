@@ -30,6 +30,7 @@ import eu.europa.esig.dss.diagnostic.RevocationRefWrapper;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.enumerations.RevocationRefOrigin;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.validation.AdvancedSignature;
 import eu.europa.esig.dss.xades.validation.AbstractXAdESTestValidation;
@@ -38,7 +39,7 @@ public class XAdESRevocationSourceUKTest extends AbstractXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/Signature-X-UK_ELD-4.xml");
+		return new FileDocument(getResourceAsFile("validation/Signature-X-UK_ELD-4.xml"));
 	}
 	
 	@Override

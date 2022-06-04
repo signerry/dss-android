@@ -25,6 +25,7 @@ import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.validation.AdvancedSignature;
@@ -33,6 +34,7 @@ import eu.europa.esig.dss.xades.XAdESSignatureParameters;
 import eu.europa.esig.dss.xades.XAdESTimestampParameters;
 import org.junit.jupiter.api.BeforeEach;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.List;
 
@@ -54,7 +56,7 @@ public class XAdESDoubleSignatureBAndLTATest extends AbstractXAdESTestSignature 
         service = new XAdESService(getCompleteCertificateVerifier());
         service.setTspSource(getGoodTsa());
 
-        originalDocument = new FileDocument(new File("src/test/resources/sample.xml"));
+        originalDocument = new FileDocument(getResourceAsFile("sample.xml"));
 
         signatureParameters = new XAdESSignatureParameters();
         signatureParameters.setSignatureLevel(SignatureLevel.XAdES_BASELINE_B);

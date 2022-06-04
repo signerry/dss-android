@@ -20,6 +20,7 @@
  */
 package eu.europa.esig.dss.xades.signature;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +37,7 @@ import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
@@ -73,7 +75,7 @@ public class XAdESReferenceCanonicalizationTest extends AbstractXAdESTestSignatu
 	@ParameterizedTest(name = "Canonicalization {index} : {0} - {1}")
 	@MethodSource("data")
 	public void test(String canonicalization, SignaturePackaging packaging) {
-		documentToSign = new FileDocument(new File("src/test/resources/sample-c14n.xml"));
+		documentToSign = new FileDocument(getResourceAsFile("sample-c14n.xml"));
 
 		signatureParameters = new XAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

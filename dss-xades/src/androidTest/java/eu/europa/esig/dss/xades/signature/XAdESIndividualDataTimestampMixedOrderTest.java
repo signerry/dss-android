@@ -25,6 +25,7 @@ import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.enumerations.TimestampType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.TimestampBinary;
 import eu.europa.esig.dss.spi.DSSUtils;
@@ -33,15 +34,15 @@ import eu.europa.esig.dss.validation.timestamp.TimestampToken;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
 import org.junit.jupiter.api.BeforeEach;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class XAdESIndividualDataTimestampMixedOrderTest extends AbstractXAdESMultipleDocumentsSignatureService {
 
-    private static final String FILE1 = "src/test/resources/sample.xml";
-    private static final String FILE2 = "src/test/resources/sampleISO.xml";
+    private static final String FILE1 = "sample.xml";
+    private static final String FILE2 = "sampleISO.xml";
 
     private XAdESService service;
     private XAdESSignatureParameters signatureParameters;

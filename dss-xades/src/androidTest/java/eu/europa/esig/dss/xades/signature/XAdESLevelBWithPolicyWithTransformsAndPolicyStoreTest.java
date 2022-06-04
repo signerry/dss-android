@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignaturePolicyStore;
 import eu.europa.esig.dss.model.SpDocSpecification;
@@ -69,7 +71,7 @@ public class XAdESLevelBWithPolicyWithTransformsAndPolicyStoreTest extends Abstr
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new FileDocument(new File("src/test/resources/sample.xml"));
+		documentToSign = new FileDocument(getResourceAsFile("sample.xml"));
 
 		signatureParameters = new XAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());
@@ -77,7 +79,7 @@ public class XAdESLevelBWithPolicyWithTransformsAndPolicyStoreTest extends Abstr
 		signatureParameters.setSignaturePackaging(SignaturePackaging.ENVELOPING);
 		signatureParameters.setSignatureLevel(SignatureLevel.XAdES_BASELINE_B);
 
-		signaturePolicy = new FileDocument("src/test/resources/validation/dss2095/SBR-signature-policy-v2.0.xml");
+		signaturePolicy = new FileDocument(getResourceAsFile("validation/dss2095/SBR-signature-policy-v2.0.xml"));
 
 		XmlPolicyWithTransforms xmlPolicyWithTransforms = new XmlPolicyWithTransforms();
 		xmlPolicyWithTransforms.setId(SIGNATURE_POLICY_ID);

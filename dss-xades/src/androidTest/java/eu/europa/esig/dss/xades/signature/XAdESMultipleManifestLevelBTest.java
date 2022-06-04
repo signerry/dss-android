@@ -28,6 +28,7 @@ import eu.europa.esig.dss.enumerations.DigestMatcherType;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.MultipleDocumentsSignatureService;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
@@ -53,9 +54,9 @@ public class XAdESMultipleManifestLevelBTest extends AbstractXAdESMultipleDocume
 	public void init() throws Exception {
 
 		detachedContents = new ArrayList<>();
-		detachedContents.add(new FileDocument("src/test/resources/sample.png"));
-		detachedContents.add(new FileDocument("src/test/resources/sample.txt"));
-		detachedContents.add(new FileDocument("src/test/resources/sample.xml"));
+		detachedContents.add(new FileDocument(getResourceAsFile("sample.png")));
+		detachedContents.add(new FileDocument(getResourceAsFile("sample.txt")));
+		detachedContents.add(new FileDocument(getResourceAsFile("sample.xml")));
 
 		ManifestBuilder builder1 = new ManifestBuilder("manifest-sha512", DigestAlgorithm.SHA512, detachedContents);
 		ManifestBuilder builder2 = new ManifestBuilder("manifest-sha256", DigestAlgorithm.SHA256, detachedContents);

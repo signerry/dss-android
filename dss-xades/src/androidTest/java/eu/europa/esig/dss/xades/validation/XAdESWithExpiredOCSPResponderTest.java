@@ -27,12 +27,14 @@ import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.enumerations.RevocationType;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.spi.x509.CommonTrustedCertificateSource;
 import eu.europa.esig.dss.validation.CertificateVerifier;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.List;
 
@@ -43,7 +45,7 @@ public class XAdESWithExpiredOCSPResponderTest extends AbstractXAdESTestValidati
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument(new File("src/test/resources/validation/xades-lt-with-expired-ocsp-responder.xml"));
+        return new FileDocument(getResourceAsFile("validation/xades-lt-with-expired-ocsp-responder.xml"));
     }
 
     @Override

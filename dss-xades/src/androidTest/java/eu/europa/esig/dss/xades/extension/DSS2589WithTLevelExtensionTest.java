@@ -25,10 +25,12 @@ import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
 import eu.europa.esig.dss.xades.DSSXMLUtils;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
 import eu.europa.esig.dss.xades.signature.AbstractXAdESTestSignature;
@@ -38,7 +40,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,7 +48,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DSS2589WithTLevelExtensionTest extends AbstractXAdESTestSignature {
 
-    private final static DSSDocument ORIGINAL_DOC = new FileDocument("src/test/resources/sample.xml");
+    private final static DSSDocument ORIGINAL_DOC = new FileDocument(getResourceAsFile("sample.xml"));
 
     private XAdESService service;
     private XAdESSignatureParameters signatureParameters;

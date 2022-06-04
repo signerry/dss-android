@@ -27,8 +27,10 @@ import eu.europa.esig.dss.diagnostic.jaxb.XmlDigestMatcher;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.DigestMatcherType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
 import eu.europa.esig.dss.xades.TrustedListSignatureParametersBuilder;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
 import eu.europa.esig.dss.xades.XAdESTimestampParameters;
@@ -37,8 +39,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
 import java.io.ByteArrayInputStream;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -56,7 +58,7 @@ public class TrustedListSignatureParametersBuilderTest extends AbstractXAdESTest
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new FileDocument(new File("src/test/resources/eu-lotl-no-sig.xml"));
+		documentToSign = new FileDocument(getResourceAsFile("eu-lotl-no-sig.xml"));
 		service = new XAdESService(getOfflineCertificateVerifier());
 		
 		signatureParameters = new TrustedListSignatureParametersBuilder(getSigningCert(), documentToSign)

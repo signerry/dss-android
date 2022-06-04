@@ -26,6 +26,7 @@ import eu.europa.esig.dss.diagnostic.jaxb.XmlDigestAlgoAndValue;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
@@ -38,6 +39,7 @@ import eu.europa.esig.validationreport.jaxb.ValidationObjectType;
 import eu.europa.esig.xades.jaxb.xades132.DigestAlgAndValueType;
 import org.junit.jupiter.api.BeforeEach;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
@@ -60,7 +62,7 @@ public class XAdESLevelBTest extends AbstractXAdESTestSignature {
 		service = new XAdESService(getOfflineCertificateVerifier());
 		service.setTspSource(getGoodTsa());
 
-		documentToSign = new FileDocument(new File("src/test/resources/sample.xml"));
+		documentToSign = new FileDocument(getResourceAsFile("sample.xml"));
 
 		signingDate = new Date();
 		contentTimestamp = service.getContentTimestamp(documentToSign, getSignatureParameters());

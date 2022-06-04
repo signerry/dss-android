@@ -20,6 +20,7 @@
  */
 package eu.europa.esig.dss.xades.signature;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.Date;
 
@@ -28,6 +29,7 @@ import org.junit.jupiter.api.BeforeEach;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
@@ -41,7 +43,7 @@ public class XAdESLevelBEnvelopedHtmlISO88951Test extends AbstractXAdESTestSigna
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new FileDocument(new File("src/test/resources/htmlISO8859-1.html"));
+		documentToSign = new FileDocument(getResourceAsFile("htmlISO8859-1.html"));
 
 		signatureParameters = new XAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());

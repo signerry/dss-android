@@ -26,6 +26,7 @@ import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.exception.IllegalInputException;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DigestDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
@@ -45,7 +46,7 @@ public class XAdESImpossibleExtensionTest extends PKIFactoryAccess {
 
 	@Test
 	public void xmldsig() {
-		DSSDocument doc = new FileDocument("src/test/resources/validation/xmldsig-only.xml");
+		DSSDocument doc = new FileDocument(getResourceAsFile("validation/xmldsig-only.xml"));
 
 		XAdESService service = new XAdESService(getOfflineCertificateVerifier());
 		service.setTspSource(getGoodTsa());
@@ -60,7 +61,7 @@ public class XAdESImpossibleExtensionTest extends PKIFactoryAccess {
 
 	@Test
 	public void notSigned() {
-		DSSDocument doc = new FileDocument("src/test/resources/sample.xml");
+		DSSDocument doc = new FileDocument(getResourceAsFile("sample.xml"));
 
 		XAdESService service = new XAdESService(getOfflineCertificateVerifier());
 		service.setTspSource(getGoodTsa());
@@ -74,7 +75,7 @@ public class XAdESImpossibleExtensionTest extends PKIFactoryAccess {
 	
 	@Test
 	public void digestDocumentWithLTALevelTest() {
-		DSSDocument doc = new FileDocument("src/test/resources/sample.xml");
+		DSSDocument doc = new FileDocument(getResourceAsFile("sample.xml"));
 		DigestDocument digestDocument = new DigestDocument(DigestAlgorithm.SHA256, Utils.toBase64(DSSUtils.digest(DigestAlgorithm.SHA256, doc)));
 
 		XAdESService service = new XAdESService(getCompleteCertificateVerifier());

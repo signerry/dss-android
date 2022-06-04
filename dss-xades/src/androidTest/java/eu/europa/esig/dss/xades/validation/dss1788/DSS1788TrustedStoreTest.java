@@ -30,6 +30,7 @@ import eu.europa.esig.dss.enumerations.Indication;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SubIndication;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.simplereport.SimpleReport;
@@ -45,6 +46,7 @@ import eu.europa.esig.validationreport.jaxb.SignatureAttributesType;
 import eu.europa.esig.validationreport.jaxb.SignatureValidationReportType;
 import eu.europa.esig.validationreport.jaxb.ValidationReportType;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.List;
 
@@ -58,13 +60,13 @@ public class DSS1788TrustedStoreTest extends AbstractXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss1788/dss1788-noCertProvided.xml");
+		return new FileDocument(getResourceAsFile("validation/dss1788/dss1788-noCertProvided.xml"));
 	}
 	
 	@Override
 	protected SignedDocumentValidator getValidator(DSSDocument signedDocument) {
 		SignedDocumentValidator validator = super.getValidator(signedDocument);
-		CertificateToken signingCertificateToken = DSSUtils.loadCertificate(new File("src/test/resources/validation/dss1788/signCert.cer"));
+		CertificateToken signingCertificateToken = DSSUtils.loadCertificate(getResourceAsFile("validation/dss1788/signCert.cer"));
 		
 		CommonCertificateVerifier commonCertificateVerifier = new CommonCertificateVerifier();
 		CommonTrustedCertificateSource trustedCertSource = new CommonTrustedCertificateSource();

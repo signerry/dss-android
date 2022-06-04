@@ -20,6 +20,7 @@
  */
 package eu.europa.esig.dss.xades.signature;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,6 +34,7 @@ import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
@@ -52,11 +54,11 @@ public class XAdESLevelBEnvelopedWithReferencesWithoutTransformationsTest extend
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new FileDocument(new File("src/test/resources/sample.xml"));
+		documentToSign = new FileDocument(getResourceAsFile("sample.xml"));
 
 		// Load any two files (rather not XML) to sign them
-		attachment1 = createDocument("src/test/resources/sample.txt");
-		attachment2 = createDocument("src/test/resources/sample.png");
+		attachment1 = createDocument("sample.txt");
+		attachment2 = createDocument("sample.png");
 
 		signatureParameters = new XAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());
@@ -81,7 +83,7 @@ public class XAdESLevelBEnvelopedWithReferencesWithoutTransformationsTest extend
 	}
 
 	private DSSDocument createDocument(String filePath) throws IOException {
-		File file = new File(filePath);
+		File file = getResourceAsFile(filePath);
 		byte[] content = Utils.toByteArray(new FileInputStream(file));
 		return new InMemoryDocument(content, file.getName());
 	}

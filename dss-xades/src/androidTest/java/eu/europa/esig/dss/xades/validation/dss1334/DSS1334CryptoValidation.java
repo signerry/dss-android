@@ -31,16 +31,17 @@ import eu.europa.esig.dss.diagnostic.CertificateRefWrapper;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.xades.validation.AbstractXAdESTestValidation;
 
 public class DSS1334CryptoValidation extends AbstractXAdESTestValidation {
 
-	private static final DSSDocument ORIGINAL_FILE = new FileDocument("src/test/resources/validation/dss1334/simple-test.xml");
+	private static final DSSDocument ORIGINAL_FILE = new FileDocument(getResourceAsFile("validation/dss1334/simple-test.xml"));
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss1334/simple-test.signed-only-detached-LuxTrustCA3.xml");
+		return new FileDocument(getResourceAsFile("validation/dss1334/simple-test.signed-only-detached-LuxTrustCA3.xml"));
 	}
 	
 	@Override

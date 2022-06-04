@@ -21,6 +21,7 @@
 package eu.europa.esig.dss.xades.signature.prettyprint;
 
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
 import eu.europa.esig.dss.xades.signature.XAdESExternalManifestLevelBTest;
@@ -36,7 +37,7 @@ public class XAdESExternalManifestSignPrettyPrintTest extends XAdESExternalManif
 
 	@Override
 	protected DSSDocument getDocumentToSign() {
-		return new FileDocument("src/test/resources/manifest-oneline.xml");
+		return new FileDocument(getResourceAsFile("manifest-oneline.xml"));
 	}
 
 }

@@ -23,6 +23,7 @@ package eu.europa.esig.dss.xades.signature;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
@@ -34,6 +35,7 @@ import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
@@ -58,8 +60,8 @@ public class XAdESLevelLTAMultipleDocsDetachedCounterSignatureTest extends Abstr
 		service = new XAdESService(getCompleteCertificateVerifier());
 		service.setTspSource(getGoodTsa());
 		
-		FileDocument f1 = new FileDocument(new File("src/test/resources/sample-with-id.xml"));
-		FileDocument f2 = new FileDocument(new File("src/test/resources/sample-with-different-id.xml"));
+		FileDocument f1 = new FileDocument(getResourceAsFile("sample-with-id.xml"));
+		FileDocument f2 = new FileDocument(getResourceAsFile("sample-with-different-id.xml"));
 		documentsToSign = Arrays.asList(f1, f2);
 		
 		signingDate = new Date();

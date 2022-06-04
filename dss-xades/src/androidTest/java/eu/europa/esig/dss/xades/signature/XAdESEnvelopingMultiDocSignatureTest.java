@@ -28,6 +28,7 @@ import org.junit.jupiter.api.BeforeEach;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.MultipleDocumentsSignatureService;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
@@ -40,7 +41,7 @@ public class XAdESEnvelopingMultiDocSignatureTest extends AbstractXAdESMultipleD
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSigns = Arrays.asList(new FileDocument("src/test/resources/sample.xml"), new FileDocument("src/test/resources/sample.png"));
+		documentToSigns = Arrays.asList(new FileDocument(getResourceAsFile("sample.xml")), new FileDocument(getResourceAsFile("sample.png")));
 
 		signatureParameters = new XAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

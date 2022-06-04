@@ -30,6 +30,7 @@ import eu.europa.esig.dss.diagnostic.RelatedCertificateWrapper;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.enumerations.CertificateOrigin;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.validation.AdvancedSignature;
 
@@ -37,7 +38,7 @@ public class XAdESDoubleSignedDifferentOCSPTest extends AbstractXAdESTestValidat
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/doubleSignedTest.xml");
+		return new FileDocument(getResourceAsFile("validation/doubleSignedTest.xml"));
 	}
 	
 	@Override

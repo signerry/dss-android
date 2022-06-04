@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.List;
 
@@ -46,6 +47,7 @@ import eu.europa.esig.dss.enumerations.CertificateRefOrigin;
 import eu.europa.esig.dss.i18n.I18nProvider;
 import eu.europa.esig.dss.i18n.MessageTag;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.validation.AdvancedSignature;
 import eu.europa.esig.dss.validation.timestamp.TimestampCertificateSource;
@@ -60,7 +62,7 @@ public class XAdESManifestSignatureScopeTest extends AbstractXAdESTestValidation
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument(new File("src/test/resources/validation/Signature-X-CZ_SEF-4.xml"));
+		return new FileDocument(getResourceAsFile("validation/Signature-X-CZ_SEF-4.xml"));
 	}
 	
 	@Override

@@ -24,6 +24,7 @@ import eu.europa.esig.dss.DomUtils;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.CounterSignatureService;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
@@ -33,6 +34,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.Date;
 
@@ -47,7 +49,7 @@ public class XAdESLevelLTAInternallyDetachedCounterSignatureTest extends Abstrac
 	public void init() throws Exception {
 		service = new XAdESService(getCompleteCertificateVerifier());
 		service.setTspSource(getGoodTsa());
-		documentToSign = new FileDocument(new File("src/test/resources/sample-with-id.xml"));
+		documentToSign = new FileDocument(getResourceAsFile("sample-with-id.xml"));
 		signingDate = new Date();
 	}
 

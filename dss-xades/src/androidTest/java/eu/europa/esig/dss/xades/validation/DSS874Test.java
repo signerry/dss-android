@@ -29,6 +29,7 @@ import eu.europa.esig.dss.enumerations.RevocationOrigin;
 import eu.europa.esig.dss.enumerations.RevocationRefOrigin;
 import eu.europa.esig.dss.enumerations.RevocationType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.utils.Utils;
@@ -37,6 +38,7 @@ import eu.europa.esig.dss.validation.SignaturePolicyProvider;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import org.junit.jupiter.api.Test;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -50,11 +52,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DSS874Test extends AbstractXAdESTestValidation {
 	
-    private static final File policyDocument = new File("src/test/resources/validation/dss874/policy.pdf");
+    private static final File policyDocument = getResourceAsFile("validation/dss874/policy.pdf");
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss874/sellosFNMT-XAdES_A.xml");
+		return new FileDocument(getResourceAsFile("validation/dss874/sellosFNMT-XAdES_A.xml"));
 	}
 	
 	@Override

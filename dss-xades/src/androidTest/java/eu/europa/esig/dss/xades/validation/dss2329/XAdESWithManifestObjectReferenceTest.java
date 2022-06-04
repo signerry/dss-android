@@ -25,6 +25,7 @@ import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlDigestMatcher;
 import eu.europa.esig.dss.enumerations.DigestMatcherType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.xades.validation.AbstractXAdESTestValidation;
 
@@ -35,7 +36,7 @@ public class XAdESWithManifestObjectReferenceTest extends AbstractXAdESTestValid
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/validation/dss2329/xades-with-manifest-with-object-reference.xml");
+        return new FileDocument(getResourceAsFile("validation/dss2329/xades-with-manifest-with-object-reference.xml"));
     }
 
     @Override

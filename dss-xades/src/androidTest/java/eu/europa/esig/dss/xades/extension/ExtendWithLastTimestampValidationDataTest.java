@@ -46,6 +46,7 @@ import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.enumerations.TimestampType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
@@ -63,7 +64,7 @@ public class ExtendWithLastTimestampValidationDataTest extends PKIFactoryAccess 
 	public void test() throws Exception {
 		/* Test that new TimeStampValidation data added instead of the old element */
 		
-		DSSDocument documentToSign = new FileDocument("src/test/resources/sample.xml");
+		DSSDocument documentToSign = new FileDocument(getResourceAsFile("sample.xml"));
 		
 		XAdESSignatureParameters parameters = new XAdESSignatureParameters();
 		parameters.setSignatureLevel(SignatureLevel.XAdES_BASELINE_LT);

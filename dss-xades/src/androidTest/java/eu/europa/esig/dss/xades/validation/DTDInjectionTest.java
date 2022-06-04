@@ -25,10 +25,12 @@ import eu.europa.esig.dss.exception.IllegalInputException;
 import eu.europa.esig.dss.jaxb.common.DocumentBuilderFactoryBuilder;
 import eu.europa.esig.dss.jaxb.common.XmlDefinerUtils;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import org.junit.jupiter.api.Test;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -41,7 +43,7 @@ public class DTDInjectionTest extends AbstractXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument(new File("src/test/resources/validation/xades-with-dtd-injection.xml"));
+		return new FileDocument(getResourceAsFile("validation/xades-with-dtd-injection.xml"));
 	}
 	
 	@Override
@@ -72,7 +74,7 @@ public class DTDInjectionTest extends AbstractXAdESTestValidation {
 	@Test
 	public void test() {
 		FileDocument fileDocument = new FileDocument(
-				new File("src/test/resources/validation/xades-with-dtd-injection.xml"));
+				getResourceAsFile("validation/xades-with-dtd-injection.xml"));
 		Exception exception = assertThrows(IllegalInputException.class,
 				() -> SignedDocumentValidator.fromDocument(fileDocument));
 		assertTrue(exception.getMessage().contains("An XML file is expected : Unable to parse content (XML expected)"));;

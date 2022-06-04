@@ -28,6 +28,7 @@ import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DigestDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
@@ -55,9 +56,9 @@ public class XAdESManifestLevelBWithValidationTest extends AbstractXAdESTestSign
 	public void init() throws Exception {
 
 		List<DSSDocument> documents = new ArrayList<>();
-		documents.add(new FileDocument("src/test/resources/sample.png"));
-		documents.add(new FileDocument("src/test/resources/sample.txt"));
-		documents.add(new FileDocument("src/test/resources/sample.xml"));
+		documents.add(new FileDocument(getResourceAsFile("sample.png")));
+		documents.add(new FileDocument(getResourceAsFile("sample.txt")));
+		documents.add(new FileDocument(getResourceAsFile("sample.xml")));
 		ManifestBuilder builder = new ManifestBuilder(DigestAlgorithm.SHA512, documents);
 
 		documentToSign = builder.build();
@@ -79,10 +80,10 @@ public class XAdESManifestLevelBWithValidationTest extends AbstractXAdESTestSign
 		validator.setCertificateVerifier(getOfflineCertificateVerifier());
 
 		List<DSSDocument> documents = new ArrayList<>();
-		documents.add(new FileDocument("src/test/resources/sample.png"));
-		documents.add(new FileDocument("src/test/resources/sample.xml"));
+		documents.add(new FileDocument(getResourceAsFile("sample.png")));
+		documents.add(new FileDocument(getResourceAsFile("sample.xml")));
 
-		FileDocument fileDoc = new FileDocument("src/test/resources/sample.txt");
+		FileDocument fileDoc = new FileDocument(getResourceAsFile("sample.txt"));
 
 		DigestDocument digestDocument = new DigestDocument(DigestAlgorithm.SHA512, fileDoc.getDigest(DigestAlgorithm.SHA512));
 		digestDocument.setName(fileDoc.getName());

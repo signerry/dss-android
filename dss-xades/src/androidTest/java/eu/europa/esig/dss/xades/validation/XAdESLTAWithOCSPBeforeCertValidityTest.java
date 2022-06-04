@@ -28,6 +28,7 @@ import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.enumerations.RevocationOrigin;
 import eu.europa.esig.dss.enumerations.RevocationType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.model.x509.revocation.ocsp.OCSP;
@@ -50,7 +51,7 @@ public class XAdESLTAWithOCSPBeforeCertValidityTest extends AbstractXAdESTestVal
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/validation/xades-ocsp-before-cert-validity.xml");
+        return new FileDocument(getResourceAsFile("validation/xades-ocsp-before-cert-validity.xml"));
     }
 
     @Override

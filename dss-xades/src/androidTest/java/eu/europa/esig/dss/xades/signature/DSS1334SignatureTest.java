@@ -27,6 +27,7 @@ import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DSSException;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.validation.CommonCertificateVerifier;
@@ -45,7 +46,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DSS1334SignatureTest extends AbstractXAdESTestSignature {
 
-	private static final DSSDocument ORIGINAL_FILE = new FileDocument("src/test/resources/validation/dss1334/simple-test.xml");
+	private static final DSSDocument ORIGINAL_FILE = new FileDocument(getResourceAsFile("validation/dss1334/simple-test.xml"));
 
 	private DocumentSignatureService<XAdESSignatureParameters, XAdESTimestampParameters> service;
 	private XAdESSignatureParameters signatureParameters;
@@ -70,7 +71,7 @@ public class DSS1334SignatureTest extends AbstractXAdESTestSignature {
 	@Test
 	public void extendValidFile() {
 		DSSDocument doc = new FileDocument(
-				"src/test/resources/validation/dss1334/simple-test-signed-xades-baseline-b.xml");
+				"validation/dss1334/simple-test-signed-xades-baseline-b.xml");
 
 		XAdESService service = new XAdESService(new CommonCertificateVerifier());
 		service.setTspSource(getGoodTsa());
@@ -87,7 +88,7 @@ public class DSS1334SignatureTest extends AbstractXAdESTestSignature {
 	@Test
 	public void extendInvalidFile() {
 		DSSDocument doc = new FileDocument(
-				"src/test/resources/validation/dss1334/document-signed-xades-baseline-b--null-for-filename.xml");
+				"validation/dss1334/document-signed-xades-baseline-b--null-for-filename.xml");
 
 		XAdESService service = new XAdESService(new CommonCertificateVerifier());
 		service.setTspSource(getGoodTsa());

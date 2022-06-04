@@ -29,6 +29,7 @@ import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DigestDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.model.SignatureValue;
@@ -114,7 +115,7 @@ public class DSS1811Test extends PKIFactoryAccess {
 	@Test
 	public void alteredDigestAlgo() {
 		// Changed digest algo for signed info
-		DSSDocument signedDoc = new FileDocument("src/test/resources/validation/dss1811-multi-algo.xml");
+		DSSDocument signedDoc = new FileDocument(getResourceAsFile("validation/dss1811-multi-algo.xml"));
 
 		Reports reports = getReports(signedDoc, getDigestDocument());
 

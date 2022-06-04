@@ -28,6 +28,7 @@ import eu.europa.esig.dss.enumerations.RevocationType;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
@@ -52,7 +53,7 @@ public class XAdESOCSPVsCRLValidationTest extends PKIFactoryAccess {
 
     @Test
     public void test() {
-        DSSDocument documentToSign = new FileDocument("src/test/resources/sample.xml");
+        DSSDocument documentToSign = new FileDocument(getResourceAsFile("sample.xml"));
 
         XAdESSignatureParameters signatureParameters = new XAdESSignatureParameters();
         signatureParameters.setSigningCertificate(getSigningCert());

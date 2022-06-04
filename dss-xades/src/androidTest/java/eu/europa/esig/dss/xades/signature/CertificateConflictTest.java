@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.io.IOException;
 import java.security.KeyStore.PasswordProtection;
@@ -35,6 +36,7 @@ import eu.europa.esig.dss.enumerations.Indication;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.MimeType;
 import eu.europa.esig.dss.model.SignatureValue;
@@ -56,14 +58,14 @@ public class CertificateConflictTest {
 
 	@Test
 	public void testXadesCaDuplicate() throws IOException {
-		DSSDocument signedDocument = xadesSign(new FileDocument("src/test/resources/sample.xml"));
+		DSSDocument signedDocument = xadesSign(new FileDocument(getResourceAsFile("sample.xml")));
 		assertEquals(MimeType.XML, signedDocument.getMimeType());
 		xadesVerifyPreviousKeystore(signedDocument);
 		xadesVerifyCurrentKeystore(signedDocument);
 	}
 
 	private DSSDocument xadesSign(DSSDocument document) throws IOException {
-		File ksFile = new File("src/test/resources/cert-conflict/previousKeystore.pfx");
+		File ksFile = getResourceAsFile("cert-conflict/previousKeystore.pfx");
 		Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(ksFile, passwordProtection);
 		DSSPrivateKeyEntry privateKey = signatureToken.getKeys().get(0);
 
@@ -85,7 +87,7 @@ public class CertificateConflictTest {
 	}
 
 	private void xadesVerifyPreviousKeystore(DSSDocument signedDocument) throws IOException {
-		File ksFile = new File("src/test/resources/cert-conflict/previousKeystore.pfx");
+		File ksFile = getResourceAsFile("cert-conflict/previousKeystore.pfx");
 		Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(ksFile, passwordProtection);
 		DSSPrivateKeyEntry privateKey = signatureToken.getKeys().get(0);
 
@@ -108,7 +110,7 @@ public class CertificateConflictTest {
 	}
 
 	private void xadesVerifyCurrentKeystore(DSSDocument signedDocument) throws IOException {
-		File ksFile = new File("src/test/resources/cert-conflict/currentKeystore.pfx");
+		File ksFile = getResourceAsFile("cert-conflict/currentKeystore.pfx");
 		Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(ksFile, passwordProtection);
 		DSSPrivateKeyEntry privateKey = signatureToken.getKeys().get(0);
 

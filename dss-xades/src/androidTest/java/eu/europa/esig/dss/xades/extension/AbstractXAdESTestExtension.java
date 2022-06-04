@@ -30,6 +30,7 @@ import eu.europa.esig.dss.enumerations.CertificateRefOrigin;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DSSException;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
@@ -47,6 +48,7 @@ import eu.europa.esig.dss.xades.XAdESSignatureParameters;
 import eu.europa.esig.dss.xades.XAdESTimestampParameters;
 import eu.europa.esig.dss.xades.signature.XAdESService;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -71,8 +73,8 @@ public abstract class AbstractXAdESTestExtension extends AbstractTestExtension<X
 
 	@Override
 	protected FileDocument getOriginalDocument() {
-		File originalDoc = new File("target/original-" + UUID.randomUUID().toString() + ".xml");
-		try (FileOutputStream fos = new FileOutputStream(originalDoc); FileInputStream fis = new FileInputStream("src/test/resources/sample.xml")) {
+		File originalDoc = getResourceAsFile("target/original-" + UUID.randomUUID().toString() + ".xml");
+		try (FileOutputStream fos = new FileOutputStream(originalDoc); FileInputStream fis = new FileInputStream("sample.xml")) {
 			Utils.copy(fis, fos);
 		} catch (IOException e) {
 			throw new DSSException("Unable to create the original document", e);

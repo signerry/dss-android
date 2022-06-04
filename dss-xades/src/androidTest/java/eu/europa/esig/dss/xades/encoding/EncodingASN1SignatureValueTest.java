@@ -22,6 +22,7 @@ package eu.europa.esig.dss.xades.encoding;
 
 import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
 import eu.europa.esig.dss.spi.DSSASN1Utils;
+import eu.europa.esig.dss.spi.DSSSecurityProvider;
 import eu.europa.esig.dss.utils.Utils;
 import org.apache.xml.security.algorithms.implementations.SignatureECDSA;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -95,10 +96,10 @@ public class EncodingASN1SignatureValueTest {
 	@Test
 	public void testECDSA() throws Exception {
 		Security.addProvider(new BouncyCastleProvider());
-		KeyPairGenerator gen = KeyPairGenerator.getInstance("ECDSA");
+		KeyPairGenerator gen = KeyPairGenerator.getInstance("ECDSA", DSSSecurityProvider.getSecurityProvider());
 		KeyPair pair = gen.generateKeyPair();
 
-		Signature s = Signature.getInstance("SHA256withECDSA");
+		Signature s = Signature.getInstance("SHA256withECDSA", DSSSecurityProvider.getSecurityProvider());
 		s.initSign(pair.getPrivate());
 		s.update(HELLO_WORLD.getBytes());
 		byte[] signatureValue = s.sign();
@@ -108,7 +109,7 @@ public class EncodingASN1SignatureValueTest {
 
 		byte[] asn1xmlsec = SignatureECDSA.convertXMLDSIGtoASN1(convertToXmlDSig);
 
-		Signature s2 = Signature.getInstance("SHA256withECDSA");
+		Signature s2 = Signature.getInstance("SHA256withECDSA", DSSSecurityProvider.getSecurityProvider());
 		s2.initVerify(pair.getPublic());
 		s2.update(HELLO_WORLD.getBytes());
 		assertTrue(s2.verify(asn1xmlsec));

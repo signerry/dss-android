@@ -20,33 +20,38 @@
  */
 package eu.europa.esig.xmldsig;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.xml.sax.SAXException;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.net.URISyntaxException;
+
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+
 import eu.europa.esig.dss.alert.Alert;
 import eu.europa.esig.dss.jaxb.common.DSSErrorHandler;
 import eu.europa.esig.dss.jaxb.common.ValidatorConfigurator;
 import eu.europa.esig.dss.jaxb.common.XmlDefinerUtils;
 import eu.europa.esig.dss.jaxb.common.exception.XSDValidationException;
 import eu.europa.esig.xmldsig.jaxb.SignatureType;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.xml.sax.SAXException;
-
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class XmlDSigUtilsTest {
+
 	
 	private static XmlDSigUtils xmlDSigUtils;
 	
@@ -57,9 +62,9 @@ public class XmlDSigUtilsTest {
 
 	@Test
 	@SuppressWarnings("unchecked")
-	public void test() throws JAXBException, SAXException {
+	public void test() throws JAXBException, SAXException, URISyntaxException, IOException {
 
-		File xmldsigFile = new File("src/test/resources/XmlAliceSig.xml");
+		File xmldsigFile = getResourceAsFile("XmlAliceSig.xml");
 
 		JAXBContext jc = xmlDSigUtils.getJAXBContext();
 		assertNotNull(jc);
@@ -101,10 +106,10 @@ public class XmlDSigUtilsTest {
 
 	@Test
 	public void validateTest() throws IOException, SAXException {
-		StreamSource aliceFile = new StreamSource(new File("src/test/resources/XmlAliceSig.xml"));
+		StreamSource aliceFile = new StreamSource( getResourceAsFile("XmlAliceSig.xml"));
 		xmlDSigUtils.validate(aliceFile, xmlDSigUtils.getSchema(), true);
 
-		StreamSource bobFile = new StreamSource(new File("src/test/resources/XmlBobSig.xml"));
+		StreamSource bobFile = new StreamSource(getResourceAsFile("XmlBobSig.xml"));
 		XSDValidationException exception = assertThrows(XSDValidationException.class,
 				() -> xmlDSigUtils.validate(bobFile, xmlDSigUtils.getSchema(), true));
 		assertNotNull(exception.getMessage());

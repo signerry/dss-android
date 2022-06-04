@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import eu.europa.esig.dss.definition.xmldsig.XMLDSigElement;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.MimeType;
 import eu.europa.esig.dss.utils.Utils;
@@ -47,10 +48,10 @@ public class ManifestBuilderTest {
 	@Test
 	public void testBuildManifest() throws IOException {
 		List<DSSDocument> documents = new ArrayList<>();
-		FileDocument file1 = new FileDocument("src/test/resources/sample.png");
+		FileDocument file1 = new FileDocument(getResourceAsFile("sample.png"));
 		documents.add(file1);
-		documents.add(new FileDocument("src/test/resources/sample.txt"));
-		documents.add(new FileDocument("src/test/resources/sample.xml"));
+		documents.add(new FileDocument(getResourceAsFile("sample.txt")));
+		documents.add(new FileDocument(getResourceAsFile("sample.xml")));
 		ManifestBuilder builder = new ManifestBuilder("manifest", DigestAlgorithm.SHA512, documents);
 
 		DSSDocument document = builder.build();

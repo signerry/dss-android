@@ -24,6 +24,7 @@ import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.validation.CertificateVerifier;
@@ -70,8 +71,8 @@ public class XAdESSignDocumentsConsequentlyTest extends AbstractXAdESTestSignatu
         SignaturePackaging[] packagings = { SignaturePackaging.ENVELOPING, SignaturePackaging.ENVELOPED,
                 SignaturePackaging.DETACHED, SignaturePackaging.INTERNALLY_DETACHED };
         String[] signers = { GOOD_USER, RSA_SHA3_USER };
-        DSSDocument[] documents = { new FileDocument("src/test/resources/sample-with-id.xml"),
-                new FileDocument("src/test/resources/sample-with-different-id.xml") };
+        DSSDocument[] documents = { new FileDocument(getResourceAsFile("sample-with-id.xml")),
+                new FileDocument(getResourceAsFile("sample-with-different-id.xml")) };
         return random(levels, packagings, signers, documents);
     }
 

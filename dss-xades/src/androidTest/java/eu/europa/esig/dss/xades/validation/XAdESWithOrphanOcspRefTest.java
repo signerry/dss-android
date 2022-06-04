@@ -28,6 +28,7 @@ import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlDigestAlgoAndValue;
 import eu.europa.esig.dss.enumerations.RevocationType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class XAdESWithOrphanOcspRefTest extends AbstractXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/sig-with-orphan-ocsp-ref.xml");
+		return new FileDocument(getResourceAsFile("validation/sig-with-orphan-ocsp-ref.xml"));
 	}
 	
 	@Override

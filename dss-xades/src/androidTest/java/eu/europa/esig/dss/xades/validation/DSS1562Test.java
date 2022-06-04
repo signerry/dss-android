@@ -34,6 +34,7 @@ import eu.europa.esig.dss.diagnostic.TimestampWrapper;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlDigestMatcher;
 import eu.europa.esig.dss.enumerations.TimestampType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
@@ -42,12 +43,12 @@ public class DSS1562Test extends AbstractXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/xades-detached-with-object-type-ref.xml");
+		return new FileDocument(getResourceAsFile("validation/xades-detached-with-object-type-ref.xml"));
 	}
 	
 	@Override
 	protected List<DSSDocument> getDetachedContents() {
-		DSSDocument detachedContent = new FileDocument("src/test/resources/sample.png");
+		DSSDocument detachedContent = new FileDocument(getResourceAsFile("sample.png"));
 		return Arrays.asList(detachedContent);
 	}
 	

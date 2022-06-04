@@ -27,6 +27,7 @@ import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.Digest;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.utils.Utils;
@@ -36,6 +37,7 @@ import eu.europa.esig.dss.xades.XAdESSignatureParameters;
 import eu.europa.esig.dss.xades.XAdESTimestampParameters;
 import org.junit.jupiter.api.BeforeEach;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
@@ -53,7 +55,7 @@ public class XAdESWithASN1SignaturePolicyFailureTest extends AbstractXAdESTestSi
     private static final String SIGNATURE_POLICY_DESCRIPTION = "Test description";
     private static final String SIGNATURE_POLICY_DOCUMENTATION = "http://nowina.lu/signature-policy.der";
 
-    private static final DSSDocument POLICY_CONTENT = new FileDocument("src/test/resources/signature-policy.der");
+    private static final DSSDocument POLICY_CONTENT = new FileDocument(getResourceAsFile("signature-policy.der"));
 
     private DocumentSignatureService<XAdESSignatureParameters, XAdESTimestampParameters> service;
     private XAdESSignatureParameters signatureParameters;
@@ -61,7 +63,7 @@ public class XAdESWithASN1SignaturePolicyFailureTest extends AbstractXAdESTestSi
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new FileDocument(new File("src/test/resources/sample.xml"));
+        documentToSign = new FileDocument(getResourceAsFile("sample.xml"));
 
         XmlPolicyWithTransforms signaturePolicy = new XmlPolicyWithTransforms();
         signaturePolicy.setId(SIGNATURE_POLICY_ID);

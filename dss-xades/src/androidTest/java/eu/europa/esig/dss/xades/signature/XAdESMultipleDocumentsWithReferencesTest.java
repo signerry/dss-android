@@ -27,6 +27,7 @@ import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.enumerations.TimestampType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.MultipleDocumentsSignatureService;
 import eu.europa.esig.dss.validation.timestamp.TimestampToken;
@@ -58,8 +59,8 @@ public class XAdESMultipleDocumentsWithReferencesTest extends AbstractXAdESMulti
 		service = new XAdESService(getOfflineCertificateVerifier());
 		service.setTspSource(getAlternateGoodTsa());
 		
-		FileDocument firstDocument = new FileDocument("src/test/resources/sample-c14n.xml");
-		FileDocument secondDocument = new FileDocument("src/test/resources/sampleWithPlaceOfSignature.xml");
+		FileDocument firstDocument = new FileDocument(getResourceAsFile("sample-c14n.xml"));
+		FileDocument secondDocument = new FileDocument(getResourceAsFile("sampleWithPlaceOfSignature.xml"));
 		documentToSigns = Arrays.asList(firstDocument, secondDocument);
 
 		signatureParameters = new XAdESSignatureParameters();

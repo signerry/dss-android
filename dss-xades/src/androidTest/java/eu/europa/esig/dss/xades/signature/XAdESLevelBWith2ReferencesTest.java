@@ -26,6 +26,7 @@ import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
@@ -49,8 +50,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class XAdESLevelBWith2ReferencesTest extends PKIFactoryAccess {
 
-	private static String FILE1 = "src/test/resources/sample.xml";
-	private static String FILE2 = "src/test/resources/sampleISO.xml";
+	private static String FILE1 = "sample.xml";
+	private static String FILE2 = "sampleISO.xml";
 
 	@Test
 	public void test1() throws Exception {
@@ -91,7 +92,7 @@ public class XAdESLevelBWith2ReferencesTest extends PKIFactoryAccess {
 
 		XAdESService service = new XAdESService(getOfflineCertificateVerifier());
 
-		ToBeSigned toSign1 = service.getDataToSign(new FileDocument("src/test/resources/empty.xml"), signatureParameters);
+		ToBeSigned toSign1 = service.getDataToSign(new FileDocument(getResourceAsFile("empty.xml")), signatureParameters);
 		SignatureValue value = getToken().sign(toSign1, signatureParameters.getDigestAlgorithm(), getPrivateKeyEntry());
 		DSSDocument result = service.signDocument(doc1, signatureParameters, value);
 

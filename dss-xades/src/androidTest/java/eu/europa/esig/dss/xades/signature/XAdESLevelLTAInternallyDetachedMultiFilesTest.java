@@ -27,6 +27,7 @@ import eu.europa.esig.dss.enumerations.CommitmentTypeEnum;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignerLocation;
 import eu.europa.esig.dss.signature.MultipleDocumentsSignatureService;
@@ -38,6 +39,7 @@ import eu.europa.esig.validationreport.jaxb.ValidationObjectType;
 import eu.europa.esig.xades.jaxb.xades132.DigestAlgAndValueType;
 import org.junit.jupiter.api.BeforeEach;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -56,8 +58,8 @@ public class XAdESLevelLTAInternallyDetachedMultiFilesTest extends AbstractXAdES
 		service = new XAdESService(getCompleteCertificateVerifier());
 		service.setTspSource(getGoodTsa());
 
-		FileDocument f1 = new FileDocument(new File("src/test/resources/sample-with-id.xml"));
-		FileDocument f2 = new FileDocument(new File("src/test/resources/sample-with-different-id.xml"));
+		FileDocument f1 = new FileDocument(getResourceAsFile("sample-with-id.xml"));
+		FileDocument f2 = new FileDocument(getResourceAsFile("sample-with-different-id.xml"));
 		documentsToSign = Arrays.asList(f1, f2);
 
 		signatureParameters = new XAdESSignatureParameters();

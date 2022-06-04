@@ -25,6 +25,7 @@ import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
@@ -38,6 +39,7 @@ import eu.europa.esig.dss.xades.reference.DSSTransform;
 import eu.europa.esig.dss.xades.reference.XPath2FilterEnvelopedSignatureTransform;
 import org.junit.jupiter.api.Test;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,7 +54,7 @@ public class XAdESXPath2FilterDoubleSignatureTest extends PKIFactoryAccess {
 	@Test
 	public void test() throws IOException {
 
-		DSSDocument toBeSigned = new FileDocument(new File("src/test/resources/sample.xml"));
+		DSSDocument toBeSigned = new FileDocument(getResourceAsFile("sample.xml"));
 
 		XAdESService service = new XAdESService(getOfflineCertificateVerifier());
 

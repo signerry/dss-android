@@ -26,6 +26,7 @@ import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SubIndication;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.simplereport.SimpleReport;
 import eu.europa.esig.dss.spi.DSSUtils;
@@ -34,6 +35,7 @@ import eu.europa.esig.dss.spi.x509.CommonCertificateSource;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import eu.europa.esig.dss.xades.validation.AbstractXAdESTestValidation;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -44,14 +46,14 @@ public class DSS1788CertProvidedTest extends AbstractXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss1788/XAdESPublicKeyInKeyInfo.xml");
+		return new FileDocument(getResourceAsFile("validation/dss1788/XAdESPublicKeyInKeyInfo.xml"));
 	}
 	
 	@Override
 	protected SignedDocumentValidator getValidator(DSSDocument signedDocument) {
 		SignedDocumentValidator validator = super.getValidator(signedDocument);
 		CertificateSource signingCertificateSource = new CommonCertificateSource();
-		signingCertificateSource.addCertificate(DSSUtils.loadCertificate(new File("src/test/resources/validation/dss1788/signCert.cer")));
+		signingCertificateSource.addCertificate(DSSUtils.loadCertificate(getResourceAsFile("validation/dss1788/signCert.cer")));
 		validator.setSigningCertificateSource(signingCertificateSource);
 		return validator;
 	}

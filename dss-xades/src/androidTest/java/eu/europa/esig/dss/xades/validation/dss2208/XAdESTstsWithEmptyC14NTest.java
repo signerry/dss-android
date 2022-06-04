@@ -21,6 +21,7 @@
 package eu.europa.esig.dss.xades.validation.dss2208;
 
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.xades.validation.AbstractXAdESTestValidation;
 
@@ -28,7 +29,7 @@ public class XAdESTstsWithEmptyC14NTest extends AbstractXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss2208/xades-tsts-empty-c14n.xml");
+		return new FileDocument(getResourceAsFile("validation/dss2208/xades-tsts-empty-c14n.xml"));
 	}
 
 }

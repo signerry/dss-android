@@ -42,6 +42,7 @@ import eu.europa.esig.dss.enumerations.Indication;
 import eu.europa.esig.dss.enumerations.SubIndication;
 import eu.europa.esig.dss.enumerations.TimestampType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.simplereport.SimpleReport;
 import eu.europa.esig.dss.test.PKIFactoryAccess;
@@ -53,7 +54,7 @@ public class XAdESNoDetachedFileProvidedTest extends PKIFactoryAccess {
 	@Test
 	public void bLevelTest() {
 		
-		DSSDocument document = new FileDocument("src/test/resources/validation/dss2011/xades-detached.xml");
+		DSSDocument document = new FileDocument(getResourceAsFile("validation/dss2011/xades-detached.xml"));
 		SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(document);
 		validator.setCertificateVerifier(getOfflineCertificateVerifier());
 		
@@ -86,7 +87,7 @@ public class XAdESNoDetachedFileProvidedTest extends PKIFactoryAccess {
 	@Test
 	public void ltaLevelTest() {
 
-		DSSDocument document = new FileDocument("src/test/resources/validation/dss2011/xades-lta-detached.xml");
+		DSSDocument document = new FileDocument(getResourceAsFile("validation/dss2011/xades-lta-detached.xml"));
 		SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(document);
 		validator.setCertificateVerifier(getOfflineCertificateVerifier());
 		
@@ -141,7 +142,7 @@ public class XAdESNoDetachedFileProvidedTest extends PKIFactoryAccess {
 	@Test
 	public void individualContentTstTest() {
 
-		DSSDocument document = new FileDocument("src/test/resources/validation/dss2011/xades-individual-content-tst-detached.xml");
+		DSSDocument document = new FileDocument(getResourceAsFile("validation/dss2011/xades-individual-content-tst-detached.xml"));
 		SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(document);
 		validator.setCertificateVerifier(getOfflineCertificateVerifier());
 		
@@ -190,11 +191,11 @@ public class XAdESNoDetachedFileProvidedTest extends PKIFactoryAccess {
 	@Test
 	public void allDataContentTstTest() {
 
-		DSSDocument document = new FileDocument("src/test/resources/validation/dss2011/xades-alldata-tst-detached.xml");
+		DSSDocument document = new FileDocument(getResourceAsFile("validation/dss2011/xades-alldata-tst-detached.xml"));
 		SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(document);
 		validator.setCertificateVerifier(getOfflineCertificateVerifier());
 		// only one detached file is provided
-		validator.setDetachedContents(Collections.singletonList(new FileDocument("src/test/resources/sample.png")));
+		validator.setDetachedContents(Collections.singletonList(new FileDocument(getResourceAsFile("sample.png"))));
 		
 		Reports reports = validator.validateDocument();
 		assertNotNull(reports);

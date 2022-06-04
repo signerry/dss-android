@@ -41,6 +41,7 @@ import org.xml.sax.SAXException;
 
 import eu.europa.esig.dss.DomUtils;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.xades.XAdES319132Utils;
@@ -56,7 +57,7 @@ public class DSSXMLUtilsTest {
 
 	@Test
 	public void validateAgainstXSDWithExternalSourceMissing() throws SAXException, IOException {
-		DSSDocument document = new FileDocument("src/test/resources/ASiCManifest.xml");
+		DSSDocument document = new FileDocument(getResourceAsFile("ASiCManifest.xml"));
 		List<String> errorMessages = xadesUtils.validateAgainstXSD(getSource(document), new StreamSource[0]);
 		assertFalse(Utils.isCollectionEmpty(errorMessages));
 	}
@@ -64,21 +65,21 @@ public class DSSXMLUtilsTest {
 	@Test
 	public void validateAgainstXSDWithExternalSourceOK() throws SAXException, IOException {
 		StreamSource streamSource = new StreamSource(DSSXMLUtilsTest.class.getResourceAsStream("/ExternalXSDForAsic.xsd"));
-		DSSDocument document = new FileDocument("src/test/resources/ASiCManifest.xml");
+		DSSDocument document = new FileDocument(getResourceAsFile("ASiCManifest.xml"));
 		List<String> errorMessages = xadesUtils.validateAgainstXSD(getSource(document), streamSource);
 		assertTrue(Utils.isCollectionEmpty(errorMessages));
 	}
 
 	@Test
 	public void validateAgainstXSDvalidMessage() {
-		FileDocument document = new FileDocument("src/test/resources/valid-xades-structure.xml");
+		FileDocument document = new FileDocument(getResourceAsFile("valid-xades-structure.xml"));
 		assertFalse(Utils.isCollectionNotEmpty(
 				DSSXMLUtils.validateAgainstXSD(XAdES319132Utils.getInstance(), getSource(document))));
 	}
 
 	@Test
 	public void validateAgainstXSDInvalidMessage() {
-		FileDocument document = new FileDocument("src/test/resources/invalid-xades-structure.xml");
+		FileDocument document = new FileDocument(getResourceAsFile("invalid-xades-structure.xml"));
 		assertTrue(Utils.isCollectionNotEmpty(
 				DSSXMLUtils.validateAgainstXSD(XAdES319132Utils.getInstance(), getSource(document))));
 	}
@@ -89,7 +90,7 @@ public class DSSXMLUtilsTest {
 
 	@Test
 	public void getIdentifierPrefixed() {
-		FileDocument document = new FileDocument("src/test/resources/ns-prefixes-sample.xml");
+		FileDocument document = new FileDocument(getResourceAsFile("ns-prefixes-sample.xml"));
 		Document dom = DomUtils.buildDOM(document);
 		NodeList list = dom.getDocumentElement().getElementsByTagName("czip:initInstantPayment");
 		assertEquals("signedData", DSSXMLUtils.getIDIdentifier(list.item(0)));
@@ -97,7 +98,7 @@ public class DSSXMLUtilsTest {
 
 	@Test
 	public void setIdentifierPrefixed() {
-		FileDocument document = new FileDocument("src/test/resources/ns-prefixes-sample.xml");
+		FileDocument document = new FileDocument(getResourceAsFile("ns-prefixes-sample.xml"));
 		Document dom = DomUtils.buildDOM(document);
 		NodeList list = dom.getDocumentElement().getElementsByTagName("czip:initInstantPayment");
 		DSSXMLUtils.setIDIdentifier((Element) list.item(0));
@@ -107,8 +108,8 @@ public class DSSXMLUtilsTest {
 
 	@Test
 	public void isDuplicateIdsDetected() {
-		assertTrue(DSSXMLUtils.isDuplicateIdsDetected(new FileDocument("src/test/resources/sample-duplicate-ids.xml")));
-		assertFalse(DSSXMLUtils.isDuplicateIdsDetected(new FileDocument("src/test/resources/sample.xml")));
+		assertTrue(DSSXMLUtils.isDuplicateIdsDetected(new FileDocument(getResourceAsFile("sample-duplicate-ids.xml"))));
+		assertFalse(DSSXMLUtils.isDuplicateIdsDetected(new FileDocument(getResourceAsFile("sample.xml"))));
 	}
 
 }

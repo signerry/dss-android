@@ -22,6 +22,7 @@ package eu.europa.esig.dss.xades.validation.dkcert;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.spi.DSSUtils;
@@ -62,7 +64,7 @@ public class AbstractDKTestCertificate extends AbstractXAdESTestValidation {
 	
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument(new File("src/test/resources/validation/dk_tl-sn21.xml"));
+		return new FileDocument(getResourceAsFile("validation/dk_tl-sn21.xml"));
 	}
 	
 	protected DataLoader getMemoryDataLoader() {

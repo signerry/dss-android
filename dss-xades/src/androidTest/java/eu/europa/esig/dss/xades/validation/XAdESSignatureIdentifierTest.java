@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.List;
 
@@ -40,6 +41,7 @@ import eu.europa.esig.dss.diagnostic.jaxb.XmlSignatureDigestReference;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlSignatureScope;
 import eu.europa.esig.dss.enumerations.SignatureScopeType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.utils.Utils;
@@ -47,7 +49,7 @@ import eu.europa.esig.dss.xades.DSSXMLUtils;
 
 public class XAdESSignatureIdentifierTest extends AbstractXAdESTestValidation {
 	
-	private static DSSDocument document = new FileDocument(new File("src/test/resources/validation/valid-xades.xml"));
+	private static DSSDocument document = new FileDocument(getResourceAsFile("validation/valid-xades.xml"));
 
 	@Override
 	protected DSSDocument getSignedDocument() {

@@ -24,6 +24,7 @@ import eu.europa.esig.dss.diagnostic.CertificateRefWrapper;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -34,7 +35,7 @@ public class XAdESLevelBWithSignCertV2WrongDigestTest extends AbstractXAdESTestV
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/validation/xades-sign-cert-v2-wrong-digest.xml");
+        return new FileDocument(getResourceAsFile("validation/xades-sign-cert-v2-wrong-digest.xml"));
     }
 
     @Override

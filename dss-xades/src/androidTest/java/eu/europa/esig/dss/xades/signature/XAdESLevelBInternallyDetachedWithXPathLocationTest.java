@@ -26,6 +26,7 @@ import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
@@ -38,7 +39,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
@@ -47,7 +49,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class XAdESLevelBInternallyDetachedWithXPathLocationTest extends AbstractXAdESTestSignature {
 
-    private static final DSSDocument DOC = new FileDocument(new File("src/test/resources/sample-with-id.xml"));
+    private static final DSSDocument DOC = new FileDocument(getResourceAsFile("sample-with-id.xml"));
 
     private static final String CONTAINER_NODE_NAME = "signature-container";
 

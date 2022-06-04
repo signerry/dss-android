@@ -24,16 +24,17 @@ import java.util.Collections;
 import java.util.List;
 
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.xades.validation.AbstractXAdESTestValidation;
 
 public class DSS1334CorrectNameTest extends AbstractXAdESTestValidation {
 
-	private static final DSSDocument ORIGINAL_FILE = new FileDocument("src/test/resources/validation/dss1334/simple-test.xml");
+	private static final DSSDocument ORIGINAL_FILE = new FileDocument(getResourceAsFile("validation/dss1334/simple-test.xml"));
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss1334/simple-test-signed-xades-baseline-b.xml");
+		return new FileDocument(getResourceAsFile("validation/dss1334/simple-test-signed-xades-baseline-b.xml"));
 	}
 	
 	@Override

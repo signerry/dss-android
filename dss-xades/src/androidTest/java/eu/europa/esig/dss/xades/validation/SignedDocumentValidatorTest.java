@@ -23,6 +23,7 @@ package eu.europa.esig.dss.xades.validation;
 import eu.europa.esig.dss.detailedreport.DetailedReport;
 import eu.europa.esig.dss.jaxb.object.Message;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.utils.Utils;
@@ -31,6 +32,7 @@ import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import eu.europa.esig.dss.validation.reports.Reports;
 import org.junit.jupiter.api.Test;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -49,13 +51,13 @@ public class SignedDocumentValidatorTest {
 
 	@Test
 	public void testXmlUTF8() {
-		SignedDocumentValidator documentValidator = SignedDocumentValidator.fromDocument(new FileDocument(new File("src/test/resources/sample.xml")));
+		SignedDocumentValidator documentValidator = SignedDocumentValidator.fromDocument(new FileDocument(getResourceAsFile("sample.xml")));
 		assertTrue(documentValidator instanceof XMLDocumentValidator);
 	}
 
 	@Test
 	public void testXmlUTF8InMemory() throws IOException {
-		FileInputStream fis = new FileInputStream("src/test/resources/sample.xml");
+		FileInputStream fis = new FileInputStream("sample.xml");
 		byte[] byteArray = Utils.toByteArray(fis);
 		Utils.closeQuietly(fis);
 		DSSDocument document = new InMemoryDocument(byteArray);
@@ -65,13 +67,13 @@ public class SignedDocumentValidatorTest {
 
 	@Test
 	public void testXmlISO() {
-		SignedDocumentValidator documentValidator = SignedDocumentValidator.fromDocument(new FileDocument(new File("src/test/resources/sampleISO.xml")));
+		SignedDocumentValidator documentValidator = SignedDocumentValidator.fromDocument(new FileDocument(getResourceAsFile("sampleISO.xml")));
 		assertTrue(documentValidator instanceof XMLDocumentValidator);
 	}
 
 	@Test
 	public void testXmlUISOInMemory() throws IOException {
-		FileInputStream fis = new FileInputStream(new File("src/test/resources/sampleISO.xml"));
+		FileInputStream fis = new FileInputStream(getResourceAsFile("sampleISO.xml"));
 		byte[] byteArray = Utils.toByteArray(fis);
 		Utils.closeQuietly(fis);
 		DSSDocument document = new InMemoryDocument(byteArray);
@@ -84,7 +86,7 @@ public class SignedDocumentValidatorTest {
 		Locale systemLocale = Locale.getDefault();
 		try {
 			Locale.setDefault(Locale.ENGLISH);
-			DSSDocument document = new FileDocument("src/test/resources/validation/dss-signed.xml");
+			DSSDocument document = new FileDocument(getResourceAsFile("validation/dss-signed.xml"));
 			testMessages(document, Locale.getDefault(), null);
 			testMessages(document, Locale.ENGLISH, "Unable to build a certificate chain up to a trusted list!");
 			testMessages(document, Locale.FRENCH, "Impossible de remonter jusqu'à une liste de confiance !");

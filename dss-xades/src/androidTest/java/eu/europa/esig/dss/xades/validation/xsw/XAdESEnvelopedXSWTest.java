@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 
 import org.w3c.dom.Document;
@@ -36,6 +37,7 @@ import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlSignatureDigestReference;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.utils.Utils;
@@ -44,7 +46,7 @@ import eu.europa.esig.dss.xades.validation.AbstractXAdESTestValidation;
 
 public class XAdESEnvelopedXSWTest extends AbstractXAdESTestValidation {
 	
-	private static DSSDocument document = new FileDocument(new File("src/test/resources/validation/xsw/original.xml"));
+	private static DSSDocument document = new FileDocument(getResourceAsFile("validation/xsw/original.xml"));
 
 	@Override
 	protected DSSDocument getSignedDocument() {

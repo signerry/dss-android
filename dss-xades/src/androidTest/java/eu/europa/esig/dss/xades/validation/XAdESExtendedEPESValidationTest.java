@@ -23,6 +23,7 @@ package eu.europa.esig.dss.xades.validation;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,7 +33,7 @@ public class XAdESExtendedEPESValidationTest extends AbstractXAdESTestValidation
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/validation/xades-extended-epes.xml");
+        return new FileDocument(getResourceAsFile("validation/xades-extended-epes.xml"));
     }
 
     @Override

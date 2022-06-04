@@ -37,6 +37,7 @@ import eu.europa.esig.dss.enumerations.CertificateOrigin;
 import eu.europa.esig.dss.enumerations.CertificateRefOrigin;
 import eu.europa.esig.dss.enumerations.RevocationType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.AdvancedSignature;
@@ -45,7 +46,7 @@ public class XAdESWithOcspNoEmbeddedCertsTest extends AbstractXAdESTestValidatio
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/xades-ocsp-not-embeds-certs.xml");
+		return new FileDocument(getResourceAsFile("validation/xades-ocsp-not-embeds-certs.xml"));
 	}
 	
 	@Override

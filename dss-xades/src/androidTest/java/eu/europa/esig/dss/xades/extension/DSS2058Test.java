@@ -28,6 +28,7 @@ import eu.europa.esig.dss.diagnostic.RevocationWrapper;
 import eu.europa.esig.dss.diagnostic.TimestampWrapper;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.spi.DSSUtils;
@@ -59,7 +60,7 @@ public class DSS2058Test extends AbstractXAdESTestValidation {
 	
 	@BeforeEach
 	public void init() {
-		DSSDocument dssDocument = new FileDocument("src/test/resources/validation/OJ_C_2017_173_FULL.xml");
+		DSSDocument dssDocument = new FileDocument(getResourceAsFile("validation/OJ_C_2017_173_FULL.xml"));
 		
 		CertificateVerifier completeCertificateVerifier = getCompleteCertificateVerifier();
 		completeCertificateVerifier.setCheckRevocationForUntrustedChains(true);

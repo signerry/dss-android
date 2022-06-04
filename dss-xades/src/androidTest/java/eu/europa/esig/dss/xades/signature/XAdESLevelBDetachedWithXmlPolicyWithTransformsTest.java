@@ -44,6 +44,7 @@ import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.spi.DSSUtils;
@@ -68,7 +69,7 @@ public class XAdESLevelBDetachedWithXmlPolicyWithTransformsTest extends Abstract
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new FileDocument("src/test/resources/sample.xml");
+		documentToSign = new FileDocument(getResourceAsFile("sample.xml"));
 
 		signatureParameters = new XAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());
@@ -78,7 +79,7 @@ public class XAdESLevelBDetachedWithXmlPolicyWithTransformsTest extends Abstract
 		signatureParameters.setSignatureLevel(SignatureLevel.XAdES_BASELINE_B);
 		
 		DSSDocument signaturePolicy = new FileDocument(
-				"src/test/resources/validation/dss2095/SBR-signature-policy-v2.0.xml");
+				"validation/dss2095/SBR-signature-policy-v2.0.xml");
 
 		XmlPolicyWithTransforms xmlPolicyWithTransforms = new XmlPolicyWithTransforms();
 		xmlPolicyWithTransforms.setId(SIGNATURE_POLICY_ID);
@@ -109,7 +110,7 @@ public class XAdESLevelBDetachedWithXmlPolicyWithTransformsTest extends Abstract
 
 		Map<String, DSSDocument> mapById = new HashMap<>();
 		mapById.put("urn:sbr:signature-policy:xml:2.0",
-				new FileDocument("src/test/resources/validation/dss2095/SBR-signature-policy-v2.0.xml"));
+				new FileDocument(getResourceAsFile("validation/dss2095/SBR-signature-policy-v2.0.xml")));
 		signaturePolicyProvider.setSignaturePoliciesById(mapById);
 
 		validator.setSignaturePolicyProvider(signaturePolicyProvider);

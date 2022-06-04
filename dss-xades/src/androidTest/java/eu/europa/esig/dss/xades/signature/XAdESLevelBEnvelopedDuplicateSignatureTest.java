@@ -33,6 +33,7 @@ import eu.europa.esig.dss.enumerations.SubIndication;
 import eu.europa.esig.dss.i18n.I18nProvider;
 import eu.europa.esig.dss.i18n.MessageTag;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
@@ -57,7 +58,7 @@ public class XAdESLevelBEnvelopedDuplicateSignatureTest extends PKIFactoryAccess
 	
 	@Test
 	public void test() throws Exception {
-		DSSDocument document = new FileDocument("src/test/resources/sample.xml");
+		DSSDocument document = new FileDocument(getResourceAsFile("sample.xml"));
 		
 		XAdESSignatureParameters signatureParameters = new XAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());

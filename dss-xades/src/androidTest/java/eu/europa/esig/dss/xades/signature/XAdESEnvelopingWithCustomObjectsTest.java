@@ -26,6 +26,7 @@ import eu.europa.esig.dss.definition.xmldsig.XMLDSigPaths;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.model.MimeType;
@@ -55,7 +56,7 @@ public class XAdESEnvelopingWithCustomObjectsTest extends AbstractXAdESTestSigna
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new FileDocument("src/test/resources/sample.xml");
+        documentToSign = new FileDocument(getResourceAsFile("sample.xml"));
 
         signatureParameters = new XAdESSignatureParameters();
         signatureParameters.bLevel().setSigningDate(new Date());
@@ -65,11 +66,11 @@ public class XAdESEnvelopingWithCustomObjectsTest extends AbstractXAdESTestSigna
         signatureParameters.setSignatureLevel(SignatureLevel.XAdES_BASELINE_B);
 
         DSSObject xmlObject = new DSSObject();
-        xmlObject.setContent(new FileDocument("src/test/resources/ns-prefixes-sample.xml"));
+        xmlObject.setContent(new FileDocument(getResourceAsFile("ns-prefixes-sample.xml")));
         xmlObject.setId("o-id-xml");
 
         DSSObject base64Object = new DSSObject();
-        DSSDocument image = new FileDocument("src/test/resources/sample.png");
+        DSSDocument image = new FileDocument(getResourceAsFile("sample.png"));
         String base64EncodedImage = Utils.toBase64(DSSUtils.toByteArray(image));
         base64Object.setContent(new InMemoryDocument(base64EncodedImage.getBytes()));
         base64Object.setId("o-id-image");

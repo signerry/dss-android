@@ -42,7 +42,7 @@ import eu.europa.esig.dss.xades.reference.XPathTransform;
 import org.apache.xml.security.transforms.Transforms;
 import org.junit.jupiter.api.BeforeEach;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;

@@ -26,6 +26,7 @@ import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlDigestMatcher;
 import eu.europa.esig.dss.enumerations.DigestMatcherType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.SignaturePolicyProvider;
@@ -47,7 +48,7 @@ public class DSS2095WithWrongFormatPolicyTest extends AbstractXAdESTestValidatio
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss2095/sigPolicyWithTransforms.xml");
+		return new FileDocument(getResourceAsFile("validation/dss2095/sigPolicyWithTransforms.xml"));
 	}
 	
 	@Override
@@ -55,7 +56,7 @@ public class DSS2095WithWrongFormatPolicyTest extends AbstractXAdESTestValidatio
 		SignedDocumentValidator validator = super.getValidator(signedDocument);
 		
 		Map<String, DSSDocument> mapById = new HashMap<>();
-		mapById.put("urn:sbr:signature-policy:xml:2.0", new FileDocument("src/test/resources/sample.png"));
+		mapById.put("urn:sbr:signature-policy:xml:2.0", new FileDocument(getResourceAsFile("sample.png")));
 		
 		SignaturePolicyProvider signaturePolicyProvider = new SignaturePolicyProvider();
 		signaturePolicyProvider.setSignaturePoliciesById(mapById);

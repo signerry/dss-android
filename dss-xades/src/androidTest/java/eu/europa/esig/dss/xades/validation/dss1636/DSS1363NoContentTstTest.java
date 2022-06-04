@@ -28,6 +28,7 @@ import java.util.List;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
@@ -37,7 +38,7 @@ public class DSS1363NoContentTstTest extends AbstractXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss1636/detached_no_cts.xml");
+		return new FileDocument(getResourceAsFile("validation/dss1636/detached_no_cts.xml"));
 	}
 	
 	@Override

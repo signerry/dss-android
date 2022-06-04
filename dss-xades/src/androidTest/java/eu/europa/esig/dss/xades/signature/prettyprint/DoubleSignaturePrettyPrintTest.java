@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -39,6 +40,7 @@ import eu.europa.esig.dss.enumerations.CertificateOrigin;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
@@ -55,7 +57,7 @@ public class DoubleSignaturePrettyPrintTest extends PKIFactoryAccess {
 	@Test
 	public void firstOnlySignaturesPrettyPrintTest() throws IOException {
 
-		DSSDocument toBeSigned = new FileDocument(new File("src/test/resources/sample.xml"));
+		DSSDocument toBeSigned = new FileDocument(getResourceAsFile("sample.xml"));
 
 		XAdESService service = new XAdESService(getOfflineCertificateVerifier());
 
@@ -91,7 +93,7 @@ public class DoubleSignaturePrettyPrintTest extends PKIFactoryAccess {
 	@Test
 	public void secondSignaturePrettyPrintTest() throws IOException {
 
-		DSSDocument toBeSigned = new FileDocument(new File("src/test/resources/sample.xml"));
+		DSSDocument toBeSigned = new FileDocument(getResourceAsFile("sample.xml"));
 
 		XAdESService service = new XAdESService(getOfflineCertificateVerifier());
 
@@ -126,7 +128,7 @@ public class DoubleSignaturePrettyPrintTest extends PKIFactoryAccess {
 	@Test
 	public void bothSignaturesPrettyPrintTest() throws IOException {
 
-		DSSDocument toBeSigned = new FileDocument(new File("src/test/resources/sample.xml"));
+		DSSDocument toBeSigned = new FileDocument(getResourceAsFile("sample.xml"));
 
 		XAdESService service = new XAdESService(getOfflineCertificateVerifier());
 
@@ -162,7 +164,7 @@ public class DoubleSignaturePrettyPrintTest extends PKIFactoryAccess {
 	@Test
 	public void doubleSignatureLTALevelTest() throws IOException {
 
-		DSSDocument toBeSigned = new FileDocument(new File("src/test/resources/sample.xml"));
+		DSSDocument toBeSigned = new FileDocument(getResourceAsFile("sample.xml"));
 
 		XAdESService service = new XAdESService(getCompleteCertificateVerifier());
 		service.setTspSource(getGoodTsa());
@@ -200,7 +202,7 @@ public class DoubleSignaturePrettyPrintTest extends PKIFactoryAccess {
 	@Test
 	public void doubleSignatureMixedLevelTest() throws IOException {
 
-		DSSDocument toBeSigned = new FileDocument(new File("src/test/resources/sample.xml"));
+		DSSDocument toBeSigned = new FileDocument(getResourceAsFile("sample.xml"));
 
 		XAdESService service = new XAdESService(getCompleteCertificateVerifier());
 		service.setTspSource(getGoodTsa());
@@ -238,7 +240,7 @@ public class DoubleSignaturePrettyPrintTest extends PKIFactoryAccess {
 	
 	@Test
 	public void doubleCreatedSignatureTest() {
-		DiagnosticData diagnosticData = validate(new FileDocument("src/test/resources/validation/doubleSignedTest.xml"));
+		DiagnosticData diagnosticData = validate(new FileDocument(getResourceAsFile("validation/doubleSignedTest.xml")));
 		List<SignatureWrapper> signatures = diagnosticData.getSignatures();
 		assertEquals(2, signatures.size());
 		SignatureWrapper signatureWrapper = signatures.get(0);

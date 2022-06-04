@@ -27,6 +27,7 @@ import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.spi.DSSUtils;
@@ -47,6 +48,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
@@ -100,7 +102,7 @@ public class XAdESCanonicalizationTest extends AbstractXAdESTestSignature {
 		this.canonicalizationSignedInfo = canonicalizationSignedInfo;
 		this.packaging = packaging;
 
-		documentToSign = new FileDocument(new File("src/test/resources/sample.xml"));
+		documentToSign = new FileDocument(getResourceAsFile("sample.xml"));
 
 		signatureParameters = new XAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());
@@ -175,7 +177,7 @@ public class XAdESCanonicalizationTest extends AbstractXAdESTestSignature {
 			NodeList transformNodes = getReferenceTransforms(doc, "");
 			String algo = getTransformAlgo(transformNodes.item(1));
 
-			File orginalFile = new File("src/test/resources/sample.xml");
+			File orginalFile = getResourceAsFile("sample.xml");
 			// Transform original file into byte array
 			byte[] fileContent = Files.readAllBytes(orginalFile.toPath());
 			originalFileByteArray = DSSXMLUtils.canonicalize(algo, fileContent);
@@ -267,7 +269,7 @@ public class XAdESCanonicalizationTest extends AbstractXAdESTestSignature {
 	}
 
 	private void saveDocumentAndDelete(byte[] byteArray) {
-		File file = new File("target/sample-sig.xml");
+		File file = getResourceAsFile("target/sample-sig.xml");
 		// Create File and Output Stream
 		try (FileOutputStream fos = new FileOutputStream(file)) {
 			// Write signature to file

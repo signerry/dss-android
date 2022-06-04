@@ -37,6 +37,7 @@ import eu.europa.esig.dss.diagnostic.jaxb.XmlSignatureScope;
 import eu.europa.esig.dss.enumerations.DigestMatcherType;
 import eu.europa.esig.dss.enumerations.SignatureScopeType;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import eu.europa.esig.dss.xades.validation.AbstractXAdESTestValidation;
@@ -45,12 +46,12 @@ public class XAdESDetachedWithTransformTest extends AbstractXAdESTestValidation 
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss2011/xades-detached-with-transform.xml");
+		return new FileDocument(getResourceAsFile("validation/dss2011/xades-detached-with-transform.xml"));
 	}
 	
 	@Override
 	protected List<DSSDocument> getDetachedContents() {
-		return Collections.singletonList(new FileDocument("src/test/resources/sample-c14n.xml"));
+		return Collections.singletonList(new FileDocument(getResourceAsFile("sample-c14n.xml")));
 	}
 	
 	@Override

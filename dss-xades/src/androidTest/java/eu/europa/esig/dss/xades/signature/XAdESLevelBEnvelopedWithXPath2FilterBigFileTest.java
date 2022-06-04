@@ -23,6 +23,7 @@ package eu.europa.esig.dss.xades.signature;
 import static java.time.Duration.ofMillis;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,6 +36,7 @@ import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
@@ -55,7 +57,7 @@ public class XAdESLevelBEnvelopedWithXPath2FilterBigFileTest extends AbstractXAd
 
 	@BeforeEach
 	public void init() {
-		documentToSign = new FileDocument(new File("src/test/resources/xml700kb.xml"));
+		documentToSign = new FileDocument(getResourceAsFile("xml700kb.xml"));
 
 		signatureParameters = new XAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());

@@ -29,6 +29,7 @@ import eu.europa.esig.dss.enumerations.DigestMatcherType;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
@@ -47,7 +48,7 @@ import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -59,7 +60,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class XAdESLevelBBase64TransformTest extends PKIFactoryAccess {
 	
-	private static final DSSDocument document = new FileDocument("src/test/resources/sample.xml");
+	private static final DSSDocument document = new FileDocument(getResourceAsFile("sample.xml"));
 	
 	@Test
 	public void test() {
@@ -86,7 +87,7 @@ public class XAdESLevelBBase64TransformTest extends PKIFactoryAccess {
 	public void imageSignTest() {
 		
 		String imageFileName = "sample.png";
-		DSSDocument image = new FileDocument("src/test/resources/" + imageFileName);
+		DSSDocument image = new FileDocument(getResourceAsFile("" + imageFileName));
 		
 		List<DSSTransform> transforms = new ArrayList<>();
 		Base64Transform dssTransform = new Base64Transform();
@@ -212,9 +213,9 @@ public class XAdESLevelBBase64TransformTest extends PKIFactoryAccess {
 	@Test
 	public void manifestWithBase64Test() {
 		List<DSSDocument> documents = new ArrayList<>();
-		documents.add(new FileDocument("src/test/resources/sample.png"));
-		documents.add(new FileDocument("src/test/resources/sample.txt"));
-		documents.add(new FileDocument("src/test/resources/sample.xml"));
+		documents.add(new FileDocument(getResourceAsFile("sample.png")));
+		documents.add(new FileDocument(getResourceAsFile("sample.txt")));
+		documents.add(new FileDocument(getResourceAsFile("sample.xml")));
 		ManifestBuilder builder = new ManifestBuilder(DigestAlgorithm.SHA512, documents);
 
 		DSSDocument documentToSign = builder.build();

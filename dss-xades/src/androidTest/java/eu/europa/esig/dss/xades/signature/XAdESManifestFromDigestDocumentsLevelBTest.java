@@ -28,6 +28,10 @@ import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DigestDocument;
+
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsStream;
+
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
@@ -51,8 +55,8 @@ public class XAdESManifestFromDigestDocumentsLevelBTest extends AbstractXAdESTes
 	@BeforeEach
 	public void init() throws Exception {
 
-		List<DSSDocument> documents = Arrays.asList(new FileDocument("src/test/resources/sample.png"),
-				new FileDocument("src/test/resources/sample.txt"), new FileDocument("src/test/resources/sample.xml"));
+		List<DSSDocument> documents = Arrays.asList(new FileDocument(getResourceAsFile("sample.png")),
+				new FileDocument(getResourceAsFile("sample.txt")), new FileDocument(getResourceAsFile("sample.xml")));
 
 		List<DSSDocument> digestDocuments = new ArrayList<>();
 		for (DSSDocument dssDocument : documents) {

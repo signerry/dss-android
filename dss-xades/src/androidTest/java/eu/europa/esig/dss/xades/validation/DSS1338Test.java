@@ -29,6 +29,7 @@ import java.util.List;
 
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
@@ -37,7 +38,7 @@ public class DSS1338Test extends AbstractXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/11068_signed.xml");
+		return new FileDocument(getResourceAsFile("validation/11068_signed.xml"));
 	}
 	
 	@Override

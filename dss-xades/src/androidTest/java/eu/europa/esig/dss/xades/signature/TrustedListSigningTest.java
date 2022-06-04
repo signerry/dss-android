@@ -24,6 +24,7 @@ import eu.europa.esig.dss.DomUtils;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
@@ -45,9 +46,10 @@ import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
-import javax.xml.crypto.dsig.CanonicalizationMethod;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
 import javax.xml.validation.Schema;
 import java.io.ByteArrayInputStream;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -69,7 +71,7 @@ public class TrustedListSigningTest extends AbstractXAdESTestSignature {
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new FileDocument(new File("src/test/resources/eu-lotl-no-sig.xml"));
+		documentToSign = new FileDocument(getResourceAsFile("eu-lotl-no-sig.xml"));
 		service = new XAdESService(getOfflineCertificateVerifier());
 
 		signatureParameters = new XAdESSignatureParameters();

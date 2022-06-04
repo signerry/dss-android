@@ -24,6 +24,7 @@ import eu.europa.esig.dss.diagnostic.CertificateRefWrapper;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 
 import java.util.Arrays;
@@ -37,12 +38,12 @@ public class DSS1688Test extends AbstractXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss1688/dss1688.xml");
+		return new FileDocument(getResourceAsFile("validation/dss1688/dss1688.xml"));
 	}
 	
 	@Override
 	protected List<DSSDocument> getDetachedContents() {
-		return Arrays.asList(new FileDocument("src/test/resources/validation/dss1688/dss1688-detached-content.xml"));
+		return Arrays.asList(new FileDocument(getResourceAsFile("validation/dss1688/dss1688-detached-content.xml")));
 	}
 	
 	@Override

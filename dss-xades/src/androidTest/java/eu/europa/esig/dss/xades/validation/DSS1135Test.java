@@ -29,6 +29,7 @@ import java.util.Map;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.validation.CommonCertificateVerifier;
 import eu.europa.esig.dss.validation.SignaturePolicyProvider;
@@ -38,7 +39,7 @@ public class DSS1135Test extends AbstractXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss1135/factura_ejemplo2_32v1.xml");
+		return new FileDocument(getResourceAsFile("validation/dss1135/factura_ejemplo2_32v1.xml"));
 	}
 	
 	@Override
@@ -49,7 +50,7 @@ public class DSS1135Test extends AbstractXAdESTestValidation {
 		SignaturePolicyProvider signaturePolicyProvider = new SignaturePolicyProvider();
 		Map<String, DSSDocument> signaturePoliciesByUrl = new HashMap<>();
 		signaturePoliciesByUrl.put("http://www.facturae.es/politica_de_firma_formato_facturae/politica_de_firma_formato_facturae_v3_1.pdf",
-				new FileDocument("src/test/resources/validation/dss1135/politica_de_firma.pdf"));
+				new FileDocument(getResourceAsFile("validation/dss1135/politica_de_firma.pdf")));
 		signaturePolicyProvider.setSignaturePoliciesByUrl(signaturePoliciesByUrl);
 		validator.setSignaturePolicyProvider(signaturePolicyProvider);
 		validator.setCertificateVerifier(certificateVerifier);

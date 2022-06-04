@@ -24,6 +24,7 @@ import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.service.crl.OnlineCRLSource;
@@ -47,7 +48,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class DSS2610MultipleSignaturesTest extends AbstractXAdESTestSignature {
 
-    private static final DSSDocument ORIGINAL_DOC = new FileDocument("src/test/resources/sample.xml");
+    private static final DSSDocument ORIGINAL_DOC = new FileDocument(getResourceAsFile("sample.xml"));
 
     private DocumentSignatureService<XAdESSignatureParameters, XAdESTimestampParameters> service;
     private XAdESSignatureParameters signatureParameters;

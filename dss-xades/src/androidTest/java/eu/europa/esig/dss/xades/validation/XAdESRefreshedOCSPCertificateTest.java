@@ -31,6 +31,7 @@ import eu.europa.esig.dss.diagnostic.CertificateWrapper;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.model.DSSDocument;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.CertificateVerifier;
@@ -40,7 +41,7 @@ public class XAdESRefreshedOCSPCertificateTest extends AbstractXAdESTestValidati
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/xades-with-equivalent-certs.xml");
+		return new FileDocument(getResourceAsFile("validation/xades-with-equivalent-certs.xml"));
 	}
 	
 	@Override

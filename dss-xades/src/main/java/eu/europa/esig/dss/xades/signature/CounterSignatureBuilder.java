@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.xades.signature;
 
+import static eu.europa.esig.dss.xades.definition.XMLSignature.XMLNS;
+
 import eu.europa.esig.dss.DomUtils;
 import eu.europa.esig.dss.definition.xmldsig.XMLDSigAttribute;
 import eu.europa.esig.dss.definition.xmldsig.XMLDSigElement;
@@ -48,7 +50,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static javax.xml.crypto.dsig.XMLSignature.XMLNS;
 
 /**
  * The XAdES CounterSignatureBuilder used to create a counter signature 

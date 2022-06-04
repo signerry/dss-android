@@ -69,6 +69,7 @@ import eu.europa.esig.dss.token.KSPrivateKeyEntry;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.AdvancedSignature;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
 import eu.europa.esig.validationreport.jaxb.SACommitmentTypeIndicationType;
 import eu.europa.esig.validationreport.jaxb.SAOneSignerRoleType;
 import eu.europa.esig.validationreport.jaxb.SASignatureProductionPlaceType;
@@ -82,7 +83,6 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 import jakarta.xml.bind.JAXBElement;
-import javax.xml.crypto.dsig.CanonicalizationMethod;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

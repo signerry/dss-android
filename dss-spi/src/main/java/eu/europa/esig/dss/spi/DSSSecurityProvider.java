@@ -45,10 +45,10 @@ public final class DSSSecurityProvider {
 	 * @return {@link Provider}
 	 */
 	public static Provider getSecurityProvider() {
-		if (securityProvider == null) {
+		//if (securityProvider == null) {
 			securityProvider = new BouncyCastleProvider();
 			LOG.debug("DSSSecurityProvider initialized with {}", BouncyCastleProvider.class);
-		}
+		//}
 		return securityProvider;
 	}
 

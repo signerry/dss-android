@@ -275,7 +275,7 @@ public abstract class AbstractSignatureService<SP extends SerializableSignatureP
 		Objects.requireNonNull(signingCertificate, "CertificateToken cannot be null!");
 
 		try {
-			Signature signature = Signature.getInstance(signatureValue.getAlgorithm().getJCEId(), DSSSecurityProvider.getSecurityProviderName());
+			Signature signature = Signature.getInstance(signatureValue.getAlgorithm().getJCEId(), DSSSecurityProvider.getSecurityProvider());
 			signature.initVerify(signingCertificate.getPublicKey());
 			signature.update(toBeSigned.getBytes());
 			return signature.verify(signatureValue.getValue());

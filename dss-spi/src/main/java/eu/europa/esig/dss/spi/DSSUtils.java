@@ -294,7 +294,7 @@ public final class DSSUtils {
 		try {
 			@SuppressWarnings("unchecked")
 			final Collection<X509Certificate> certificatesCollection = (Collection<X509Certificate>) CertificateFactory
-					.getInstance("X.509", DSSSecurityProvider.getSecurityProviderName()).generateCertificates(is);
+					.getInstance("X.509").generateCertificates(is);
 			if (certificatesCollection != null) {
 				for (X509Certificate cert : certificatesCollection) {
 					certificates.add(new CertificateToken(cert));

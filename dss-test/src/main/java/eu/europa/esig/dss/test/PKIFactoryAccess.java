@@ -20,6 +20,7 @@
  */
 package eu.europa.esig.dss.test;
 
+import static eu.europa.esig.dss.test.TestUtils.getCtx;
 import static eu.europa.esig.dss.test.TestUtils.getResourceAsStream;
 
 import android.content.Context;
@@ -295,7 +296,7 @@ public abstract class PKIFactoryAccess {
 		dataLoader.setTimeoutConnection(TIMEOUT_MS);
 		dataLoader.setTimeoutSocket(TIMEOUT_MS);
 		cacheDataLoader.setDataLoader(dataLoader);
-		cacheDataLoader.setFileCacheDirectory(new File("target"));
+		cacheDataLoader.setFileCacheDirectory(getCtx().getCacheDir());
 		cacheDataLoader.setCacheExpirationTime(3600000L);
 		return cacheDataLoader;
 	}

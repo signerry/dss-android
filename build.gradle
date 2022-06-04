@@ -242,7 +242,7 @@ allprojects {
         androidTestImplementation project(':dss-utils-google-guava')
         androidTestImplementation project(':dss-crl-parser-x509crl')
         androidTestImplementation project(':dss-test')
-        androidTestImplementation project(':dss-pades-pdfbox')
+//        androidTestImplementation project(':dss-pades-pdfbox')
 
 
 

@@ -90,6 +90,8 @@ allprojects {
             exclude 'META-INF/notice.txt'
             exclude 'META-INF/ASL2.0'
             exclude 'xsd/binding.xml'
+            exclude 'xsd/bindings.xml'
+            exclude 'xsd/catalog.cat'
 
             exclude("META-INF/*.kotlin_module")
         }

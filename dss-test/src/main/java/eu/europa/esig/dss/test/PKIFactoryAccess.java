@@ -20,6 +20,10 @@
  */
 package eu.europa.esig.dss.test;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsStream;
+
+import android.content.Context;
+
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.service.crl.JdbcCacheCRLSource;
@@ -48,10 +52,13 @@ import eu.europa.esig.dss.token.KSPrivateKeyEntry;
 import eu.europa.esig.dss.token.KeyStoreSignatureTokenConnection;
 import eu.europa.esig.dss.validation.CertificateVerifier;
 import eu.europa.esig.dss.validation.CommonCertificateVerifier;
+
+import org.apache.commons.io.IOUtils;
 import org.h2.jdbcx.JdbcDataSource;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore.PasswordProtection;
 import java.sql.SQLException;
@@ -66,31 +73,24 @@ public abstract class PKIFactoryAccess {
 	private static final String PKI_FACTORY_HOST;
 	private static final String PKI_FACTORY_KEYSTORE_PASSWORD;
 	
-	private static final JdbcDataSource dataSource;
+//	private static final JdbcDataSource dataSource;
 
 	static {
-		File file = new File("C:/w/signerry/dss-android/dss-test/src/test/resources/pki-factory.properties");
-		System.out.println("file:" + file.exists());
 
-		dataSource = new JdbcDataSource();
+//			dataSource.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
 
-		PKI_FACTORY_HOST="http://dss.nowina.lu/pki-factory/";
-		PKI_FACTORY_KEYSTORE_PASSWORD="ks-password";
+		try (InputStream is = getResourceAsStream("pki-factory.properties")) {
+			Properties props = new Properties();
+			props.load(is);
 
-			dataSource.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
+			PKI_FACTORY_HOST = props.getProperty("pki.factory.host");
+			PKI_FACTORY_KEYSTORE_PASSWORD = props.getProperty("pki.factory.keystore.password");
 
-//		try (InputStream is = PKIFactoryAccess.class.getResourceAsStream("C:/w/signerry/dss-android/dss-test/src/test/resources/pki-factory.properties")) {
-//			Properties props = new Properties();
-//			props.load(is);
-//
-//			PKI_FACTORY_HOST = props.getProperty("pki.factory.host");
-//			PKI_FACTORY_KEYSTORE_PASSWORD = props.getProperty("pki.factory.keystore.password");
-//
 //			dataSource = new JdbcDataSource();
 //			dataSource.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
-//		} catch (Exception e) {
-//			throw new RuntimeException("Unable to initialize from pki-factory.properties", e);
-//		}
+		} catch (Exception e) {
+			throw new RuntimeException("Unable to initialize from pki-factory.properties", e);
+		}
 	}
 
 	private static final String KEYSTORE_ROOT_PATH = "/keystore/";
@@ -181,16 +181,17 @@ public abstract class PKIFactoryAccess {
 	}
 
 	private AIASource cacheAIASource() {
-		JdbcCacheAIASource cacheAIASource = new JdbcCacheAIASource();
-		cacheAIASource.setProxySource(onlineAIASource());
-		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(dataSource);
-		cacheAIASource.setJdbcCacheConnector(jdbcCacheConnector);
-		try {
-			cacheAIASource.initTable();
-		} catch (SQLException e) {
-			throw new DSSException("Cannot initialize table for AIA certificate source.", e);
-		}
-		return cacheAIASource;
+		return null;
+
+//		JdbcCacheAIASource cacheAIASource = new JdbcCacheAIASource();
+//		cacheAIASource.setProxySource(onlineAIASource());
+//		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(dataSource);
+//		cacheAIASource.setJdbcCacheConnector(jdbcCacheConnector);
+//		try {
+//			cacheAIASource.initTable();
+//		} catch (SQLException e) {
+//			throw new DSSException("Cannot initialize table for AIA certificate source.", e);
+//		}
 	}
 
 	private DefaultAIASource onlineAIASource() {
@@ -200,17 +201,18 @@ public abstract class PKIFactoryAccess {
 	}
 	
 	private JdbcCacheCRLSource cacheCRLSource() {
-		JdbcCacheCRLSource cacheCRLSource = new JdbcCacheCRLSource();
-		cacheCRLSource.setProxySource(onlineCrlSource());
-		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(dataSource);
-		cacheCRLSource.setJdbcCacheConnector(jdbcCacheConnector);
-		cacheCRLSource.setDefaultNextUpdateDelay(3 * 24 * 60 * 60L); // 3 days
-		try {
-			cacheCRLSource.initTable();
-		} catch (SQLException e) {
-			throw new DSSException("Cannot initialize table for CRL source.", e);
-		}
-		return cacheCRLSource;
+//		JdbcCacheCRLSource cacheCRLSource = new JdbcCacheCRLSource();
+//		cacheCRLSource.setProxySource(onlineCrlSource());
+//		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(dataSource);
+//		cacheCRLSource.setJdbcCacheConnector(jdbcCacheConnector);
+//		cacheCRLSource.setDefaultNextUpdateDelay(3 * 24 * 60 * 60L); // 3 days
+//		try {
+//			cacheCRLSource.initTable();
+//		} catch (SQLException e) {
+//			throw new DSSException("Cannot initialize table for CRL source.", e);
+//		}
+//		return cacheCRLSource;
+		return null;
 	}
 
 	private OnlineCRLSource onlineCrlSource() {
@@ -220,17 +222,19 @@ public abstract class PKIFactoryAccess {
 	}
 	
 	private JdbcCacheOCSPSource cacheOCSPSource() {
-		JdbcCacheOCSPSource cacheOCSPSource = new JdbcCacheOCSPSource();
-		cacheOCSPSource.setProxySource(onlineOcspSource());
-		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(dataSource);
-		cacheOCSPSource.setJdbcCacheConnector(jdbcCacheConnector);
-		cacheOCSPSource.setDefaultNextUpdateDelay(3 * 60L); // 3 minutes
-		try {
-			cacheOCSPSource.initTable();
-		} catch (SQLException e) {
-			throw new DSSException("Cannot initialize table for OCSP source.", e);
-		}
-		return cacheOCSPSource;
+//		JdbcCacheOCSPSource cacheOCSPSource = new JdbcCacheOCSPSource();
+//		cacheOCSPSource.setProxySource(onlineOcspSource());
+//		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(dataSource);
+//		cacheOCSPSource.setJdbcCacheConnector(jdbcCacheConnector);
+//		cacheOCSPSource.setDefaultNextUpdateDelay(3 * 60L); // 3 minutes
+//		try {
+//			cacheOCSPSource.initTable();
+//		} catch (SQLException e) {
+//			throw new DSSException("Cannot initialize table for OCSP source.", e);
+//		}
+//		return cacheOCSPSource;
+
+		return null;
 	}
 
 	private OnlineOCSPSource onlineOcspSource() {

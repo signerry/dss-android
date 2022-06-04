@@ -8,8 +8,7 @@ dependencies {
     api project(':dss-certificate-validation-dto')
     api project(':dss-common-remote-converter')
     api project(':dss-document')
-    testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    
     testImplementation project(':dss-utils-google-guava')
 }
 

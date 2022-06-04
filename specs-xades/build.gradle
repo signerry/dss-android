@@ -1,54 +1,36 @@
-
-dependencies {
-
-    api project(':specs-xmldsig')
-
-    api project(':dss-jaxb-parsers')
-
-
-    testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-}
-
 description = 'JAXB ETSI XAdES Model'
 
-
-
 dependencies {
+    api project(':dss-jaxb-parsers')
     api project(':dss-jaxb-common')
-    implementation 'org.glassfish.jaxb:jaxb-runtime:3.1.0-M1'
+    api project(':specs-xmldsig')
+
+//    implementation 'org.glassfish.jaxb:jaxb-runtime:3.1.0-M1'
 
 
 
-
-    androidTestImplementation("androidx.test:runner:1.4.0")
-    androidTestImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
-
-    androidTestImplementation("de.mannodermaus.junit5:android-test-core:1.2.2")
-    androidTestRuntimeOnly("de.mannodermaus.junit5:android-test-runner:1.2.2")
+//
+//    androidTestImplementation("androidx.test:runner:1.4.0")
+//    androidTestImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
+//
+//    androidTestImplementation("de.mannodermaus.junit5:android-test-core:1.2.2")
+//    androidTestRuntimeOnly("de.mannodermaus.junit5:android-test-runner:1.2.2")
 }
-
-description = 'JAXB XMLDsig Model2'
-android {
-
-    defaultConfig {
-
-
-        compileSdkVersion 30
-
-        minSdkVersion 28
-        targetSdkVersion 30
-        multiDexEnabled true
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        // 2) Connect JUnit 5 to the runner
-        testInstrumentationRunnerArguments["runnerBuilder"] = "de.mannodermaus.junit5.AndroidJUnit5Builder"
-
-    }
-    lintOptions {
-        abortOnError false
-    }
-}
+//android {
+//
+//    defaultConfig {
+//
+//        multiDexEnabled true
+//
+//        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+//        // 2) Connect JUnit 5 to the runner
+//        testInstrumentationRunnerArguments["runnerBuilder"] = "de.mannodermaus.junit5.AndroidJUnit5Builder"
+//
+//    }
+//    lintOptions {
+//        abortOnError false
+//    }
+//}
 
 
 

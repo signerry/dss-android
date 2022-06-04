@@ -6,10 +6,8 @@
 
 dependencies {
     api project(':dss-model')
-    implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
     implementation 'org.slf4j:slf4j-api:1.7.35'
-    testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    
     testImplementation 'ch.qos.logback:logback-classic:1.2.10'
 }
 

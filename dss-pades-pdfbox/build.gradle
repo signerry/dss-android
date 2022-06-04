@@ -7,7 +7,10 @@
 dependencies {
     api project(':dss-pades')
     //implementation 'org.apache.pdfbox:pdfbox:2.0.25'
-    implementation 'com.tom-roush:pdfbox-android:2.0.20.0'
+    api('com.tom-roush:pdfbox-android:2.0.20.0') {
+        exclude group: 'org.bouncycastle'
+    }
+
     testImplementation 'org.apache.pdfbox:preflight:2.0.25'
 
 

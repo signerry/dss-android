@@ -10,8 +10,7 @@ dependencies {
 
     implementation 'com.google.guava:guava:31.0.1-jre'
     testImplementation project(':dss-utils')
-    testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    
 }
 
 description = 'DSS Utils implementation with Google Guava'

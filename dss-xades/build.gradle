@@ -10,6 +10,8 @@ dependencies {
     api project(':dss-token')
 
     implementation 'org.apache.santuario:xmlsec:2.3.0'
+    androidTestImplementation project(':dss-test')
+
 
 }
 

@@ -14,6 +14,8 @@ import org.glassfish.jaxb.core.v2.Messages;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.Iterator;
+import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.XMLConstants;
@@ -100,7 +102,15 @@ public class XmlFactory {
      */
     public static SAXParserFactory createParserFactory(boolean disableSecureProcessing) throws IllegalStateException {
         try {
-            SAXParserFactory factory = SAXParserFactory.newInstance();
+            SAXParserFactory factory = org.apache.xerces.jaxp.SAXParserFactoryImpl.newInstance();
+
+            ServiceLoader<SAXParserFactory> load = ServiceLoader.load(SAXParserFactory.class);
+            Iterator<SAXParserFactory> itr = load.iterator();
+
+            while (itr.hasNext()) {
+                factory = itr.next();
+            }
+
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.log(Level.FINE, "SAXParserFactory instance: {0}", factory);
             }

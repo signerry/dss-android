@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Build & Run Unit Tests
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: Fetch Source

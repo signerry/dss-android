@@ -61,7 +61,20 @@ allprojects {
     android {
 
 
+        testOptions {
+            unitTests.all {
+                // let JUnit report mark the job status in case of error
+                ignoreFailures = true
+                testLogging {
+                    events "passed", "skipped", "failed"
+                    exceptionFormat "short"
 
+                    debug {
+                        exceptionFormat "full"
+                    }
+                }
+            }
+        }
 
         defaultConfig {
             minSdkVersion 29

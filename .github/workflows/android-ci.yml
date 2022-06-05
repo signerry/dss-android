@@ -26,8 +26,8 @@ jobs:
 
   instrumentation-tests:
     name: Instrumentation Tests
-    runs-on: macos-latest
-    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
     strategy:
       # Allow tests to continue on other devices if they fail on one device.
       fail-fast: false

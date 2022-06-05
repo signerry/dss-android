@@ -22,6 +22,7 @@ package eu.europa.esig.dss.crl;
 
 import eu.europa.esig.dss.model.DSSException;
 import org.bouncycastle.util.io.Streams;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -36,8 +37,8 @@ public class PemToDerConverterTest {
 
 	@Test
 	public void testException() {
-		Exception exception = assertThrows(DSSException.class, () -> PemToDerConverter.convert(new byte[] {}));
-		assertEquals("Unable to read PEM Object", exception.getMessage());
+		Exception exception = Assertions.assertThrows(DSSException.class, () -> PemToDerConverter.convert(new byte[] {}));
+		Assertions.assertEquals("Unable to read PEM Object", exception.getMessage());
 	}
 
 	@Test
@@ -46,7 +47,7 @@ public class PemToDerConverterTest {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			Streams.pipeAll(is, baos);
 			byte[] converted = PemToDerConverter.convert(baos.toByteArray());
-			assertTrue(converted != null && converted.length > 0);
+			Assertions.assertTrue(converted != null && converted.length > 0);
 		}
 	}
 

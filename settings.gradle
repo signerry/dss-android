@@ -59,6 +59,8 @@ include(':dss-alert')
 ////include(':dss-timestamp-remote-rest-client')
 //include(':dss-common-remote-dto')
 include(':dss-crl-parser')
+include(':dss-crl-parser-test')
+
 ////include(':dss-signature-soap-client')
 include(':specs-validation-report')
 include(':dss-asic-cades')

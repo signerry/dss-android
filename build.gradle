@@ -238,6 +238,8 @@ allprojects {
             exclude group: 'org.hamcrest', module: 'hamcrest'
         }
 
+        testImplementation("org.awaitility:awaitility:${awaitility_version}")
+
 
         implementation "org.mockito:mockito-core:${mockito_version}"
         testImplementation enforcedPlatform("org.junit:junit-bom:${junit_version}")

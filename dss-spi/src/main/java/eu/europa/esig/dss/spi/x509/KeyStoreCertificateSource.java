@@ -22,6 +22,7 @@ package eu.europa.esig.dss.spi.x509;
 
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.x509.CertificateToken;
+import eu.europa.esig.dss.spi.DSSSecurityProvider;
 import eu.europa.esig.dss.spi.DSSUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

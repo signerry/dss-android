@@ -53,7 +53,7 @@ public class CAdESSignatureIntegrityValidator extends SignatureIntegrityValidato
 	
 	private JcaSimpleSignerInfoVerifierBuilder instantiateVerifier() {
 		final JcaSimpleSignerInfoVerifierBuilder jcaVerifierBuilder = new JcaSimpleSignerInfoVerifierBuilder();
-		jcaVerifierBuilder.setProvider(DSSSecurityProvider.getSecurityProviderName());
+		jcaVerifierBuilder.setProvider(DSSSecurityProvider.getSecurityProvider());
 		return jcaVerifierBuilder;
 	}
 

@@ -26,7 +26,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
 
 import org.junit.jupiter.api.BeforeEach;
 

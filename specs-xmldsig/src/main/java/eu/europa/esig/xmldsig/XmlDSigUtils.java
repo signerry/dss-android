@@ -21,13 +21,19 @@
 package eu.europa.esig.xmldsig;
 
 import eu.europa.esig.xmldsig.jaxb.ObjectFactory;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
 
 /**
  * XMLDSIG schema utils
@@ -67,6 +73,7 @@ public final class XmlDSigUtils extends XSDAbstractUtils {
 	@Override
 	public JAXBContext getJAXBContext() throws JAXBException {
 		if (jc == null) {
+
 			jc = JAXBContext.newInstance(ObjectFactory.class);
 		}
 		return jc;
@@ -74,8 +81,31 @@ public final class XmlDSigUtils extends XSDAbstractUtils {
 
 	@Override
 	public List<Source> getXSDSources() {
+		System.out.println("wtf1111122121");
+		InputStream resourceAsStream = XmlDSigUtils.class.getResourceAsStream(XML_SCHEMA_LOCATION);
+//		try {
+//			InputStream is = resourceAsStream;
+//			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+//
+//			int nRead;
+//			byte[] data = new byte[4];
+//
+//			while ((nRead = is.read(data, 0, data.length)) != -1) {
+//				buffer.write(data, 0, nRead);
+//			}
+//
+//			buffer.flush();
+//			byte[] targetArray = buffer.toByteArray();
+//
+//
+//			if(true) {
+//				//throw new RuntimeException(new String(targetArray));
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		List<Source> xsdSources = new ArrayList<>();
-		xsdSources.add(new StreamSource(XmlDSigUtils.class.getResourceAsStream(XML_SCHEMA_LOCATION)));
+		xsdSources.add(new StreamSource(resourceAsStream));
 		xsdSources.add(new StreamSource(XmlDSigUtils.class.getResourceAsStream(XMLDSIG_SCHEMA_LOCATION)));
 		xsdSources.add(new StreamSource(XmlDSigUtils.class.getResourceAsStream(XMLDSIG_FILTER2_SCHEMA_LOCATION)));
 		return xsdSources;

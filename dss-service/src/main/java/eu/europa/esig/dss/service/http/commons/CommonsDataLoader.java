@@ -69,11 +69,7 @@ import org.apache.hc.core5.util.Timeout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.naming.Context;
-import javax.naming.directory.Attribute;
-import javax.naming.directory.Attributes;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.InitialDirContext;
+
 import javax.net.ssl.HostnameVerifier;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -784,41 +780,7 @@ public class CommonsDataLoader implements DataLoader {
 	 * @return byte array
 	 */
 	protected byte[] ldapGet(String urlString) {
-
-		urlString = LdapURLUtils.encode(urlString);
-
-		final Hashtable<String, String> env = new Hashtable<>();
-		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-		env.put(Context.PROVIDER_URL, urlString);
-		try {
-
-			// parse URL according to the template: 'ldap://host:port/DN?attributes?scope?filter?extensions'
-			String ldapParams = Utils.substringAfter(urlString, "?");
-			StringTokenizer tokenizer = new StringTokenizer(ldapParams, "?");
-			String attributeName = (tokenizer.hasMoreTokens()) ? tokenizer.nextToken() : null;
-
-			if (Utils.isStringEmpty(attributeName)) {
-				// default was CRL
-				attributeName = "certificateRevocationList;binary";
-			}
-
-			final DirContext ctx = new InitialDirContext(env);
-			final Attributes attributes = ctx.getAttributes(Utils.EMPTY_STRING, new String[] { attributeName });
-			if ((attributes == null) || (attributes.size() < 1)) {
-				throw new DSSExternalResourceException(String.format("Cannot download binaries from: [%s], no attributes with name: [%s] returned", urlString, attributeName));
-			} else {
-				final Attribute attribute = attributes.getAll().next();
-				final byte[] ldapBytes = (byte[]) attribute.get();
-				if (Utils.isArrayNotEmpty(ldapBytes)) {
-					return ldapBytes;
-				}
-				throw new DSSExternalResourceException(String.format("The retrieved ldap content from url [%s] is empty", urlString));
-			}
-		} catch (DSSExternalResourceException e) {
-			throw e;
-		} catch (Exception e) {
-			throw new DSSExternalResourceException(String.format("Cannot get data from URL [%s]. Reason : [%s]", urlString, e.getMessage()), e);
-		}
+		return null;
 	}
 
 	/**

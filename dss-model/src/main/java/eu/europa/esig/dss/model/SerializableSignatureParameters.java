@@ -94,6 +94,7 @@ public interface SerializableSignatureParameters extends Serializable {
 	 * 
 	 * @return {@link MaskGenerationFunction}
 	 */
+
 	MaskGenerationFunction getMaskGenerationFunction();
 
 	/**

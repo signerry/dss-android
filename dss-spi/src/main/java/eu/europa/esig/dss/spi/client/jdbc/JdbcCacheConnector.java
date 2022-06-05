@@ -1,19 +1,19 @@
 /**
  * DSS - Digital Signature Services
  * Copyright (C) 2015 European Commission, provided under the CEF programme
- * 
+ *
  * This file is part of the "DSS - Digital Signature Services" project.
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -102,39 +102,41 @@ public class JdbcCacheConnector {
      */
     public Collection<JdbcResultRecord> select(final String selectQuery, Collection<JdbcResultRequest> requests,
                                                Object... arguments) {
-        Connection c = null;
-        PreparedStatement s = null;
-        ResultSet rs = null;
-        try {
-            c = dataSource.getConnection();
-            s = c.prepareStatement(selectQuery);
-            for (int ii = 0; ii < arguments.length; ii++) {
-                s.setObject(ii + 1, arguments[ii]);
-            }
-            rs = s.executeQuery();
+//        Connection c = null;
+//        PreparedStatement s = null;
+//        ResultSet rs = null;
+//        try {
+//            c = dataSource.getConnection();
+//            s = c.prepareStatement(selectQuery);
+//            for (int ii = 0; ii < arguments.length; ii++) {
+//                s.setObject(ii + 1, arguments[ii]);
+//            }
+//            rs = s.executeQuery();
+//
+//            Collection<JdbcResultRecord> records = new ArrayList<>();
+//            while (rs.next()) {
+//                JdbcResultRecord resultRecord = new JdbcResultRecord();
+//                for (JdbcResultRequest request : requests) {
+//                    Object object = rs.getObject(request.getColumnName(), request.getTargetClass());
+//                    resultRecord.put(request.getColumnName(), object);
+//                }
+//                records.add(resultRecord);
+//            }
+//
+//            c.commit();
+//            LOG.debug("The SELECT query [{}] has been executed successfully.", selectQuery);
+//            return records;
+//
+//        } catch (final SQLException e) {
+//            LOG.error("Unable to execute query [{}]. Reason : {}", selectQuery, e.getMessage(), e);
+//            rollback(c);
+//            return Collections.emptySet();
+//
+//        } finally {
+//            closeQuietly(c, s, rs);
+//        }
 
-            Collection<JdbcResultRecord> records = new ArrayList<>();
-            while (rs.next()) {
-                JdbcResultRecord resultRecord = new JdbcResultRecord();
-                for (JdbcResultRequest request : requests) {
-                    Object object = rs.getObject(request.getColumnName(), request.getTargetClass());
-                    resultRecord.put(request.getColumnName(), object);
-                }
-                records.add(resultRecord);
-            }
-
-            c.commit();
-            LOG.debug("The SELECT query [{}] has been executed successfully.", selectQuery);
-            return records;
-
-        } catch (final SQLException e) {
-            LOG.error("Unable to execute query [{}]. Reason : {}", selectQuery, e.getMessage(), e);
-            rollback(c);
-            return Collections.emptySet();
-
-        } finally {
-            closeQuietly(c, s, rs);
-        }
+        return  null;
     }
 
     /**

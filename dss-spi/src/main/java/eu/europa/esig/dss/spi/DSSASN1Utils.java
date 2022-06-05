@@ -872,7 +872,7 @@ public final class DSSASN1Utils {
 	 */
 	public static CertificateToken getCertificate(final X509CertificateHolder x509CertificateHolder) {
 		try {
-			JcaX509CertificateConverter converter = new JcaX509CertificateConverter().setProvider(DSSSecurityProvider.getSecurityProviderName());
+			JcaX509CertificateConverter converter = new JcaX509CertificateConverter().setProvider(DSSSecurityProvider.getSecurityProvider());
 			X509Certificate x509Certificate = converter.getCertificate(x509CertificateHolder);
 			return new CertificateToken(x509Certificate);
 

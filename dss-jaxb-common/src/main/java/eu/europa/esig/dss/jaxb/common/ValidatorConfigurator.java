@@ -47,8 +47,8 @@ public class ValidatorConfigurator extends AbstractConfigurator<Validator> {
 	protected ValidatorConfigurator() {
 		// The configuration protects against XXE
 		// (https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html#validator)
-		setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-		setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+//		setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+//		setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
 	}
 	
 	/**

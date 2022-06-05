@@ -23,7 +23,6 @@ package eu.europa.esig.dss.xades.definition;
 import eu.europa.esig.dss.DomUtils;
 import eu.europa.esig.dss.definition.DSSNamespace;
 
-import javax.xml.crypto.dsig.XMLSignature;
 
 /**
  * Defines a list of used XAdES namespaces

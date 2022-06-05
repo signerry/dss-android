@@ -1,64 +1,37 @@
-plugins {
-    id 'eu.europa.ec.joinup.sd-dss.java-conventions'
-    id("org.unbroken-dome.xjc") version "2.0.0"
-}
-
-dependencies {
-
-    api project(':specs-xmldsig')
-    xjcEpisodes project(':specs-xmldsig')
-
-    api project(':dss-jaxb-parsers')
-
-
-    testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-}
-
 description = 'JAXB ETSI XAdES Model'
 
-tasks.register('testsJar', Jar) {
-    archiveClassifier = 'tests'
-    from(sourceSets.test.output)
+dependencies {
+    api project(':dss-jaxb-parsers')
+    api project(':dss-jaxb-common')
+    api project(':specs-xmldsig')
+
+//    implementation 'org.glassfish.jaxb:jaxb-runtime:3.1.0-M1'
+
+
+
+//
+//    androidTestImplementation("androidx.test:runner:1.4.0")
+//    androidTestImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
+//
+//    androidTestImplementation("de.mannodermaus.junit5:android-test-core:1.2.2")
+//    androidTestRuntimeOnly("de.mannodermaus.junit5:android-test-runner:1.2.2")
 }
-
-publishing.publications.maven.artifact(testsJar)
-
-java {
-    withJavadocJar()
-}
-
-xjcGenerate.doLast {
-    xjcAddIfExistsProperty();
-
-    project.delete(
-            files("${project.buildDir}/generated/sources/xjc/java/main/eu/europa/esig/xmldsig")
-    )
-}
-
-System.setProperty('javax.xml.accessExternalSchema', 'all')
-
-xjc {
-    srcDirName = 'resources/xsd'
-    strictCheck = false
-    extension = true
-    targetVersion ="2.1"
-}
+//android {
+//
+//    defaultConfig {
+//
+//        multiDexEnabled true
+//
+//        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+//        // 2) Connect JUnit 5 to the runner
+//        testInstrumentationRunnerArguments["runnerBuilder"] = "de.mannodermaus.junit5.AndroidJUnit5Builder"
+//
+//    }
+//    lintOptions {
+//        abortOnError false
+//    }
+//}
 
 
-sourceSets {
-    main {
-        xjcGenerateEpisode = true
 
-        xjcSchema {
-            includes = ["XAdESv111.xsd", "XAdESv122.xsd", "XAdESv132.xsd", "XAdESv141.xsd"]
-        }
 
-        xjcBinding {
-            includes = ['bindings.xml']
-        }
-
-        compileClasspath += sourceSets.main.compileClasspath
-        runtimeClasspath += sourceSets.main.runtimeClasspath
-    }
-}

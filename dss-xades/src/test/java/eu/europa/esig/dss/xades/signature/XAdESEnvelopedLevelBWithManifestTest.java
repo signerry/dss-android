@@ -40,7 +40,7 @@ import eu.europa.esig.dss.xades.reference.DSSReference;
 import eu.europa.esig.dss.xades.reference.EnvelopedSignatureTransform;
 import org.junit.jupiter.api.BeforeEach;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;

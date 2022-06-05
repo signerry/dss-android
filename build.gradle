@@ -60,6 +60,12 @@ allprojects {
 
     android {
 
+        project.gradle.taskGraph.whenReady {
+            connectedDebugAndroidTest {
+                ignoreFailures = true
+            }
+        }
+
 
         testOptions {
             unitTests.all {

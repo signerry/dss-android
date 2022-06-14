@@ -22,6 +22,8 @@ package eu.europa.esig.trustedlist;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -37,12 +39,12 @@ public class TrustedListFacadeTest {
 
 	@Test
 	public void testTL() throws JAXBException, XMLStreamException, IOException, SAXException {
-		marshallUnmarshall(new File("src/test/resources/tl.xml"));
+		marshallUnmarshall(getResourceAsFile("tl.xml"));
 	}
 
 	@Test
 	public void testLOTL() throws JAXBException, XMLStreamException, IOException, SAXException {
-		marshallUnmarshall(new File("src/test/resources/lotl.xml"));
+		marshallUnmarshall(getResourceAsFile("lotl.xml"));
 	}
 
 	private void marshallUnmarshall(File file) throws JAXBException, XMLStreamException, IOException, SAXException {

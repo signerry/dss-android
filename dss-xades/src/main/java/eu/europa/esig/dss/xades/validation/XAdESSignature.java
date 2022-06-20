@@ -75,6 +75,7 @@ import org.apache.xml.security.exceptions.XMLSecurityException;
 import org.apache.xml.security.signature.Reference;
 import org.apache.xml.security.signature.SignedInfo;
 import org.apache.xml.security.signature.XMLSignature;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;

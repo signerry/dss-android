@@ -69,6 +69,9 @@ import eu.europa.esig.dss.enumerations.ASiCContainerType;
 public class XmlSimpleReport
     implements Serializable
 {
+    public XmlSimpleReport() {
+        super();
+    }
 
     private final static long serialVersionUID = 1L;
     @XmlElement(name = "ValidationPolicy", required = true)

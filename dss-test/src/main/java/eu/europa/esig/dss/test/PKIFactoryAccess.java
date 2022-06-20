@@ -275,6 +275,9 @@ public abstract class PKIFactoryAccess {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+		catch (Exception e) {
+			throw new RuntimeException(keystoreUrl, e);
+		}
 	}
 
 	protected CertificateSource getTrustedCertificateSource() {

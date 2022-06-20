@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.enumerations;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
@@ -467,7 +469,7 @@ public enum DigestAlgorithm implements OidAndUriBasedEnum {
 	 *                                  if the algorithm is not supported
 	 */
 	public MessageDigest getMessageDigest() throws NoSuchAlgorithmException {
-		return MessageDigest.getInstance(javaName);
+		return MessageDigest.getInstance(javaName, new BouncyCastleProvider());
 	}
 
 	/**
@@ -481,7 +483,7 @@ public enum DigestAlgorithm implements OidAndUriBasedEnum {
 	 *                                  if the algorithm is not supported
 	 */
 	public MessageDigest getMessageDigest(Provider provider) throws NoSuchAlgorithmException {
-		return MessageDigest.getInstance(javaName, provider);
+		return MessageDigest.getInstance(javaName, new BouncyCastleProvider());
 	}
 
 }

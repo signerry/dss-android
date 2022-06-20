@@ -118,11 +118,11 @@ public class EncodingASN1SignatureValueTest {
 	@Test
 	public void testECDSA192() throws Exception {
 		Security.addProvider(new BouncyCastleProvider());
-		KeyPairGenerator gen = KeyPairGenerator.getInstance("ECDSA");
+		KeyPairGenerator gen = KeyPairGenerator.getInstance("ECDSA", new BouncyCastleProvider());
 		gen.initialize(192);
 		KeyPair pair = gen.generateKeyPair();
 
-		Signature s = Signature.getInstance("SHA256withECDSA");
+		Signature s = Signature.getInstance("SHA256withECDSA", new BouncyCastleProvider());
 		s.initSign(pair.getPrivate());
 		s.update(HELLO_WORLD.getBytes());
 		byte[] signatureValue = s.sign();
@@ -132,7 +132,7 @@ public class EncodingASN1SignatureValueTest {
 
 		byte[] asn1xmlsec = SignatureECDSA.convertXMLDSIGtoASN1(convertToXmlDSig);
 
-		Signature s2 = Signature.getInstance("SHA256withECDSA");
+		Signature s2 = Signature.getInstance("SHA256withECDSA", new BouncyCastleProvider());
 		s2.initVerify(pair.getPublic());
 		s2.update(HELLO_WORLD.getBytes());
 		assertTrue(s2.verify(asn1xmlsec));

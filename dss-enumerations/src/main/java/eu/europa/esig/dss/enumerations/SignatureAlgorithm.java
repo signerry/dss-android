@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.enumerations;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import java.io.IOException;
 import java.security.AlgorithmParameters;
 import java.security.GeneralSecurityException;
@@ -622,7 +624,7 @@ public enum SignatureAlgorithm implements OidAndUriBasedEnum {
 
 		if (sigAlgParams != null && algorithm.getMaskGenerationFunction() != null) {
 			try {
-				AlgorithmParameters algoParams = AlgorithmParameters.getInstance("PSS");
+				AlgorithmParameters algoParams = AlgorithmParameters.getInstance("PSS", new BouncyCastleProvider());
 				algoParams.init(sigAlgParams);
 				PSSParameterSpec pssParam = algoParams.getParameterSpec(PSSParameterSpec.class);
 				DigestAlgorithm digestAlgorithm = DigestAlgorithm.forJavaName(pssParam.getDigestAlgorithm());

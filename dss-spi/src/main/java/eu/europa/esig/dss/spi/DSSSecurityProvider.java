@@ -45,10 +45,10 @@ public final class DSSSecurityProvider {
 	 * @return {@link Provider}
 	 */
 	public static Provider getSecurityProvider() {
-		//if (securityProvider == null) {
+		if (securityProvider == null) {
 			securityProvider = new BouncyCastleProvider();
 			LOG.debug("DSSSecurityProvider initialized with {}", BouncyCastleProvider.class);
-		//}
+		}
 		return securityProvider;
 	}
 
@@ -58,7 +58,10 @@ public final class DSSSecurityProvider {
 	 * @return {@link String}
 	 */
 	public static String getSecurityProviderName() {
-		return getSecurityProvider().getName();
+			throw new RuntimeException("should not be called");
+
+
+//		return getSecurityProvider().getName();
 	}
 
 	/**

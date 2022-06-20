@@ -119,7 +119,7 @@ public class SantuarioInitializer {
 		//
 		// Set the default JCE algorithms
 		//
-		JCEMapper.setProviderId(DSSSecurityProvider.getSecurityProviderName());
+		//JCEMapper.setProviderId(DSSSecurityProvider.getSecurityProviderName());
 		JCEMapper.registerDefaultAlgorithms();
 
 		//

@@ -1238,7 +1238,7 @@ public class XAdESSignature extends DefaultAdvancedSignature {
 			DSSXMLUtils.recursiveIdBrowse(rootElement);
 
 			// Secure validation disabled to support all signature algos
-			santuarioSignature = new XMLSignature(signatureElement, "", false);
+			santuarioSignature = new XMLSignature(signatureElement, "", false, new BouncyCastleProvider());
 			if (Utils.isCollectionNotEmpty(detachedContents)) {
 				initDetachedSignatureResolvers(detachedContents);
 				initCounterSignatureResolver(detachedContents);

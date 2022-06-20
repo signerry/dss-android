@@ -115,7 +115,7 @@ public abstract class PKIFactoryAccess {
 
 	private static final String KEYSTORE_TYPE = "PKCS12";
 	// JDK-7 + PKCS12 is not allowed for trust-store
-	private static final String TRUSTSTORE_TYPE = "JKS";
+	private static final String TRUSTSTORE_TYPE = "BKS";
 
 	protected static final String GOOD_USER = "good-user";
 	// RSA key with RSASSA-PSS signature

@@ -20,6 +20,7 @@
  */
 package eu.europa.esig.validationreport;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -40,7 +41,7 @@ public class ValidationReportFacadeTest {
 	@Test
 	public void unmarshallAndMarshall() throws IOException, JAXBException, XMLStreamException, SAXException {
 		ValidationReportFacade facade = ValidationReportFacade.newFacade();
-		ValidationReportType validationReportType = facade.unmarshall(new File("src/test/resources/vr.xml"));
+		ValidationReportType validationReportType = facade.unmarshall(getResourceAsFile("vr.xml"));
 
 		assertNotNull(validationReportType);
 		assertFalse(validationReportType.getSignatureValidationObjects().getValidationObject().isEmpty());

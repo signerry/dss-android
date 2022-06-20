@@ -21,6 +21,7 @@
 package eu.europa.esig.dss.test;
 
 import static eu.europa.esig.dss.test.TestUtils.getCtx;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import static eu.europa.esig.dss.test.TestUtils.getResourceAsStream;
 
 import android.content.Context;
@@ -61,6 +62,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.security.KeyStore.PasswordProtection;
 import java.sql.SQLException;
 import java.util.Date;
@@ -266,9 +268,13 @@ public abstract class PKIFactoryAccess {
 	}
 
 	private byte[] getKeystoreContent(String keystoreName) {
-		DataLoader dataLoader = getFileCacheDataLoader();
 		String keystoreUrl = PKI_FACTORY_HOST + KEYSTORE_ROOT_PATH + keystoreName;
-		return dataLoader.get(keystoreUrl);
+
+		try {
+			return Files.readAllBytes(getResourceAsFile(keystoreName).toPath());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	protected CertificateSource getTrustedCertificateSource() {

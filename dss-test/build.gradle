@@ -25,6 +25,7 @@ dependencies {
     implementation 'androidx.test:monitor:1.5.0'
     androidTestImplementation project(path: ':dss-xades')
     androidTestImplementation project(path: ':dss-xades')
+    androidTestImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
 }
 
 description = 'DSS Test'

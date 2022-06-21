@@ -24,6 +24,8 @@ import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.spi.DSSSecurityProvider;
 import eu.europa.esig.dss.spi.DSSUtils;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -115,7 +117,7 @@ public class KeyStoreCertificateSource extends CommonCertificateSource {
 
 	private void initKeystore(final InputStream ksStream, final String ksType, final String ksPassword) {
 		try (InputStream is = ksStream) {
-			keyStore = KeyStore.getInstance(ksType);
+			keyStore = KeyStore.getInstance(ksType, new BouncyCastleProvider());
 			final char[] password = (ksPassword == null) ? null : ksPassword.toCharArray();
 			keyStore.load(is, password);
 			passwordProtection = new PasswordProtection(password);

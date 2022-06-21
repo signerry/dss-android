@@ -28,6 +28,8 @@ import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.Digest;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -184,7 +186,7 @@ public abstract class AbstractSignatureTokenConnection implements SignatureToken
 	 * @throws NoSuchAlgorithmException if the algorithm is not found
 	 */
 	protected Signature getSignatureInstance(final String javaSignatureAlgorithm) throws NoSuchAlgorithmException {
-		return Signature.getInstance(javaSignatureAlgorithm);
+		return Signature.getInstance(javaSignatureAlgorithm, new BouncyCastleProvider());
 	}
 
 	/**

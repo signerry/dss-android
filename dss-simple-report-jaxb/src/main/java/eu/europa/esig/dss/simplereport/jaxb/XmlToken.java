@@ -53,6 +53,9 @@ import eu.europa.esig.dss.enumerations.SubIndication;
 })
 public abstract class XmlToken implements Serializable
 {
+    public XmlToken() {
+        super();
+    }
 
     private final static long serialVersionUID = 1L;
     @XmlElement(name = "Filename")

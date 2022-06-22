@@ -26,6 +26,9 @@ import eu.europa.esig.dss.spi.client.jdbc.JdbcCacheConnector;
 import eu.europa.esig.dss.spi.exception.DSSExternalResourceException;
 import eu.europa.esig.dss.spi.x509.aia.RepositoryAIASource;
 import eu.europa.esig.dss.utils.Utils;
+
+import org.apache.commons.io.IOUtils;
+import org.h2.jdbc.JdbcBlob;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -145,7 +148,10 @@ public class JdbcCacheAIASource extends RepositoryAIASource {
         try {
             Set<CertificateToken> certificateTokens = new LinkedHashSet<>();
             for (JdbcCacheConnector.JdbcResultRecord resultRecord : records) {
-                byte[] binaries = (byte[]) resultRecord.get(SQL_FIND_QUERY_DATA);
+
+                final JdbcBlob clob = (JdbcBlob) resultRecord.get(SQL_FIND_QUERY_DATA);
+
+                byte[] binaries = IOUtils.toByteArray(clob.getBinaryStream());
                 if (Utils.isArrayNotEmpty(binaries)) {
                     CertificateToken certificateToken = DSSUtils.loadCertificate(binaries);
                     if (certificateToken != null) {

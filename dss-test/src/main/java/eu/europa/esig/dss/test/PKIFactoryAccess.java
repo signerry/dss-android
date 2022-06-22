@@ -20,11 +20,11 @@
  */
 package eu.europa.esig.dss.test;
 
-import static eu.europa.esig.dss.test.TestUtils.getCtx;
 import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import static eu.europa.esig.dss.test.TestUtils.getResourceAsStream;
+import static eu.europa.esig.dss.test.TestUtils.getTmpDirectory;
 
-import android.content.Context;
+import org.h2.jdbcx.JdbcDataSource;
 
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.x509.CertificateToken;
@@ -55,11 +55,7 @@ import eu.europa.esig.dss.token.KeyStoreSignatureTokenConnection;
 import eu.europa.esig.dss.validation.CertificateVerifier;
 import eu.europa.esig.dss.validation.CommonCertificateVerifier;
 
-import org.apache.commons.io.IOUtils;
-import org.h2.jdbcx.JdbcDataSource;
-
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -75,12 +71,11 @@ public abstract class PKIFactoryAccess {
 
 	private static final String PKI_FACTORY_HOST;
 	private static final String PKI_FACTORY_KEYSTORE_PASSWORD;
-	
-//	private static final JdbcDataSource dataSource;
+
+	private static final JdbcDataSource dataSource;
 
 	static {
 
-//			dataSource.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
 
 		try (InputStream is = getResourceAsStream("pki-factory.properties")) {
 			Properties props = new Properties();
@@ -89,8 +84,8 @@ public abstract class PKIFactoryAccess {
 			PKI_FACTORY_HOST = props.getProperty("pki.factory.host");
 			PKI_FACTORY_KEYSTORE_PASSWORD = props.getProperty("pki.factory.keystore.password");
 
-//			dataSource = new JdbcDataSource();
-//			dataSource.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
+			dataSource = new JdbcDataSource();
+			dataSource.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to initialize from pki-factory.properties", e);
 		}
@@ -184,17 +179,16 @@ public abstract class PKIFactoryAccess {
 	}
 
 	private AIASource cacheAIASource() {
-		return null;
-
-//		JdbcCacheAIASource cacheAIASource = new JdbcCacheAIASource();
-//		cacheAIASource.setProxySource(onlineAIASource());
-//		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(dataSource);
-//		cacheAIASource.setJdbcCacheConnector(jdbcCacheConnector);
-//		try {
-//			cacheAIASource.initTable();
-//		} catch (SQLException e) {
-//			throw new DSSException("Cannot initialize table for AIA certificate source.", e);
-//		}
+		JdbcCacheAIASource cacheAIASource = new JdbcCacheAIASource();
+		cacheAIASource.setProxySource(onlineAIASource());
+		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(dataSource);
+		cacheAIASource.setJdbcCacheConnector(jdbcCacheConnector);
+		try {
+			cacheAIASource.initTable();
+		} catch (SQLException e) {
+			throw new DSSException("Cannot initialize table for AIA certificate source.", e);
+		}
+		return cacheAIASource;
 	}
 
 	private DefaultAIASource onlineAIASource() {
@@ -204,18 +198,17 @@ public abstract class PKIFactoryAccess {
 	}
 	
 	private JdbcCacheCRLSource cacheCRLSource() {
-//		JdbcCacheCRLSource cacheCRLSource = new JdbcCacheCRLSource();
-//		cacheCRLSource.setProxySource(onlineCrlSource());
-//		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(dataSource);
-//		cacheCRLSource.setJdbcCacheConnector(jdbcCacheConnector);
-//		cacheCRLSource.setDefaultNextUpdateDelay(3 * 24 * 60 * 60L); // 3 days
-//		try {
-//			cacheCRLSource.initTable();
-//		} catch (SQLException e) {
-//			throw new DSSException("Cannot initialize table for CRL source.", e);
-//		}
-//		return cacheCRLSource;
-		return null;
+		JdbcCacheCRLSource cacheCRLSource = new JdbcCacheCRLSource();
+		cacheCRLSource.setProxySource(onlineCrlSource());
+		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(dataSource);
+		cacheCRLSource.setJdbcCacheConnector(jdbcCacheConnector);
+		cacheCRLSource.setDefaultNextUpdateDelay(3 * 24 * 60 * 60L); // 3 days
+		try {
+			cacheCRLSource.initTable();
+		} catch (SQLException e) {
+			throw new DSSException("Cannot initialize table for CRL source.", e);
+		}
+		return cacheCRLSource;
 	}
 
 	private OnlineCRLSource onlineCrlSource() {
@@ -223,21 +216,19 @@ public abstract class PKIFactoryAccess {
 		onlineCRLSource.setDataLoader(getFileCacheDataLoader());
 		return onlineCRLSource;
 	}
-	
-	private JdbcCacheOCSPSource cacheOCSPSource() {
-//		JdbcCacheOCSPSource cacheOCSPSource = new JdbcCacheOCSPSource();
-//		cacheOCSPSource.setProxySource(onlineOcspSource());
-//		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(dataSource);
-//		cacheOCSPSource.setJdbcCacheConnector(jdbcCacheConnector);
-//		cacheOCSPSource.setDefaultNextUpdateDelay(3 * 60L); // 3 minutes
-//		try {
-//			cacheOCSPSource.initTable();
-//		} catch (SQLException e) {
-//			throw new DSSException("Cannot initialize table for OCSP source.", e);
-//		}
-//		return cacheOCSPSource;
 
-		return null;
+	private JdbcCacheOCSPSource cacheOCSPSource() {
+		JdbcCacheOCSPSource cacheOCSPSource = new JdbcCacheOCSPSource();
+		cacheOCSPSource.setProxySource(onlineOcspSource());
+		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(dataSource);
+		cacheOCSPSource.setJdbcCacheConnector(jdbcCacheConnector);
+		cacheOCSPSource.setDefaultNextUpdateDelay(3 * 60L); // 3 minutes
+		try {
+			cacheOCSPSource.initTable();
+		} catch (SQLException e) {
+			throw new DSSException("Cannot initialize table for OCSP source.", e);
+		}
+		return cacheOCSPSource;
 	}
 
 	private OnlineOCSPSource onlineOcspSource() {

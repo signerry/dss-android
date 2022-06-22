@@ -24,8 +24,6 @@ import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import static eu.europa.esig.dss.test.TestUtils.getResourceAsStream;
 import static eu.europa.esig.dss.test.TestUtils.getTmpDirectory;
 
-import org.h2.jdbcx.JdbcDataSource;
-
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.service.crl.JdbcCacheCRLSource;
@@ -60,6 +58,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.security.KeyStore.PasswordProtection;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
@@ -72,7 +72,7 @@ public abstract class PKIFactoryAccess {
 	private static final String PKI_FACTORY_HOST;
 	private static final String PKI_FACTORY_KEYSTORE_PASSWORD;
 
-	private static final JdbcDataSource dataSource;
+	private static final Connection sqlConnection;
 
 	static {
 
@@ -83,9 +83,7 @@ public abstract class PKIFactoryAccess {
 
 			PKI_FACTORY_HOST = props.getProperty("pki.factory.host");
 			PKI_FACTORY_KEYSTORE_PASSWORD = props.getProperty("pki.factory.keystore.password");
-
-			dataSource = new JdbcDataSource();
-			dataSource.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
+			sqlConnection = DriverManager.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to initialize from pki-factory.properties", e);
 		}
@@ -181,7 +179,7 @@ public abstract class PKIFactoryAccess {
 	private AIASource cacheAIASource() {
 		JdbcCacheAIASource cacheAIASource = new JdbcCacheAIASource();
 		cacheAIASource.setProxySource(onlineAIASource());
-		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(dataSource);
+		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(sqlConnection);
 		cacheAIASource.setJdbcCacheConnector(jdbcCacheConnector);
 		try {
 			cacheAIASource.initTable();
@@ -200,7 +198,7 @@ public abstract class PKIFactoryAccess {
 	private JdbcCacheCRLSource cacheCRLSource() {
 		JdbcCacheCRLSource cacheCRLSource = new JdbcCacheCRLSource();
 		cacheCRLSource.setProxySource(onlineCrlSource());
-		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(dataSource);
+		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(sqlConnection);
 		cacheCRLSource.setJdbcCacheConnector(jdbcCacheConnector);
 		cacheCRLSource.setDefaultNextUpdateDelay(3 * 24 * 60 * 60L); // 3 days
 		try {
@@ -220,7 +218,7 @@ public abstract class PKIFactoryAccess {
 	private JdbcCacheOCSPSource cacheOCSPSource() {
 		JdbcCacheOCSPSource cacheOCSPSource = new JdbcCacheOCSPSource();
 		cacheOCSPSource.setProxySource(onlineOcspSource());
-		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(dataSource);
+		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(sqlConnection);
 		cacheOCSPSource.setJdbcCacheConnector(jdbcCacheConnector);
 		cacheOCSPSource.setDefaultNextUpdateDelay(3 * 60L); // 3 minutes
 		try {

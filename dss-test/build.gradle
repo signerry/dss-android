@@ -12,7 +12,7 @@ dependencies {
     api project(':dss-service')
     implementation 'org.apache.santuario:xmlsec:2.3.0'
     implementation 'ch.qos.logback:logback-classic:1.2.10'
-    implementation 'com.h2database:h2:2.1.210'
+    api 'com.h2database:h2:2.1.210'
     implementation 'org.junit.platform:junit-platform-launcher:1.8.2'
     implementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     implementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'

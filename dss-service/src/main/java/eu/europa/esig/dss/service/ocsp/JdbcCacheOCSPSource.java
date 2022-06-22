@@ -30,12 +30,17 @@ import eu.europa.esig.dss.spi.x509.revocation.JdbcRevocationSource;
 import eu.europa.esig.dss.spi.x509.revocation.RevocationToken;
 import eu.europa.esig.dss.spi.x509.revocation.ocsp.OCSPSource;
 import eu.europa.esig.dss.spi.x509.revocation.ocsp.OCSPToken;
+
+import org.apache.commons.io.IOUtils;
 import org.bouncycastle.cert.ocsp.BasicOCSPResp;
 import org.bouncycastle.cert.ocsp.OCSPException;
 import org.bouncycastle.cert.ocsp.OCSPResp;
 import org.bouncycastle.cert.ocsp.SingleResp;
+import org.h2.jdbc.JdbcBlob;
+import org.h2.jdbc.JdbcClob;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -144,17 +149,17 @@ public class JdbcCacheOCSPSource extends JdbcRevocationSource<OCSP> implements O
 	protected RevocationToken<OCSP> buildRevocationTokenFromResult(JdbcCacheConnector.JdbcResultRecord resultRecord,
 				CertificateToken certificateToken, CertificateToken issuerCert) throws DSSExternalResourceException {
 		try {
-			final byte[] data = (byte[]) resultRecord.get(SQL_FIND_QUERY_DATA);
+			final JdbcBlob clob = (JdbcBlob) resultRecord.get(SQL_FIND_QUERY_DATA);
 			final String url = (String) resultRecord.get(SQL_FIND_QUERY_LOC);
 			
-			final OCSPResp ocspResp = new OCSPResp(data);
+			final OCSPResp ocspResp = new OCSPResp(IOUtils.toByteArray(clob.getBinaryStream()));
 			BasicOCSPResp basicResponse = (BasicOCSPResp) ocspResp.getResponseObject();
 			SingleResp latestSingleResponse = DSSRevocationUtils.getLatestSingleResponse(basicResponse, certificateToken, issuerCert);
 			OCSPToken ocspToken = new OCSPToken(basicResponse, latestSingleResponse, certificateToken, issuerCert);
 			ocspToken.setSourceURL(url);
 			ocspToken.setExternalOrigin(RevocationOrigin.CACHED);
 			return ocspToken;
-		} catch (IOException | OCSPException e) {
+		} catch (IOException | OCSPException | SQLException e) {
 			throw new DSSExternalResourceException(String.format(
 					"An error occurred during an attempt to obtain a revocation token. Reason : %s", e.getMessage()), e);
 		}

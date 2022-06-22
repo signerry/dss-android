@@ -305,7 +305,7 @@ public abstract class PKIFactoryAccess {
 		dataLoader.setTimeoutConnection(TIMEOUT_MS);
 		dataLoader.setTimeoutSocket(TIMEOUT_MS);
 		cacheDataLoader.setDataLoader(dataLoader);
-		cacheDataLoader.setFileCacheDirectory(getCtx().getCacheDir());
+		cacheDataLoader.setFileCacheDirectory(getTmpDirectory());
 		cacheDataLoader.setCacheExpirationTime(3600000L);
 		return cacheDataLoader;
 	}

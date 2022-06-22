@@ -164,7 +164,8 @@ allprojects {
 
 
         implementation 'com.h2database:h2:2.1.210'
-
+        testImplementation 'com.h2database:h2:2.1.210'
+        androidTestImplementation 'com.h2database:h2:2.1.210'
 
 //        implementation "org.apache.httpcomponents.client5:httpclient5:${httpclient5_version}"
 //        implementation "org.apache.pdfbox:pdfbox:${pdfbox_version}"

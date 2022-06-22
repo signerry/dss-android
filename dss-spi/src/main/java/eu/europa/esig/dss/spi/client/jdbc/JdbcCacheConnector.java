@@ -24,6 +24,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
+
+import java.io.ByteArrayInputStream;
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,15 +49,15 @@ public class JdbcCacheConnector {
     /**
      * SQL DataSource to create connection with
      */
-    private final DataSource dataSource;
+    private final Connection sqlConnection;
 
     /**
      * Default constructor
      *
-     * @param dataSource {@link DataSource} to connect with
+     * @param sqlConnection {@link DataSource} to connect with
      */
-    public JdbcCacheConnector(final DataSource dataSource) {
-        this.dataSource = dataSource;
+    public JdbcCacheConnector(final Connection sqlConnection) {
+        this.sqlConnection = sqlConnection;
     }
 
     /**
@@ -68,13 +71,21 @@ public class JdbcCacheConnector {
     public int execute(final String query, Object... arguments) {
         Objects.requireNonNull(query, "Query cannot be null!");
 
-        Connection c = null;
+        Connection c = this.sqlConnection;
         PreparedStatement s = null;
         try {
-            c = dataSource.getConnection();
             s = c.prepareStatement(query);
             for (int ii = 0; ii < arguments.length; ii++) {
-                s.setObject(ii + 1, arguments[ii]);
+                if(arguments[ii] instanceof byte[]) {
+                    s.setBinaryStream(ii+1, new ByteArrayInputStream((byte[]) arguments[ii]));
+                }
+                else if(arguments[ii] instanceof org.h2.jdbc.JdbcBlob) {
+                    s.setClob(ii+1, (Clob) arguments[ii]);
+                }
+                else {
+                    s.setObject(ii + 1, arguments[ii]);
+                }
+
             }
             int ii = s.executeUpdate();
             c.commit();
@@ -102,41 +113,38 @@ public class JdbcCacheConnector {
      */
     public Collection<JdbcResultRecord> select(final String selectQuery, Collection<JdbcResultRequest> requests,
                                                Object... arguments) {
-//        Connection c = null;
-//        PreparedStatement s = null;
-//        ResultSet rs = null;
-//        try {
-//            c = dataSource.getConnection();
-//            s = c.prepareStatement(selectQuery);
-//            for (int ii = 0; ii < arguments.length; ii++) {
-//                s.setObject(ii + 1, arguments[ii]);
-//            }
-//            rs = s.executeQuery();
-//
-//            Collection<JdbcResultRecord> records = new ArrayList<>();
-//            while (rs.next()) {
-//                JdbcResultRecord resultRecord = new JdbcResultRecord();
-//                for (JdbcResultRequest request : requests) {
-//                    Object object = rs.getObject(request.getColumnName(), request.getTargetClass());
-//                    resultRecord.put(request.getColumnName(), object);
-//                }
-//                records.add(resultRecord);
-//            }
-//
-//            c.commit();
-//            LOG.debug("The SELECT query [{}] has been executed successfully.", selectQuery);
-//            return records;
-//
-//        } catch (final SQLException e) {
-//            LOG.error("Unable to execute query [{}]. Reason : {}", selectQuery, e.getMessage(), e);
-//            rollback(c);
-//            return Collections.emptySet();
-//
-//        } finally {
-//            closeQuietly(c, s, rs);
-//        }
+        Connection c = this.sqlConnection;
+        PreparedStatement s = null;
+        ResultSet rs = null;
+        try {
+            s = c.prepareStatement(selectQuery);
+            for (int ii = 0; ii < arguments.length; ii++) {
+                s.setObject(ii + 1, arguments[ii]);
+            }
+            rs = s.executeQuery();
 
-        return  null;
+            Collection<JdbcResultRecord> records = new ArrayList<>();
+            while (rs.next()) {
+                JdbcResultRecord resultRecord = new JdbcResultRecord();
+                for (JdbcResultRequest request : requests) {
+                    Object object = rs.getObject(request.getColumnName());
+                    resultRecord.put(request.getColumnName(), object);
+                }
+                records.add(resultRecord);
+            }
+
+            c.commit();
+            LOG.debug("The SELECT query [{}] has been executed successfully.", selectQuery);
+            return records;
+
+        } catch (final SQLException e) {
+            LOG.error("Unable to execute query [{}]. Reason : {}", selectQuery, e.getMessage(), e);
+            rollback(c);
+            return Collections.emptySet();
+
+        } finally {
+            closeQuietly(c, s, rs);
+        }
     }
 
     /**
@@ -146,10 +154,9 @@ public class JdbcCacheConnector {
      * @return TRUE if the query has been executed successfully, FALSE otherwise
      */
     public boolean tableQuery(final String query) {
-        Connection c = null;
+        Connection c = this.sqlConnection;
         Statement s = null;
         try {
-            c = dataSource.getConnection();
             s = c.createStatement();
             boolean result = s.execute(query);
             c.commit();
@@ -171,10 +178,9 @@ public class JdbcCacheConnector {
      * @throws SQLException if an exception occurs
      */
     public int executeThrowable(final String query) throws SQLException {
-        Connection c = null;
+        Connection c = this.sqlConnection;
         Statement s = null;
         try {
-            c = dataSource.getConnection();
             s = c.createStatement();
             int result = s.executeUpdate(query);
             c.commit();
@@ -228,13 +234,7 @@ public class JdbcCacheConnector {
      * 			the connection
      */
     private void closeQuietly(final Connection c) {
-        try {
-            if (c != null) {
-                c.close();
-            }
-        } catch (final SQLException e) {
-            // purposely empty
-        }
+
     }
 
     /**

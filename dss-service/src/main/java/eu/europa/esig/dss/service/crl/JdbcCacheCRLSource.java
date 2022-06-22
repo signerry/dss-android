@@ -20,6 +20,13 @@
  */
 package eu.europa.esig.dss.service.crl;
 
+import org.apache.commons.io.IOUtils;
+import org.h2.jdbc.JdbcBlob;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import eu.europa.esig.dss.crl.CRLBinary;
 import eu.europa.esig.dss.crl.CRLUtils;
 import eu.europa.esig.dss.crl.CRLValidity;
@@ -34,10 +41,6 @@ import eu.europa.esig.dss.spi.x509.revocation.JdbcRevocationSource;
 import eu.europa.esig.dss.spi.x509.revocation.RevocationToken;
 import eu.europa.esig.dss.spi.x509.revocation.crl.CRLSource;
 import eu.europa.esig.dss.spi.x509.revocation.crl.CRLToken;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * CRLSource that retrieve information from a JDBC datasource
@@ -157,7 +160,12 @@ public class JdbcCacheCRLSource extends JdbcRevocationSource<CRL> implements CRL
 	protected RevocationToken<CRL> buildRevocationTokenFromResult(JdbcCacheConnector.JdbcResultRecord resultRecord,
 				CertificateToken certificateToken, CertificateToken issuerCertificateToken) throws DSSExternalResourceException {
 		try {
-			CRLBinary crlBinary = CRLUtils.buildCRLBinary((byte[]) resultRecord.get(SQL_FIND_QUERY_DATA));
+			JdbcBlob clob = (JdbcBlob) resultRecord.get(SQL_FIND_QUERY_DATA);
+			byte[] bytes = IOUtils.toByteArray(clob.getBinaryStream());
+
+			CRLBinary crlBinary = CRLUtils.buildCRLBinary(bytes);
+
+
 			CertificateToken cachedIssuerCertificate = DSSUtils.loadCertificate((byte[]) resultRecord.get(SQL_FIND_QUERY_ISSUER));
 
 			final CRLValidity cached = CRLUtils.buildCRLValidity(crlBinary, cachedIssuerCertificate);

@@ -8,10 +8,27 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 
 public class TestUtils {
     public static Context getCtx() {
         return  InstrumentationRegistry.getInstrumentation().getTargetContext();
+    }
+
+
+    public static File getTmpDirectory() {
+
+        try {
+            return getCtx().getCacheDir();
+        }
+        catch (java.lang.IllegalStateException e) {
+            try {
+                return Files.createTempDirectory("test").toFile();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+
     }
 
     public static InputStream getResourceAsStream(String resourcePath) {

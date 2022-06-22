@@ -56,32 +56,7 @@ allprojects {
 
     }
 
-
-
     android {
-
-        project.gradle.taskGraph.whenReady {
-            connectedDebugAndroidTest {
-                ignoreFailures = true
-            }
-        }
-
-
-        testOptions {
-            unitTests.all {
-                // let JUnit report mark the job status in case of error
-                ignoreFailures = true
-                testLogging {
-                    events "passed", "skipped", "failed"
-                    exceptionFormat "short"
-
-                    debug {
-                        exceptionFormat "full"
-                    }
-                }
-            }
-        }
-
         defaultConfig {
             minSdkVersion 29
             compileSdkVersion 29
@@ -126,36 +101,12 @@ allprojects {
         sourceSets {
             main {
                 manifest.srcFile 'AndroidManifest.xml'
-
-
-               // res.srcDirs = ['res']
             }
-
-//            androidTest {
-//                java.srcDirs = ['src/androidTest/java']
-//                res.srcDirs = ['src/androidTest/resources']
-//            }
-
-//            androidTest {
-//                resources.srcDirs += ['src/test/res']
-//                java.srcDirs = ['src/test/java']
-//            }
-
-
         }
     }
 
-
-
-
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
-
-
-
-
-
-
 
     repositories {
         mavenCentral()

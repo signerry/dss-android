@@ -1,4 +1,5 @@
-
+```
 Test replace:
 new File\("src/test/resources/(.*?)"\)
-TestUtils.getResourceAsFile("'$1")
+TestUtils.getResourceAsFile("$1")
+```

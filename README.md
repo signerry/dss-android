@@ -1,3 +1,6 @@
+jaxb impl: jakarta
+stock android wc3.dom -> ?
+
 ```
 Test replace:
 new File\("src/test/resources/(.*?)"\)

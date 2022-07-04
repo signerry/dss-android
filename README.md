@@ -10,4 +10,9 @@ TestUtils.getResourceAsFile("$1")
 
 new FileDocument\("src/test/resources/(.*)"\)
 new FileDocument\(TestUtils.getResourceAsFile("$1"\))
+
+new FileInputStream\("src/test/resources/(.*?)"\)
+new FileInputStream\(TestUtils.getResourceAsFile("$1"\))
+
+
 ```

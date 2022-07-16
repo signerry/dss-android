@@ -23,7 +23,7 @@
  * questions.
  */
 
-package eu.europa.esig.xades;
+package com.signerry.android;
 
 /**
  * <p>Utility class to contain basic XML values as constants.
@@ -212,7 +212,7 @@ public class XMLConstants {
      * jar[:scheme]<br><br>
      *
      * Protocols including the keyword "jar" are case-insensitive. Any whitespaces as defined by
-     * {@link Character#isSpaceChar } in the value will be ignored.
+     * {@link java.lang.Character#isSpaceChar } in the value will be ignored.
      * Examples of protocols are file, http, jar:file.
      *
      * </blockquote>
@@ -276,7 +276,7 @@ public class XMLConstants {
      * jar[:scheme]<br><br>
      *
      * Protocols including the keyword "jar" are case-insensitive. Any whitespaces as defined by
-     * {@link Character#isSpaceChar } in the value will be ignored.
+     * {@link java.lang.Character#isSpaceChar } in the value will be ignored.
      * Examples of protocols are file, http, jar:file.
      *
      * </blockquote>
@@ -340,7 +340,7 @@ public class XMLConstants {
      * jar[:scheme]<br><br>
      *
      * Protocols including the keyword "jar" are case-insensitive. Any whitespaces as defined by
-     * {@link Character#isSpaceChar } in the value will be ignored.
+     * {@link java.lang.Character#isSpaceChar } in the value will be ignored.
      * Examples of protocols are file, http, jar:file.
      *
      * </blockquote>

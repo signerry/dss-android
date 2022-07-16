@@ -21,6 +21,8 @@
 package eu.europa.esig.dss.token;
 
 import eu.europa.esig.dss.model.DSSException;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,7 +100,7 @@ public class KeyStoreSignatureTokenConnection extends AbstractKeyStoreTokenConne
 	 */
 	public KeyStoreSignatureTokenConnection(InputStream ksStream, String ksType, PasswordProtection password) {
 		try (InputStream is = ksStream) {
-			this.keyStore = KeyStore.getInstance(ksType);
+			this.keyStore = KeyStore.getInstance(ksType, new BouncyCastleProvider());
 			this.password = password;
 			this.keyStore.load(is, password.getPassword());
 		} catch (Exception e) {

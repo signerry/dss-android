@@ -25,6 +25,7 @@ import eu.europa.esig.dss.enumerations.SignatureAlgorithm;
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledForJreRange;
@@ -46,7 +47,7 @@ public abstract class AbstractTestCRLUtils extends AbstractCRLParserTestUtils {
 
 	static {
 		try {
-			certificateFactory = CertificateFactory.getInstance("X.509");
+			certificateFactory = CertificateFactory.getInstance("X.509", new BouncyCastleProvider());
 		} catch (CertificateException e) {
 			throw new DSSException("Platform does not support X509 certificate", e);
 		}

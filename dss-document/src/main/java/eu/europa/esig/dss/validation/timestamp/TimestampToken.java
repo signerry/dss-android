@@ -54,6 +54,7 @@ import org.bouncycastle.cms.SignerInformation;
 import org.bouncycastle.cms.SignerInformationStore;
 import org.bouncycastle.cms.SignerInformationVerifier;
 import org.bouncycastle.cms.jcajce.JcaSimpleSignerInfoVerifierBuilder;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.OperatorException;
 import org.bouncycastle.tsp.TSPException;
 import org.bouncycastle.tsp.TimeStampToken;
@@ -403,7 +404,7 @@ public class TimestampToken extends Token {
 	private SignerInformationVerifier getSignerInformationVerifier(final CertificateToken candidate) {
 		try {
 			final JcaSimpleSignerInfoVerifierBuilder verifier = new JcaSimpleSignerInfoVerifierBuilder();
-			verifier.setProvider(DSSSecurityProvider.getSecurityProvider());
+			verifier.setProvider(new BouncyCastleProvider());
 			return verifier.build(candidate.getCertificate());
 		} catch (OperatorException e) {
 			throw new DSSException("Unable to build an instance of SignerInformationVerifier", e);

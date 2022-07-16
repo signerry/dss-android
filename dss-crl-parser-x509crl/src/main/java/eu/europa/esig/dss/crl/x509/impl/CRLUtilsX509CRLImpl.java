@@ -156,13 +156,13 @@ public class CRLUtilsX509CRLImpl extends AbstractCRLUtils implements ICRLUtils {
 	private CertificateFactory getCertificateFactory() {
 		try {
 			// TODO extract BC
-			CertificateFactory cf = CertificateFactory.getInstance("X.509", BouncyCastleProvider.PROVIDER_NAME);
+			CertificateFactory cf = CertificateFactory.getInstance("X.509", new BouncyCastleProvider());
 			LOG.debug("CertificateFactory instantiated with BouncyCastle");
 			return cf;
-		} catch (CertificateException | NoSuchProviderException e) {
+		} catch (CertificateException e) {
 			LOG.debug("Unable to instantiate with BouncyCastle (not registered ?), trying with default CertificateFactory");
 			try {
-				return CertificateFactory.getInstance("X.509");
+				return CertificateFactory.getInstance("X.509", new BouncyCastleProvider());
 			} catch (CertificateException e1) {
 				throw new DSSException("Unable to create CertificateFactory", e1);
 			}

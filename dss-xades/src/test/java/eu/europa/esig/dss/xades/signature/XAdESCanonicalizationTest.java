@@ -62,6 +62,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 
 @Tag("slow")
 public class XAdESCanonicalizationTest extends AbstractXAdESTestSignature {
@@ -101,7 +102,7 @@ public class XAdESCanonicalizationTest extends AbstractXAdESTestSignature {
 		this.canonicalizationSignedInfo = canonicalizationSignedInfo;
 		this.packaging = packaging;
 
-		documentToSign = new FileDocument(new File("src/test/resources/sample.xml"));
+		documentToSign = new FileDocument(getResourceAsFile("sample.xml"));
 
 		signatureParameters = new XAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());
@@ -176,7 +177,7 @@ public class XAdESCanonicalizationTest extends AbstractXAdESTestSignature {
 			NodeList transformNodes = getReferenceTransforms(doc, "");
 			String algo = getTransformAlgo(transformNodes.item(1));
 
-			File orginalFile = new File("src/test/resources/sample.xml");
+			File orginalFile = getResourceAsFile("sample.xml");
 			// Transform original file into byte array
 			byte[] fileContent = Files.readAllBytes(orginalFile.toPath());
 			originalFileByteArray = DSSXMLUtils.canonicalize(algo, fileContent);

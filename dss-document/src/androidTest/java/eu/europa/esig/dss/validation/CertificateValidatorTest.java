@@ -35,6 +35,7 @@ import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.spi.x509.CommonTrustedCertificateSource;
 import eu.europa.esig.dss.spi.x509.revocation.crl.ExternalResourcesCRLSource;
 import eu.europa.esig.dss.spi.x509.revocation.ocsp.ExternalResourcesOCSPSource;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.reports.CertificateReports;
 import org.junit.jupiter.api.Test;
@@ -61,7 +62,7 @@ public class CertificateValidatorTest {
 
 	@Test
 	public void test() throws JAXBException, IOException, SAXException, TransformerException {
-		CertificateValidator cv = CertificateValidator.fromCertificate(DSSUtils.loadCertificate(new File("src/test/resources/certificates/CZ.cer")));
+		CertificateValidator cv = CertificateValidator.fromCertificate(DSSUtils.loadCertificate(TestUtils.getResourceAsFile("certificates/CZ.cer")));
 		cv.setCertificateVerifier(new CommonCertificateVerifier());
 
 		CertificateReports reports = cv.validate();
@@ -97,7 +98,7 @@ public class CertificateValidatorTest {
 	@Test
 	public void testPolicyNull() {
 		CertificateValidator cv = CertificateValidator
-				.fromCertificate(DSSUtils.loadCertificate(new File("src/test/resources/certificates/CZ.cer")));
+				.fromCertificate(DSSUtils.loadCertificate(TestUtils.getResourceAsFile("certificates/CZ.cer")));
 		cv.setCertificateVerifier(new CommonCertificateVerifier());
 		NullPointerException exception = assertThrows(NullPointerException.class, () -> cv.validate(null));
 		assertEquals("The validation policy is missing", exception.getMessage());
@@ -105,7 +106,7 @@ public class CertificateValidatorTest {
 
 	@Test
 	public void testCustomDate() {
-		CertificateValidator cv = CertificateValidator.fromCertificate(DSSUtils.loadCertificate(new File("src/test/resources/certificates/CZ.cer")));
+		CertificateValidator cv = CertificateValidator.fromCertificate(DSSUtils.loadCertificate(TestUtils.getResourceAsFile("certificates/CZ.cer")));
 		cv.setCertificateVerifier(new CommonCertificateVerifier());
 		GregorianCalendar gregorianCalendar = new GregorianCalendar(2019, 1, 1);
 		cv.setValidationTime(gregorianCalendar.getTime());
@@ -144,8 +145,10 @@ public class CertificateValidatorTest {
 
 	@Test
 	public void qcStatementsTest() {
+		File resourceAsFile = TestUtils.getResourceAsFile("certificates/john_doe_tc.crt");
+
 		CertificateValidator cv = CertificateValidator
-				.fromCertificate(DSSUtils.loadCertificate(new File("src/test/resources/certificates/john_doe_tc.crt")));
+				.fromCertificate(DSSUtils.loadCertificate(resourceAsFile));
 		cv.setCertificateVerifier(new CommonCertificateVerifier());
 		CertificateReports reports = cv.validate();
 
@@ -164,7 +167,7 @@ public class CertificateValidatorTest {
 
 	@Test
 	public void userFriendlyIdentifierProviderTest() {
-		CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/certificates/CZ.cer"));
+		CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("certificates/CZ.cer"));
 		CertificateValidator cv = CertificateValidator.fromCertificate(certificate);
 		cv.setCertificateVerifier(new CommonCertificateVerifier());
 		cv.setTokenIdentifierProvider(new UserFriendlyIdentifierProvider());

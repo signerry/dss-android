@@ -62,6 +62,7 @@ import eu.europa.esig.dss.spi.x509.CertificateSource;
 import eu.europa.esig.dss.spi.x509.CertificateValidity;
 import eu.europa.esig.dss.spi.x509.CommonCertificateSource;
 import eu.europa.esig.dss.spi.x509.CommonTrustedCertificateSource;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.reports.Reports;
 import eu.europa.esig.dss.validation.timestamp.TimestampCRLSource;
@@ -84,7 +85,7 @@ public class TimestampTokenTest {
 	@Test
 	public void disig() throws Exception {
 
-		DSSDocument tst = new FileDocument("src/test/resources/disig.tst");
+		DSSDocument tst = new FileDocument(TestUtils.getResourceAsFile("disig.tst"));
 
 		try (InputStream fis = tst.openStream()) {
 			byte[] byteArray = Utils.toByteArray(fis);
@@ -179,9 +180,9 @@ public class TimestampTokenTest {
 
 	@Test
 	public void correctToken() throws Exception {
-		CertificateToken wrongToken = DSSUtils.loadCertificate(new File("src/test/resources/certificates/ec.europa.eu.crt"));
+		CertificateToken wrongToken = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("certificates/ec.europa.eu.crt"));
 
-		try (FileInputStream fis = new FileInputStream("src/test/resources/archive_timestamp.tst")) {
+		try (FileInputStream fis = new FileInputStream(TestUtils.getResourceAsFile("archive_timestamp.tst"))) {
 			byte[] byteArray = Utils.toByteArray(fis);
 			TimestampToken token = new TimestampToken(byteArray, TimestampType.ARCHIVE_TIMESTAMP);
 			assertNotNull(token);
@@ -427,7 +428,7 @@ public class TimestampTokenTest {
 	
 	@Test
 	public void wrongOCSPResponseTest() throws Exception {
-		DSSDocument tst = new FileDocument("src/test/resources/tst_with_broken_ocsp.tst");
+		DSSDocument tst = new FileDocument(TestUtils.getResourceAsFile("tst_with_broken_ocsp.tst"));
 		TimestampToken timestampToken = new TimestampToken(DSSUtils.toByteArray(tst), TimestampType.CONTENT_TIMESTAMP);
 		assertNotNull(timestampToken);
 		

@@ -33,6 +33,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsStream;
 
 public class DomUtilsTest {
 
@@ -71,7 +73,7 @@ public class DomUtilsTest {
 
 	@Test
 	public void testExpansionXml() throws IOException {
-		try (FileInputStream fis = new FileInputStream("src/test/resources/xml_expansion.xml")) {
+		try (FileInputStream fis = new FileInputStream(getResourceAsFile("xml_expansion.xml"))) {
 			Exception exception = assertThrows(DSSException.class, () -> DomUtils.buildDOM(fis));
 			assertTrue(exception.getMessage().contains("Unable to parse content (XML expected)"));
 		}
@@ -80,7 +82,7 @@ public class DomUtilsTest {
 	@Test
 	public void testEntityXml() throws IOException {
 		// Should ignore the URL embedded in the DTD
-		try (FileInputStream fis = new FileInputStream("src/test/resources/xml_entity.xml")) {
+		try (InputStream fis = getResourceAsStream("xml_entity.xml")) {
 			Exception exception = assertThrows(DSSException.class, () -> DomUtils.buildDOM(fis));
 			assertTrue(exception.getMessage().contains("Unable to parse content (XML expected)"));
 		}

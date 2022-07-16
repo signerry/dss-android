@@ -34,6 +34,7 @@ import eu.europa.esig.dss.policy.jaxb.ConstraintsParameters;
 import eu.europa.esig.dss.simplereport.SimpleReport;
 import eu.europa.esig.dss.simplereport.SimpleReportFacade;
 import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.executor.ValidationLevel;
 import eu.europa.esig.dss.validation.reports.Reports;
@@ -52,12 +53,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 
 public class DetachedTimestampValidatorTest {
 
 	@Test
 	public void testWithAttached() throws Exception {
-		DSSDocument timestamp = new FileDocument("src/test/resources/d-trust.tsr");
+		DSSDocument timestamp = new FileDocument(TestUtils.getResourceAsFile("d-trust.tsr"));
 		DSSDocument timestampedContent = new InMemoryDocument("Test123".getBytes());
 		DetachedTimestampValidator timestampValidator = new DetachedTimestampValidator(timestamp);
 		timestampValidator.setTimestampedData(timestampedContent);
@@ -80,7 +82,7 @@ public class DetachedTimestampValidatorTest {
 
 	@Test
 	public void sdv1() throws Exception {
-		DSSDocument timestamp = new FileDocument("src/test/resources/d-trust.tsr");
+		DSSDocument timestamp = new FileDocument(TestUtils.getResourceAsFile("d-trust.tsr"));
 		DSSDocument timestampedContent = new InMemoryDocument("Test123".getBytes());
 
 		DetachedTimestampValidator validator = (DetachedTimestampValidator) SignedDocumentValidator.fromDocument(timestamp);
@@ -92,7 +94,7 @@ public class DetachedTimestampValidatorTest {
 
 	@Test
 	public void sdv2() throws Exception {
-		DSSDocument timestamp = new FileDocument("src/test/resources/d-trust.tsr");
+		DSSDocument timestamp = new FileDocument(TestUtils.getResourceAsFile("d-trust.tsr"));
 		DSSDocument timestampedContent = new InMemoryDocument("Test123".getBytes());
 
 		SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(timestamp);
@@ -104,7 +106,7 @@ public class DetachedTimestampValidatorTest {
 
 	@Test
 	public void sdvNoFile() throws Exception {
-		DSSDocument timestamp = new FileDocument("src/test/resources/d-trust.tsr");
+		DSSDocument timestamp = new FileDocument(getResourceAsFile("d-trust.tsr"));
 
 		SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(timestamp);
 		validator.setCertificateVerifier(getOfflineCertificateVerifier());
@@ -144,7 +146,7 @@ public class DetachedTimestampValidatorTest {
 
 	@Test
 	public void detachedNoFile() throws Exception {
-		DSSDocument timestamp = new FileDocument("src/test/resources/d-trust.tsr");
+		DSSDocument timestamp = new FileDocument(getResourceAsFile("d-trust.tsr"));
 
 		DetachedTimestampValidator validator = new DetachedTimestampValidator(timestamp);
 		validator.setCertificateVerifier(getOfflineCertificateVerifier());
@@ -159,7 +161,7 @@ public class DetachedTimestampValidatorTest {
 
 	@Test
 	public void sdvTooMuchFiles() {
-		DSSDocument timestamp = new FileDocument("src/test/resources/d-trust.tsr");
+		DSSDocument timestamp = new FileDocument(getResourceAsFile("d-trust.tsr"));
 		DSSDocument timestampedContent = new InMemoryDocument("Test123".getBytes());
 
 		SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(timestamp);
@@ -172,7 +174,7 @@ public class DetachedTimestampValidatorTest {
 	@Test
 	public void testWithDigestDocument() throws Exception {
 
-		FileDocument timestamp = new FileDocument("src/test/resources/d-trust.tsr");
+		FileDocument timestamp = new FileDocument(getResourceAsFile("d-trust.tsr"));
 		TimestampToken tst = new TimestampToken(DSSUtils.toByteArray(timestamp), TimestampType.CONTENT_TIMESTAMP);
 		DigestAlgorithm algorithm = tst.getMessageImprint().getAlgorithm();
 		assertNotNull(algorithm);
@@ -202,7 +204,7 @@ public class DetachedTimestampValidatorTest {
 		DetachedTimestampValidator timestampValidator = new DetachedTimestampValidator(doc);
 		timestampValidator.setTimestampedData(digestDocument);
 		timestampValidator.setCertificateVerifier(getOfflineCertificateVerifier());
-		ConstraintsParameters constraintsParameters = ValidationPolicyFacade.newFacade().unmarshall(new File("src/test/resources/dss-1929/ts-policy.xml"));
+		ConstraintsParameters constraintsParameters = ValidationPolicyFacade.newFacade().unmarshall(getResourceAsFile("dss-1929/ts-policy.xml"));
 		assertNotNull(constraintsParameters);
 
 		Reports reports = timestampValidator.validateDocument(constraintsParameters);
@@ -240,7 +242,7 @@ public class DetachedTimestampValidatorTest {
 		SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(doc);
 		validator.setDetachedContents(Arrays.asList(digestDocument));
 		validator.setCertificateVerifier(getOfflineCertificateVerifier());
-		ConstraintsParameters constraintsParameters = ValidationPolicyFacade.newFacade().unmarshall(new File("src/test/resources/dss-1929/ts-policy.xml"));
+		ConstraintsParameters constraintsParameters = ValidationPolicyFacade.newFacade().unmarshall(getResourceAsFile("dss-1929/ts-policy.xml"));
 		assertNotNull(constraintsParameters);
 
 		Reports reports = validator.validateDocument(constraintsParameters);

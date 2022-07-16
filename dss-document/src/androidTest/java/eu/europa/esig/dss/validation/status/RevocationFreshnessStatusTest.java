@@ -22,6 +22,8 @@ package eu.europa.esig.dss.validation.status;
 
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.test.TestUtils;
+
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,9 +39,9 @@ public class RevocationFreshnessStatusTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(RevocationFreshnessStatusTest.class);
 
-    private final CertificateToken SIGNING_CERTIFICATE = DSSUtils.loadCertificate(new File("src/test/resources/certificates/good-user.cer"));
-    private final CertificateToken CA_CERTIFICATE = DSSUtils.loadCertificate(new File("src/test/resources/certificates/good-ca.cer"));
-    private final CertificateToken TST_CERTIFICATE = DSSUtils.loadCertificate(new File("src/test/resources/certificates/CZ.cer"));
+    private final CertificateToken SIGNING_CERTIFICATE = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("certificates/good-user.cer"));
+    private final CertificateToken CA_CERTIFICATE = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("certificates/good-ca.cer"));
+    private final CertificateToken TST_CERTIFICATE = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("certificates/CZ.cer"));
 
     private final String ERROR_MESSAGE = "Revocation is not fresh!";
     private final String CERT_ONE_MESSAGE = "No fresh revocation data found!";

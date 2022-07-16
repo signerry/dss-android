@@ -24,6 +24,8 @@ import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
 import eu.europa.esig.dss.enumerations.KeyUsageBit;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.test.TestUtils;
+
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -37,19 +39,19 @@ public class DSSPKUtilsTest {
 
 	@Test
 	public void getPublicKeyEncryptionAlgo() {
-		CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/BA-QC-Wurzel-CA-2_PN.txt"));
+		CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("BA-QC-Wurzel-CA-2_PN.txt"));
 		assertEquals(EncryptionAlgorithm.RSA, EncryptionAlgorithm.forKey(certificate.getPublicKey()));
 	}
 
 	@Test
 	public void getPublicKeyEncryptionAlgoECDSA() {
-		CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/certificates/ecdsa.cer"));
+		CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("certificates/ecdsa.cer"));
 		assertEquals(EncryptionAlgorithm.ECDSA, EncryptionAlgorithm.forKey(certificate.getPublicKey()));
 	}
 
 	@Test
 	public void getPublicKeySize() {
-		CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/BA-QC-Wurzel-CA-2_PN.txt"));
+		CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("BA-QC-Wurzel-CA-2_PN.txt"));
 		assertEquals(2048, DSSPKUtils.getPublicKeySize(certificate.getPublicKey()));
 		assertEquals("2048", DSSPKUtils.getStringPublicKeySize(certificate.getPublicKey()));
 		assertEquals("2048", DSSPKUtils.getStringPublicKeySize(certificate));
@@ -57,13 +59,13 @@ public class DSSPKUtilsTest {
 
 	@Test
 	public void getPublicKeySizeECDSA() {
-		CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/certificates/ecdsa.cer"));
+		CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("certificates/ecdsa.cer"));
 		assertEquals(256, DSSPKUtils.getPublicKeySize(certificate.getPublicKey()));
 	}
 
 	@Test
 	public void getPublicKeySizeSelfSign() {
-		CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/certificates/belgiumrca2-self-sign.crt"));
+		CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("certificates/belgiumrca2-self-sign.crt"));
 		assertEquals(2048, DSSPKUtils.getPublicKeySize(certificate.getPublicKey()));
 		assertEquals("2048", DSSPKUtils.getStringPublicKeySize(certificate.getPublicKey()));
 		assertEquals("2048", DSSPKUtils.getStringPublicKeySize(certificate));

@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Stream;
 
+import eu.europa.esig.dss.test.TestUtils;
 import jakarta.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
@@ -60,8 +61,8 @@ public class CertificateUnmarshallingTest {
 	private static final Logger LOG = LoggerFactory.getLogger(CertificateUnmarshallingTest.class);
 
 	public static Stream<Arguments> data() {
-		File folder = new File("src/test/resources/certificates");
-		Collection<File> listFiles = Utils.listFiles(folder, new String[] { "cer", "crt" }, true);
+
+		Collection<File> listFiles = TestUtils.listFiles("certificates/", new String[] { "cer", "crt" }, true);
 		Collection<Arguments> dataToRun = new ArrayList<>();
 		for (File file : listFiles) {
 			dataToRun.add(Arguments.of(file));

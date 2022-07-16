@@ -9,12 +9,28 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class TestUtils {
     public static Context getCtx() {
         return  InstrumentationRegistry.getInstrumentation().getTargetContext();
     }
 
+    public static Collection<File> listFiles(String folder, String[] extensions, boolean recursive) {
+        List<File> fileList = new ArrayList<>();
+
+        try {
+            String[] list = getCtx().getAssets().list(folder);
+            for(String path: list) {
+                fileList.add(getResourceAsFile(folder + path));
+            }
+            return fileList;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static File getTmpDirectory() {
 
@@ -28,22 +44,30 @@ public class TestUtils {
                 throw new RuntimeException(ex);
             }
         }
-
     }
 
     public static InputStream getResourceAsStream(String resourcePath) {
         try {
-            return TestUtils.class.getResourceAsStream("/" + resourcePath);
+            InputStream resourceAsStream = TestUtils.class.getResourceAsStream("/" + resourcePath);
+
+            if (resourceAsStream == null) {
+                throw new RuntimeException("resourcePath not found " + resourcePath);
+            }
+
+            return resourceAsStream;
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     public static File getResourceAsFile(String resourcePath) {
+
         try {
-            InputStream in = TestUtils.class.getResourceAsStream("/" + resourcePath);
+            //final InputStream   in = getCtx().getAssets().open(resourcePath);
+            final InputStream in = TestUtils.class.getResourceAsStream("/" + resourcePath);
             if (in == null) {
-                return null;
+                throw new RuntimeException("resourcePath not found " + resourcePath);
             }
 
             File tempFile = File.createTempFile(String.valueOf(in.hashCode()), ".tmp");

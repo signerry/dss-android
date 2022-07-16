@@ -62,6 +62,7 @@ import eu.europa.esig.dss.spi.x509.CertificateSource;
 import eu.europa.esig.dss.spi.x509.CertificateValidity;
 import eu.europa.esig.dss.spi.x509.CommonCertificateSource;
 import eu.europa.esig.dss.spi.x509.CommonTrustedCertificateSource;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.reports.Reports;
 import eu.europa.esig.dss.validation.timestamp.TimestampCRLSource;
@@ -181,7 +182,7 @@ public class TimestampTokenTest {
 	public void correctToken() throws Exception {
 		CertificateToken wrongToken = DSSUtils.loadCertificate(new File("src/test/resources/certificates/ec.europa.eu.crt"));
 
-		try (FileInputStream fis = new FileInputStream("src/test/resources/archive_timestamp.tst")) {
+		try (FileInputStream fis = new FileInputStream(TestUtils.getResourceAsFile("archive_timestamp.tst"))) {
 			byte[] byteArray = Utils.toByteArray(fis);
 			TimestampToken token = new TimestampToken(byteArray, TimestampType.ARCHIVE_TIMESTAMP);
 			assertNotNull(token);

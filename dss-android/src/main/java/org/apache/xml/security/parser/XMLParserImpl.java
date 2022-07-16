@@ -18,6 +18,8 @@
  */
 package org.apache.xml.security.parser;
 
+import com.signerry.android.AndroidUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.AccessController;
@@ -95,7 +97,7 @@ public class XMLParserImpl implements XMLParser {
     }
 
     private static DocumentBuilder createDocumentBuilder(boolean disallowDocTypeDeclarations) throws ParserConfigurationException {
-        DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
+        DocumentBuilderFactory f = AndroidUtils.getService(DocumentBuilderFactory.class);
         f.setNamespaceAware(true);
         f.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
         f.setFeature("http://apache.org/xml/features/disallow-doctype-decl", disallowDocTypeDeclarations);

@@ -28,6 +28,7 @@ import eu.europa.esig.dss.enumerations.KeyUsageBit;
 import eu.europa.esig.dss.enumerations.SignatureAlgorithm;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import org.bouncycastle.asn1.x509.Extension;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -101,7 +102,7 @@ public class CRLUtilsStreamImpl extends AbstractCRLUtils implements ICRLUtils {
 	private void checkSignatureValue(CRLValidity crlValidity, byte[] signatureValue, SignatureAlgorithm signatureAlgorithm, ByteArrayOutputStream baos,
 			CertificateToken signer) {
 		try {
-			Signature signature = Signature.getInstance(signatureAlgorithm.getJCEId());
+			Signature signature = Signature.getInstance(signatureAlgorithm.getJCEId(), new BouncyCastleProvider());
 			signature.initVerify(signer.getPublicKey());
 			signature.update(baos.toByteArray());
 			if (signature.verify(signatureValue)) {

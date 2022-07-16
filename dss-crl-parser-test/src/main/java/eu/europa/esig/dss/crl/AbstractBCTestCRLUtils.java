@@ -55,8 +55,8 @@ public abstract class AbstractBCTestCRLUtils extends AbstractCRLParserTestUtils 
 	public static void init() {
 		Security.addProvider(new BouncyCastleProvider());
 		try {
-			certificateFactory = CertificateFactory.getInstance("X.509", BouncyCastleProvider.PROVIDER_NAME);
-		} catch (CertificateException | NoSuchProviderException e) {
+			certificateFactory = CertificateFactory.getInstance("X.509", new BouncyCastleProvider());
+		} catch (CertificateException e) {
 			throw new DSSException("Unable to init the CertificateFactory", e);
 		}
 	}

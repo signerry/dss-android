@@ -38,6 +38,7 @@ import eu.europa.esig.dss.xades.definition.xades132.XAdES132Element;
 import org.apache.xml.security.c14n.CanonicalizationException;
 import org.apache.xml.security.c14n.Canonicalizer;
 import org.apache.xml.security.c14n.InvalidCanonicalizerException;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -153,7 +154,7 @@ public class XAdESCanonicalizationTest extends AbstractXAdESTestSignature {
 
 			byte[] sigValue = Utils.fromBase64(signatureValueBase64);
 
-			Signature signature = Signature.getInstance("SHA256withRSA");
+			Signature signature = Signature.getInstance("SHA256withRSA", new BouncyCastleProvider());
 			signature.initVerify(getSigningCert().getPublicKey());
 			signature.update(canonicalized);
 			boolean verify = signature.verify(sigValue);

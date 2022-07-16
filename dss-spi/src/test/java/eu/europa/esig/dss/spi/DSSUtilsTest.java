@@ -473,7 +473,7 @@ public class DSSUtilsTest {
 	@Test
 	public void signAndConvertECSignatureValueTest() throws Exception {
 		Security.addProvider(new BouncyCastleProvider());
-		KeyPairGenerator gen = KeyPairGenerator.getInstance("ECDSA");
+		KeyPairGenerator gen = KeyPairGenerator.getInstance("ECDSA", new BouncyCastleProvider());
 		KeyPair pair = gen.generateKeyPair();
 
 		ECPrivateKey ecPrivateKey = (ECPrivateKey) pair.getPrivate();

@@ -42,6 +42,7 @@ import org.bouncycastle.cms.CMSException;
 import org.bouncycastle.cms.CMSSignedData;
 import org.bouncycastle.crypto.digests.SHAKEDigest;
 import org.bouncycastle.crypto.io.DigestOutputStream;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.jcajce.JcaMiscPEMGenerator;
 import org.bouncycastle.tsp.TimeStampToken;
 import org.bouncycastle.util.io.pem.PemObject;
@@ -294,7 +295,7 @@ public final class DSSUtils {
 		try {
 			@SuppressWarnings("unchecked")
 			final Collection<X509Certificate> certificatesCollection = (Collection<X509Certificate>) CertificateFactory
-					.getInstance("X.509").generateCertificates(is);
+					.getInstance("X.509", new BouncyCastleProvider()).generateCertificates(is);
 			if (certificatesCollection != null) {
 				for (X509Certificate cert : certificatesCollection) {
 					certificates.add(new CertificateToken(cert));

@@ -20,7 +20,6 @@ package org.apache.xml.security.algorithms;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 
 import org.apache.xml.security.signature.XMLSignatureException;
 import org.apache.xml.security.utils.Constants;
@@ -36,6 +35,7 @@ import org.w3c.dom.Document;
  * </pre>
  */
 public final class MessageDigestAlgorithm extends Algorithm {
+
 
     /** Message Digest - NOT RECOMMENDED MD5*/
     public static final String ALGO_ID_DIGEST_NOT_RECOMMENDED_MD5 =
@@ -107,9 +107,7 @@ public final class MessageDigestAlgorithm extends Algorithm {
             Object[] exArgs = { algorithmURI };
             throw new XMLSignatureException("algorithms.NoSuchMap", exArgs);
         }
-
         MessageDigest md;
-        String provider = JCEMapper.getProviderId();
         try {
 
                 md = MessageDigest.getInstance(algorithmID, new BouncyCastleProvider());
@@ -196,7 +194,7 @@ public final class MessageDigestAlgorithm extends Algorithm {
      * @return the result of the {@link java.security.MessageDigest#getProvider} method
      */
     public java.security.Provider getJCEProvider() {
-        return algorithm.getProvider();
+        return new BouncyCastleProvider();
     }
 
     /**

@@ -63,7 +63,7 @@ public class TransformerFactoryBuilder extends AbstractFactoryBuilder<Transforme
 	
 	@Override
 	protected TransformerFactory instantiateFactory() {
-		return TransformerFactory.newInstance();
+		return AndroidUtils.getService(TransformerFactory.class);
 	}
 
 	@Override

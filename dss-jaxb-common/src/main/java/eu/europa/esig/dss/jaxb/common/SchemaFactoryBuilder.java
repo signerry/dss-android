@@ -65,7 +65,8 @@ public class SchemaFactoryBuilder extends AbstractFactoryBuilder<SchemaFactory> 
 	
 	@Override
 	protected SchemaFactory instantiateFactory() {
-		return SchemaFactory.newInstance(schemaLanguage);
+		SchemaFactory f = AndroidUtils.getService(SchemaFactory.class);
+		return f.newInstance(schemaLanguage);
 	}
 
 	/**

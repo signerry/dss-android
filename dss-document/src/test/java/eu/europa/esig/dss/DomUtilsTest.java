@@ -22,6 +22,8 @@ package eu.europa.esig.dss;
 
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.InMemoryDocument;
+import eu.europa.esig.dss.test.TestUtils;
+
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -71,7 +73,7 @@ public class DomUtilsTest {
 
 	@Test
 	public void testExpansionXml() throws IOException {
-		try (FileInputStream fis = new FileInputStream("src/test/resources/xml_expansion.xml")) {
+		try (FileInputStream fis = new FileInputStream(TestUtils.getResourceAsFile("xml_expansion.xml"))) {
 			Exception exception = assertThrows(DSSException.class, () -> DomUtils.buildDOM(fis));
 			assertTrue(exception.getMessage().contains("Unable to parse content (XML expected)"));
 		}
@@ -80,7 +82,7 @@ public class DomUtilsTest {
 	@Test
 	public void testEntityXml() throws IOException {
 		// Should ignore the URL embedded in the DTD
-		try (FileInputStream fis = new FileInputStream("src/test/resources/xml_entity.xml")) {
+		try (FileInputStream fis = new FileInputStream(TestUtils.getResourceAsFile("xml_entity.xml"))) {
 			Exception exception = assertThrows(DSSException.class, () -> DomUtils.buildDOM(fis));
 			assertTrue(exception.getMessage().contains("Unable to parse content (XML expected)"));
 		}

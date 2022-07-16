@@ -22,6 +22,8 @@ package eu.europa.esig.dss.validation;
 
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
+import eu.europa.esig.dss.test.TestUtils;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,7 +33,7 @@ public class SignedDocumentValidatorTest {
 
 	@Test
 	public void testNoDependency() {
-		FileDocument fileDocument = new FileDocument("src/test/resources/sample.xml");
+		FileDocument fileDocument = new FileDocument(TestUtils.getResourceAsFile("sample.xml"));
 		Exception exception = assertThrows(UnsupportedOperationException.class,
 				() -> SignedDocumentValidator.fromDocument(fileDocument));
 		assertEquals("Document format not recognized/handled", exception.getMessage());

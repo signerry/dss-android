@@ -26,6 +26,7 @@ import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.spi.client.http.DataLoader;
 import eu.europa.esig.dss.spi.x509.aia.DefaultAIASource;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.reports.CertificateReports;
 import org.junit.jupiter.api.Test;
@@ -54,7 +55,7 @@ public class MultiThreadsCertificateValidatorTest {
 		List<Future<CertificateReports>> futures = new ArrayList<>();
 
 		for (int i = 0; i < 100; i++) {
-			futures.add(executor.submit(new TestConcurrent(DSSUtils.loadCertificate(new File("src/test/resources/certificates/ec.europa.eu.crt")))));
+			futures.add(executor.submit(new TestConcurrent(DSSUtils.loadCertificate(TestUtils.getResourceAsFile("certificates/ec.europa.eu.crt")))));
 		}
 
 		for (Future<CertificateReports> future : futures) {

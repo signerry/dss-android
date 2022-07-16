@@ -25,6 +25,7 @@ import eu.europa.esig.dss.spi.DSSASN1Utils;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.spi.x509.CertificateRef;
 import eu.europa.esig.dss.spi.x509.SignerIdentifier;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import org.bouncycastle.asn1.x509.IssuerSerial;
 import org.junit.jupiter.api.BeforeAll;
@@ -42,7 +43,7 @@ public class TokenIdentifierProviderTest {
 
     @BeforeAll
     public static void init() {
-        certificate = DSSUtils.loadCertificate(new File("src/test/resources/certificates/CZ.cer"));
+        certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("certificates/CZ.cer"));
     }
 
     @Test

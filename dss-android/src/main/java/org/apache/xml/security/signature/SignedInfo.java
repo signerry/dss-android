@@ -35,6 +35,7 @@ import org.apache.xml.security.transforms.params.InclusiveNamespaces;
 import org.apache.xml.security.utils.Constants;
 import org.apache.xml.security.utils.XMLUtils;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -100,7 +101,7 @@ public class SignedInfo extends Manifest {
     public SignedInfo(
             Document doc, String signatureMethodURI, String canonicalizationMethodURI, Provider provider
     ) throws XMLSecurityException {
-        this(doc, signatureMethodURI, 0, canonicalizationMethodURI, provider, null);
+        this(doc, signatureMethodURI, 0, canonicalizationMethodURI,  new BouncyCastleProvider(), null);
     }
 
     /**
@@ -150,9 +151,9 @@ public class SignedInfo extends Manifest {
 
         if (hMACOutputLength > 0) {
             this.signatureAlgorithm =
-                    new SignatureAlgorithm(getDocument(), signatureMethodURI, hMACOutputLength, provider);
+                    new SignatureAlgorithm(getDocument(), signatureMethodURI, hMACOutputLength, new BouncyCastleProvider());
         } else {
-            this.signatureAlgorithm = new SignatureAlgorithm(getDocument(), signatureMethodURI, provider, spec);
+            this.signatureAlgorithm = new SignatureAlgorithm(getDocument(), signatureMethodURI,  new BouncyCastleProvider(), spec);
         }
 
         signatureMethod = this.signatureAlgorithm.getElement();
@@ -182,7 +183,7 @@ public class SignedInfo extends Manifest {
         addReturnToSelf();
 
         this.signatureAlgorithm =
-                new SignatureAlgorithm(signatureMethodElem, null, provider);
+                new SignatureAlgorithm(signatureMethodElem, null,  new BouncyCastleProvider());
 
         signatureMethod = this.signatureAlgorithm.getElement();
         appendSelf(signatureMethod);
@@ -258,7 +259,7 @@ public class SignedInfo extends Manifest {
         }
 
         this.signatureAlgorithm =
-                new SignatureAlgorithm(signatureMethod, this.getBaseURI(), secureValidation, provider);
+                new SignatureAlgorithm(signatureMethod, this.getBaseURI(), secureValidation,  new BouncyCastleProvider());
     }
 
     /**

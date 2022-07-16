@@ -26,7 +26,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -66,6 +65,7 @@ import org.apache.xml.security.stax.securityEvent.AlgorithmSuiteSecurityEvent;
 import org.apache.xml.security.stax.securityToken.InboundSecurityToken;
 import org.apache.xml.security.utils.UnsyncBufferedOutputStream;
 import org.apache.xml.security.utils.XMLUtils;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -312,14 +312,9 @@ public abstract class AbstractSignatureReferenceVerifyInputProcessor extends Abs
 
         MessageDigest messageDigest;
         try {
-            if (jceProvider != null) {
-                messageDigest = MessageDigest.getInstance(jceName, jceProvider);
-            } else {
-                messageDigest = MessageDigest.getInstance(jceName);
-            }
+            messageDigest = MessageDigest.getInstance(jceName, new BouncyCastleProvider());
+
         } catch (NoSuchAlgorithmException e) {
-            throw new XMLSecurityException(e);
-        } catch (NoSuchProviderException e) {
             throw new XMLSecurityException(e);
         }
 

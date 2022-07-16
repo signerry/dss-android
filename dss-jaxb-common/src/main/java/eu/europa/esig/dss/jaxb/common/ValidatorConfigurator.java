@@ -24,7 +24,6 @@ import eu.europa.esig.dss.alert.Alert;
 import eu.europa.esig.dss.jaxb.common.exception.SecurityConfigurationException;
 import org.xml.sax.ErrorHandler;
 
-import javax.xml.XMLConstants;
 import javax.xml.validation.Validator;
 import java.util.Objects;
 

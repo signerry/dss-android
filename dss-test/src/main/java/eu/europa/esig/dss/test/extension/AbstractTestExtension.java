@@ -30,6 +30,7 @@ import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.spi.x509.tsp.TSPSource;
 import eu.europa.esig.dss.test.AbstractPkiFactoryTestValidation;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.validation.reports.Reports;
 import org.junit.jupiter.api.Test;
 
@@ -65,7 +66,7 @@ public abstract class AbstractTestExtension<SP extends SerializableSignaturePara
 
 		DSSDocument signedDocument = getSignedDocument(originalDocument);
 
-		String signedFilePath = "target/" + signedDocument.getName();
+		String signedFilePath = TestUtils.getTmpFile(signedDocument.getName()).getPath();
 		signedDocument.save(signedFilePath);
 
 		onDocumentSigned(signedDocument);
@@ -75,7 +76,7 @@ public abstract class AbstractTestExtension<SP extends SerializableSignaturePara
 
 		DSSDocument extendedDocument = extendSignature(signedDocument);
 
-		String extendedFilePath = "target/" + extendedDocument.getName();
+		String extendedFilePath =  TestUtils.getTmpFile(extendedDocument.getName()).getPath();
 		extendedDocument.save(extendedFilePath);
 
 		compare(signedDocument, extendedDocument);

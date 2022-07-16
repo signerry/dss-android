@@ -38,6 +38,7 @@ import eu.europa.esig.dss.spi.x509.revocation.OfflineRevocationSource;
 import eu.europa.esig.dss.spi.x509.revocation.RevocationCertificateSource;
 import eu.europa.esig.dss.spi.x509.revocation.RevocationToken;
 import eu.europa.esig.dss.spi.x509.tsp.TSPSource;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.test.extension.AbstractTestExtension;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.AdvancedSignature;
@@ -71,7 +72,7 @@ public abstract class AbstractXAdESTestExtension extends AbstractTestExtension<X
 
 	@Override
 	protected FileDocument getOriginalDocument() {
-		File originalDoc = new File("target/original-" + UUID.randomUUID().toString() + ".xml");
+		File originalDoc = TestUtils.getTmpFile("original-" + UUID.randomUUID().toString() + ".xml");
 		try (FileOutputStream fos = new FileOutputStream(originalDoc); FileInputStream fis = new FileInputStream("src/test/resources/sample.xml")) {
 			Utils.copy(fis, fos);
 		} catch (IOException e) {

@@ -32,8 +32,11 @@ public class TestUtils {
         }
     }
 
-    public static File getTmpDirectory() {
+    public static File getTmpFile(String filename) {
+        return new File(getTmpDirectory().getPath() +  filename);
+    }
 
+    public static File getTmpDirectory() {
         try {
             return getCtx().getCacheDir();
         }

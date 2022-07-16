@@ -20,6 +20,12 @@
  */
 package eu.europa.esig.dss.jaxb.common;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import com.signerry.android.AndroidUtils;
+
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
@@ -28,10 +34,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.validation.SchemaFactory;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class XmlDefinerUtilsTest {
 
@@ -71,11 +73,11 @@ public class XmlDefinerUtilsTest {
 		@Override
 		protected SchemaFactory instantiateFactory() {
 			if (schemaFactory == null) {
-				schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+				schemaFactory = AndroidUtils.getService(SchemaFactory.class);
+				schemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			}
 			return schemaFactory;
 		}
-
 	}
 
 	@Test
@@ -127,7 +129,7 @@ public class XmlDefinerUtilsTest {
 		@Override
 		protected DocumentBuilderFactory instantiateFactory() {
 			if (documentBuilderFactory == null) {
-				documentBuilderFactory = DocumentBuilderFactory.newInstance();
+				documentBuilderFactory = AndroidUtils.getService(DocumentBuilderFactory.class);
 			}
 			return documentBuilderFactory;
 		}

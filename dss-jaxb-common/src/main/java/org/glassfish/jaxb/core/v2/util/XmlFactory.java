@@ -10,6 +10,8 @@
 
 package org.glassfish.jaxb.core.v2.util;
 
+import com.signerry.android.AndroidUtils;
+
 import org.glassfish.jaxb.core.v2.Messages;
 
 import java.security.AccessController;
@@ -77,7 +79,8 @@ public class XmlFactory {
      */
     public static SchemaFactory createSchemaFactory(final String language, boolean disableSecureProcessing) throws IllegalStateException {
         try {
-            SchemaFactory factory = SchemaFactory.newInstance(language);
+            SchemaFactory factory = AndroidUtils.getService(SchemaFactory.class);
+
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.log(Level.FINE, "SchemaFactory instance: {0}", factory);
             }
@@ -181,7 +184,8 @@ public class XmlFactory {
      */
     public static DocumentBuilderFactory createDocumentBuilderFactory(boolean disableSecureProcessing) throws IllegalStateException {
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilderFactory factory = AndroidUtils.getService(DocumentBuilderFactory.class);
+
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.log(Level.FINE, "DocumentBuilderFactory instance: {0}", factory);
             }

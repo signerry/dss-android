@@ -84,3 +84,4 @@ include(':dss-model')
 include(':dss-asic-common')
 include(':dss-asic-common-test')
 //include(':dss-bom')
+include ':dss-android'

@@ -20,11 +20,13 @@
  */
 package eu.europa.esig.dss.jaxb.common;
 
-import eu.europa.esig.dss.jaxb.common.exception.SecurityConfigurationException;
+import com.signerry.android.AndroidUtils;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.validation.SchemaFactory;
+
+import eu.europa.esig.dss.jaxb.common.exception.SecurityConfigurationException;
 
 /**
  * Builds a {@code SchemaFactory}

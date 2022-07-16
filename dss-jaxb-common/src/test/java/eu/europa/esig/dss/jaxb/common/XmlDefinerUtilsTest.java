@@ -20,6 +20,12 @@
  */
 package eu.europa.esig.dss.jaxb.common;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import com.signerry.android.AndroidUtils;
+
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 

@@ -24,7 +24,7 @@ public class TestUtils {
         try {
             String[] list = getCtx().getAssets().list(folder);
             for(String path: list) {
-                fileList.add(getResourceAsFile(folder + path));
+                fileList.add(getResourceAsFile(folder + "/" + path));
             }
             return fileList;
         } catch (IOException e) {
@@ -51,7 +51,8 @@ public class TestUtils {
 
     public static InputStream getResourceAsStream(String resourcePath) {
         try {
-            InputStream resourceAsStream = TestUtils.class.getResourceAsStream("/" + resourcePath);
+
+            InputStream resourceAsStream = getCtx().getAssets().open(resourcePath);
 
             if (resourceAsStream == null) {
                 throw new RuntimeException("resourcePath not found " + resourcePath);
@@ -67,8 +68,7 @@ public class TestUtils {
     public static File getResourceAsFile(String resourcePath) {
 
         try {
-            //final InputStream   in = getCtx().getAssets().open(resourcePath);
-            final InputStream in = TestUtils.class.getResourceAsStream("/" + resourcePath);
+            final InputStream in = getResourceAsStream(resourcePath);
             if (in == null) {
                 throw new RuntimeException("resourcePath not found " + resourcePath);
             }

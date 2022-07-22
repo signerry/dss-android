@@ -64,13 +64,14 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 
 public abstract class AbstractTestValidationExecutor {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractTestValidationExecutor.class);
 	
 	protected ValidationPolicy loadPolicy(String policyConstraintFile) throws Exception {
-		return ValidationPolicyFacade.newFacade().getValidationPolicy(new File(policyConstraintFile));
+		return ValidationPolicyFacade.newFacade().getValidationPolicy(getResourceAsFile(policyConstraintFile));
 	}
 
 	protected ValidationPolicy loadDefaultPolicy() throws Exception {

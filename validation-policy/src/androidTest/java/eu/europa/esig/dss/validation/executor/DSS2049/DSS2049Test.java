@@ -39,6 +39,7 @@ import eu.europa.esig.dss.policy.jaxb.EIDAS;
 import eu.europa.esig.dss.policy.jaxb.Level;
 import eu.europa.esig.dss.policy.jaxb.LevelConstraint;
 import eu.europa.esig.dss.simplereport.SimpleReport;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.executor.AbstractTestValidationExecutor;
 import eu.europa.esig.dss.validation.executor.signature.DefaultSignatureProcessExecutor;
@@ -120,7 +121,7 @@ public class DSS2049Test extends AbstractTestValidationExecutor {
 	
 	private XmlDiagnosticData getDiagnosticData(boolean isLOTLWellSigned, boolean isSigTLWellSigned, boolean isTstTLWellSigned) throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				new File("src/test/resources/DSS-2049/dss2049-diag-data.xml"));
+				TestUtils.getResourceAsFile("DSS-2049/dss2049-diag-data.xml"));
 		assertNotNull(diagnosticData);
 		
 		List<XmlTrustedList> trustedLists = diagnosticData.getTrustedLists();

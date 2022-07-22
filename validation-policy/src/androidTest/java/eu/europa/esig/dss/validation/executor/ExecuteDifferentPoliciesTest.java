@@ -22,11 +22,15 @@ package eu.europa.esig.dss.validation.executor;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import static java.util.Arrays.asList;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Stream;
 
+import org.apache.xerces.jaxp.SAXParserFactoryImpl;
+import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -37,19 +41,19 @@ import eu.europa.esig.dss.policy.EtsiValidationPolicy;
 import eu.europa.esig.dss.policy.ValidationPolicy;
 import eu.europa.esig.dss.policy.ValidationPolicyFacade;
 import eu.europa.esig.dss.policy.jaxb.ConstraintsParameters;
+import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.validation.executor.signature.DefaultSignatureProcessExecutor;
 import eu.europa.esig.dss.validation.reports.Reports;
-
 
 public class ExecuteDifferentPoliciesTest {
 
 	public static Stream<Arguments> data() throws Exception {
-		File folderPolicy = new File("src/test/resources/policy");
-		File[] policyFiles = folderPolicy.listFiles();
-		File folderDiagnosticData = new File("src/test/resources");
-		File[] diagDataFiles = folderDiagnosticData.listFiles();
+		Collection<File> policyFiles = TestUtils.listFiles("policy", new String[]{"xml"}, false);
+		Collection<File> folderDiagnosticDataFiles =  TestUtils.listFiles("", new String[]{"xml"}, false);
+
 		Collection<Arguments> dataToRun = new ArrayList<>();
-		for (File diagData : diagDataFiles) {
+		for (File diagData : folderDiagnosticDataFiles) {
 			if (diagData.isFile()) {
 				XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(diagData);
 				for (File policyFile : policyFiles) {

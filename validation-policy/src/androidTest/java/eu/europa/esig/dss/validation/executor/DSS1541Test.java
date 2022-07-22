@@ -29,6 +29,8 @@ import eu.europa.esig.dss.policy.jaxb.ConstraintsParameters;
 import eu.europa.esig.dss.policy.jaxb.CryptographicConstraint;
 import eu.europa.esig.dss.policy.jaxb.TimestampConstraints;
 import eu.europa.esig.dss.simplereport.SimpleReport;
+import eu.europa.esig.dss.test.TestUtils;
+
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -41,8 +43,8 @@ public class DSS1541Test extends AbstractCryptographicConstraintsTest {
 	@Test
 	public void signingCertificateWrongCryptographicConstrainsTest() throws Exception {
 		
-		initializeExecutor("src/test/resources/universign.xml");
-		validationPolicyFile = new File("src/test/resources/policy/all-constraint-specified-policy.xml");
+		initializeExecutor("universign.xml");
+		validationPolicyFile = TestUtils.getResourceAsFile("policy/all-constraint-specified-policy.xml");
 		
 		ConstraintsParameters constraintsParameters = loadConstraintsParameters();
 		setValidationPolicy(constraintsParameters);
@@ -66,8 +68,8 @@ public class DSS1541Test extends AbstractCryptographicConstraintsTest {
 	@Test
 	public void caCertificateWrongCryptographicConstrainsTest() throws Exception {
 		
-		initializeExecutor("src/test/resources/universign.xml");
-		validationPolicyFile = new File("src/test/resources/policy/all-constraint-specified-policy.xml");
+		initializeExecutor("universign.xml");
+		validationPolicyFile = TestUtils.getResourceAsFile("policy/all-constraint-specified-policy.xml");
 		
 		ConstraintsParameters constraintsParameters = loadConstraintsParameters();
 		setValidationPolicy(constraintsParameters);
@@ -87,8 +89,8 @@ public class DSS1541Test extends AbstractCryptographicConstraintsTest {
 	@Test
 	public void timestampConstraintsTest() throws Exception {
 		
-		initializeExecutor("src/test/resources/passed_out_of_bounds_with_timestamps.xml");
-		validationPolicyFile = new File("src/test/resources/policy/all-constraint-specified-policy.xml");
+		initializeExecutor("passed_out_of_bounds_with_timestamps.xml");
+		validationPolicyFile = TestUtils.getResourceAsFile("policy/all-constraint-specified-policy.xml");
 		
 		ConstraintsParameters constraintsParameters = loadConstraintsParameters();
 		setValidationPolicy(constraintsParameters);

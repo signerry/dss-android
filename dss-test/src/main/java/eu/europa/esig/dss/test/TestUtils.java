@@ -4,12 +4,15 @@ import android.content.Context;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -21,10 +24,26 @@ public class TestUtils {
     public static Collection<File> listFiles(String folder, String[] extensions, boolean recursive) {
         List<File> fileList = new ArrayList<>();
 
+        List<String> allowedExtensions = Arrays.asList(extensions);
         try {
             String[] list = getCtx().getAssets().list(folder);
-            for(String path: list) {
-                fileList.add(getResourceAsFile(folder + "/" + path));
+            for(String filename: list) {
+                String extension = FilenameUtils.getExtension(filename);
+
+                if(!allowedExtensions.isEmpty()) {
+                    if(!allowedExtensions.contains(extension)) {
+                        continue;
+                    }
+                }
+
+                String url;
+                if(folder.isEmpty()) {
+                    url = filename;
+                }
+                else {
+                    url = folder + "/" + filename;
+                }
+                fileList.add(getResourceAsFile(url));
             }
             return fileList;
         } catch (IOException e) {

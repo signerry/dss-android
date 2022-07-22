@@ -30,7 +30,8 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+import com.fasterxml.jackson.module.JakartaJaxbAnnotationIntrospector;
+
 import eu.europa.esig.dss.detailedreport.DetailedReportFacade;
 import eu.europa.esig.dss.detailedreport.jaxb.XmlDetailedReport;
 import eu.europa.esig.dss.diagnostic.DiagnosticDataFacade;
@@ -198,7 +199,7 @@ public abstract class AbstractTestValidationExecutor {
 
 	private static ObjectMapper getObjectMapper() {
 		ObjectMapper om = new ObjectMapper();
-		JaxbAnnotationIntrospector jai = new JaxbAnnotationIntrospector(TypeFactory.defaultInstance());
+		JakartaJaxbAnnotationIntrospector jai = new JakartaJaxbAnnotationIntrospector(TypeFactory.defaultInstance());
 		om.setAnnotationIntrospector(jai);
 		om.enable(SerializationFeature.INDENT_OUTPUT);
 		return om;

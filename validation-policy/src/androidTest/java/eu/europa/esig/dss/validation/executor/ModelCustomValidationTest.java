@@ -48,6 +48,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 
 /**
  * JUnit test implementation for model based custom validation.
@@ -102,14 +103,14 @@ public class ModelCustomValidationTest extends ModelAbstractValidation {
 	@MethodSource("data")
 	public void testModelBasedSignedDocument(TestCase testCase) throws Exception {
 		
-		ConstraintsParameters policyJaxB = ValidationPolicyFacade.newFacade().unmarshall(new File(testCase.getTestData().getPolicy()));
+		ConstraintsParameters policyJaxB = ValidationPolicyFacade.newFacade().unmarshall(getResourceAsFile(testCase.getTestData().getPolicy()));
 
 		ModelConstraint mc = new ModelConstraint();
 		mc.setValue(testCase.getModel());
 		policyJaxB.setModel(mc);
 		ValidationPolicy policy = new EtsiValidationPolicy(policyJaxB);
 
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File(testCase.getTestData().getDiagnosticData()));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(getResourceAsFile(testCase.getTestData().getDiagnosticData()));
 		assertNotNull(diagnosticData);
 		assertNotNull(diagnosticData.getSignatures());
         assertFalse(diagnosticData.getSignatures().isEmpty());

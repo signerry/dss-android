@@ -43,6 +43,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 
 public abstract class AbstractCryptographicConstraintsTest extends AbstractTestValidationExecutor {
 
@@ -58,7 +59,7 @@ public abstract class AbstractCryptographicConstraintsTest extends AbstractTestV
 	protected File validationPolicyFile = null;
 	
 	protected XmlDiagnosticData initializeExecutor(String diagnosticDataFile) throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File(diagnosticDataFile));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(getResourceAsFile(diagnosticDataFile));
 		assertNotNull(diagnosticData);
 
 		executor = new DefaultSignatureProcessExecutor();

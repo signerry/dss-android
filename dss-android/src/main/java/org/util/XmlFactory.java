@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package org.glassfish.jaxb.core.v2.util;
+package org.util;
 
 import com.signerry.android.AndroidUtils;
 

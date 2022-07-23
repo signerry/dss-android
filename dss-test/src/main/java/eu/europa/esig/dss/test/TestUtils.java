@@ -34,6 +34,10 @@ public class TestUtils {
                     if(!allowedExtensions.contains(extension)) {
                         continue;
                     }
+
+                    if(filename.equals("logback.xml")) {
+                        continue;
+                    }
                 }
 
                 String url;

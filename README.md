@@ -50,6 +50,9 @@ new FileInputStream\(TestUtils.getResourceAsFile("$1"\))
 new FileInputStream\("resources/(.*?)"\)
 new FileInputStream\(TestUtils.getResourceAsFile("$1"\))
 
+DSSSecurityProvider.getSecurityProviderName()
+new BouncyCastleProvider()
+
 ```
 
 TODO:

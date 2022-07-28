@@ -53,6 +53,10 @@ new FileInputStream\(TestUtils.getResourceAsFile("$1"\))
 DSSSecurityProvider.getSecurityProviderName()
 new BouncyCastleProvider()
 
+dss-token:
+Pkcs12SignatureToken\("src/test/resources/(.*?)",
+Pkcs12SignatureToken(TestUtils.getResourceAsFile("$1"),
+
 ```
 
 TODO:

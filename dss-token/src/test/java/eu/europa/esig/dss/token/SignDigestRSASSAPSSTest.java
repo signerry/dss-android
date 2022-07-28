@@ -75,7 +75,7 @@ public class SignDigestRSASSAPSSTest {
 	@ParameterizedTest(name = "DigestAlgorithm {index} : {0}")
 	@MethodSource("data")
 	public void testPkcs12PSS(DigestAlgorithm digestAlgo) throws IOException {
-		try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/user_a_rsa.p12",
+		try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("user_a_rsa.p12"),
 				new PasswordProtection("password".toCharArray()))) {
 
 			List<DSSPrivateKeyEntry> keys = signatureToken.getKeys();

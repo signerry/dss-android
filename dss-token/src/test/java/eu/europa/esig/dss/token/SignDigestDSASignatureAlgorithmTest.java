@@ -74,7 +74,7 @@ public class SignDigestDSASignatureAlgorithmTest {
     @ParameterizedTest(name = "SignatureAlgorithm {index} : {0}")
     @MethodSource("data")
     public void testPkcs12(SignatureAlgorithm signatureAlgorithm) throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/good-dsa-user.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("good-dsa-user.p12"),
                 new PasswordProtection("ks-password".toCharArray()))) {
 
             List<DSSPrivateKeyEntry> keys = signatureToken.getKeys();
@@ -118,7 +118,7 @@ public class SignDigestDSASignatureAlgorithmTest {
 
     @Test
     public void testSignWithWrongSignatureAlgorithm() throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/good-dsa-user.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("good-dsa-user.p12"),
                 new PasswordProtection("ks-password".toCharArray()))) {
             List<DSSPrivateKeyEntry> keys = signatureToken.getKeys();
             KSPrivateKeyEntry entry = (KSPrivateKeyEntry) keys.get(0);

@@ -24,6 +24,7 @@ import eu.europa.esig.dss.diagnostic.jaxb.XmlDiagnosticData;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
+import eu.europa.esig.dss.test.TestUtils;
 import jakarta.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.Result;
@@ -35,20 +36,21 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 
 public class SVGGenerationTest {
 
 	@Test
 	public void test() throws JAXBException, XMLStreamException, IOException, SAXException, TransformerException {
 		DiagnosticDataFacade newFacade = DiagnosticDataFacade.newFacade();
-		XmlDiagnosticData diagnosticData = newFacade.unmarshall(new File("src/test/resources/diag-data.xml"));
+		XmlDiagnosticData diagnosticData = newFacade.unmarshall(getResourceAsFile("diag-data.xml"));
 
-		try (FileOutputStream fos = new FileOutputStream("target/diag-data.svg")) {
+		File file = TestUtils.getTmpFile("diag-data.svg");
+		try (FileOutputStream fos = new FileOutputStream(file)) {
 			Result result = new StreamResult(fos);
 			newFacade.generateSVG(diagnosticData, result);
 		}
 		
-		File file = new File("target/diag-data.svg");
 		assertTrue(file.exists());
 		assertTrue(file.length() > 0);
 		assertTrue(file.delete(), "Cannot delete the SVG file");

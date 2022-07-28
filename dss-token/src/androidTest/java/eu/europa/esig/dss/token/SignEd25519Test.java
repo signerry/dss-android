@@ -26,6 +26,9 @@ import eu.europa.esig.dss.model.Digest;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.test.TestUtils;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -49,7 +52,7 @@ public class SignEd25519Test {
 
     @Test
     public void test() throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/Ed25519-good-user.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("Ed25519-good-user.p12"),
                 new PasswordProtection("ks-password".toCharArray()))) {
             List<DSSPrivateKeyEntry> keys = signatureToken.getKeys();
             KSPrivateKeyEntry entry = (KSPrivateKeyEntry) keys.get(0);
@@ -60,7 +63,7 @@ public class SignEd25519Test {
             assertNotNull(signValue.getAlgorithm());
             LOG.info("Sig value : {}", Base64.getEncoder().encodeToString(signValue.getValue()));
             try {
-                Signature sig = Signature.getInstance(signValue.getAlgorithm().getJCEId());
+                Signature sig = Signature.getInstance(signValue.getAlgorithm().getJCEId(), new BouncyCastleProvider());
                 sig.initVerify(entry.getCertificate().getPublicKey());
                 sig.update(toBeSigned.getBytes());
                 assertTrue(sig.verify(signValue.getValue()));
@@ -72,7 +75,7 @@ public class SignEd25519Test {
 
     @Test
     public void testSignatureAlgorithm() throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/Ed25519-good-user.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("Ed25519-good-user.p12"),
                 new PasswordProtection("ks-password".toCharArray()))) {
             List<DSSPrivateKeyEntry> keys = signatureToken.getKeys();
             KSPrivateKeyEntry entry = (KSPrivateKeyEntry) keys.get(0);
@@ -83,7 +86,7 @@ public class SignEd25519Test {
             assertNotNull(signValue.getAlgorithm());
             LOG.info("Sig value : {}", Base64.getEncoder().encodeToString(signValue.getValue()));
             try {
-                Signature sig = Signature.getInstance(signValue.getAlgorithm().getJCEId());
+                Signature sig = Signature.getInstance(signValue.getAlgorithm().getJCEId(), new BouncyCastleProvider());
                 sig.initVerify(entry.getCertificate().getPublicKey());
                 sig.update(toBeSigned.getBytes());
                 assertTrue(sig.verify(signValue.getValue()));
@@ -95,7 +98,7 @@ public class SignEd25519Test {
 
     @Test
     public void testSignWithWrongSignatureAlgorithm() throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/Ed25519-good-user.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("Ed25519-good-user.p12"),
                 new PasswordProtection("ks-password".toCharArray()))) {
             List<DSSPrivateKeyEntry> keys = signatureToken.getKeys();
             KSPrivateKeyEntry entry = (KSPrivateKeyEntry) keys.get(0);
@@ -111,7 +114,7 @@ public class SignEd25519Test {
 
     @Test
     public void testDigestSign() throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/Ed25519-good-user.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("Ed25519-good-user.p12"),
                 new PasswordProtection("ks-password".toCharArray()))) {
             List<DSSPrivateKeyEntry> keys = signatureToken.getKeys();
             KSPrivateKeyEntry entry = (KSPrivateKeyEntry) keys.get(0);

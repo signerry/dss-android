@@ -26,6 +26,9 @@ import eu.europa.esig.dss.enumerations.SignatureAlgorithm;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.spi.DSSSecurityProvider;
+import eu.europa.esig.dss.test.TestUtils;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -67,7 +70,7 @@ public class SignPlainECDSASignatureAlgorithmTest {
     @ParameterizedTest(name = "SignatureAlgorithm {index} : {0}")
     @MethodSource("data")
     public void testPkcs12(SignatureAlgorithm signatureAlgorithm) throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/good-ecdsa-user.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("good-ecdsa-user.p12"),
                 new PasswordProtection("ks-password".toCharArray()))) {
 
             List<DSSPrivateKeyEntry> keys = signatureToken.getKeys();
@@ -79,7 +82,7 @@ public class SignPlainECDSASignatureAlgorithmTest {
             assertNotNull(signValue.getAlgorithm());
             LOG.info("Sig value : {}", Base64.getEncoder().encodeToString(signValue.getValue()));
             try {
-                Signature sig = Signature.getInstance(signValue.getAlgorithm().getJCEId());
+                Signature sig = Signature.getInstance(signValue.getAlgorithm().getJCEId(), new BouncyCastleProvider());
                 sig.initVerify(entry.getCertificate().getPublicKey());
                 sig.update(toBeSigned.getBytes());
                 assertTrue(sig.verify(signValue.getValue()));

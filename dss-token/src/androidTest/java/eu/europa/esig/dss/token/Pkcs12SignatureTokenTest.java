@@ -25,6 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
+
 import java.io.IOException;
 import java.security.KeyStore.PasswordProtection;
 import java.util.List;
@@ -35,12 +37,13 @@ import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
+import eu.europa.esig.dss.test.TestUtils;
 
 public class Pkcs12SignatureTokenTest {
 
 	@Test
 	public void testPkcs12() throws IOException {
-		try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/user_a_rsa.p12",
+		try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("user_a_rsa.p12"),
 				new PasswordProtection("password".toCharArray()))) {
 			assertNotNull(signatureToken);
 
@@ -70,7 +73,7 @@ public class Pkcs12SignatureTokenTest {
 	public void wrongPassword() throws IOException {
 		PasswordProtection passwordProtection = new PasswordProtection("wrong password".toCharArray());
 		Exception exception = assertThrows(DSSException.class,
-				() -> new Pkcs12SignatureToken("src/test/resources/user_a_rsa.p12", passwordProtection));
+				() -> new Pkcs12SignatureToken(getResourceAsFile("user_a_rsa.p12"), passwordProtection));
 		assertEquals("Unable to instantiate KeyStoreSignatureTokenConnection", exception.getMessage());
 	}
 

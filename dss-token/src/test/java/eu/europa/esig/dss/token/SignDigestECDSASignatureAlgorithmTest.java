@@ -63,7 +63,7 @@ public class SignDigestECDSASignatureAlgorithmTest {
     @ParameterizedTest(name = "SignatureAlgorithm {index} : {0}")
     @MethodSource("data")
     public void testPkcs12(SignatureAlgorithm signatureAlgorithm) throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/good-ecdsa-user.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("good-ecdsa-user.p12"),
                 new PasswordProtection("ks-password".toCharArray()))) {
 
             List<DSSPrivateKeyEntry> keys = signatureToken.getKeys();

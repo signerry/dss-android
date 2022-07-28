@@ -42,7 +42,7 @@ public class RemoteSignatureTokenConnectionImplTest {
 	@Test
 	public void testRemoteSigning() throws IOException {
 
-		Pkcs12SignatureToken serverToken = new Pkcs12SignatureToken("src/test/resources/good-user.p12",
+		Pkcs12SignatureToken serverToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("good-user.p12"),
 				new PasswordProtection("ks-password".toCharArray()));
 		
 		RemoteSignatureTokenConnectionImpl exposedToken = new RemoteSignatureTokenConnectionImpl();

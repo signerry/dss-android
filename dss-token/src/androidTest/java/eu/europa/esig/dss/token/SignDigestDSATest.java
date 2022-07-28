@@ -27,6 +27,8 @@ import eu.europa.esig.dss.model.Digest;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.test.TestUtils;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -70,7 +72,7 @@ public class SignDigestDSATest {
 	@ParameterizedTest(name = "DigestAlgorithm {index} : {0}")
 	@MethodSource("data")
 	public void testPkcs12(DigestAlgorithm digestAlgo) throws IOException {
-		try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/good-dsa-user.p12",
+		try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("good-dsa-user.p12"),
 				new PasswordProtection("ks-password".toCharArray()))) {
 
 			List<DSSPrivateKeyEntry> keys = signatureToken.getKeys();

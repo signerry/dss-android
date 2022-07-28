@@ -49,7 +49,7 @@ public class SignEd25519Test {
 
     @Test
     public void test() throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/Ed25519-good-user.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("Ed25519-good-user.p12"),
                 new PasswordProtection("ks-password".toCharArray()))) {
             List<DSSPrivateKeyEntry> keys = signatureToken.getKeys();
             KSPrivateKeyEntry entry = (KSPrivateKeyEntry) keys.get(0);
@@ -72,7 +72,7 @@ public class SignEd25519Test {
 
     @Test
     public void testSignatureAlgorithm() throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/Ed25519-good-user.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("Ed25519-good-user.p12"),
                 new PasswordProtection("ks-password".toCharArray()))) {
             List<DSSPrivateKeyEntry> keys = signatureToken.getKeys();
             KSPrivateKeyEntry entry = (KSPrivateKeyEntry) keys.get(0);
@@ -95,7 +95,7 @@ public class SignEd25519Test {
 
     @Test
     public void testSignWithWrongSignatureAlgorithm() throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/Ed25519-good-user.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("Ed25519-good-user.p12"),
                 new PasswordProtection("ks-password".toCharArray()))) {
             List<DSSPrivateKeyEntry> keys = signatureToken.getKeys();
             KSPrivateKeyEntry entry = (KSPrivateKeyEntry) keys.get(0);
@@ -111,7 +111,7 @@ public class SignEd25519Test {
 
     @Test
     public void testDigestSign() throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/Ed25519-good-user.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("Ed25519-good-user.p12"),
                 new PasswordProtection("ks-password".toCharArray()))) {
             List<DSSPrivateKeyEntry> keys = signatureToken.getKeys();
             KSPrivateKeyEntry entry = (KSPrivateKeyEntry) keys.get(0);

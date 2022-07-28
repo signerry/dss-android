@@ -32,6 +32,7 @@ import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -45,6 +46,7 @@ import eu.europa.esig.dss.model.Digest;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.test.TestUtils;
 
 public class SignDigestECDSATest {
 
@@ -63,7 +65,7 @@ public class SignDigestECDSATest {
 	@ParameterizedTest(name = "DigestAlgorithm {index} : {0}")
 	@MethodSource("data")
 	public void testPkcs12(DigestAlgorithm digestAlgo) throws IOException {
-		try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/good-ecdsa-user.p12",
+		try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("good-ecdsa-user.p12"),
 				new PasswordProtection("ks-password".toCharArray()))) {
 
 			List<DSSPrivateKeyEntry> keys = signatureToken.getKeys();
@@ -75,7 +77,7 @@ public class SignDigestECDSATest {
 			assertNotNull(signValue.getAlgorithm());
 			LOG.info("Sig value : {}", Base64.getEncoder().encodeToString(signValue.getValue()));
 			try {
-				Signature sig = Signature.getInstance(signValue.getAlgorithm().getJCEId());
+				Signature sig = Signature.getInstance(signValue.getAlgorithm().getJCEId(), new BouncyCastleProvider());
 				sig.initVerify(entry.getCertificate().getPublicKey());
 				sig.update(toBeSigned.getBytes());
 				assertTrue(sig.verify(signValue.getValue()));
@@ -91,7 +93,7 @@ public class SignDigestECDSATest {
 			LOG.info("Sig value : {}", Base64.getEncoder().encodeToString(signDigestValue.getValue()));
 
 			try {
-				Signature sig = Signature.getInstance(signDigestValue.getAlgorithm().getJCEId());
+				Signature sig = Signature.getInstance(signDigestValue.getAlgorithm().getJCEId(), new BouncyCastleProvider());
 				sig.initVerify(entry.getCertificate().getPublicKey());
 				sig.update(toBeSigned.getBytes());
 				assertTrue(sig.verify(signDigestValue.getValue()));

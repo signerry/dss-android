@@ -53,6 +53,7 @@ import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.spi.DSSSecurityProvider;
 import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.test.TestUtils;
 
 public class SignDigestRSASSAPSSTest {
 
@@ -75,7 +76,7 @@ public class SignDigestRSASSAPSSTest {
 	@ParameterizedTest(name = "DigestAlgorithm {index} : {0}")
 	@MethodSource("data")
 	public void testPkcs12PSS(DigestAlgorithm digestAlgo) throws IOException {
-		try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/user_a_rsa.p12",
+		try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("user_a_rsa.p12"),
 				new PasswordProtection("password".toCharArray()))) {
 
 			List<DSSPrivateKeyEntry> keys = signatureToken.getKeys();
@@ -87,7 +88,7 @@ public class SignDigestRSASSAPSSTest {
 			assertNotNull(signValue.getAlgorithm());
 			LOG.info("Sig value : {}", Base64.getEncoder().encodeToString(signValue.getValue()));
 			try {
-				Signature sig = Signature.getInstance(signValue.getAlgorithm().getJCEId());
+				Signature sig = Signature.getInstance(signValue.getAlgorithm().getJCEId(), new BouncyCastleProvider());
 				sig.initVerify(entry.getCertificate().getPublicKey());
 				sig.update(toBeSigned.getBytes());
 				assertTrue(sig.verify(signValue.getValue()));
@@ -114,7 +115,7 @@ public class SignDigestRSASSAPSSTest {
 			LOG.info("Sig value : {}", Base64.getEncoder().encodeToString(signDigestValue.getValue()));
 
 			try {
-				Signature sig = Signature.getInstance(signDigestValue.getAlgorithm().getJCEId());
+				Signature sig = Signature.getInstance(signDigestValue.getAlgorithm().getJCEId(), new BouncyCastleProvider());
 				sig.initVerify(entry.getCertificate().getPublicKey());
 				sig.update(toBeSigned.getBytes());
 				assertTrue(sig.verify(signDigestValue.getValue()));

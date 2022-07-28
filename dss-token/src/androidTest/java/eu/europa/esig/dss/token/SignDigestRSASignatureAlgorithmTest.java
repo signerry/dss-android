@@ -28,6 +28,9 @@ import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.spi.DSSSecurityProvider;
 import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.test.TestUtils;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -71,7 +74,7 @@ public class SignDigestRSASignatureAlgorithmTest {
     @ParameterizedTest(name = "SignatureAlgorithm {index} : {0}")
     @MethodSource("data")
     public void testPkcs12(SignatureAlgorithm signatureAlgorithm) throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/user_a_rsa.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("user_a_rsa.p12"),
                 new PasswordProtection("password".toCharArray()))) {
 
             List<DSSPrivateKeyEntry> keys = signatureToken.getKeys();
@@ -83,7 +86,7 @@ public class SignDigestRSASignatureAlgorithmTest {
             assertNotNull(signValue.getAlgorithm());
             LOG.info("Sig value : {}", Base64.getEncoder().encodeToString(signValue.getValue()));
             try {
-                Signature sig = Signature.getInstance(signValue.getAlgorithm().getJCEId());
+                Signature sig = Signature.getInstance(signValue.getAlgorithm().getJCEId(), new BouncyCastleProvider());
                 sig.initVerify(entry.getCertificate().getPublicKey());
                 sig.update(toBeSigned.getBytes());
                 assertTrue(sig.verify(signValue.getValue()));
@@ -92,7 +95,7 @@ public class SignDigestRSASignatureAlgorithmTest {
             }
 
             try {
-                Cipher cipher = Cipher.getInstance(entry.getEncryptionAlgorithm().getName());
+                Cipher cipher = Cipher.getInstance(entry.getEncryptionAlgorithm().getName(), new BouncyCastleProvider());
                 cipher.init(Cipher.DECRYPT_MODE, entry.getCertificate().getCertificate());
                 byte[] decrypted = cipher.doFinal(signValue.getValue());
                 LOG.info("Decrypted : {}", Base64.getEncoder().encodeToString(decrypted));
@@ -111,7 +114,7 @@ public class SignDigestRSASignatureAlgorithmTest {
             LOG.info("Sig value : {}", Base64.getEncoder().encodeToString(signDigestValue.getValue()));
 
             try {
-                Signature sig = Signature.getInstance(signValue.getAlgorithm().getJCEId());
+                Signature sig = Signature.getInstance(signValue.getAlgorithm().getJCEId(), new BouncyCastleProvider());
                 sig.initVerify(entry.getCertificate().getPublicKey());
                 sig.update(toBeSigned.getBytes());
                 assertTrue(sig.verify(signDigestValue.getValue()));
@@ -120,7 +123,7 @@ public class SignDigestRSASignatureAlgorithmTest {
             }
 
             try {
-                Cipher cipher = Cipher.getInstance(entry.getEncryptionAlgorithm().getName());
+                Cipher cipher = Cipher.getInstance(entry.getEncryptionAlgorithm().getName(), new BouncyCastleProvider());
                 cipher.init(Cipher.DECRYPT_MODE, entry.getCertificate().getCertificate());
                 byte[] decrypted = cipher.doFinal(signDigestValue.getValue());
                 LOG.info("Decrypted : {}", Base64.getEncoder().encodeToString(decrypted));

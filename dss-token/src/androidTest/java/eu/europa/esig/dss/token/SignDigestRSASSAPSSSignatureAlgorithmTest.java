@@ -29,6 +29,8 @@ import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.spi.DSSSecurityProvider;
 import eu.europa.esig.dss.spi.DSSUtils;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -96,7 +98,7 @@ public class SignDigestRSASSAPSSSignatureAlgorithmTest {
 
             try {
                 Cipher cipher = Cipher.getInstance(entry.getEncryptionAlgorithm().getName(),
-                        DSSSecurityProvider.getSecurityProviderName());
+                        new BouncyCastleProvider());
                 cipher.init(Cipher.DECRYPT_MODE, entry.getCertificate().getPublicKey());
                 byte[] decrypted = cipher.doFinal(signValue.getValue());
                 LOG.info("Decrypted : {}", Base64.getEncoder().encodeToString(decrypted));
@@ -124,7 +126,7 @@ public class SignDigestRSASSAPSSSignatureAlgorithmTest {
 
             try {
                 Cipher cipher = Cipher.getInstance(entry.getEncryptionAlgorithm().getName(),
-                        DSSSecurityProvider.getSecurityProviderName());
+                        new BouncyCastleProvider());
                 cipher.init(Cipher.DECRYPT_MODE, entry.getCertificate().getPublicKey());
                 byte[] decrypted = cipher.doFinal(signDigestValue.getValue());
                 LOG.info("Decrypted : {}", Base64.getEncoder().encodeToString(decrypted));

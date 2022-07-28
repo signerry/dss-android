@@ -22,6 +22,8 @@ package eu.europa.esig.dss.token;
 
 import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
 import eu.europa.esig.dss.spi.DSSSecurityProvider;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.Test;
 
 import java.security.GeneralSecurityException;
@@ -42,7 +44,7 @@ public class EdDSATest {
 
 	@Test
 	public void ed25519() throws GeneralSecurityException {
-		KeyPairGenerator kpg = KeyPairGenerator.getInstance("Ed25519", DSSSecurityProvider.getSecurityProviderName());
+		KeyPairGenerator kpg = KeyPairGenerator.getInstance("Ed25519", new BouncyCastleProvider());
 		KeyPair kp = kpg.generateKeyPair();
 		assertNotNull(kp);
 
@@ -58,7 +60,7 @@ public class EdDSATest {
 
 	@Test
 	public void ed448() throws GeneralSecurityException {
-		KeyPairGenerator kpg = KeyPairGenerator.getInstance("Ed448", DSSSecurityProvider.getSecurityProviderName());
+		KeyPairGenerator kpg = KeyPairGenerator.getInstance("Ed448", new BouncyCastleProvider());
 		KeyPair kp = kpg.generateKeyPair();
 		assertNotNull(kp);
 

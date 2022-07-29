@@ -25,6 +25,8 @@ import eu.europa.esig.dss.enumerations.KeyUsageBit;
 import eu.europa.esig.dss.enumerations.SignatureAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureValidity;
 import eu.europa.esig.dss.model.DSSException;
+import eu.europa.esig.dss.test.TestUtils;
+
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -149,7 +151,7 @@ public class CertificateTokenTest {
 	@Test
 	public void pss() throws IOException {
 		Security.addProvider(new BouncyCastleProvider());
-		File certFile = new File("src/test/resources/D-TRUST_CA_3-1_2016.cer");
+		File certFile = TestUtils.getResourceAsFile("D-TRUST_CA_3-1_2016.cer");
 		try (FileInputStream fis = new FileInputStream(certFile)) {
 			CertificateToken certificate = getCertificate(fis);
 			assertNotNull(certificate);

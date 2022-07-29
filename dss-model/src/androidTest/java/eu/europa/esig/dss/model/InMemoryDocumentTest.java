@@ -25,18 +25,21 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsStream;
+
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.jupiter.api.Test;
 
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
+import eu.europa.esig.dss.test.TestUtils;
 
 public class InMemoryDocumentTest {
 
 	@Test
 	public void test() {
-		InMemoryDocument doc = new InMemoryDocument(getClass().getResourceAsStream("/AdobeCA.p7c"));
+		InMemoryDocument doc = new InMemoryDocument(getResourceAsStream("AdobeCA.p7c"));
 		assertNotNull(doc);
 		assertNull(doc.getMimeType());
 		assertNull(doc.getName());
@@ -66,7 +69,7 @@ public class InMemoryDocumentTest {
 
 	@Test
 	public void testWithName() {
-		InMemoryDocument doc = new InMemoryDocument(getClass().getResourceAsStream("/AdobeCA.p7c"), "AdobeCA.p7c");
+		InMemoryDocument doc = new InMemoryDocument(getResourceAsStream("AdobeCA.p7c"), "AdobeCA.p7c");
 		assertNotNull(doc);
 		assertEquals(MimeType.BINARY, doc.getMimeType());
 		assertNotNull(doc.getName());

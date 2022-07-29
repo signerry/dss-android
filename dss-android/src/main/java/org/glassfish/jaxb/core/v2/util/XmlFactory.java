@@ -10,12 +10,18 @@
 
 package org.glassfish.jaxb.core.v2.util;
 
+import com.signerry.android.AndroidUtils;
+
 import org.glassfish.jaxb.core.v2.Messages;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,10 +31,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathFactoryConfigurationException;
-
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXNotRecognizedException;
-import org.xml.sax.SAXNotSupportedException;
 
 /**
  * Provides helper methods for creating properly configured XML parser
@@ -75,7 +77,9 @@ public class XmlFactory {
      */
     public static SchemaFactory createSchemaFactory(final String language, boolean disableSecureProcessing) throws IllegalStateException {
         try {
-            SchemaFactory factory = SchemaFactory.newInstance(language);
+            SchemaFactory schemaFactory = AndroidUtils.getService(SchemaFactory.class);
+
+            SchemaFactory factory = schemaFactory.newInstance(language);
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.log(Level.FINE, "SchemaFactory instance: {0}", factory);
             }
@@ -100,7 +104,7 @@ public class XmlFactory {
      */
     public static SAXParserFactory createParserFactory(boolean disableSecureProcessing) throws IllegalStateException {
         try {
-            SAXParserFactory factory = SAXParserFactory.newInstance();
+            SAXParserFactory factory = AndroidUtils.getService(SAXParserFactory.class);
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.log(Level.FINE, "SAXParserFactory instance: {0}", factory);
             }
@@ -128,7 +132,7 @@ public class XmlFactory {
      */
     public static XPathFactory createXPathFactory(boolean disableSecureProcessing) throws IllegalStateException {
         try {
-            XPathFactory factory = XPathFactory.newInstance();
+            XPathFactory factory = AndroidUtils.getService(XPathFactory.class);
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.log(Level.FINE, "XPathFactory instance: {0}", factory);
             }
@@ -149,7 +153,7 @@ public class XmlFactory {
      */
     public static TransformerFactory createTransformerFactory(boolean disableSecureProcessing) throws IllegalStateException {
         try {
-            TransformerFactory factory = TransformerFactory.newInstance();
+            TransformerFactory factory = AndroidUtils.getService(TransformerFactory.class);
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.log(Level.FINE, "TransformerFactory instance: {0}", factory);
             }
@@ -171,7 +175,7 @@ public class XmlFactory {
      */
     public static DocumentBuilderFactory createDocumentBuilderFactory(boolean disableSecureProcessing) throws IllegalStateException {
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilderFactory factory = AndroidUtils.getService(DocumentBuilderFactory.class);
             if (LOGGER.isLoggable(Level.FINE)) {
                 LOGGER.log(Level.FINE, "DocumentBuilderFactory instance: {0}", factory);
             }

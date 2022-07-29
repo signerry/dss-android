@@ -32,6 +32,7 @@ import eu.europa.esig.dss.policy.jaxb.TimeUnit;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
+import eu.europa.esig.dss.test.TestUtils;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.UnmarshalException;
 import javax.xml.stream.XMLStreamException;
@@ -50,7 +51,7 @@ public class ValidationPolicyFacadeTest {
 	@Test
 	public void testUnmarshalling() throws Exception {
 		ConstraintsParameters constraintsParameters = ValidationPolicyFacade.newFacade()
-				.unmarshall(new File("src/test/resources/constraint.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("constraint.xml"));
 
 		Algo algo = constraintsParameters.getSignatureConstraints().getBasicSignatureConstraints().getCryptographic()
 				.getMiniPublicKeySize().getAlgos().get(0);
@@ -66,7 +67,7 @@ public class ValidationPolicyFacadeTest {
 	@Test
 	public void testUnmarshallingWithModel() throws Exception {
 		ConstraintsParameters constraintsParameters = ValidationPolicyFacade.newFacade()
-				.unmarshall(new File("src/test/resources/constraint.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("constraint.xml"));
 
 		ModelConstraint mc = new ModelConstraint();
 		mc.setValue(Model.SHELL);
@@ -84,7 +85,7 @@ public class ValidationPolicyFacadeTest {
 	@Test
 	public void testUnmarshalCoreValidation() throws Exception {
 		ConstraintsParameters constraintsParameters = ValidationPolicyFacade.newFacade()
-				.unmarshall(new File("src/test/resources/constraint-core-validation.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("constraint-core-validation.xml"));
 		assertNotNull(constraintsParameters);
 	}
 
@@ -111,7 +112,7 @@ public class ValidationPolicyFacadeTest {
 	@Test
 	public void testUnmarshalConstraint() throws Exception {
 		ConstraintsParameters constraintsParameters = ValidationPolicyFacade.newFacade()
-				.unmarshall(new File("src/test/resources/constraint.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("constraint.xml"));
 		RevocationConstraints revocation = constraintsParameters.getRevocation();
 		assertNotNull(revocation);
 		CertificateConstraints signingCertificate = revocation.getBasicSignatureConstraints().getSigningCertificate();
@@ -125,7 +126,7 @@ public class ValidationPolicyFacadeTest {
 
 	@Test
 	public void testInvalid() throws Exception {
-		File invalidFile = new File("src/test/resources/invalid-policy.xml");
+		File invalidFile = TestUtils.getResourceAsFile("invalid-policy.xml");
 		assertThrows(UnmarshalException.class, () -> facade.unmarshall(invalidFile));
 	}
 

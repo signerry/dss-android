@@ -8,12 +8,7 @@ dependencies {
     api project(':dss-document')
     api project(':dss-utils')
     api project(':specs-asic-manifest')
-
-
-    
-    testImplementation 'ch.qos.logback:logback-classic:1.2.10'
-
-
+    testFixturesImplementation testFixtures(project(':dss-test'))
 
 }
 

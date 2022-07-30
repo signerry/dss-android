@@ -75,8 +75,6 @@ public abstract class PKIFactoryAccess {
 	private static final Connection sqlConnection;
 
 	static {
-
-
 		try (InputStream is = getResourceAsStream("pki-factory.properties")) {
 			Properties props = new Properties();
 			props.load(is);
@@ -85,6 +83,8 @@ public abstract class PKIFactoryAccess {
 			PKI_FACTORY_KEYSTORE_PASSWORD = props.getProperty("pki.factory.keystore.password");
 			sqlConnection = DriverManager.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
 		} catch (Exception e) {
+
+			e.printStackTrace();
 			throw new RuntimeException("Unable to initialize from pki-factory.properties", e);
 		}
 	}

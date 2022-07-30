@@ -82,6 +82,5 @@ include(':dss-model')
 ////include(':dss-certificate-validation-common')
 ////include(':dss-certificate-validation-rest')
 include(':dss-asic-common')
-include(':dss-asic-common-test')
 //include(':dss-bom')
 include ':dss-android'

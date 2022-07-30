@@ -20,6 +20,7 @@
  */
 package eu.europa.esig.asic.manifest;
 
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.xmldsig.jaxb.SignatureType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -52,7 +53,7 @@ public class ASiCManifestUtilsTest {
 	@SuppressWarnings("unchecked")
 	public void test() throws JAXBException, SAXException {
 
-		File xmldsigFile = new File("src/test/resources/ASiCManifest.xml");
+		File xmldsigFile = TestUtils.getResourceAsFile("ASiCManifest.xml");
 
 		JAXBContext jc = asicManifestUtils.getJAXBContext();
 		assertNotNull(jc);
@@ -81,7 +82,7 @@ public class ASiCManifestUtilsTest {
 	@Test
 	public void testInvalidFile() throws JAXBException, SAXException {
 
-		File xmldsigFile = new File("src/test/resources/ASiCManifestInvalid.xml");
+		File xmldsigFile = TestUtils.getResourceAsFile("ASiCManifestInvalid.xml");
 
 		JAXBContext jc = asicManifestUtils.getJAXBContext();
 		assertNotNull(jc);

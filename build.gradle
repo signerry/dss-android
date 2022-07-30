@@ -10,7 +10,7 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.4'
+        classpath 'com.android.tools.build:gradle:7.2.1'
         classpath "de.mannodermaus.gradle.plugins:android-junit5:1.7.1.1"
     }
 }
@@ -49,15 +49,18 @@ allprojects {
     apply plugin: 'de.mannodermaus.android-junit5'
 
 
-
-
     configurations {
         compile.exclude group: 'org.hamcrest', name: 'hamcrest'
 
     }
 
     android {
+
         defaultConfig {
+            testFixtures {
+                enable = true
+            }
+
             minSdkVersion 29
             compileSdkVersion 29
             targetSdkVersion 30
@@ -151,6 +154,8 @@ allprojects {
         androidTestImplementation("androidx.test:runner:1.4.0")
         androidTestImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
         testImplementation('org.junit.jupiter:junit-jupiter:5.8.2')
+        testFixturesImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+
         androidTestImplementation('org.junit.jupiter:junit-jupiter:5.8.2')
 
 
@@ -220,8 +225,8 @@ allprojects {
 //        testImplementation 'org.apache.commons:commons-collections4:4.4'
         androidTestImplementation project(':dss-utils-google-guava')
         androidTestImplementation project(':dss-crl-parser-x509crl')
-        androidTestImplementation project(':dss-test')
-        testImplementation project(':dss-test')
+        androidTestImplementation testFixtures(project(':dss-test'))
+        testImplementation testFixtures(project(':dss-test'))
 
 //        androidTestImplementation project(':dss-pades-pdfbox')
 

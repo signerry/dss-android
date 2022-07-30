@@ -73,8 +73,13 @@ public class TestUtils {
     }
 
     public static InputStream getResourceAsStream(String resourcePath) {
-        try {
+        InputStream unitTestStream = TestUtils.class.getResourceAsStream("/" + resourcePath);
+        if(unitTestStream !=null) {
+            return unitTestStream;
+        }
 
+        //Fallback android test
+        try {
             InputStream resourceAsStream = getCtx().getAssets().open(resourcePath);
 
             if (resourceAsStream == null) {
@@ -82,7 +87,6 @@ public class TestUtils {
             }
 
             return resourceAsStream;
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

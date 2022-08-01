@@ -10,10 +10,8 @@ dependencies {
     api project(':specs-asic-manifest')
     api project(':dss-service')
     api project(':dss-token')
-    testFixturesImplementation testFixtures(project(':dss-asic-common'))
-
-
-
+    testImplementation testFixtures(project(':dss-asic-common'))
+    androidTestImplementation testFixtures(project(':dss-asic-common'))
 
 }
 

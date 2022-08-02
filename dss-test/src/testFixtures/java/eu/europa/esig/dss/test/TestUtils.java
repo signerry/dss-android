@@ -56,7 +56,13 @@ public class TestUtils {
     }
 
     public static File getTmpFile(String filename) {
-        return new File(getTmpDirectory().getPath() +  filename);
+        File file = new File(getTmpDirectory().getPath() + filename);
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return file;
     }
 
     public static File getTmpDirectory() {

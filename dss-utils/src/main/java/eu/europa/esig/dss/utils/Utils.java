@@ -479,7 +479,12 @@ public final class Utils {
 	 * @return a collection of {@link File}s
 	 */
 	public static Collection<File> listFiles(File folder, String[] extensions, boolean recursive) {
-		return impl.listFiles(folder, extensions, recursive);
+		//return impl.listFiles(folder, extensions, recursive);
+		// Android has it's own way to list files.
+		// getCtx().getAssets()
+		// this method used only in tests.
+		// To list files in androidTest, unitTest - use TestUtils.listFiles((File folder, String[] extensions, boolean recursive)
+		throw new RuntimeException("Not supported");
 	}
 
 	/**

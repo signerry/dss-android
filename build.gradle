@@ -223,11 +223,9 @@ allprojects {
 
 //        testImplementation 'org.apache.commons:commons-lang3:3.12.0'
 //        testImplementation 'org.apache.commons:commons-collections4:4.4'
-        androidTestImplementation project(':dss-utils-google-guava')
         androidTestImplementation project(':dss-crl-parser-x509crl')
         androidTestImplementation testFixtures(project(':dss-test'))
         testImplementation testFixtures(project(':dss-test'))
-
 //        androidTestImplementation project(':dss-pades-pdfbox')
 
 

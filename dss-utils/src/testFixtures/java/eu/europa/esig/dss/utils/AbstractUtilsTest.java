@@ -20,8 +20,15 @@
  */
 package eu.europa.esig.dss.utils;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -36,25 +43,20 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import eu.europa.esig.dss.test.TestUtils;
 
 public abstract class AbstractUtilsTest {
-	
-	@TempDir
-    Path folder;
+	protected Path folder;
+
+	public AbstractUtilsTest() {
+		folder = TestUtils.getTmpDirectory().toPath();
+	}
 
 	@Test
 	public void isStringEmpty() {
@@ -398,7 +400,7 @@ public abstract class AbstractUtilsTest {
 
 	@Test
 	public void toByteArray() throws UnsupportedEncodingException, IOException {
-		String newFileName = "target/sample.txt";
+		File newFileName = TestUtils.getTmpFile("sample.txt");
 		String newFileContent = "Hello world!";
 
 		FileOutputStream fos = new FileOutputStream(newFileName);
@@ -425,37 +427,40 @@ public abstract class AbstractUtilsTest {
 	@Test
 	public void closeQuietly() throws IOException {
 		Utils.closeQuietly(null);
-		String newFileName = "target/sample2.txt";
+		File newFileName = TestUtils.getTmpFile("sample2.txt");
 		String newFileContent = "Hello world!";
 
 		FileOutputStream fos = new FileOutputStream(newFileName);
 		fos.write(newFileContent.getBytes("UTF-8"));
 		fos.close();
-		assertTrue(new File(newFileName).exists());
+		assertTrue(newFileName.exists());
 
 		Utils.closeQuietly(new FileInputStream(newFileName));
-		
-		FileOutputStream sampleFos = new FileOutputStream("target/sample3.txt");
+		File sample3File = TestUtils.getTmpFile("sample3.txt");
+
+		FileOutputStream sampleFos = new FileOutputStream(sample3File);
 		Utils.closeQuietly(sampleFos);
 		Utils.closeQuietly(sampleFos); // must handle closed
 
-		File sample = new File("target/sample3.txt");
-		assertTrue(sample.exists());
-		assertTrue(sample.delete(), "Cannot delete the file");
-		assertFalse(sample.exists());
+		File sample4File = TestUtils.getTmpFile("sample4.txt");
+
+		assertTrue(sample4File.exists());
+		assertTrue(sample4File.delete(), "Cannot delete the file");
+		assertFalse(sample4File.exists());
 	}
 
-	@Test
-	public void listFiles() {
-		File folder = new File("src/main/java");
-		String[] extensions = new String[] { "java" };
-		Collection<File> listFiles = Utils.listFiles(folder, extensions, true);
-		assertTrue(Utils.isCollectionNotEmpty(listFiles));
-
-		extensions = new String[] { "doc", "pdf" };
-		listFiles = Utils.listFiles(folder, extensions, true);
-		assertTrue(Utils.isCollectionEmpty(listFiles));
-	}
+// Not supported
+//	@Test
+//	public void listFiles() {
+//		File folder = new File("src/main/java");
+//		String[] extensions = new String[] { "java" };
+//		Collection<File> listFiles = Utils.listFiles(folder, extensions, true);
+//		assertTrue(Utils.isCollectionNotEmpty(listFiles));
+//
+//		extensions = new String[] { "doc", "pdf" };
+//		listFiles = Utils.listFiles(folder, extensions, true);
+//		assertTrue(Utils.isCollectionEmpty(listFiles));
+//	}
 	
 	@Test
 	public void getInputStreamSize() throws IOException {
@@ -468,7 +473,7 @@ public abstract class AbstractUtilsTest {
 			assertEquals(0, Utils.getInputStreamSize(emptyIs));
 		}
 
-		String newFileName = "target/sample.txt";
+		File newFileName = TestUtils.getTmpFile("sample.txt");
 		String newFileContent = "Hello world!\r\n";
 		
 		try (FileOutputStream fos = new FileOutputStream(newFileName)) {

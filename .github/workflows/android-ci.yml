@@ -32,8 +32,8 @@ jobs:
       # Allow tests to continue on other devices if they fail on one device.
       fail-fast: false
       matrix:
-        device:
-          - "emulator-5556"
+#         device:
+#           - "emulator-5556"
         api-level:
           - 32
 

@@ -57,7 +57,7 @@ jobs:
 
   instrumentation-test-summary:
     if: ${{ always() }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     name: Instrumentation Test Matrix Summary
     needs: instrumentation-tests
 
@@ -68,7 +68,7 @@ jobs:
 
   publish-snapshot:
     name: Publish OSS Sonatype Snapshot
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     if: "github.event_name == 'push'"
     needs:
       - build

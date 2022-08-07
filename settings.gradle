@@ -3,6 +3,20 @@
 // */
 //
 
+plugins {
+    id "com.gradle.enterprise" version "3.10.3"
+}
+
+apply plugin: 'com.gradle.enterprise'
+
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+        publishAlways()
+    }
+}
+
 rootProject.name = 'sd-dss'
 include(':dss-simple-report-jaxb')
 ////include(':dss-timestamp-remote-soap-client')
@@ -59,7 +73,6 @@ include(':dss-alert')
 ////include(':dss-timestamp-remote-rest-client')
 //include(':dss-common-remote-dto')
 include(':dss-crl-parser')
-include(':dss-crl-parser-test')
 
 ////include(':dss-signature-soap-client')
 include(':specs-validation-report')

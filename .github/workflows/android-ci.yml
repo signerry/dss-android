@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Build & Run Unit Tests
-    runs-on: macos-latest
+    runs-on: self-hosted
 
     steps:
       - name: Fetch Source
@@ -26,14 +26,16 @@ jobs:
 
   instrumentation-tests:
     name: Instrumentation Tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     timeout-minutes: 300
     strategy:
       # Allow tests to continue on other devices if they fail on one device.
       fail-fast: false
       matrix:
+#         device:
+#            - "emulator-5554"
         api-level:
-          - 31
+          - 32
 
     steps:
       - name: Fetch Source
@@ -55,7 +57,7 @@ jobs:
 
   instrumentation-test-summary:
     if: ${{ always() }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     name: Instrumentation Test Matrix Summary
     needs: instrumentation-tests
 
@@ -66,7 +68,7 @@ jobs:
 
   publish-snapshot:
     name: Publish OSS Sonatype Snapshot
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     if: "github.event_name == 'push'"
     needs:
       - build

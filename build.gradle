@@ -194,6 +194,7 @@ allprojects (subproject -> {
         implementation 'xerces:xercesImpl:2.12.2'
 
         if (subproject.name != 'dss-utils') {
+            testImplementation project(':dss-utils-google-guava')
             androidTestImplementation project(':dss-utils-google-guava')
         }
 

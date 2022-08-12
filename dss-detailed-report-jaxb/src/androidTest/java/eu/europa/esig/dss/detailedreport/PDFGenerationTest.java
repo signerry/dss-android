@@ -21,6 +21,8 @@
 package eu.europa.esig.dss.detailedreport;
 
 import eu.europa.esig.dss.detailedreport.jaxb.XmlDetailedReport;
+import eu.europa.esig.dss.test.TestUtils;
+
 import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
@@ -83,18 +85,20 @@ public class PDFGenerationTest {
 	private void createAndValidate(String filename) throws Exception {
 		DetailedReportFacade facade = DetailedReportFacade.newFacade();
 
-		File file = new File("src/test/resources/" + filename);
+		File file = TestUtils.getResourceAsFile(filename);
+
+		File pdfReport = TestUtils.getTmpFile("report.pdf");
+
 		XmlDetailedReport detailedReport = facade.unmarshall(file);
 		String detailedReportString = facade.marshall(detailedReport);
 
-		try (FileOutputStream fos = new FileOutputStream("target/report.pdf")) {
+		try (FileOutputStream fos = new FileOutputStream(pdfReport)) {
 
 			Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, fos);
 			Result result = new SAXResult(fop.getDefaultHandler());
 			facade.generatePdfReport(detailedReport, result);
 		}
 		
-		File pdfReport = new File("target/report.pdf");
 		assertTrue(pdfReport.exists());
 		assertTrue(pdfReport.delete(), "Cannot delete PDF document (IO error)");
 		assertFalse(pdfReport.exists());

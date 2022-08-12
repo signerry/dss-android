@@ -1,19 +1,19 @@
 /**
  * DSS - Digital Signature Services
  * Copyright (C) 2015 European Commission, provided under the CEF programme
- * 
+ *
  * This file is part of the "DSS - Digital Signature Services" project.
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -21,6 +21,8 @@
 package eu.europa.esig.dss.detailedreport;
 
 import eu.europa.esig.dss.detailedreport.jaxb.XmlDetailedReport;
+import eu.europa.esig.dss.test.TestUtils;
+
 import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
@@ -79,22 +81,24 @@ public class PDFGenerationTest {
 	public void generateSigAndTstDetailedReport() throws Exception {
 		createAndValidate("dr-sig-and-tst.xml");
 	}
-	
+
 	private void createAndValidate(String filename) throws Exception {
 		DetailedReportFacade facade = DetailedReportFacade.newFacade();
 
-		File file = new File("src/test/resources/" + filename);
+		File file = TestUtils.getResourceAsFile(filename);
+
+		File pdfReport = TestUtils.getTmpFile("report.pdf");
+
 		XmlDetailedReport detailedReport = facade.unmarshall(file);
 		String detailedReportString = facade.marshall(detailedReport);
 
-		try (FileOutputStream fos = new FileOutputStream("target/report.pdf")) {
+		try (FileOutputStream fos = new FileOutputStream(pdfReport)) {
 
 			Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, fos);
 			Result result = new SAXResult(fop.getDefaultHandler());
 			facade.generatePdfReport(detailedReport, result);
 		}
-		
-		File pdfReport = new File("target/report.pdf");
+
 		assertTrue(pdfReport.exists());
 		assertTrue(pdfReport.delete(), "Cannot delete PDF document (IO error)");
 		assertFalse(pdfReport.exists());
@@ -105,7 +109,7 @@ public class PDFGenerationTest {
 			facade.generatePdfReport(detailedReportString, result);
 			assertTrue(baos.toByteArray().length >= 0);
 		}
-		
+
 	}
 
 }

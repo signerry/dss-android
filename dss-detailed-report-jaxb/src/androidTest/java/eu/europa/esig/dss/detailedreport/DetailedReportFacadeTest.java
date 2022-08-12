@@ -21,6 +21,8 @@
 package eu.europa.esig.dss.detailedreport;
 
 import eu.europa.esig.dss.detailedreport.jaxb.XmlDetailedReport;
+import eu.europa.esig.dss.test.TestUtils;
+
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -57,7 +59,7 @@ public class DetailedReportFacadeTest {
 	private void createAndValidate(String filename) throws Exception {
 		DetailedReportFacade facade = DetailedReportFacade.newFacade();
 
-		XmlDetailedReport detailedReport = facade.unmarshall(new File("src/test/resources/" + filename));
+		XmlDetailedReport detailedReport = facade.unmarshall(TestUtils.getResourceAsFile(filename));
 		assertNotNull(detailedReport);
 
 		String detailedReportString = facade.marshall(detailedReport);

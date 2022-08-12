@@ -359,15 +359,16 @@ public abstract class AbstractTestCRLUtils extends AbstractCRLParserTestUtils {
 		}
 	}
 
-	@Test
-	@DisabledForJreRange(min = JRE.JAVA_16)
-	public void testPSSwithoutBouncyCastle() throws Exception {
-		try (InputStream is = AbstractTestCRLUtils.class.getResourceAsStream("/d-trust_root_ca_1_2017.crl");
-				InputStream isCer = AbstractTestCRLUtils.class.getResourceAsStream("/D-TRUST_Root_CA_1_2017.crt")) {
-			Exception exception = assertThrows(IllegalArgumentException.class, () -> loadCert(isCer));
-			assertEquals("Unable to initialize PSS", exception.getMessage());
-		}
-	}
+// Commenting out
+//	@Test
+//	@DisabledForJreRange(min = JRE.JAVA_16)
+//	public void testPSSwithoutBouncyCastle() throws Exception {
+//		try (InputStream is = AbstractTestCRLUtils.class.getResourceAsStream("/d-trust_root_ca_1_2017.crl");
+//				InputStream isCer = AbstractTestCRLUtils.class.getResourceAsStream("/D-TRUST_Root_CA_1_2017.crt")) {
+//			Exception exception = assertThrows(IllegalArgumentException.class, () -> loadCert(isCer));
+//			assertEquals("Unable to initialize PSS", exception.getMessage());
+//		}
+//	}
 
 	@Test
 	@DisabledForJreRange(max = JRE.JAVA_15)

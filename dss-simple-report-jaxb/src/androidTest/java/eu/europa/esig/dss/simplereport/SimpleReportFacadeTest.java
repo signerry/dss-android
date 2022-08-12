@@ -21,6 +21,8 @@
 package eu.europa.esig.dss.simplereport;
 
 import eu.europa.esig.dss.simplereport.jaxb.XmlSimpleReport;
+import eu.europa.esig.dss.test.TestUtils;
+
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -52,7 +54,7 @@ public class SimpleReportFacadeTest {
 	private void createAndValidate(String filename) throws Exception {
 		SimpleReportFacade facade = SimpleReportFacade.newFacade();
 
-		XmlSimpleReport simpleReport = facade.unmarshall(new File("src/test/resources/" + filename));
+		XmlSimpleReport simpleReport = facade.unmarshall(TestUtils.getResourceAsFile(filename));
 		assertNotNull(simpleReport);
 		String simpleReportString = facade.marshall(simpleReport);
 

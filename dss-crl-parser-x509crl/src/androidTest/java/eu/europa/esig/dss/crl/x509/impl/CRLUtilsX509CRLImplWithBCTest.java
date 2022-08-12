@@ -20,9 +20,43 @@
  */
 package eu.europa.esig.dss.crl.x509.impl;
 
+import org.junit.jupiter.api.Test;
+import java.io.InputStream;
+import java.security.cert.CertificateException;
+
 import eu.europa.esig.dss.crl.AbstractBCTestCRLUtils;
+import eu.europa.esig.dss.model.x509.CertificateToken;
 
 public class CRLUtilsX509CRLImplWithBCTest extends AbstractBCTestCRLUtils {
 
 
+    @Override
+    @Test
+    public void testPSSwithBouncyCastle() throws Exception {
+        super.testPSSwithBouncyCastle();
+    }
+
+    @Override
+    @Test
+    public void rsaSHA1() throws Exception {
+        super.rsaSHA1();
+    }
+
+    @Override
+    @Test
+    public void rsaSHA1bis() throws Exception {
+        super.rsaSHA1bis();
+    }
+
+    @Override
+    @Test
+    public void rsaSHA256() throws Exception {
+        super.rsaSHA256();
+    }
+
+    @Override
+    @Test
+    protected CertificateToken loadCert(InputStream is) throws CertificateException {
+        return super.loadCert(is);
+    }
 }

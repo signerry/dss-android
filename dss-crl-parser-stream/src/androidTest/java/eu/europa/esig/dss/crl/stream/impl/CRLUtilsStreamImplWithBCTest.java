@@ -20,8 +20,33 @@
  */
 package eu.europa.esig.dss.crl.stream.impl;
 
+import org.junit.Test;
+
 import eu.europa.esig.dss.crl.AbstractBCTestCRLUtils;
 
 public class CRLUtilsStreamImplWithBCTest extends AbstractBCTestCRLUtils {
+    @Override
+    @Test
+    public void testPSSwithBouncyCastle() throws Exception {
+        super.testPSSwithBouncyCastle();
+    }
+
+    @Override
+    @Test
+    public void rsaSHA1() throws Exception {
+        super.rsaSHA1();
+    }
+
+    @Override
+    @Test
+    public void rsaSHA1bis() throws Exception {
+        super.rsaSHA1bis();
+    }
+
+    @Override
+    @Test
+    public void rsaSHA256() throws Exception {
+        super.rsaSHA256();
+    }
 
 }

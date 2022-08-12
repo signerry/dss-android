@@ -28,15 +28,15 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.Test;
+
 import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.cert.X509CRLEntry;
 
-import org.junit.jupiter.api.Test;
-
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 
 public class CRLParserTest {
@@ -45,7 +45,7 @@ public class CRLParserTest {
 
 	@Test
 	public void illegalArgumenException() throws IOException {
-		try (InputStream fis = new FileInputStream("pom.xml")) {
+		try (InputStream fis = TestUtils.getResourceAsStream("pom.xml")) {
 			Exception exception = assertThrows(IllegalArgumentException.class, () -> parser.retrieveInfo(fis));
 			assertEquals("The InputStream MUST support mark/reset methods !", exception.getMessage());
 		}

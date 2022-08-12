@@ -45,11 +45,9 @@ import eu.europa.esig.dss.model.x509.CertificateToken;
 
 public abstract class AbstractBCTestCRLUtils extends AbstractCRLParserTestUtils {
 
-	private static CertificateFactory certificateFactory;
+	private CertificateFactory certificateFactory;
 
-	@BeforeAll
-	public static void init() {
-		Security.addProvider(new BouncyCastleProvider());
+	public AbstractBCTestCRLUtils() {
 		try {
 			certificateFactory = CertificateFactory.getInstance("X.509", new BouncyCastleProvider());
 		} catch (CertificateException e) {

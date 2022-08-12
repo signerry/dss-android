@@ -1,19 +1,19 @@
 /**
  * DSS - Digital Signature Services
  * Copyright (C) 2015 European Commission, provided under the CEF programme
- * 
+ *
  * This file is part of the "DSS - Digital Signature Services" project.
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -38,6 +38,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import eu.europa.esig.dss.simplecertificatereport.jaxb.XmlSimpleCertificateReport;
+import eu.europa.esig.dss.test.TestUtils;
 
 public class PDFGenerationTest {
 
@@ -65,23 +66,24 @@ public class PDFGenerationTest {
 	public void generateSimpleCertificateReport2() throws Exception {
 		createAndValidate("simple-cert-report2.xml");
 	}
-	
+
 	private void createAndValidate(String filename) throws Exception {
 		SimpleCertificateReportFacade facade = SimpleCertificateReportFacade.newFacade();
 
-		File file = new File("src/test/resources/" + filename);
+		File file = TestUtils.getResourceAsFile(filename);
 		XmlSimpleCertificateReport simpleReport = facade.unmarshall(file);
 
-		try (FileOutputStream fos = new FileOutputStream("target/report.pdf")) {
+		File tmpFile = TestUtils.getTmpFile("report.pdf");
+		try (FileOutputStream fos = new FileOutputStream(tmpFile)) {
 			Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, fos);
 			Result result = new SAXResult(fop.getDefaultHandler());
 			facade.generatePdfReport(simpleReport, result);
 		}
-		
-		File pdfReport = new File("target/report.pdf");
-		assertTrue(pdfReport.exists());
-		assertTrue(pdfReport.delete(), "Cannot delete PDF document (IO error)");
-		assertFalse(pdfReport.exists());
+
+
+		assertTrue(tmpFile.exists());
+		assertTrue(tmpFile.delete(), "Cannot delete PDF document (IO error)");
+		assertFalse(tmpFile.exists());
 	}
 
 }

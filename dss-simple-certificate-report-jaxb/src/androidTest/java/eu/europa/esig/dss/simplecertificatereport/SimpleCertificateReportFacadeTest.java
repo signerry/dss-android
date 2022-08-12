@@ -27,6 +27,7 @@ import java.io.File;
 import org.junit.jupiter.api.Test;
 
 import eu.europa.esig.dss.simplecertificatereport.jaxb.XmlSimpleCertificateReport;
+import eu.europa.esig.dss.test.TestUtils;
 
 public class SimpleCertificateReportFacadeTest {
 
@@ -43,7 +44,7 @@ public class SimpleCertificateReportFacadeTest {
 	private void createAndValidate(String filename) throws Exception {
 		SimpleCertificateReportFacade facade = SimpleCertificateReportFacade.newFacade();
 
-		XmlSimpleCertificateReport simpleCertificateReport = facade.unmarshall(new File("src/test/resources/" + filename));
+		XmlSimpleCertificateReport simpleCertificateReport = facade.unmarshall(TestUtils.getResourceAsFile(filename));
 		assertNotNull(simpleCertificateReport);
 
 		String htmlReport = facade.generateHtmlReport(simpleCertificateReport);

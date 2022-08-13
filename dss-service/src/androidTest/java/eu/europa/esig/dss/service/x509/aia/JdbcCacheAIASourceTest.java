@@ -33,6 +33,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -54,9 +56,9 @@ public class JdbcCacheAIASourceTest {
     public void setUp() throws SQLException {
         // for testing purposes. DB view available on http://localhost:8082
         // webServer = Server.createWebServer("-web","-webAllowOthers","-webPort","8082").start();
-        dataSource.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
+        Connection connection = DriverManager.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
 
-        JdbcCacheConnector cacheConnector = new JdbcCacheConnector(dataSource);
+        JdbcCacheConnector cacheConnector = new JdbcCacheConnector(connection);
         aiaSource.setJdbcCacheConnector(cacheConnector);
 
         assertFalse(aiaSource.isTableExists());

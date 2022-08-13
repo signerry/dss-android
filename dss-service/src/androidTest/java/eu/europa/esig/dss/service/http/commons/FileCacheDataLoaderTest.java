@@ -26,15 +26,16 @@ import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.spi.client.http.DataLoader.DataAndUrl;
 import eu.europa.esig.dss.spi.client.http.IgnoreDataLoader;
 import eu.europa.esig.dss.spi.client.http.MemoryDataLoader;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -48,12 +49,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.android.AndroidFileCacheDataLoader;
+
 public class FileCacheDataLoaderTest {
 
 	static final String URL_TO_LOAD = "https://ec.europa.eu/tools/lotl/eu-lotl.xml";
+	final File cacheDirectory;
 
-	@TempDir
-	File cacheDirectory;
+	public FileCacheDataLoaderTest() {
+		cacheDirectory = TestUtils.getTmpDedicatedDirectory();
+	}
 
 	private FileCacheDataLoader dataLoader;
 
@@ -101,9 +106,14 @@ public class FileCacheDataLoaderTest {
 
 	@Test
 	public void testNotNetworkProtocol() throws IOException {
-		FileCacheDataLoader specificDataLoader = new FileCacheDataLoader();
+		File tmpDirectory = TestUtils.getTmpDedicatedDirectory();
+		InputStream resourceAsFile = TestUtils.getResourceAsStream("logback.xml");
+		Files.copy(resourceAsFile, new File(tmpDirectory, "logback.xml").toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+
+		AndroidFileCacheDataLoader specificDataLoader = new AndroidFileCacheDataLoader(TestUtils.getCtx());
 		specificDataLoader.setDataLoader(new MemoryDataLoader(new HashMap<>()));
-		specificDataLoader.setFileCacheDirectory(cacheDirectory);
+		specificDataLoader.setFileCacheDirectory(tmpDirectory);
 
 		assertThrows(DSSException.class, () -> specificDataLoader.get("1.2.3.4.5"));
 		assertThrows(DSSException.class, () -> specificDataLoader.getDocument("1.2.3.4.5"));
@@ -112,9 +122,8 @@ public class FileCacheDataLoaderTest {
 		assertNotNull(specificDataLoader.get("1.2.3.4.5"));
 		assertNotNull(specificDataLoader.getDocument("1.2.3.4.5"));
 
-		specificDataLoader.setResourceLoader(new ResourceLoader(FileCacheDataLoaderTest.class));
-		assertNotNull(specificDataLoader.get("/logback.xml"));
-		assertNotNull(specificDataLoader.getDocument("/logback.xml"));
+		assertNotNull(specificDataLoader.get("logback.xml"));
+		assertNotNull(specificDataLoader.getDocument("logback.xml"));
 	}
 	
 	@Test
@@ -125,10 +134,8 @@ public class FileCacheDataLoaderTest {
 	
 	@Test
 	public void offlineDataLoaderTest() throws IOException {
-		File cacheDirectory = new File("target/cache");
-		cacheDirectory.mkdirs();
-		Files.walk(cacheDirectory.toPath()).map(Path::toFile).forEach(File::delete);
-		
+		File cacheDirectory = TestUtils.getTmpDedicatedDirectory();
+
 		Map<String, byte[]> dataMap = new HashMap<>();
 		dataMap.put("sample", "sample".getBytes());
 		dataMap.put("null", null);

@@ -20,23 +20,6 @@
  */
 package eu.europa.esig.dss.service.crl;
 
-import eu.europa.esig.dss.enumerations.RevocationOrigin;
-import eu.europa.esig.dss.model.x509.CertificateToken;
-import eu.europa.esig.dss.service.http.commons.CommonsDataLoader;
-import eu.europa.esig.dss.spi.DSSUtils;
-import eu.europa.esig.dss.spi.client.http.DataLoader;
-import eu.europa.esig.dss.spi.client.jdbc.JdbcCacheConnector;
-import eu.europa.esig.dss.spi.x509.revocation.crl.CRLToken;
-import org.h2.jdbcx.JdbcDataSource;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.io.File;
-import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
-
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -44,11 +27,28 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
+
+import eu.europa.esig.dss.enumerations.RevocationOrigin;
+import eu.europa.esig.dss.model.x509.CertificateToken;
+import eu.europa.esig.dss.service.http.commons.CommonsDataLoader;
+import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.spi.client.http.DataLoader;
+import eu.europa.esig.dss.spi.client.jdbc.JdbcCacheConnector;
+import eu.europa.esig.dss.spi.x509.revocation.crl.CRLToken;
+import eu.europa.esig.dss.test.TestUtils;
+
 
 public class JdbcCacheCrlSourceTest {
-	
-	private JdbcDataSource dataSource = new JdbcDataSource();
-	
+
 	private MockJdbcCacheCRLSource crlSource = new MockJdbcCacheCRLSource();
 	
 //	private Server webServer;
@@ -57,8 +57,8 @@ public class JdbcCacheCrlSourceTest {
 	public void setUp() throws SQLException {		
 		// for testing purposes. DB view available on http://localhost:8082
 		// webServer = Server.createWebServer("-web","-webAllowOthers","-webPort","8082").start();
-		dataSource.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
-		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(dataSource);
+		Connection connection = DriverManager.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
+		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(connection);
 		crlSource.setJdbcCacheConnector(jdbcCacheConnector);
 		assertFalse(crlSource.isTableExists());
 		crlSource.initTable();
@@ -131,8 +131,8 @@ public class JdbcCacheCrlSourceTest {
 	public void testExpired() throws SQLException {
 		CRLToken revocationToken;
 
-		CertificateToken certificateToken = DSSUtils.loadCertificate(new File("src/test/resources/ec.europa.eu.crt"));
-		CertificateToken caToken = DSSUtils.loadCertificate(new File("src/test/resources/CALT.crt"));
+		CertificateToken certificateToken = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("ec.europa.eu.crt"));
+		CertificateToken caToken = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("CALT.crt"));
 		revocationToken = crlSource.getRevocationToken(certificateToken, caToken);
 		assertNull(revocationToken);
 

@@ -36,6 +36,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
@@ -62,8 +64,8 @@ public class JdbcCacheOcspSourceTest {
 	
 	@BeforeEach
 	public void setUp() throws SQLException {
-		dataSource.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
-		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(dataSource);
+		Connection connection = DriverManager.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
+		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(connection);
 		ocspSource.setJdbcCacheConnector(jdbcCacheConnector);
 		assertFalse(ocspSource.isTableExists());
 		ocspSource.initTable();

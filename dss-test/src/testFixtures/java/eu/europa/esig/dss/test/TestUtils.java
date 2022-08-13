@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 public class TestUtils {
     public static Context getCtx() {
@@ -65,7 +66,14 @@ public class TestUtils {
         return file;
     }
 
+    public static File getTmpDedicatedDirectory() {
+        File folder = new File(getTmpDirectory(), UUID.randomUUID().toString());
+        folder.mkdir();
+        return folder;
+    }
+
     public static File getTmpDirectory() {
+
         try {
             return getCtx().getCacheDir();
         }

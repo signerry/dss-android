@@ -59,6 +59,8 @@ Pkcs12SignatureToken(TestUtils.getResourceAsFile("$1"),
 
 ```
 
+LDAP support made via "com.unboundid:unboundid-ldapsd" https://ldap.com/unboundid-ldap-sdk-for-java/
+
 TODO:
 
 2022-07-22. Jackson json library was temporary added in runtime, but it needed only for tests.

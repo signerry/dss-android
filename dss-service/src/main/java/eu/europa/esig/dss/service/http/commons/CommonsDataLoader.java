@@ -1,34 +1,33 @@
 /**
  * DSS - Digital Signature Services
  * Copyright (C) 2015 European Commission, provided under the CEF programme
- * 
+ *
  * This file is part of the "DSS - Digital Signature Services" project.
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 package eu.europa.esig.dss.service.http.commons;
 
-import eu.europa.esig.dss.model.DSSDocument;
-import eu.europa.esig.dss.service.http.proxy.ProxyConfig;
-import eu.europa.esig.dss.service.http.proxy.ProxyProperties;
-import eu.europa.esig.dss.spi.DSSUtils;
-import eu.europa.esig.dss.spi.client.http.DataLoader;
-import eu.europa.esig.dss.spi.client.http.Protocol;
-import eu.europa.esig.dss.spi.exception.DSSDataLoaderMultipleException;
-import eu.europa.esig.dss.spi.exception.DSSExternalResourceException;
-import eu.europa.esig.dss.utils.Utils;
+import com.unboundid.ldap.sdk.Attribute;
+import com.unboundid.ldap.sdk.LDAPConnection;
+import com.unboundid.ldap.sdk.LDAPException;
+import com.unboundid.ldap.sdk.LDAPURL;
+import com.unboundid.ldap.sdk.SearchRequest;
+import com.unboundid.ldap.sdk.SearchResult;
+import com.unboundid.ldap.sdk.SearchScope;
+
 import org.apache.hc.client5.http.HttpRequestRetryStrategy;
 import org.apache.hc.client5.http.auth.AuthScope;
 import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
@@ -69,8 +68,6 @@ import org.apache.hc.core5.util.Timeout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import javax.net.ssl.HostnameVerifier;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -83,10 +80,20 @@ import java.security.KeyStore;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
+
+import javax.net.ssl.HostnameVerifier;
+
+import eu.europa.esig.dss.model.DSSDocument;
+import eu.europa.esig.dss.service.http.proxy.ProxyConfig;
+import eu.europa.esig.dss.service.http.proxy.ProxyProperties;
+import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.spi.client.http.DataLoader;
+import eu.europa.esig.dss.spi.client.http.Protocol;
+import eu.europa.esig.dss.spi.exception.DSSDataLoaderMultipleException;
+import eu.europa.esig.dss.spi.exception.DSSExternalResourceException;
+import eu.europa.esig.dss.utils.Utils;
 
 /**
  * Implementation of DataLoader for any protocol.
@@ -780,7 +787,46 @@ public class CommonsDataLoader implements DataLoader {
 	 * @return byte array
 	 */
 	protected byte[] ldapGet(String urlString) {
-		return null;
+		try {
+			LDAPURL ldapurl = new LDAPURL(urlString);
+			LDAPConnection ldapConnection= new LDAPConnection(ldapurl.getHost(), ldapurl.getPort());
+
+			SearchRequest searchRequest = new SearchRequest(ldapurl.getBaseDN().toString(), SearchScope.BASE, ldapurl.getFilter());
+			String[] requestAttributes = ldapurl.getAttributes();
+
+			if(requestAttributes.length == 0) {
+				requestAttributes = new String[]{"certificateRevocationList;binary"};
+			}
+
+			String requestAttribute = requestAttributes[0];
+
+			searchRequest.setAttributes(requestAttributes);
+
+			SearchResult search = ldapConnection.search(searchRequest);
+			int entryCount = search.getEntryCount();
+
+			if(entryCount == 0) {
+				throw new DSSExternalResourceException(String.format("Cannot download binaries from: [%s], no attributes with name: [%s] returned", urlString, requestAttribute));
+			}
+
+			Collection<Attribute> attributes = search.getSearchEntries().get(0).getAttributes();
+
+			if(attributes.size() == 0) {
+				throw new DSSExternalResourceException(String.format("Cannot download binaries from: [%s], no attributes with name: [%s] returned", urlString, requestAttribute));
+			}
+
+			Attribute next = attributes.iterator().next();
+			byte[] ldapBytes = next.getValueByteArray();
+
+			if (Utils.isArrayNotEmpty(ldapBytes)) {
+				return ldapBytes;
+			}
+
+			throw new DSSExternalResourceException(String.format("The retrieved ldap content from url [%s] is empty", urlString));
+
+		} catch (LDAPException e) {
+			throw new DSSExternalResourceException(String.format("Cannot get data from URL [%s]. Reason : [%s]", urlString, e.getMessage()), e);
+		}
 	}
 
 	/**
@@ -1007,7 +1053,7 @@ public class CommonsDataLoader implements DataLoader {
 		try {
 			SSLContextBuilder sslContextBuilder = SSLContextBuilder.create();
 			sslContextBuilder.setProtocol(sslProtocol);
-			
+
 			TrustStrategy trustStrategy = getTrustStrategy();
 			if (trustStrategy != null) {
 				LOG.debug("Set the TrustStrategy");
@@ -1115,7 +1161,7 @@ public class CommonsDataLoader implements DataLoader {
 		httpClientBuilder.setConnectionManager(getConnectionManager())
 				.setDefaultRequestConfig(requestConfigBuilder.build())
 				.setRetryStrategy(retryStrategy);
-		
+
 		return httpClientBuilder;
 	}
 

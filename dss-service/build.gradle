@@ -10,11 +10,13 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.15'
     testImplementation 'ch.qos.logback:logback-classic:1.2.10'
     testImplementation 'org.slf4j:jcl-over-slf4j:1.7.35'
-    
+    implementation 'com.unboundid:unboundid-ldapsdk:6.0.5'
+
     testImplementation 'org.awaitility:awaitility:4.1.1'
     testImplementation project(':dss-utils-google-guava')
     testImplementation 'com.h2database:h2:2.1.210'
     testImplementation project(':dss-crl-parser-x509crl')
+    androidTestImplementation project(':dss-android')
 }
 
 description = 'DSS Service'

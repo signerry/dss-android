@@ -215,7 +215,9 @@ allprojects (subproject -> {
         testImplementation("org.awaitility:awaitility:${awaitility_version}")
 
 
-        implementation "org.mockito:mockito-core:${mockito_version}"
+        testImplementation "org.mockito:mockito-core:${mockito_version}"
+        androidTestImplementation "org.mockito:mockito-android:${mockito_version}"
+
         testImplementation enforcedPlatform("org.junit:junit-bom:${junit_version}")
         implementation "com.fasterxml.jackson.module:jackson-module-jaxb-annotations:${jackson_version}"
 

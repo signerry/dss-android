@@ -29,6 +29,8 @@ import eu.europa.esig.dss.model.x509.revocation.crl.CRL;
 import eu.europa.esig.dss.spi.x509.revocation.RevocationToken;
 import eu.europa.esig.dss.utils.Utils;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -48,7 +50,11 @@ public class ExternalResourcesCRLSource extends OfflineCRLSource {
 	 */
 	public ExternalResourcesCRLSource(final String... paths) {
 		for (final String pathItem : paths) {
-			addCRLToken(getClass().getResourceAsStream(pathItem));
+			try {
+				addCRLToken(new FileInputStream((pathItem)));
+			} catch (FileNotFoundException e) {
+				throw new DSSException(e);
+			}
 		}
 	}
 

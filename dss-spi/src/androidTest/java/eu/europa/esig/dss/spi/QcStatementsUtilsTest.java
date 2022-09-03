@@ -27,6 +27,8 @@ import eu.europa.esig.dss.model.x509.PSD2QcType;
 import eu.europa.esig.dss.model.x509.QCLimitValue;
 import eu.europa.esig.dss.model.x509.QcStatements;
 import eu.europa.esig.dss.model.x509.RoleOfPSP;
+import eu.europa.esig.dss.test.TestUtils;
+
 import org.bouncycastle.asn1.ASN1Encodable;
 import org.bouncycastle.asn1.ASN1Sequence;
 import org.bouncycastle.asn1.DERSequence;
@@ -90,7 +92,7 @@ public class QcStatementsUtilsTest {
 
     @Test
     void certWithLegislation() {
-        CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/john_doe_tc.crt"));
+        CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsStream("john_doe_tc.crt"));
 
         QcStatements qcStatements = QcStatementUtils.getQcStatements(certificate);
         assertNotNull(qcStatements);
@@ -136,7 +138,7 @@ public class QcStatementsUtilsTest {
 
     @Test
     void certWithoutQCStatements() {
-        CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/TSP_Certificate_2014.crt"));
+        CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("TSP_Certificate_2014.crt"));
         QcStatements qcStatements = QcStatementUtils.getQcStatements(certificate);
         assertNull(qcStatements);
     }

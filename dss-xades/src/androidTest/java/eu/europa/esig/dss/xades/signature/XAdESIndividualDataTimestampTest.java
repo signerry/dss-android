@@ -35,6 +35,7 @@ import eu.europa.esig.dss.model.TimestampBinary;
 import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.test.PKIFactoryAccess;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import eu.europa.esig.dss.validation.executor.signature.DefaultSignatureProcessExecutor;
@@ -54,6 +55,7 @@ import org.apache.xml.security.c14n.Canonicalizer;
 import org.junit.jupiter.api.Test;
 
 import jakarta.xml.bind.JAXBElement;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -66,8 +68,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class XAdESIndividualDataTimestampTest extends PKIFactoryAccess {
 
-	private static final String FILE1 = "sample.xml";
-	private static final String FILE2 = "sampleISO.xml";
+	private static final File FILE1 = TestUtils.getResourceAsFile("sample.xml");
+	private static final File FILE2 = TestUtils.getResourceAsFile("sampleISO.xml");
 
 	@Test
 	public void multiDocsEnveloping() throws Exception {

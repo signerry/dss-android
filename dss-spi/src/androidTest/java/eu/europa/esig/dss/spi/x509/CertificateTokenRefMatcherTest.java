@@ -25,6 +25,7 @@ import eu.europa.esig.dss.model.Digest;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.spi.DSSASN1Utils;
 import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import org.junit.jupiter.api.Test;
 
@@ -41,8 +42,8 @@ public class CertificateTokenRefMatcherTest {
     private static CertificateToken caCertificate;
 
     static {
-        certificateToken = DSSUtils.loadCertificate(new File("src/test/resources/good-user.crt"));
-        caCertificate = DSSUtils.loadCertificate(new File("src/test/resources/citizen_ca.cer"));
+        certificateToken = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("good-user.crt"));
+        caCertificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("citizen_ca.cer"));
     }
 
     @Test

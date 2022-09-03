@@ -78,7 +78,7 @@ public class DSSUtilsTest {
 
 	@BeforeAll
 	public static void init() {
-		certificate = DSSUtils.loadCertificate(new File("src/test/resources/TSP_Certificate_2014.crt"));
+		certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("TSP_Certificate_2014.crt"));
 		assertNotNull(certificate);
 	}
 
@@ -151,7 +151,7 @@ public class DSSUtilsTest {
 
 	@Test
 	public void testDontSkipCertificatesWhenMultipleAreFoundInP7c() throws IOException {
-		try (FileInputStream fis = new FileInputStream("src/test/resources/certchain.p7c")) {
+		try (FileInputStream fis = new FileInputStream(TestUtils.getResourceAsFile("certchain.p7c"))) {
 			DSSException exception = assertThrows(DSSException.class, () -> DSSUtils.loadCertificate(fis));
 			assertEquals("Could not parse certificate", exception.getMessage());
 		}
@@ -159,33 +159,33 @@ public class DSSUtilsTest {
 
 	@Test
 	public void testLoadP7cPEM() throws DSSException, IOException {
-		Collection<CertificateToken> certs = DSSUtils.loadCertificateFromP7c(new FileInputStream("src/test/resources/certchain.p7c"));
+		Collection<CertificateToken> certs = DSSUtils.loadCertificateFromP7c(new FileInputStream(TestUtils.getResourceAsFile("certchain.p7c")));
 		assertTrue(Utils.isCollectionNotEmpty(certs));
 		assertTrue(certs.size() > 1);
 	}
 
 	@Test
 	public void testLoadP7cNotPEM() throws DSSException, IOException {
-		Collection<CertificateToken> certs = DSSUtils.loadCertificateFromP7c(new FileInputStream("src/test/resources/AdobeCA.p7c"));
+		Collection<CertificateToken> certs = DSSUtils.loadCertificateFromP7c(new FileInputStream(TestUtils.getResourceAsFile("AdobeCA.p7c")));
 		assertTrue(Utils.isCollectionNotEmpty(certs));
 	}
 
 	@Test
 	public void loadCertificate() throws Exception {
-		CertificateToken certificate = DSSUtils.loadCertificate(new FileInputStream("src/test/resources/belgiumrs2.crt"));
+		CertificateToken certificate = DSSUtils.loadCertificate(new FileInputStream(TestUtils.getResourceAsFile("belgiumrs2.crt")));
 		assertNotNull(certificate);
 
-		FileInputStream fis = new FileInputStream("src/test/resources/belgiumrs2.crt");
+		FileInputStream fis = new FileInputStream(TestUtils.getResourceAsFile("belgiumrs2.crt"));
 		byte[] byteArray = Utils.toByteArray(fis);
 		logger.info(Utils.toBase64(byteArray));
 		Utils.closeQuietly(fis);
 		CertificateToken certificate2 = DSSUtils.loadCertificate(byteArray);
 		assertNotNull(certificate2);
 
-		CertificateToken certificateNew = DSSUtils.loadCertificate(new FileInputStream("src/test/resources/belgiumrs2-new.crt"));
+		CertificateToken certificateNew = DSSUtils.loadCertificate(new FileInputStream(TestUtils.getResourceAsFile("belgiumrs2-new.crt")));
 		assertNotNull(certificateNew);
 
-		FileInputStream fisNew = new FileInputStream("src/test/resources/belgiumrs2-new.crt");
+		FileInputStream fisNew = new FileInputStream(TestUtils.getResourceAsFile("belgiumrs2-new.crt"));
 		byte[] byteArrayNew = Utils.toByteArray(fisNew);
 		logger.info(Utils.toBase64(byteArrayNew));
 		Utils.closeQuietly(fisNew);
@@ -232,12 +232,12 @@ public class DSSUtilsTest {
 		assertNotNull(issuerCert);
 		assertTrue(issuerCert.isSelfSigned());
 
-		CertificateToken childCert = DSSUtils.loadCertificate(new File("src/test/resources/es_certificate_from_SchemeServiceDefinitionURI.crt"));
+		CertificateToken childCert = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("es_certificate_from_SchemeServiceDefinitionURI.crt"));
 		assertNotNull(childCert);
 		assertFalse(childCert.isSelfSigned());
 		assertTrue(childCert.isSignedBy(issuerCert));
 
-		CertificateToken childCert2 = DSSUtils.loadCertificate(new File("src/test/resources/es_certificate_from_SchemeServiceDefinitionURI2.crt"));
+		CertificateToken childCert2 = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("es_certificate_from_SchemeServiceDefinitionURI2.crt"));
 		assertNotNull(childCert2);
 		assertFalse(childCert2.isSelfSigned());
 		assertTrue(childCert2.isSignedBy(issuerCert));
@@ -260,10 +260,10 @@ public class DSSUtilsTest {
 	@Test
 	public void testRootCA2s() {
 
-		CertificateToken selfSign = DSSUtils.loadCertificate(new File("src/test/resources/belgiumrca2-self-sign.crt"));
-		CertificateToken signed = DSSUtils.loadCertificate(new File("src/test/resources/belgiumrs2-signed.crt"));
+		CertificateToken selfSign = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("belgiumrca2-self-sign.crt"));
+		CertificateToken signed = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("belgiumrs2-signed.crt"));
 
-		CertificateToken tsa = DSSUtils.loadCertificate(new File("src/test/resources/TSA_BE.cer"));
+		CertificateToken tsa = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("TSA_BE.cer"));
 
 		logger.info(selfSign.toString());
 
@@ -308,7 +308,7 @@ public class DSSUtilsTest {
 
 	@Test
 	public void isSelfSigned() {
-		CertificateToken selfSign = DSSUtils.loadCertificate(new File("src/test/resources/belgiumrca2-self-sign.crt"));
+		CertificateToken selfSign = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("belgiumrca2-self-sign.crt"));
 		assertTrue(selfSign.isSelfSigned());
 		assertTrue(selfSign.isSelfIssued());
 
@@ -345,7 +345,7 @@ public class DSSUtilsTest {
 
 	@Test
 	public void testRSASSAPSS() {
-		CertificateToken token = DSSUtils.loadCertificate(this.getClass().getResourceAsStream("/BA-QC-Wurzel-CA-2_PN.txt"));
+		CertificateToken token = DSSUtils.loadCertificate(TestUtils.getResourceAsStream("BA-QC-Wurzel-CA-2_PN.txt"));
 		assertTrue(token.isSelfSigned());
 		assertTrue(token.isSignedBy(token));
 		assertEquals(SignatureAlgorithm.RSA_SSA_PSS_SHA256_MGF1, token.getSignatureAlgorithm());

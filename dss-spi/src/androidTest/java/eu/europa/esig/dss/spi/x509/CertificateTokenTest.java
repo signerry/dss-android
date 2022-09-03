@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import eu.europa.esig.dss.enumerations.KeyUsageBit;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.test.TestUtils;
 
 public class CertificateTokenTest {
 
@@ -40,12 +41,12 @@ public class CertificateTokenTest {
 
 	@Test
 	public void getKeyUsageBits() {
-		CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/citizen_ca.cer"));
+		CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("citizen_ca.cer"));
 		List<KeyUsageBit> keyUsageBits = certificate.getKeyUsageBits();
 		LOG.info("Key usage citizen_ca : " + keyUsageBits);
 		assertTrue(keyUsageBits.contains(KeyUsageBit.CRL_SIGN));
 
-		certificate = DSSUtils.loadCertificate(new File("src/test/resources/TSP_Certificate_2014.crt"));
+		certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("TSP_Certificate_2014.crt"));
 		keyUsageBits = certificate.getKeyUsageBits();
 		LOG.info("Key usage tsp cert : " + keyUsageBits);
 		assertFalse(keyUsageBits.contains(KeyUsageBit.CRL_SIGN));

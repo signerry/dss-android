@@ -43,6 +43,7 @@ import eu.europa.esig.dss.DomUtils;
 import eu.europa.esig.dss.model.DSSDocument;
 import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.xades.XAdES319132Utils;
 
@@ -64,7 +65,7 @@ public class DSSXMLUtilsTest {
 
 	@Test
 	public void validateAgainstXSDWithExternalSourceOK() throws SAXException, IOException {
-		StreamSource streamSource = new StreamSource(DSSXMLUtilsTest.class.getResourceAsStream("/ExternalXSDForAsic.xsd"));
+		StreamSource streamSource = new StreamSource(TestUtils.getResourceAsStream("ExternalXSDForAsic.xsd"));
 		DSSDocument document = new FileDocument(getResourceAsFile("ASiCManifest.xml"));
 		List<String> errorMessages = xadesUtils.validateAgainstXSD(getSource(document), streamSource);
 		assertTrue(Utils.isCollectionEmpty(errorMessages));

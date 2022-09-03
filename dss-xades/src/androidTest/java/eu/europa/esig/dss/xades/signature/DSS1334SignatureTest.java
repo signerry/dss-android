@@ -30,6 +30,7 @@ import eu.europa.esig.dss.model.DSSException;
 import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.validation.CommonCertificateVerifier;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
 import eu.europa.esig.dss.xades.XAdESTimestampParameters;
@@ -70,8 +71,8 @@ public class DSS1334SignatureTest extends AbstractXAdESTestSignature {
 
 	@Test
 	public void extendValidFile() {
-		DSSDocument doc = new FileDocument(
-				"validation/dss1334/simple-test-signed-xades-baseline-b.xml");
+		DSSDocument doc = new FileDocument(TestUtils.getResourceAsFile(
+				"validation/dss1334/simple-test-signed-xades-baseline-b.xml"));
 
 		XAdESService service = new XAdESService(new CommonCertificateVerifier());
 		service.setTspSource(getGoodTsa());
@@ -87,8 +88,8 @@ public class DSS1334SignatureTest extends AbstractXAdESTestSignature {
 
 	@Test
 	public void extendInvalidFile() {
-		DSSDocument doc = new FileDocument(
-				"validation/dss1334/document-signed-xades-baseline-b--null-for-filename.xml");
+		DSSDocument doc = new FileDocument(TestUtils.getResourceAsFile(
+				"validation/dss1334/document-signed-xades-baseline-b--null-for-filename.xml"));
 
 		XAdESService service = new XAdESService(new CommonCertificateVerifier());
 		service.setTspSource(getGoodTsa());

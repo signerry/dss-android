@@ -31,6 +31,7 @@ import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.test.PKIFactoryAccess;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import eu.europa.esig.dss.validation.reports.Reports;
@@ -41,6 +42,7 @@ import eu.europa.esig.dss.xades.reference.DSSTransform;
 import org.apache.xml.security.signature.Reference;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,8 +52,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class XAdESLevelBWith2ReferencesTest extends PKIFactoryAccess {
 
-	private static String FILE1 = "sample.xml";
-	private static String FILE2 = "sampleISO.xml";
+	private static File FILE1 = TestUtils.getResourceAsFile("sample.xml");
+	private static File FILE2 = TestUtils.getResourceAsFile("sampleISO.xml");
 
 	@Test
 	public void test1() throws Exception {

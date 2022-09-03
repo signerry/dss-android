@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.spi.DSSASN1Utils;
 import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.test.TestUtils;
 
 public class CertificateSourceCasesTest {
 
@@ -117,8 +118,8 @@ public class CertificateSourceCasesTest {
 	public void crossCertificatesSameSubject() {
 
 		// 2 cross certificates : same keypair + same subject
-		CertificateToken c1 = DSSUtils.loadCertificate(new File("src/test/resources/belgiumrs2.crt"));
-		CertificateToken c2 = DSSUtils.loadCertificate(new File("src/test/resources/belgiumrs2-signed.crt"));
+		CertificateToken c1 = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("belgiumrs2.crt"));
+		CertificateToken c2 = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("belgiumrs2-signed.crt"));
 
 		CommonCertificateSource ccc = new CommonCertificateSource();
 		ccc.addCertificate(c1);
@@ -143,7 +144,7 @@ public class CertificateSourceCasesTest {
 	@Test
 	public void extractTLSKeystore() throws IOException {
 		assertTimeout(ofMillis(3000), () -> {
-			KeyStoreCertificateSource kscs = new KeyStoreCertificateSource(new File("src/test/resources/extract-tls.p12"),
+			KeyStoreCertificateSource kscs = new KeyStoreCertificateSource(TestUtils.getResourceAsStream("extract-tls.p12"),
 					"PKCS12", "ks-password");
 	
 			CommonCertificateSource ccc = new CommonCertificateSource();

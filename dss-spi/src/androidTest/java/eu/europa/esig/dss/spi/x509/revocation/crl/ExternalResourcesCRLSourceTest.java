@@ -29,6 +29,7 @@ import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.model.x509.revocation.crl.CRL;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.spi.x509.revocation.RevocationToken;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import org.junit.jupiter.api.Test;
 
@@ -50,8 +51,8 @@ public class ExternalResourcesCRLSourceTest {
 
 	@Test
 	public void testStreams() throws IOException {
-		try (InputStream is1 = new FileInputStream("src/test/resources/crl/LTRCA.crl");
-				InputStream is2 = new FileInputStream("src/test/resources/crl/LTGRCA.crl")) {
+		try (InputStream is1 = new FileInputStream(TestUtils.getResourceAsFile("crl/LTRCA.crl"));
+			 InputStream is2 = new FileInputStream(TestUtils.getResourceAsFile("crl/LTGRCA.crl"))) {
 			ExternalResourcesCRLSource source = new ExternalResourcesCRLSource(is1, is2);
 
 			assertEquals(2, source.getAllRevocationBinaries().size());
@@ -66,14 +67,16 @@ public class ExternalResourcesCRLSourceTest {
 
 	@Test
 	public void testPaths() {
-		ExternalResourcesCRLSource source = new ExternalResourcesCRLSource("/crl/LTRCA.crl", "/crl/LTGRCA.crl");
+		String path1 = TestUtils.getResourceAsFile("crl/LTRCA.crl").toPath().toString();
+		String path2 = TestUtils.getResourceAsFile("crl/LTGRCA.crl").toPath().toString();
+		ExternalResourcesCRLSource source = new ExternalResourcesCRLSource(path1, path2);
 		assertEquals(2, source.getAllRevocationBinaries().size());
 	}
 
 	@Test
 	public void testDSSDocuments() throws IOException {
-		DSSDocument crl1 = new FileDocument("src/test/resources/crl/LTRCA.crl");
-		DSSDocument crl2 = new FileDocument("src/test/resources/crl/LTGRCA.crl");
+		DSSDocument crl1 = new FileDocument(TestUtils.getResourceAsFile("crl/LTRCA.crl"));
+		DSSDocument crl2 = new FileDocument(TestUtils.getResourceAsFile("crl/LTGRCA.crl"));
 		ExternalResourcesCRLSource source = new ExternalResourcesCRLSource(crl1, crl2);
 
 		assertEquals(2, source.getAllRevocationBinaries().size());
@@ -87,7 +90,7 @@ public class ExternalResourcesCRLSourceTest {
 
 	@Test
 	public void noCRL() {
-		DSSException exception = assertThrows(DSSException.class, () -> new ExternalResourcesCRLSource("/keystore.jks"));
+		DSSException exception = assertThrows(DSSException.class, () -> new ExternalResourcesCRLSource("keystore.jks"));
 		assertEquals("Unable to parse the stream (CRL is expected)", exception.getMessage());
 	}
 

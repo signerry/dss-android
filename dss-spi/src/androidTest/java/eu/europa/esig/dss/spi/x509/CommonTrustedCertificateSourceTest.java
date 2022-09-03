@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 
 import eu.europa.esig.dss.enumerations.SignatureValidity;
 import eu.europa.esig.dss.model.x509.CertificateToken;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 
 public class CommonTrustedCertificateSourceTest {
@@ -38,7 +39,7 @@ public class CommonTrustedCertificateSourceTest {
 	public void importKeyStore() throws IOException {
 		CommonTrustedCertificateSource ctcs = new CommonTrustedCertificateSource();
 
-		KeyStoreCertificateSource keyStore = new KeyStoreCertificateSource("src/test/resources/keystore.jks", "JKS", "dss-password");
+		KeyStoreCertificateSource keyStore = new KeyStoreCertificateSource(TestUtils.getResourceAsStream("keystore.jks"), "BKS", "dss-password");
 		ctcs.importAsTrusted(keyStore);
 
 		List<CertificateToken> certificates = ctcs.getCertificates();

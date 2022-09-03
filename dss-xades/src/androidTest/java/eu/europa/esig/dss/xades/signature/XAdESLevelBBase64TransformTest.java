@@ -87,7 +87,7 @@ public class XAdESLevelBBase64TransformTest extends PKIFactoryAccess {
 	public void imageSignTest() {
 		
 		String imageFileName = "sample.png";
-		DSSDocument image = new FileDocument(getResourceAsFile("" + imageFileName));
+		DSSDocument image = new FileDocument(getResourceAsFile( imageFileName));
 		
 		List<DSSTransform> transforms = new ArrayList<>();
 		Base64Transform dssTransform = new Base64Transform();

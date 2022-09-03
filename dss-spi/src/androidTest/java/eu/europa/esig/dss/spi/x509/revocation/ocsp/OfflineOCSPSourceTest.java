@@ -29,6 +29,7 @@ import eu.europa.esig.dss.model.x509.revocation.ocsp.OCSP;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.spi.x509.CertificateRef;
 import eu.europa.esig.dss.spi.x509.revocation.RevocationToken;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -131,11 +132,11 @@ public class OfflineOCSPSourceTest {
 	@Test
 	public void testOCSPCertHash() {
 
-		CertificateToken user = DSSUtils.loadCertificate(new File("src/test/resources/sk_user.cer"));
-		CertificateToken caToken = DSSUtils.loadCertificate(new File("src/test/resources/sk_ca.cer"));
+		CertificateToken user = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("sk_user.cer"));
+		CertificateToken caToken = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("sk_ca.cer"));
 		assertTrue(user.isSignedBy(caToken));
 
-		ExternalResourcesOCSPSource ocspSource = new ExternalResourcesOCSPSource("/sk_ocsp.bin");
+		ExternalResourcesOCSPSource ocspSource = new ExternalResourcesOCSPSource(TestUtils.getResourceAsStream("sk_ocsp.bin"));
 
 		List<RevocationToken<OCSP>> ocspTokens = ocspSource.getRevocationTokens(user, caToken);
 		assertEquals(1, ocspTokens.size());
@@ -226,11 +227,11 @@ public class OfflineOCSPSourceTest {
 
 	@Test
 	public void testKeyHash() {
-		CertificateToken toCheckToken = DSSUtils.loadCertificate(new File("src/test/resources/peru_client.cer"));
-		CertificateToken caToken = DSSUtils.loadCertificate(new File("src/test/resources/peru_CA.cer"));
+		CertificateToken toCheckToken = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("peru_client.cer"));
+		CertificateToken caToken = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("peru_CA.cer"));
 		assertTrue(toCheckToken.isSignedBy(caToken));
 
-		ExternalResourcesOCSPSource ocspSource = new ExternalResourcesOCSPSource("/peru_ocsp.bin");
+		ExternalResourcesOCSPSource ocspSource = new ExternalResourcesOCSPSource(TestUtils.getResourceAsStream("peru_ocsp.bin"));
 		List<RevocationToken<OCSP>> revocationTokens = ocspSource.getRevocationTokens(toCheckToken, caToken);
 		assertEquals(1, revocationTokens.size());
 		RevocationToken<OCSP> revocationToken = revocationTokens.get(0);

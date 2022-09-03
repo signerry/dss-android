@@ -31,6 +31,7 @@ import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.xades.DSSXMLUtils;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
@@ -270,7 +271,7 @@ public class XAdESCanonicalizationTest extends AbstractXAdESTestSignature {
 	}
 
 	private void saveDocumentAndDelete(byte[] byteArray) {
-		File file = getResourceAsFile("target/sample-sig.xml");
+		File file = TestUtils.getTmpFile("sample-sig.xml");
 		// Create File and Output Stream
 		try (FileOutputStream fos = new FileOutputStream(file)) {
 			// Write signature to file

@@ -39,6 +39,7 @@ import eu.europa.esig.dss.spi.x509.revocation.OfflineRevocationSource;
 import eu.europa.esig.dss.spi.x509.revocation.RevocationCertificateSource;
 import eu.europa.esig.dss.spi.x509.revocation.RevocationToken;
 import eu.europa.esig.dss.spi.x509.tsp.TSPSource;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.test.extension.AbstractTestExtension;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.AdvancedSignature;
@@ -53,6 +54,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -73,8 +75,8 @@ public abstract class AbstractXAdESTestExtension extends AbstractTestExtension<X
 
 	@Override
 	protected FileDocument getOriginalDocument() {
-		File originalDoc = getResourceAsFile("target/original-" + UUID.randomUUID().toString() + ".xml");
-		try (FileOutputStream fos = new FileOutputStream(originalDoc); FileInputStream fis = new FileInputStream("sample.xml")) {
+		File originalDoc = TestUtils.getTmpFile("original-" + UUID.randomUUID().toString() + ".xml");
+		try (FileOutputStream fos = new FileOutputStream(originalDoc); InputStream fis = TestUtils.getResourceAsStream("sample.xml")) {
 			Utils.copy(fis, fos);
 		} catch (IOException e) {
 			throw new DSSException("Unable to create the original document", e);

@@ -26,6 +26,7 @@ import eu.europa.esig.dss.model.DSSDocument;
 import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.CommonCertificateVerifier;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
@@ -36,6 +37,7 @@ import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.List;
@@ -57,7 +59,7 @@ public class SignedDocumentValidatorTest {
 
 	@Test
 	public void testXmlUTF8InMemory() throws IOException {
-		FileInputStream fis = new FileInputStream("sample.xml");
+		InputStream fis = TestUtils.getResourceAsStream("sample.xml");
 		byte[] byteArray = Utils.toByteArray(fis);
 		Utils.closeQuietly(fis);
 		DSSDocument document = new InMemoryDocument(byteArray);

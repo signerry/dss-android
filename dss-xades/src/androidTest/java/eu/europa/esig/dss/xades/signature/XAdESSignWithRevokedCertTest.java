@@ -26,6 +26,7 @@ import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.validation.DocumentValidator;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
 import eu.europa.esig.dss.xades.XAdESTimestampParameters;
@@ -48,7 +49,7 @@ public class XAdESSignWithRevokedCertTest extends AbstractXAdESTestSignature {
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new InMemoryDocument(XAdESLevelBTest.class.getResourceAsStream("/sample.xml"));
+        documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.xml"));
         service = new XAdESService(getCompleteCertificateVerifier());
         service.setTspSource(getGoodTsa());
     }

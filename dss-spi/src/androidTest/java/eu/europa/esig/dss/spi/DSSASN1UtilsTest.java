@@ -23,6 +23,7 @@ package eu.europa.esig.dss.spi;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.spi.x509.CertificatePolicy;
+import eu.europa.esig.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import org.bouncycastle.asn1.ASN1EncodableVector;
 import org.bouncycastle.asn1.ASN1Encoding;
@@ -68,7 +69,7 @@ public class DSSASN1UtilsTest {
 
 	@BeforeAll
 	public static void init() {
-		certificateWithAIA = DSSUtils.loadCertificate(new File("src/test/resources/TSP_Certificate_2014.crt"));
+		certificateWithAIA = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("TSP_Certificate_2014.crt"));
 		assertNotNull(certificateWithAIA);
 
 		certificateOCSP = DSSUtils.loadCertificateFromBase64EncodedString(
@@ -78,7 +79,7 @@ public class DSSASN1UtilsTest {
 
 	@Test
 	public void getDigestSignaturePolicy() throws Exception {
-		FileInputStream fis = new FileInputStream("src/test/resources/signature-policy-example.der");
+		FileInputStream fis = new FileInputStream(TestUtils.getResourceAsFile("signature-policy-example.der"));
 		byte[] policyBytes = Utils.toByteArray(fis);
 		Utils.closeQuietly(fis);
 
@@ -151,7 +152,7 @@ public class DSSASN1UtilsTest {
 
 	@Test
 	public void getAccessLocation() {
-		CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/ec.europa.eu.crt"));
+		CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("ec.europa.eu.crt"));
 		List<String> ocspAccessLocations = DSSASN1Utils.getOCSPAccessLocations(certificate);
 		assertEquals(1, Utils.collectionSize(ocspAccessLocations));
 		assertEquals("http://ocsp.luxtrust.lu", ocspAccessLocations.get(0));
@@ -159,7 +160,7 @@ public class DSSASN1UtilsTest {
 
 	@Test
 	public void getCAAccessLocations() {
-		CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/ec.europa.eu.crt"));
+		CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("ec.europa.eu.crt"));
 		List<String> caLocations = DSSASN1Utils.getCAAccessLocations(certificate);
 		assertEquals(1, Utils.collectionSize(caLocations));
 		assertEquals("http://ca.luxtrust.lu/LTQCA.crt", caLocations.get(0));
@@ -167,7 +168,7 @@ public class DSSASN1UtilsTest {
 
 	@Test
 	public void getCrlUrls() {
-		CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/ec.europa.eu.crt"));
+		CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("ec.europa.eu.crt"));
 		List<String> crlUrls = DSSASN1Utils.getCrlUrls(certificate);
 		assertEquals(1, Utils.collectionSize(crlUrls));
 		assertEquals("http://crl.luxtrust.lu/LTQCA.crl", crlUrls.get(0));
@@ -175,7 +176,7 @@ public class DSSASN1UtilsTest {
 
 	@Test
 	public void getCertificateHolder() {
-		CertificateToken token = DSSUtils.loadCertificate(new File("src/test/resources/ec.europa.eu.crt"));
+		CertificateToken token = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("ec.europa.eu.crt"));
 		X509CertificateHolder certificateHolder = DSSASN1Utils.getX509CertificateHolder(token);
 		assertNotNull(certificateHolder);
 		CertificateToken token2 = DSSASN1Utils.getCertificate(certificateHolder);
@@ -396,7 +397,7 @@ public class DSSASN1UtilsTest {
 		assertNotNull(subjectAlternativeNames);
 		assertEquals(1, Utils.collectionSize(subjectAlternativeNames));
 
-		CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/ec.europa.eu.crt"));
+		CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("ec.europa.eu.crt"));
 		subjectAlternativeNames = DSSASN1Utils.getSubjectAlternativeNames(certificate);
 		assertNotNull(subjectAlternativeNames);
 		assertEquals(0, Utils.collectionSize(subjectAlternativeNames));

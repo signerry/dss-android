@@ -32,6 +32,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import static eu.europa.esig.dss.test.TestUtils.getResourceAsStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -44,7 +45,7 @@ public class CertificateSourceMultiThreadTest {
 	@RepeatedTest(5)
 	public void testMultiThreads() throws IOException {
 
-		KeyStoreCertificateSource kscs = new KeyStoreCertificateSource(new File("src/test/resources/extract-tls.p12"), "PKCS12", "ks-password");
+		KeyStoreCertificateSource kscs = new KeyStoreCertificateSource(getResourceAsStream("extract-tls.p12"), "PKCS12", "ks-password");
 		List<CertificateToken> certificates = kscs.getCertificates();
 
 		CommonCertificateSource sharedCertSource = new CommonCertificateSource();

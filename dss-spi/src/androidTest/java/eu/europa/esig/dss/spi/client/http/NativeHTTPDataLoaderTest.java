@@ -28,11 +28,12 @@ import org.junit.jupiter.api.Test;
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.test.TestUtils;
 
 public class NativeHTTPDataLoaderTest {
 
 	private static final String HTTP_URL_TO_LOAD = "http://certs.eid.belgium.be/belgiumrs2.crt";
-	private static final String FILE_URL_TO_LOAD = "file:src/test/resources/belgiumrs2.crt";
+	private static final String FILE_URL_TO_LOAD = "file:" + TestUtils.getResourceAsFile("belgiumrs2.crt").toPath();
 
 	@Test
 	public void testHttpGet() {

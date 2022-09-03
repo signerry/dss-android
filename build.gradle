@@ -178,7 +178,7 @@ allprojects (subproject -> {
 //        implementation "org.apache.pdfbox:pdfbox:${pdfbox_version}"
 //        implementation "org.apache.pdfbox:preflight:${pdfbox_version}"
 //        implementation "com.github.librepdf:openpdf:${openpdf_version}"
-//        implementation "org.apache.santuario:xmlsec:${xmlsec_version}"
+        implementation "org.apache.santuario:xmlsec:${xmlsec_version}"
         implementation "org.bouncycastle:bcprov-jdk15on:${bouncycastle_version}"
         testFixturesImplementation "org.bouncycastle:bcprov-jdk15on:${bouncycastle_version}"
 

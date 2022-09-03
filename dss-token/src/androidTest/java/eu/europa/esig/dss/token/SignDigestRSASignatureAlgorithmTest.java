@@ -20,15 +20,7 @@
  */
 package eu.europa.esig.dss.token;
 
-import eu.europa.esig.dss.enumerations.DigestAlgorithm;
-import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
-import eu.europa.esig.dss.enumerations.SignatureAlgorithm;
-import eu.europa.esig.dss.model.Digest;
-import eu.europa.esig.dss.model.SignatureValue;
-import eu.europa.esig.dss.model.ToBeSigned;
-import eu.europa.esig.dss.spi.DSSSecurityProvider;
-import eu.europa.esig.dss.spi.DSSUtils;
-import eu.europa.esig.dss.test.TestUtils;
+import com.signerry.android.CryptoProvider;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.Assertions;
@@ -48,15 +40,22 @@ import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
 
+import javax.crypto.Cipher;
+
+import eu.europa.esig.dss.enumerations.DigestAlgorithm;
+import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
+import eu.europa.esig.dss.enumerations.SignatureAlgorithm;
+import eu.europa.esig.dss.model.Digest;
+import eu.europa.esig.dss.model.SignatureValue;
+import eu.europa.esig.dss.model.ToBeSigned;
+import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SignDigestRSASignatureAlgorithmTest {
-
-    static {
-        Security.addProvider(DSSSecurityProvider.getSecurityProvider());
-    }
 
     private static final Logger LOG = LoggerFactory.getLogger(SignDigestRSATest.class);
 
@@ -86,7 +85,11 @@ public class SignDigestRSASignatureAlgorithmTest {
             assertNotNull(signValue.getAlgorithm());
             LOG.info("Sig value : {}", Base64.getEncoder().encodeToString(signValue.getValue()));
             try {
-                Signature sig = Signature.getInstance(signValue.getAlgorithm().getJCEId(), new BouncyCastleProvider());
+
+                Signature sig = CryptoProvider.bind((prov) ->
+                         Signature.getInstance(signValue.getAlgorithm().getJCEId(), prov)
+                ).get();
+
                 sig.initVerify(entry.getCertificate().getPublicKey());
                 sig.update(toBeSigned.getBytes());
                 assertTrue(sig.verify(signValue.getValue()));
@@ -112,6 +115,7 @@ public class SignDigestRSASignatureAlgorithmTest {
             SignatureValue signDigestValue = signatureToken.signDigest(digest, signatureAlgorithm, entry);
             assertNotNull(signDigestValue.getAlgorithm());
             LOG.info("Sig value : {}", Base64.getEncoder().encodeToString(signDigestValue.getValue()));
+
 
             try {
                 Signature sig = Signature.getInstance(signValue.getAlgorithm().getJCEId(), new BouncyCastleProvider());

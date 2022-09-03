@@ -20,6 +20,7 @@
  */
 package eu.europa.esig.dss.spi;
 
+import com.signerry.android.CryptoProvider;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
 import eu.europa.esig.dss.model.DSSException;
@@ -95,6 +96,7 @@ import org.bouncycastle.cms.SignerId;
 import org.bouncycastle.cms.SignerInformation;
 import org.bouncycastle.crypto.signers.PlainDSAEncoding;
 import org.bouncycastle.crypto.signers.StandardDSAEncoding;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.tsp.TSPException;
 import org.bouncycastle.tsp.TimeStampToken;
 import org.bouncycastle.util.BigIntegers;
@@ -143,8 +145,6 @@ public final class DSSASN1Utils {
 	private static List<ASN1ObjectIdentifier> timestampOids;
 
 	static {
-		Security.addProvider(DSSSecurityProvider.getSecurityProvider());
-
 		timestampOids = new ArrayList<>();
 		timestampOids.add(id_aa_ets_contentTimestamp);
 		timestampOids.add(id_aa_ets_archiveTimestampV2);
@@ -871,15 +871,12 @@ public final class DSSASN1Utils {
 	 * @return {@link CertificateToken}
 	 */
 	public static CertificateToken getCertificate(final X509CertificateHolder x509CertificateHolder) {
-		try {
-			JcaX509CertificateConverter converter = new JcaX509CertificateConverter().setProvider(DSSSecurityProvider.getSecurityProvider());
-			X509Certificate x509Certificate = converter.getCertificate(x509CertificateHolder);
-			return new CertificateToken(x509Certificate);
+		X509Certificate x509Certificate = CryptoProvider.bind((provider) -> {
+			JcaX509CertificateConverter converter = new JcaX509CertificateConverter().setProvider(new BouncyCastleProvider());
+			return converter.getCertificate(x509CertificateHolder);
+		}).get();
 
-		} catch (CertificateException e) {
-			throw new DSSException(String.format(
-					"Unable to get a CertificateToken from X509CertificateHolder : %s", e.getMessage()), e);
-		}
+		return new CertificateToken(x509Certificate);
 	}
 
 	/**

@@ -65,6 +65,7 @@ import org.apache.hc.core5.ssl.SSLContextBuilder;
 import org.apache.hc.core5.ssl.TrustStrategy;
 import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -1111,7 +1112,7 @@ public class CommonsDataLoader implements DataLoader {
 	private KeyStore loadKeyStore(DSSDocument store, String type, String passwordStr) throws IOException, GeneralSecurityException {
 		if (store != null) {
 			try (InputStream is = store.openStream()) {
-				KeyStore ks = KeyStore.getInstance(type);
+				KeyStore ks = KeyStore.getInstance(type, new BouncyCastleProvider());
 				ks.load(is, toCharArray(passwordStr));
 				return ks;
 			}

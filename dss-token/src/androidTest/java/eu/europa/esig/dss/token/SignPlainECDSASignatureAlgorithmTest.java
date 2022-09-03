@@ -50,10 +50,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SignPlainECDSASignatureAlgorithmTest {
 
-    static {
-        Security.addProvider(DSSSecurityProvider.getSecurityProvider());
-    }
-
     private static final Logger LOG = LoggerFactory.getLogger(SignPlainECDSASignatureAlgorithmTest.class);
 
     private static Collection<SignatureAlgorithm> data() {

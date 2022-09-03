@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.enumerations;
 
+import com.signerry.android.CryptoProvider;
+
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.security.MessageDigest;
@@ -469,7 +471,9 @@ public enum DigestAlgorithm implements OidAndUriBasedEnum {
 	 *                                  if the algorithm is not supported
 	 */
 	public MessageDigest getMessageDigest() throws NoSuchAlgorithmException {
-		return MessageDigest.getInstance(javaName, new BouncyCastleProvider());
+		return CryptoProvider.bind((provider) ->
+				MessageDigest.getInstance(javaName, provider)
+		).get();
 	}
 
 	/**

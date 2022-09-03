@@ -20,6 +20,10 @@
  */
 package eu.europa.esig.dss.model.x509;
 
+import com.signerry.android.CryptoProvider;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import eu.europa.esig.dss.enumerations.KeyUsageBit;
 import eu.europa.esig.dss.enumerations.SignatureAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureValidity;
@@ -177,7 +181,8 @@ public class CertificateToken extends Token {
 			selfSigned = isSelfIssued();
 			if (selfSigned) {
 				try {
-					x509Certificate.verify(x509Certificate.getPublicKey());
+					x509Certificate.verify(x509Certificate.getPublicKey(), new BouncyCastleProvider());
+
 					selfSigned = true;
 					signatureValidity = SignatureValidity.VALID;
 				} catch (Exception e) {
@@ -282,10 +287,10 @@ public class CertificateToken extends Token {
 		signatureValidity = SignatureValidity.INVALID;
 		signatureInvalidityReason = "";
 		try {
-			x509Certificate.verify(publicKey);
-			signatureValidity = SignatureValidity.VALID;
-		} catch (NoSuchProviderException e) { // if there's no default provider.
-			throw new DSSException(String.format("No provider has been found for signature validation : %s", e.getMessage()), e);
+			signatureValidity = CryptoProvider.bind((provider) -> {
+				x509Certificate.verify(publicKey, provider);
+				return SignatureValidity.VALID;
+			}).get();
 		} catch (Exception e) {
 			signatureInvalidityReason = e.getClass().getSimpleName() + " : " + e.getMessage();
 		}

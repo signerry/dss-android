@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.spi;
 
+import com.signerry.android.CryptoProvider;
+
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureAlgorithm;
@@ -62,6 +64,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringReader;
@@ -96,10 +99,6 @@ import java.util.stream.Collectors;
 public final class DSSUtils {
 
 	private static final Logger LOG = LoggerFactory.getLogger(DSSUtils.class);
-
-	static {
-		Security.addProvider(DSSSecurityProvider.getSecurityProvider());
-	}
 
 	/** Empty byte array */
 	public static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
@@ -294,8 +293,11 @@ public final class DSSUtils {
 		final List<CertificateToken> certificates = new ArrayList<>();
 		try {
 			@SuppressWarnings("unchecked")
-			final Collection<X509Certificate> certificatesCollection = (Collection<X509Certificate>) CertificateFactory
-					.getInstance("X.509", new BouncyCastleProvider()).generateCertificates(is);
+			final Collection<X509Certificate> certificatesCollection = CryptoProvider.bind((provider) -> {
+				CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509", provider);
+				return  (Collection<X509Certificate>) certificateFactory.generateCertificates(new ByteArrayInputStream(finalCopyOfInputStream));
+			}).get();
+
 			if (certificatesCollection != null) {
 				for (X509Certificate cert : certificatesCollection) {
 					certificates.add(new CertificateToken(cert));

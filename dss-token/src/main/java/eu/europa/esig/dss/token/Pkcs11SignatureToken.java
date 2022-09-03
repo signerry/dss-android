@@ -21,6 +21,8 @@
 package eu.europa.esig.dss.token;
 
 import eu.europa.esig.dss.model.DSSException;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -312,7 +314,7 @@ public class Pkcs11SignatureToken extends AbstractKeyStoreTokenConnection {
 	@Override
 	protected KeyStore getKeyStore() throws DSSException {
 		try {
-			KeyStore keyStore = KeyStore.getInstance(SUN_PKCS11_KEYSTORE_TYPE, getProvider());
+			KeyStore keyStore = KeyStore.getInstance(SUN_PKCS11_KEYSTORE_TYPE, new BouncyCastleProvider());
 			keyStore.load(new KeyStore.LoadStoreParameter() {
 
 				@Override

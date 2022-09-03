@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.crl.stream.impl;
 
+import com.signerry.android.CryptoProvider;
+
 import eu.europa.esig.dss.crl.AbstractCRLUtils;
 import eu.europa.esig.dss.crl.CRLBinary;
 import eu.europa.esig.dss.crl.CRLValidity;
@@ -102,8 +104,13 @@ public class CRLUtilsStreamImpl extends AbstractCRLUtils implements ICRLUtils {
 	private void checkSignatureValue(CRLValidity crlValidity, byte[] signatureValue, SignatureAlgorithm signatureAlgorithm, ByteArrayOutputStream baos,
 			CertificateToken signer) {
 		try {
-			Signature signature = Signature.getInstance(signatureAlgorithm.getJCEId(), new BouncyCastleProvider());
-			signature.initVerify(signer.getPublicKey());
+			Signature signature = CryptoProvider.bind((provider) -> {
+
+				Signature _signature = Signature.getInstance(signatureAlgorithm.getJCEId(), provider);
+				_signature.initVerify(signer.getPublicKey());
+				return _signature;
+			}).get();
+
 			signature.update(baos.toByteArray());
 			if (signature.verify(signatureValue)) {
 				crlValidity.setSignatureIntact(true);

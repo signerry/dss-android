@@ -6,6 +6,8 @@
 
 dependencies {
     api project(':dss-model')
+    api project(':dss-spi')
+
     implementation 'org.slf4j:slf4j-api:1.7.35'
     testImplementation project(':dss-spi')
     

@@ -289,9 +289,57 @@ public final class DSSUtils {
 		return loadCertificates(is);
 	}
 
+	/**
+	 * @Important
+	 * Openssl backed security provider can read certificate, if
+	 * some custom metadata before -----BEGIN CERTIFICATE----- is added
+	 *
+	 * Fore example:
+	 *
+	 * Certificate:
+	 *     Data:
+	 *         Version: 3 (0x2)
+	 *         Serial Number:
+	 *             03:9a:a4:cd:b1:9b:14:21:85:bf:8f:76:2a:5f:7f:46
+	 * -----BEGIN CERTIFICATE-----
+	 *
+	 * Temporary workaround is strip certificate, by
+	 * loading string bouncy castle tools and exporting.
+	 * Full certificate generation with BC provider possible,
+	 * but still much slower solution.
+	 */
+	static InputStream normalizePemFormat(InputStream stream) {
+		PemReader pemReader = new PemReader(new InputStreamReader(stream));
+		try {
+			PemObject pemObject = pemReader.readPemObject();
+
+			if(pemObject == null) {
+				throw new IllegalArgumentException("Failed to parse pem certificate");
+			}
+
+			byte[] content = pemObject.getContent();
+
+			return new ByteArrayInputStream(content);
+		} catch (IOException e) {
+			throw new DSSException(e);
+		}
+	}
+
 	private static List<CertificateToken> loadCertificates(InputStream is) {
 		final List<CertificateToken> certificates = new ArrayList<>();
 		try {
+
+			byte[] copyOfInputStream = DSSUtils.toByteArray(is);
+
+			try {
+				InputStream inputStream = normalizePemFormat(new ByteArrayInputStream(copyOfInputStream));
+				copyOfInputStream = DSSUtils.toByteArray(inputStream);
+			}
+			catch (IllegalArgumentException e) {
+				//ignore
+			}
+
+			byte[] finalCopyOfInputStream = copyOfInputStream;
 			@SuppressWarnings("unchecked")
 			final Collection<X509Certificate> certificatesCollection = CryptoProvider.bind((provider) -> {
 				CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509", provider);

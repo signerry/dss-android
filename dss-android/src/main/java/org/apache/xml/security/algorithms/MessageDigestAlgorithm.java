@@ -18,14 +18,15 @@
  */
 package org.apache.xml.security.algorithms;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import com.signerry.android.CryptoProvider;
 
 import org.apache.xml.security.signature.XMLSignatureException;
 import org.apache.xml.security.utils.Constants;
 import org.apache.xml.security.utils.EncryptionConstants;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.w3c.dom.Document;
+
+import java.security.MessageDigest;
 
 /**
  * Digest Message wrapper and selector class.
@@ -109,10 +110,12 @@ public final class MessageDigestAlgorithm extends Algorithm {
         }
         MessageDigest md;
         try {
+            md = CryptoProvider.bind((provider) ->
+                    MessageDigest.getInstance(algorithmID, provider)
+            ).get();
 
-                md = MessageDigest.getInstance(algorithmID, new BouncyCastleProvider());
 
-        } catch (NoSuchAlgorithmException ex) {
+        } catch (Exception ex) {
             Object[] exArgs = {algorithmID, ex.getLocalizedMessage()};
 
             throw new XMLSignatureException("algorithms.NoSuchAlgorithm", exArgs);
@@ -194,7 +197,7 @@ public final class MessageDigestAlgorithm extends Algorithm {
      * @return the result of the {@link java.security.MessageDigest#getProvider} method
      */
     public java.security.Provider getJCEProvider() {
-        return new BouncyCastleProvider();
+        throw new UnsupportedOperationException("should not be called");
     }
 
     /**

@@ -47,6 +47,7 @@ import org.bouncycastle.cert.ocsp.BasicOCSPResp;
 import org.bouncycastle.cert.ocsp.RevokedStatus;
 import org.bouncycastle.cert.ocsp.SingleResp;
 import org.bouncycastle.cert.ocsp.UnknownStatus;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.ContentVerifierProvider;
 import org.bouncycastle.operator.jcajce.JcaContentVerifierProviderBuilder;
 import org.slf4j.Logger;
@@ -286,10 +287,13 @@ public class OCSPToken extends RevocationToken<OCSP> {
 	protected SignatureValidity checkIsSignedBy(final PublicKey publicKey) {
 		try {
 			signatureInvalidityReason = "";
+
 			JcaContentVerifierProviderBuilder jcaContentVerifierProviderBuilder = new JcaContentVerifierProviderBuilder();
-			jcaContentVerifierProviderBuilder.setProvider(DSSSecurityProvider.getSecurityProvider());
+			jcaContentVerifierProviderBuilder.setProvider(new BouncyCastleProvider());
 			ContentVerifierProvider contentVerifierProvider = jcaContentVerifierProviderBuilder.build(publicKey);
-			signatureValidity = SignatureValidity.get(basicOCSPResp.isSignatureValid(contentVerifierProvider));
+
+			signatureValidity =  SignatureValidity.get(basicOCSPResp.isSignatureValid(contentVerifierProvider));
+
 		} catch (Exception e) {
 			LOG.error("An error occurred during in attempt to check signature owner : ", e);
 			signatureInvalidityReason = e.getClass().getSimpleName() + " - " + e.getMessage();

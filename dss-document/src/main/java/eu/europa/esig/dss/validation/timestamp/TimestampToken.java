@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.validation.timestamp;
 
+import com.signerry.android.CryptoProvider;
+
 import eu.europa.esig.dss.enumerations.ArchiveTimestampType;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
@@ -402,13 +404,12 @@ public class TimestampToken extends Token {
 	}
 
 	private SignerInformationVerifier getSignerInformationVerifier(final CertificateToken candidate) {
-		try {
+		return CryptoProvider.bind((provider -> {
 			final JcaSimpleSignerInfoVerifierBuilder verifier = new JcaSimpleSignerInfoVerifierBuilder();
 			verifier.setProvider(new BouncyCastleProvider());
+
 			return verifier.build(candidate.getCertificate());
-		} catch (OperatorException e) {
-			throw new DSSException("Unable to build an instance of SignerInformationVerifier", e);
-		}
+		})).get();
 	}
 	
 	@Override

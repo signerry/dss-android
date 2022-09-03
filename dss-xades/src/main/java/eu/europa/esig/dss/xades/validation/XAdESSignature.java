@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.xades.validation;
 
+import com.signerry.android.CryptoProvider;
+
 import eu.europa.esig.dss.DomUtils;
 import eu.europa.esig.dss.definition.DSSNamespace;
 import eu.europa.esig.dss.definition.xmldsig.XMLDSigAttribute;
@@ -1231,23 +1233,23 @@ public class XAdESSignature extends DefaultAdvancedSignature {
 		if (santuarioSignature != null) {
 			return santuarioSignature;
 		}
-		try {
-			final Document document = signatureElement.getOwnerDocument();
-			final Element rootElement = document.getDocumentElement();
 
-			DSSXMLUtils.setIDIdentifier(rootElement);
-			DSSXMLUtils.recursiveIdBrowse(rootElement);
+		final Document document = signatureElement.getOwnerDocument();
+		final Element rootElement = document.getDocumentElement();
 
-			// Secure validation disabled to support all signature algos
-			santuarioSignature = new XMLSignature(signatureElement, "", false, new BouncyCastleProvider());
-			if (Utils.isCollectionNotEmpty(detachedContents)) {
-				initDetachedSignatureResolvers(detachedContents);
-				initCounterSignatureResolver(detachedContents);
-			}
-			return santuarioSignature;
-		} catch (XMLSecurityException e) {
-			throw new DSSException("Unable to initialize santuario XMLSignature", e);
+		DSSXMLUtils.setIDIdentifier(rootElement);
+		DSSXMLUtils.recursiveIdBrowse(rootElement);
+
+		// Secure validation disabled to support all signature algos
+		santuarioSignature = CryptoProvider.bind((provider) -> {
+			return new XMLSignature(signatureElement, "", false, provider);
+		}).get();
+		if (Utils.isCollectionNotEmpty(detachedContents)) {
+			initDetachedSignatureResolvers(detachedContents);
+			initCounterSignatureResolver(detachedContents);
 		}
+		return santuarioSignature;
+
 	}
 
 	private void initDetachedSignatureResolvers(List<DSSDocument> detachedContents) {

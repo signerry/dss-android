@@ -42,8 +42,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class KeyStoreCertificateSourceTest {
 
 	private static final String KEYSTORE_PASSWORD = "dss-password";
-	private static final String KEYSTORE_TYPE = "JKS";
-	private static final String KEYSTORE_FILEPATH = "src/test/resources/keystore.jks";
+	private static final String KEYSTORE_TYPE = "BKS";
+	private static final String KEYSTORE_FILEPATH = "keystore.jks";
 
 	@Test
 	public void testLoadAddAndDelete() throws IOException {

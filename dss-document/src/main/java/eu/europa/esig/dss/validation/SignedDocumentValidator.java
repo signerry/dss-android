@@ -79,9 +79,6 @@ public abstract class SignedDocumentValidator implements DocumentValidator {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SignedDocumentValidator.class);
 
-	static {
-		Security.addProvider(DSSSecurityProvider.getSecurityProvider());
-	}
 
 	/**
 	 * This variable can hold a specific {@code DocumentProcessExecutor}

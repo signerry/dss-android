@@ -20,14 +20,8 @@
  */
 package eu.europa.esig.dss.spi;
 
-import eu.europa.esig.dss.enumerations.DigestAlgorithm;
-import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
-import eu.europa.esig.dss.enumerations.KeyUsageBit;
-import eu.europa.esig.dss.enumerations.SignatureAlgorithm;
-import eu.europa.esig.dss.model.DSSException;
-import eu.europa.esig.dss.model.SignatureValue;
-import eu.europa.esig.dss.model.x509.CertificateToken;
-import eu.europa.esig.dss.utils.Utils;
+import com.signerry.android.CryptoProvider;
+
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -55,6 +49,16 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.TimeZone;
+
+import eu.europa.esig.dss.enumerations.DigestAlgorithm;
+import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
+import eu.europa.esig.dss.enumerations.KeyUsageBit;
+import eu.europa.esig.dss.enumerations.SignatureAlgorithm;
+import eu.europa.esig.dss.model.DSSException;
+import eu.europa.esig.dss.model.SignatureValue;
+import eu.europa.esig.dss.model.x509.CertificateToken;
+import eu.europa.esig.dss.test.TestUtils;
+import eu.europa.esig.dss.utils.Utils;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -117,7 +121,6 @@ public class DSSUtilsTest {
 
 	@Test
 	public void digestTest() {
-		Security.addProvider(DSSSecurityProvider.getSecurityProvider());
 
 		byte[] data = "Hello world!".getBytes(StandardCharsets.UTF_8);
 		assertEquals("d3486ae9136e7856bc42212385ea797094475802", Utils.toHex(DSSUtils.digest(DigestAlgorithm.SHA1, data)));
@@ -393,8 +396,7 @@ public class DSSUtilsTest {
 
 		// RFC 8410
 
-		Security.addProvider(DSSSecurityProvider.getSecurityProvider());
-		
+
 		CertificateToken token = DSSUtils.loadCertificateFromBase64EncodedString(
 				"MIIBLDCB36ADAgECAghWAUdKKo3DMDAFBgMrZXAwGTEXMBUGA1UEAwwOSUVURiBUZXN0IERlbW8wHhcNMTYwODAxMTIxOTI0WhcNNDAxMjMxMjM1OTU5WjAZMRcwFQYDVQQDDA5JRVRGIFRlc3QgRGVtbzAqMAUGAytlbgMhAIUg8AmJMKdUdIt93LQ+91oNvzoNJjga9OukqY6qm05qo0UwQzAPBgNVHRMBAf8EBTADAQEAMA4GA1UdDwEBAAQEAwIDCDAgBgNVHQ4BAQAEFgQUmx9e7e0EM4Xk97xiPFl1uQvIuzswBQYDK2VwA0EAryMB/t3J5v/BzKc9dNZIpDmAgs3babFOTQbs+BolzlDUwsPrdGxO3YNGhW7Ibz3OGhhlxXrCe1Cgw1AH9efZBw==");
 		assertNotNull(token);
@@ -473,7 +475,11 @@ public class DSSUtilsTest {
 	@Test
 	public void signAndConvertECSignatureValueTest() throws Exception {
 		Security.addProvider(new BouncyCastleProvider());
-		KeyPairGenerator gen = KeyPairGenerator.getInstance("ECDSA");
+
+		KeyPairGenerator gen = CryptoProvider.bind((provider) ->
+				KeyPairGenerator.getInstance("ECDSA", provider)
+		).get();
+
 		KeyPair pair = gen.generateKeyPair();
 
 		ECPrivateKey ecPrivateKey = (ECPrivateKey) pair.getPrivate();
@@ -505,8 +511,13 @@ public class DSSUtilsTest {
 
 	private void signAndCheckSignatureValue(String javaAlgorithm, SignatureAlgorithm currentAlgorithm,
 										ECPrivateKey ecPrivateKey) throws Exception {
-		Signature s = Signature.getInstance(javaAlgorithm);
-		s.initSign(ecPrivateKey);
+
+		Signature s = CryptoProvider.bind((provider) -> {
+			Signature signature = Signature.getInstance(javaAlgorithm, provider);
+			signature.initSign(ecPrivateKey);
+			return signature;
+		}).get();
+
 		s.update("Hello world!".getBytes());
 		byte[] originalBinaries = s.sign();
 		assertECSignatureValid(originalBinaries, currentAlgorithm);

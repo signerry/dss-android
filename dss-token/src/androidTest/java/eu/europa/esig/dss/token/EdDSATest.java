@@ -38,10 +38,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class EdDSATest {
 
-	static {
-		Security.addProvider(DSSSecurityProvider.getSecurityProvider());
-	}
-
 	@Test
 	public void ed25519() throws GeneralSecurityException {
 		KeyPairGenerator kpg = KeyPairGenerator.getInstance("Ed25519", new BouncyCastleProvider());

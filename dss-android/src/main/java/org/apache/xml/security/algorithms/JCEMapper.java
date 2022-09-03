@@ -426,7 +426,7 @@ public class JCEMapper {
      * @return the default providerId.
      */
     public static String getProviderId() {
-       throw new RuntimeException("Should be called directly");
+       throw new UnsupportedOperationException("Should not be called directly");
     }
 
     /**

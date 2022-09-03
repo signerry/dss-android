@@ -18,6 +18,8 @@
  */
 package org.apache.xml.security.stax.impl.processor.input;
 
+import com.signerry.android.CryptoProvider;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -312,9 +314,11 @@ public abstract class AbstractSignatureReferenceVerifyInputProcessor extends Abs
 
         MessageDigest messageDigest;
         try {
-            messageDigest = MessageDigest.getInstance(jceName, new BouncyCastleProvider());
 
-        } catch (NoSuchAlgorithmException e) {
+            messageDigest = CryptoProvider.bind((provider) ->
+                    MessageDigest.getInstance(jceName, provider)
+            ).get();
+        } catch (Exception e) {
             throw new XMLSecurityException(e);
         }
 

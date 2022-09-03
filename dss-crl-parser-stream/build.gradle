@@ -6,6 +6,8 @@
 
 dependencies {
     api project(':dss-crl-parser')
+    implementation project(':dss-android')
+
     testImplementation testFixtures(project(':dss-crl-parser'))
     androidTestImplementation testFixtures(project(':dss-crl-parser'))
 

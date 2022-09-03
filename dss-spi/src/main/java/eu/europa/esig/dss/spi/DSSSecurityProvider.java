@@ -45,11 +45,7 @@ public final class DSSSecurityProvider {
 	 * @return {@link Provider}
 	 */
 	public static Provider getSecurityProvider() {
-		if (securityProvider == null) {
-			securityProvider = new BouncyCastleProvider();
-			LOG.debug("DSSSecurityProvider initialized with {}", BouncyCastleProvider.class);
-		}
-		return securityProvider;
+		throw new UnsupportedOperationException("should not be called");
 	}
 
 	/**
@@ -58,10 +54,7 @@ public final class DSSSecurityProvider {
 	 * @return {@link String}
 	 */
 	public static String getSecurityProviderName() {
-			throw new RuntimeException("should not be called");
-
-
-//		return getSecurityProvider().getName();
+		throw new UnsupportedOperationException("should not be called");
 	}
 
 	/**

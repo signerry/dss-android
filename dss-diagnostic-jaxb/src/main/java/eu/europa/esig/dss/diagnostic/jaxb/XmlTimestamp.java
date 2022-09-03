@@ -448,6 +448,9 @@ public class XmlTimestamp
     }
 
     public List<XmlChainItem> getCertificateChain() {
+       if (certificateChain == null) {
+            certificateChain = new ArrayList<XmlChainItem>();
+        }
         return certificateChain;
     }
 
@@ -456,6 +459,9 @@ public class XmlTimestamp
     }
 
     public List<XmlSignerInfo> getSignerInformationStore() {
+        if (signerInformationStore == null) {
+            signerInformationStore = new ArrayList<XmlSignerInfo>();
+        }
         return signerInformationStore;
     }
 
@@ -464,6 +470,9 @@ public class XmlTimestamp
     }
 
     public List<XmlTimestampedObject> getTimestampedObjects() {
+        if (timestampedObjects == null) {
+            timestampedObjects = new ArrayList<XmlTimestampedObject>();
+        }
         return timestampedObjects;
     }
 
@@ -472,6 +481,9 @@ public class XmlTimestamp
     }
 
     public List<XmlSignatureScope> getTimestampScopes() {
+       if (timestampScopes == null) {
+            timestampScopes = new ArrayList<XmlSignatureScope>();
+        }
         return timestampScopes;
     }
 

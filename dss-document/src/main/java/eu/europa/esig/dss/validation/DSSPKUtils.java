@@ -25,15 +25,20 @@ import eu.europa.esig.dss.model.x509.Token;
 import eu.europa.esig.dss.utils.Utils;
 import org.bouncycastle.jcajce.interfaces.EdDSAPublicKey;
 import org.bouncycastle.jcajce.interfaces.XDHPublicKey;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.provider.JCEECPublicKey;
 import org.bouncycastle.jce.spec.ECParameterSpec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.interfaces.DSAPublicKey;
 import java.security.interfaces.ECPublicKey;
 import java.security.interfaces.RSAPublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 
 /**
  * Utils to retrieve public key size
@@ -94,7 +99,22 @@ public final class DSSPKUtils {
 	 *            {@link PublicKey}
 	 * @return the key length
 	 */
-	public static int getPublicKeySize(final PublicKey publicKey) {
+	public static int getPublicKeySize(PublicKey publicKey) {
+
+		/**
+		 * @Important
+		 * Openssl security provider does not work correctly with
+		 * original given code
+		 * In order to reuse existing code, Bouncy Castle KeyFactory was used
+		 */
+		X509EncodedKeySpec keySpecification =
+				new X509EncodedKeySpec(publicKey.getEncoded());
+		try {
+			KeyFactory instance = KeyFactory.getInstance(publicKey.getAlgorithm(), new BouncyCastleProvider());
+			publicKey = instance.generatePublic(keySpecification);
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+			throw new RuntimeException(e);
+		}
 
 		int publicKeySize = -1;
 		if (publicKey instanceof RSAPublicKey) {

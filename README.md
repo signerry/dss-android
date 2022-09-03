@@ -69,5 +69,12 @@ Fix this.
 
 Android test runner does not support junit5
 
-Android backed openssl is much faster thank custom bc implementation
-But it does not support older hashing algorithm and some signature algorithms
+BC security provider implementation much slower than than "AndroidOpenSSL" security provider.
+Especially hashing functions are much slower.
+
+But AndroidOpenSSL does not support all needed algorithms and algorithm support differens between android api versions.
+
+CryptoProvider was introduced which purpose at runtime time select which java security provider to use.
+Most prefered is AndroidOpenSSL, because hardware accelerated crypto functions.
+If specific function not available, then fallback bouncy caste provider is used.
+

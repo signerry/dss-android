@@ -20,7 +20,6 @@
  */
 package eu.europa.esig.dss.test;
 
-import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
 import static eu.europa.esig.dss.test.TestUtils.getResourceAsStream;
 import static eu.europa.esig.dss.test.TestUtils.getTmpDirectory;
 
@@ -54,9 +53,7 @@ import eu.europa.esig.dss.validation.CertificateVerifier;
 import eu.europa.esig.dss.validation.CommonCertificateVerifier;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.security.KeyStore.PasswordProtection;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -73,6 +70,7 @@ public abstract class PKIFactoryAccess {
 	private static final String PKI_FACTORY_KEYSTORE_PASSWORD;
 
 	private static final Connection sqlConnection;
+	public static final String PKI_ALTERNATIVE_PKI_FACTORY_HOST;
 
 	static {
 		try (InputStream is = getResourceAsStream("pki-factory.properties")) {
@@ -80,11 +78,10 @@ public abstract class PKIFactoryAccess {
 			props.load(is);
 
 			PKI_FACTORY_HOST = props.getProperty("pki.factory.host");
+			PKI_ALTERNATIVE_PKI_FACTORY_HOST = props.getProperty("pki.alternative.factory.host");
 			PKI_FACTORY_KEYSTORE_PASSWORD = props.getProperty("pki.factory.keystore.password");
 			sqlConnection = DriverManager.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
 		} catch (Exception e) {
-
-			e.printStackTrace();
 			throw new RuntimeException("Unable to initialize from pki-factory.properties", e);
 		}
 	}
@@ -257,16 +254,9 @@ public abstract class PKIFactoryAccess {
 	}
 
 	private byte[] getKeystoreContent(String keystoreName) {
-		String keystoreUrl = PKI_FACTORY_HOST + KEYSTORE_ROOT_PATH + keystoreName;
-
-		try {
-			return Files.readAllBytes(getResourceAsFile(keystoreName).toPath());
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-		catch (Exception e) {
-			throw new RuntimeException(keystoreUrl, e);
-		}
+		DataLoader dataLoader = getFileCacheDataLoader();
+		String keystoreUrl = PKI_ALTERNATIVE_PKI_FACTORY_HOST + KEYSTORE_ROOT_PATH + keystoreName;
+		return dataLoader.get(keystoreUrl);
 	}
 
 	protected CertificateSource getTrustedCertificateSource() {
@@ -385,10 +375,10 @@ public abstract class PKIFactoryAccess {
 		String keystoreUrl = PKI_FACTORY_HOST + CERT_ROOT_PATH + certificateId + CERT_EXTENSION;
 		return DSSUtils.loadCertificate(dataLoader.get(keystoreUrl));
 	}
-	
+
 	protected CertificateToken getCertificateByPrimaryKey(String issuerName, long serialNumber) {
 		DataLoader dataLoader = getFileCacheDataLoader();
-		String keystoreUrl = PKI_FACTORY_HOST + CERT_ROOT_PATH + issuerName + "/" + serialNumber + CERT_EXTENSION;
+		String keystoreUrl = PKI_ALTERNATIVE_PKI_FACTORY_HOST + CERT_ROOT_PATH + issuerName + "/" + serialNumber + CERT_EXTENSION;
 		return DSSUtils.loadCertificate(dataLoader.get(keystoreUrl));
 	}
 

@@ -1512,8 +1512,22 @@ public final class DSSASN1Utils {
 	 */
 	public static List<String> getSubjectAlternativeNames(CertificateToken certToken) {
 		List<String> result = new ArrayList<>();
+
 		try {
-			Collection<List<?>> subjectAlternativeNames = certToken.getCertificate().getSubjectAlternativeNames();
+
+			/**
+			 * Workaround for android openssl security provider
+			 * FAILED TEST: eu.europa.esig.dss.xades.signature.prettyprint.SignSignatureWithTimestampTest
+			 * JNI DETECTED ERROR IN APPLICATION: input is not valid Modified UTF-8: illegal continuation byte 0x61
+			 * string: 'CN=Entidad de Certificacion Raiz,OU=Ministerio de Defensa de Espa�a,OU=PKI,O=MDEF,C=ES'
+			 * input: '0x43 0x4e 0x3d 0x45 0x6e 0x74 0x69 0x64 0x61 0x64...
+			 * in call to NewStringUTF
+			 * com.android.org.conscrypt.NativeCrypto.get_X509_GENERAL_NAME_stack(long, com.android.org.conscrypt.OpenSSLX509Certificate, int)
+			 */
+			//Collection<List<?>> subjectAlternativeNames = certToken.getCertificate().getSubjectAlternativeNames();
+			Collection<List<?>> subjectAlternativeNames = JcaX509ExtensionUtils.getSubjectAlternativeNames(certToken.getCertificate());
+
+
 			if (Utils.isCollectionNotEmpty(subjectAlternativeNames)) {
 				for (List<?> list : subjectAlternativeNames) {
 					// type + value

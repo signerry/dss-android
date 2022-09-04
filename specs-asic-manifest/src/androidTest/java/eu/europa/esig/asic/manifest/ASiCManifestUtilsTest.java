@@ -20,7 +20,7 @@
  */
 package eu.europa.esig.asic.manifest;
 
-import eu.europa.esig.dss.test.TestUtils;
+import com.signerry.dss.test.TestUtils;
 import eu.europa.esig.xmldsig.jaxb.SignatureType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

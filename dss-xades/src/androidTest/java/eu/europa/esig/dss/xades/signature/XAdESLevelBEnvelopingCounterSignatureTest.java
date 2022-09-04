@@ -32,7 +32,7 @@ import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.enumerations.SignatureScopeType;
 import eu.europa.esig.dss.model.DSSDocument;
-import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
+import static com.signerry.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignerLocation;
 import eu.europa.esig.dss.signature.CounterSignatureService;
@@ -46,7 +46,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
+import static com.signerry.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Date;

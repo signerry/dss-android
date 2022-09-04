@@ -22,7 +22,7 @@ package eu.europa.esig.dss.xades.extension.prettyprint;
 
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
-import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
+import static com.signerry.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
 import eu.europa.esig.dss.xades.extension.AbstractXAdESConsecutiveExtension;

@@ -29,8 +29,8 @@ import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DigestDocument;
 
-import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
-import static eu.europa.esig.dss.test.TestUtils.getResourceAsStream;
+import static com.signerry.dss.test.TestUtils.getResourceAsFile;
+import static com.signerry.dss.test.TestUtils.getResourceAsStream;
 
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;

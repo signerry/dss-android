@@ -23,7 +23,7 @@ package eu.europa.esig.xmldsig;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
+import static com.signerry.dss.test.TestUtils.getResourceAsFile;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

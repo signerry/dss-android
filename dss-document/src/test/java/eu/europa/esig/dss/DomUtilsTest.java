@@ -22,7 +22,7 @@ package eu.europa.esig.dss;
 
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.InMemoryDocument;
-import eu.europa.esig.dss.test.TestUtils;
+import com.signerry.dss.test.TestUtils;
 
 import org.junit.jupiter.api.Test;
 

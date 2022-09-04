@@ -25,7 +25,7 @@ import eu.europa.esig.dss.spi.DSSASN1Utils;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.spi.x509.CertificateRef;
 import eu.europa.esig.dss.spi.x509.SignerIdentifier;
-import eu.europa.esig.dss.test.TestUtils;
+import com.signerry.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 import org.bouncycastle.asn1.x509.IssuerSerial;
 import org.junit.jupiter.api.BeforeAll;

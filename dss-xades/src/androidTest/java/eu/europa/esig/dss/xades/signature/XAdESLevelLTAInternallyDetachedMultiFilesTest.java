@@ -27,7 +27,7 @@ import eu.europa.esig.dss.enumerations.CommitmentTypeEnum;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
-import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
+import static com.signerry.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.SignerLocation;
 import eu.europa.esig.dss.signature.MultipleDocumentsSignatureService;
@@ -39,7 +39,7 @@ import eu.europa.esig.validationreport.jaxb.ValidationObjectType;
 import eu.europa.esig.xades.jaxb.xades132.DigestAlgAndValueType;
 import org.junit.jupiter.api.BeforeEach;
 
-import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
+import static com.signerry.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;

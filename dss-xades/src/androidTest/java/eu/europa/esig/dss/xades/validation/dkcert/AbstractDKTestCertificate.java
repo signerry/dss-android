@@ -22,7 +22,7 @@ package eu.europa.esig.dss.xades.validation.dkcert;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
+import static com.signerry.dss.test.TestUtils.getResourceAsFile;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import eu.europa.esig.dss.model.DSSDocument;
-import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
+import static com.signerry.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.spi.DSSUtils;

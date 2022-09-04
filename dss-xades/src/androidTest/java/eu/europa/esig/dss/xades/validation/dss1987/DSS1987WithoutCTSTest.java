@@ -21,7 +21,7 @@
 package eu.europa.esig.dss.xades.validation.dss1987;
 
 import eu.europa.esig.dss.model.DSSDocument;
-import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
+import static com.signerry.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 
 public class DSS1987WithoutCTSTest extends AbstractDSS1987Test {

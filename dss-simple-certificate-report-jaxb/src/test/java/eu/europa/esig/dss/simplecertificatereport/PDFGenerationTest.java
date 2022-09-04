@@ -38,7 +38,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import eu.europa.esig.dss.simplecertificatereport.jaxb.XmlSimpleCertificateReport;
-import eu.europa.esig.dss.test.TestUtils;
+import com.signerry.dss.test.TestUtils;
 
 public class PDFGenerationTest {
 

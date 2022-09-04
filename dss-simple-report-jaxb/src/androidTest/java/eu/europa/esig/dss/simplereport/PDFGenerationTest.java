@@ -21,7 +21,7 @@
 package eu.europa.esig.dss.simplereport;
 
 import eu.europa.esig.dss.simplereport.jaxb.XmlSimpleReport;
-import eu.europa.esig.dss.test.TestUtils;
+import com.signerry.dss.test.TestUtils;
 
 import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;

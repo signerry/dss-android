@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 
 import eu.europa.esig.dss.enumerations.SignatureValidity;
 import eu.europa.esig.dss.model.x509.CertificateToken;
-import eu.europa.esig.dss.test.TestUtils;
+import com.signerry.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 
 public class CommonTrustedCertificateSourceTest {

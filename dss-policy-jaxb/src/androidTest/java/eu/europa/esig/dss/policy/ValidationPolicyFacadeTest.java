@@ -32,7 +32,7 @@ import eu.europa.esig.dss.policy.jaxb.TimeUnit;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
-import eu.europa.esig.dss.test.TestUtils;
+import com.signerry.dss.test.TestUtils;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.UnmarshalException;
 import javax.xml.stream.XMLStreamException;

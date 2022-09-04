@@ -27,7 +27,7 @@ import java.io.File;
 import org.junit.jupiter.api.Test;
 
 import eu.europa.esig.dss.simplecertificatereport.jaxb.XmlSimpleCertificateReport;
-import eu.europa.esig.dss.test.TestUtils;
+import com.signerry.dss.test.TestUtils;
 
 public class SimpleCertificateReportFacadeTest {
 

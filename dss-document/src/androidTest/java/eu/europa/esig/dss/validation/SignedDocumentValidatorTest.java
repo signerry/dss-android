@@ -22,7 +22,7 @@ package eu.europa.esig.dss.validation;
 
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
-import eu.europa.esig.dss.test.TestUtils;
+import com.signerry.dss.test.TestUtils;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,28 +1,31 @@
-package eu.europa.esig.dss.test;
+package com.signerry.dss.test;
 
 import android.content.Context;
 
-import androidx.test.platform.app.InstrumentationRegistry;
-
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-public class TestUtils {
+import androidx.test.platform.app.InstrumentationRegistry;
+
+public class InstrumentedTestUtils implements ITestUtils {
+
     public static Context getCtx() {
         return  InstrumentationRegistry.getInstrumentation().getTargetContext();
     }
 
-    public static Collection<File> listFiles(String folder, String[] extensions, boolean recursive) {
+    @Override
+    public Collection<File> listFiles(String folder, String[] extensions, boolean recursive) {
         List<File> fileList = new ArrayList<>();
 
         List<String> allowedExtensions = Arrays.asList(extensions);
@@ -56,8 +59,9 @@ public class TestUtils {
         }
     }
 
-    public static File getTmpFile(String filename) {
-        File file = new File(getTmpDirectory().getPath() + filename);
+    @Override
+    public File getTmpFile(String filename) {
+        File file = new File(getTmpDirectory().getPath(), filename);
         try {
             file.createNewFile();
         } catch (IOException e) {
@@ -66,33 +70,20 @@ public class TestUtils {
         return file;
     }
 
-    public static File getTmpDedicatedDirectory() {
+    @Override
+    public File getTmpDedicatedDirectory() {
         File folder = new File(getTmpDirectory(), UUID.randomUUID().toString());
         folder.mkdir();
         return folder;
     }
 
-    public static File getTmpDirectory() {
-
-        try {
-            return getCtx().getCacheDir();
-        }
-        catch (java.lang.IllegalStateException e) {
-            try {
-                return Files.createTempDirectory("test").toFile();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        }
+    @Override
+    public File getTmpDirectory() {
+        return getCtx().getCacheDir();
     }
 
-    public static InputStream getResourceAsStream(String resourcePath) {
-        InputStream unitTestStream = TestUtils.class.getResourceAsStream("/" + resourcePath);
-        if(unitTestStream !=null) {
-            return unitTestStream;
-        }
-
-        //Fallback android test
+    @Override
+    public InputStream getResourceAsStream(String resourcePath) {
         try {
             InputStream resourceAsStream = getCtx().getAssets().open(resourcePath);
 
@@ -106,26 +97,23 @@ public class TestUtils {
         }
     }
 
-    public static File getResourceAsFile(String resourcePath) {
-
+    @Override
+    public File getResourceAsFile(String resourcePath) {
         try {
+
             final InputStream in = getResourceAsStream(resourcePath);
             if (in == null) {
                 throw new RuntimeException("resourcePath not found " + resourcePath);
             }
 
-            File tempFile = File.createTempFile(String.valueOf(in.hashCode()), ".tmp");
-            tempFile.deleteOnExit();
+            String fileName = FilenameUtils.getName(resourcePath);
 
-            try (FileOutputStream out = new FileOutputStream(tempFile)) {
-                //copy stream
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = in.read(buffer)) != -1) {
-                    out.write(buffer, 0, bytesRead);
-                }
+            File copyOfTheFile = new File(getCtx().getCacheDir(), fileName);
+
+            try (FileOutputStream out = new FileOutputStream(copyOfTheFile)) {
+                IOUtils.copy(in ,out);
             }
-            return tempFile;
+            return copyOfTheFile;
         } catch (IOException e) {
             e.printStackTrace();
             return null;

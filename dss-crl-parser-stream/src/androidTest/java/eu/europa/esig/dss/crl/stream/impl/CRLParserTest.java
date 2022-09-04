@@ -36,7 +36,7 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.cert.X509CRLEntry;
 
-import eu.europa.esig.dss.test.TestUtils;
+import com.signerry.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 
 public class CRLParserTest {

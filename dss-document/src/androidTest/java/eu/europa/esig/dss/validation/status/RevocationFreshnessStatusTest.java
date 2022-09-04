@@ -22,7 +22,7 @@ package eu.europa.esig.dss.validation.status;
 
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.spi.DSSUtils;
-import eu.europa.esig.dss.test.TestUtils;
+import com.signerry.dss.test.TestUtils;
 
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;

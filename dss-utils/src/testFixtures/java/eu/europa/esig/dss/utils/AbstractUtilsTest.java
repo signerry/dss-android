@@ -49,7 +49,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import eu.europa.esig.dss.test.TestUtils;
+import com.signerry.dss.test.TestUtils;
 
 public abstract class AbstractUtilsTest {
 	protected Path folder;

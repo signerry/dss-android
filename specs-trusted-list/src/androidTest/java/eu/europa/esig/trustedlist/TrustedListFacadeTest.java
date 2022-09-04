@@ -22,7 +22,7 @@ package eu.europa.esig.trustedlist;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
+import static com.signerry.dss.test.TestUtils.getResourceAsFile;
 
 import java.io.File;
 import java.io.IOException;

@@ -27,7 +27,7 @@ import eu.europa.esig.dss.model.x509.PSD2QcType;
 import eu.europa.esig.dss.model.x509.QCLimitValue;
 import eu.europa.esig.dss.model.x509.QcStatements;
 import eu.europa.esig.dss.model.x509.RoleOfPSP;
-import eu.europa.esig.dss.test.TestUtils;
+import com.signerry.dss.test.TestUtils;
 
 import org.bouncycastle.asn1.ASN1Encodable;
 import org.bouncycastle.asn1.ASN1Sequence;

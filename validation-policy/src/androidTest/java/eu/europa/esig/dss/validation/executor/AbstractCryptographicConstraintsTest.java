@@ -43,7 +43,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
+import static com.signerry.dss.test.TestUtils.getResourceAsFile;
 
 public abstract class AbstractCryptographicConstraintsTest extends AbstractTestValidationExecutor {
 

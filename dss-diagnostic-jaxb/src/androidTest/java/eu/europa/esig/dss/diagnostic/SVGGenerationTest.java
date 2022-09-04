@@ -24,7 +24,7 @@ import eu.europa.esig.dss.diagnostic.jaxb.XmlDiagnosticData;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
-import eu.europa.esig.dss.test.TestUtils;
+import com.signerry.dss.test.TestUtils;
 import jakarta.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.Result;
@@ -36,7 +36,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static eu.europa.esig.dss.test.TestUtils.getResourceAsFile;
+import static com.signerry.dss.test.TestUtils.getResourceAsFile;
 
 public class SVGGenerationTest {
 

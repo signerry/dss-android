@@ -81,7 +81,6 @@ public final class XmlDSigUtils extends XSDAbstractUtils {
 
 	@Override
 	public List<Source> getXSDSources() {
-		System.out.println("wtf1111122121");
 		InputStream resourceAsStream = XmlDSigUtils.class.getResourceAsStream(XML_SCHEMA_LOCATION);
 //		try {
 //			InputStream is = resourceAsStream;

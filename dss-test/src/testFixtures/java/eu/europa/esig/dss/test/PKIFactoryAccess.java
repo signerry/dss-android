@@ -20,8 +20,7 @@
  */
 package eu.europa.esig.dss.test;
 
-import static eu.europa.esig.dss.test.TestUtils.getResourceAsStream;
-import static eu.europa.esig.dss.test.TestUtils.getTmpDirectory;
+;
 
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.x509.CertificateToken;
@@ -62,6 +61,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import static com.signerry.dss.test.TestUtils.getResourceAsStream;
+import static com.signerry.dss.test.TestUtils.getTmpDirectory;
 
 
 public abstract class PKIFactoryAccess {

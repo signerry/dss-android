@@ -48,7 +48,6 @@ allprojects (subproject -> {
     apply plugin: 'com.android.library'
     apply plugin: 'de.mannodermaus.android-junit5'
 
-
     configurations {
         compile.exclude group: 'org.hamcrest', name: 'hamcrest'
 
@@ -59,6 +58,12 @@ allprojects (subproject -> {
         defaultConfig {
             testFixtures {
                 enable = true
+            }
+
+            testOptions {
+                unitTests.all {
+                    systemProperty "projectDir", project.rootDir
+                }
             }
 
             minSdkVersion 29
@@ -236,6 +241,9 @@ allprojects (subproject -> {
         androidTestImplementation project(':dss-crl-parser-x509crl')
         androidTestImplementation testFixtures(project(':dss-test'))
         testImplementation testFixtures(project(':dss-test'))
+
+        androidTestImplementation testFixtures(project(':dss-test-instrumented'))
+        testImplementation testFixtures(project(':dss-test-unit'))
 //        androidTestImplementation project(':dss-pades-pdfbox')
 
 

@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation.dss2011;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.cades.validation.AbstractCAdESTestValidation;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.TimestampWrapper;
@@ -39,7 +41,7 @@ public class CAdESDetachedTstV2Test extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss-2011/cades-tstv2-detached.p7s");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/dss-2011/cades-tstv2-detached.p7s"));
 	}
 	
 	@Override

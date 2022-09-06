@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -43,7 +45,7 @@ public class CAdESCertificateWrapperTest extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/Signature-CBp-LT-2.p7m");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/Signature-CBp-LT-2.p7m"));
 	}
 	
 	@Override

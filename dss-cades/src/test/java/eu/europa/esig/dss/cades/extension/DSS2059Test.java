@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.extension;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.alert.LogOnStatusAlert;
 import eu.europa.esig.dss.cades.signature.CAdESCounterSignatureParameters;
 import eu.europa.esig.dss.cades.signature.CAdESService;
@@ -66,7 +68,7 @@ public class DSS2059Test extends AbstractCAdESTestExtension {
 	
 	@BeforeEach
 	public void init() {
-		document = new FileDocument("src/test/resources/validation/dss2059.p7s");
+		document = new FileDocument(TestUtils.getResourceAsFile("validation/dss2059.p7s"));
 		
 		CertificateVerifier certificateVerifier = getCompleteCertificateVerifier();
 		certificateVerifier.setCheckRevocationForUntrustedChains(true);
@@ -115,7 +117,7 @@ public class DSS2059Test extends AbstractCAdESTestExtension {
 		// see DSS-2172
 		
 		SignaturePolicyStore signaturePolicyStore = new SignaturePolicyStore();
-		signaturePolicyStore.setSignaturePolicyContent(new FileDocument("src/test/resources/validation/signature-policy.der"));
+		signaturePolicyStore.setSignaturePolicyContent(new FileDocument(TestUtils.getResourceAsFile("validation/signature-policy.der")));
 		SpDocSpecification spDocSpec = new SpDocSpecification();
 		spDocSpec.setId("1.2.3.4.5.6");
 		signaturePolicyStore.setSpDocSpecification(spDocSpec);

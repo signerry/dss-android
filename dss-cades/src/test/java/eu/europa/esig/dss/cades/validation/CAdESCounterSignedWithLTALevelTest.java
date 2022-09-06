@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -44,7 +46,7 @@ public class CAdESCounterSignedWithLTALevelTest extends AbstractCAdESTestValidat
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/counterSignedLTA.p7s");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/counterSignedLTA.p7s"));
 	}
 	
 	@Override

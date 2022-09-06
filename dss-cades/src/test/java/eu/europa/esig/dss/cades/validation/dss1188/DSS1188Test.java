@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation.dss1188;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
@@ -35,12 +37,12 @@ public class DSS1188Test extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss-1188/Test.bin.sig");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/dss-1188/Test.bin.sig"));
 	}
 	
 	@Override
 	protected List<DSSDocument> getDetachedContents() {
-		return Arrays.asList(new FileDocument("src/test/resources/validation/dss-1188/Test.bin"));
+		return Arrays.asList(new FileDocument(TestUtils.getResourceAsFile("validation/dss-1188/Test.bin")));
 	}
 	
 	@Override

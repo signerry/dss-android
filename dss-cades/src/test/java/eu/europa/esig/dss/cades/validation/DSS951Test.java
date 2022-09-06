@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.FileDocument;
@@ -38,7 +40,7 @@ public class DSS951Test extends AbstractCAdESTestValidation {
 	
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss-951/NexU-CAdES-B-B-Detached-Sha512.p7m");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/dss-951/NexU-CAdES-B-B-Detached-Sha512.p7m"));
 	}
 	
 	@Override

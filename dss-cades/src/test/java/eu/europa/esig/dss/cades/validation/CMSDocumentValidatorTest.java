@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileInputStream;
@@ -42,11 +44,11 @@ import eu.europa.esig.dss.validation.SignedDocumentValidator;
 
 public class CMSDocumentValidatorTest extends AbstractTestValidator {
 
-	private static final String PATH = "src/test/resources/validation/dss-768/FD1&FD2&FEA.pdf.p7m";
+	private static final String PATH = "validation/dss-768/FD1&FD2&FEA.pdf.p7m";
 
 	@Test
 	public void testCMSOnly() throws IOException, CMSException {
-		CMSSignedData cmsSignedData = new CMSSignedData(new FileInputStream(PATH));
+		CMSSignedData cmsSignedData = new CMSSignedData(TestUtils.getResourceAsStream(PATH));
 		CMSDocumentValidator validator = new CMSDocumentValidator(cmsSignedData);
 		List<AdvancedSignature> signatures = validator.getSignatures();
 		assertTrue(Utils.isCollectionNotEmpty(signatures));
@@ -54,14 +56,14 @@ public class CMSDocumentValidatorTest extends AbstractTestValidator {
 
 	@Test
 	public void testFileDocument() {
-		CMSDocumentValidator validator = new CMSDocumentValidator(new FileDocument(PATH));
+		CMSDocumentValidator validator = new CMSDocumentValidator(new FileDocument(TestUtils.getResourceAsFile(PATH)));
 		List<AdvancedSignature> signatures = validator.getSignatures();
 		assertTrue(Utils.isCollectionNotEmpty(signatures));
 	}
 
 	@Test
 	public void testInMemoryDocument() throws FileNotFoundException {
-		CMSDocumentValidator validator = new CMSDocumentValidator(new InMemoryDocument(new FileInputStream(PATH)));
+		CMSDocumentValidator validator = new CMSDocumentValidator(new InMemoryDocument(TestUtils.getResourceAsStream(PATH)));
 		List<AdvancedSignature> signatures = validator.getSignatures();
 		assertTrue(Utils.isCollectionNotEmpty(signatures));
 	}
@@ -79,20 +81,20 @@ public class CMSDocumentValidatorTest extends AbstractTestValidator {
 	@Override
 	protected List<DSSDocument> getValidDocuments() {
 		List<DSSDocument> documents = new ArrayList<>();
-		documents.add(new FileDocument(PATH));
-		documents.add(new FileDocument("src/test/resources/validation/CAdESDoubleLTA.p7m"));
-		documents.add(new FileDocument("src/test/resources/validation/counterSig.p7m"));
+		documents.add(new FileDocument(TestUtils.getResourceAsFile(PATH)));
+		documents.add(new FileDocument(TestUtils.getResourceAsFile("validation/CAdESDoubleLTA.p7m")));
+		documents.add(new FileDocument(TestUtils.getResourceAsFile("validation/counterSig.p7m")));
 		return documents;
 	}
 
 	@Override
 	protected DSSDocument getMalformedDocument() {
-		return new FileDocument("src/test/resources/validation/malformed-cades.p7m");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/malformed-cades.p7m"));
 	}
 
 	@Override
 	protected DSSDocument getOtherTypeDocument() {
-		return new FileDocument("src/test/resources/validation/dss-916/test.txt");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/dss-916/test.txt"));
 	}
 
 	@Override

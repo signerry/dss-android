@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.signature;
 
+import com.signerry.android.CryptoProvider;
+
 import eu.europa.esig.dss.cades.CAdESSignatureParameters;
 import eu.europa.esig.dss.cades.validation.CAdESSignature;
 import eu.europa.esig.dss.cades.validation.CMSDocumentValidator;
@@ -292,7 +294,10 @@ public class CAdESLevelBTest extends AbstractCAdESTestSignature {
 			logger.info("Decrypted Base64 : " + decryptedDigestEncodeBase64);
 
 			byte[] encoded = signedInfo.getAuthenticatedAttributes().getEncoded();
-			MessageDigest messageDigest = MessageDigest.getInstance(DigestAlgorithm.SHA256.getName());
+
+			MessageDigest messageDigest = CryptoProvider.bind((provider ->
+					MessageDigest.getInstance(DigestAlgorithm.SHA256.getName(), provider))).get();
+
 			byte[] digestOfAuthenticatedAttributes = messageDigest.digest(encoded);
 
 			String computedDigestEncodeBase64 = Utils.toBase64(digestOfAuthenticatedAttributes);

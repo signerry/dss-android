@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -32,7 +34,7 @@ public class CAdESExtendedBESValidationTest extends AbstractCAdESTestValidation 
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/validation/cades-extended-bes.pkcs7");
+        return new FileDocument(TestUtils.getResourceAsFile("validation/cades-extended-bes.pkcs7"));
     }
 
     @Override

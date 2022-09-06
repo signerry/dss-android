@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation.dss1419;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -39,7 +41,7 @@ public class DSS1419Sha3224RsaTest extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss-1419/CAdES-BpB-att-SHA3_224-SHA3_224withRSA.p7m");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/dss-1419/CAdES-BpB-att-SHA3_224-SHA3_224withRSA.p7m"));
 	}
 	
 	@Override

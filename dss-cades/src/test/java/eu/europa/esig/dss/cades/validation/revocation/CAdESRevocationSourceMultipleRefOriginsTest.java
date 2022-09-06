@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation.revocation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.cades.validation.AbstractCAdESTestValidation;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.OrphanRevocationTokenWrapper;
@@ -45,7 +47,7 @@ public class CAdESRevocationSourceMultipleRefOriginsTest extends AbstractCAdESTe
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/Signature-C-X-1.p7m");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/Signature-C-X-1.p7m"));
 	}
 	
 	@Override

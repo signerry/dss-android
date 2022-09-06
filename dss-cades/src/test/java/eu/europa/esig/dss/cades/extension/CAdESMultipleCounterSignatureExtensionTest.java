@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.extension;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.alert.LogOnStatusAlert;
 import eu.europa.esig.dss.cades.CAdESSignatureParameters;
 import eu.europa.esig.dss.cades.signature.CAdESService;
@@ -56,7 +58,7 @@ public class CAdESMultipleCounterSignatureExtensionTest extends AbstractCAdESTes
 	
 	@BeforeEach
 	public void init() {
-		documentToExtend = new FileDocument("src/test/resources/validation/signedFile.pdf.p7s");
+		documentToExtend = new FileDocument(TestUtils.getResourceAsFile("validation/signedFile.pdf.p7s"));
 
 		SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(documentToExtend);
 		CertificateToken signingCertificate = validator.getSignatures().get(0).getSigningCertificateToken();

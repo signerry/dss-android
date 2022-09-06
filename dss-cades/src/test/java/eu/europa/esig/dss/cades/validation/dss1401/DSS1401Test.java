@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation.dss1401;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.cades.validation.AbstractCAdESTestValidation;
 import eu.europa.esig.dss.diagnostic.CertificateRefWrapper;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -47,7 +49,7 @@ public class DSS1401Test extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss-1401/sig_with_atsv2.p7s");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/dss-1401/sig_with_atsv2.p7s"));
 	}
 	
 	@Override

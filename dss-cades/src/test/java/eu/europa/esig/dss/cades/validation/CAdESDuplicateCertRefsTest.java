@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.FoundCertificatesProxy;
 import eu.europa.esig.dss.diagnostic.RelatedCertificateWrapper;
@@ -44,7 +46,7 @@ public class CAdESDuplicateCertRefsTest extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/Signature-C-B-LTA-10.p7m");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/Signature-C-B-LTA-10.p7m"));
 	}
 	
 	@Override

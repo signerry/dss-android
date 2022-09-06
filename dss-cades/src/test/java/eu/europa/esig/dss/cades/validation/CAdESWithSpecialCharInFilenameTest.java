@@ -28,7 +28,7 @@ import eu.europa.esig.dss.model.FileDocument;
  */
 public class CAdESWithSpecialCharInFilenameTest extends AbstractCAdESTestValidation {
 
-	private static final String FILE_TO_TEST = "src/test/resources/validation/dss-768/FD1&FD2&FEA.pdf.p7m";
+	private static final String FILE_TO_TEST = "validation/dss-768/FD1&FD2&FEA.pdf.p7m";
 
 	@Override
 	protected DSSDocument getSignedDocument() {

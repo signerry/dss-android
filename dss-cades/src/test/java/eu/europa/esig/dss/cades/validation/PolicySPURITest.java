@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -45,7 +47,7 @@ public class PolicySPURITest extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss-728/CADES-B-DETACHED-withpolicy1586434883385020407.cades");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/dss-728/CADES-B-DETACHED-withpolicy1586434883385020407.cades"));
 	}
 	
 	@Override
@@ -67,7 +69,7 @@ public class PolicySPURITest extends AbstractCAdESTestValidation {
 	
 	@Override
 	protected List<DSSDocument> getDetachedContents() {
-		return Arrays.asList(new FileDocument("src/test/resources/validation/dss-728/InfoSelladoTiempo.pdf"));
+		return Arrays.asList(new FileDocument(TestUtils.getResourceAsFile("validation/dss-728/InfoSelladoTiempo.pdf")));
 	}
 	
 	@Override
@@ -100,7 +102,7 @@ public class PolicySPURITest extends AbstractCAdESTestValidation {
 		@Override
 		public byte[] get(final String urlString) {
 			if (urlString.equals("https://sede.060.gob.es/politica_de_firma_anexo_1.pdf")) {
-				DSSDocument document = new FileDocument("src/test/resources/validation/dss-728/politica_de_firma_anexo_1.pdf");
+				DSSDocument document = new FileDocument(TestUtils.getResourceAsFile("validation/dss-728/politica_de_firma_anexo_1.pdf"));
 				try {
 					return Utils.toByteArray(document.openStream());
 				} catch (IOException e) {

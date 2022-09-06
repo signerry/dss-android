@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation.revocation;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -42,7 +44,7 @@ public class CAdESRevocationSourceHUTest extends AbstractCAdESTestValidation {
 	@Override
 	protected DSSDocument getSignedDocument() {
 		// TODO Auto-generated method stub
-		return new FileDocument("src/test/resources/validation/Signature-C-HU_POL-3.p7m");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/Signature-C-HU_POL-3.p7m"));
 	}
 	
 	@Override

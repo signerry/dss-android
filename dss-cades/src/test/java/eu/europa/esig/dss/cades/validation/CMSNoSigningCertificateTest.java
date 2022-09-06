@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.CertificateWrapper;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
@@ -43,7 +45,7 @@ public class CMSNoSigningCertificateTest extends AbstractCAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/validation/cms-no-sign-cert.p7m");
+        return new FileDocument(TestUtils.getResourceAsFile("validation/cms-no-sign-cert.p7m"));
     }
 
     @Override

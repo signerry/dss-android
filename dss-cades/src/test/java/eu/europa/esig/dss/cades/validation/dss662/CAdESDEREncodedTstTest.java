@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation.dss662;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -34,7 +36,7 @@ public class CAdESDEREncodedTstTest extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/Signature-C-DE_CRY-3.p7m");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/Signature-C-DE_CRY-3.p7m"));
 	}
 	
 	@Override

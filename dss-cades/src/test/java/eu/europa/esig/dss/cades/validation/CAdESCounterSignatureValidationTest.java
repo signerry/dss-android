@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -45,7 +47,7 @@ public class CAdESCounterSignatureValidationTest extends AbstractCAdESTestValida
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		FileDocument fileDocument = new FileDocument("src/test/resources/validation/counterSig.p7m");
+		FileDocument fileDocument = new FileDocument(TestUtils.getResourceAsFile("validation/counterSig.p7m"));
 		
 		try (InputStream is = fileDocument.openStream()) {
 			CMSSignedData cms = new CMSSignedData(is);

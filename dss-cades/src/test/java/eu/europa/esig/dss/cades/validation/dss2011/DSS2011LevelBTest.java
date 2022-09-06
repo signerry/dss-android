@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation.dss2011;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.cades.validation.AbstractCAdESTestValidation;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
@@ -44,7 +46,7 @@ public class DSS2011LevelBTest extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss-2011/cades-detached.pkcs7");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/dss-2011/cades-detached.pkcs7"));
 	}
 	
 	@Override

@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation.dss2011;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -46,7 +48,7 @@ public class CAdESDetachedWrongFileProvidedTest extends AbstractCAdESTestValidat
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss-2011/cades-detached.pkcs7");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/dss-2011/cades-detached.pkcs7"));
 	}
 	
 	@Override

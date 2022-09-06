@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation.dss1401;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -40,12 +42,12 @@ public class DSS1344DetachedTest extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss-1344/screenshot.png.signed_qes_detached.p7s");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/dss-1344/screenshot.png.signed_qes_detached.p7s"));
 	}
 	
 	@Override
 	protected List<DSSDocument> getDetachedContents() {
-		return Arrays.asList(new FileDocument("src/test/resources/validation/dss-1344/screenshot.png"));
+		return Arrays.asList(new FileDocument(TestUtils.getResourceAsFile("validation/dss-1344/screenshot.png")));
 	}
 	
 	@Override

@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation.dss1188;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.cades.validation.AbstractCAdESTestValidation;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
@@ -37,7 +39,7 @@ public class DSS1188NoDetachedProvidedTest extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss-1188/Test.bin.sig");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/dss-1188/Test.bin.sig"));
 	}
 	
 	@Override

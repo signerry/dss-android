@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.FoundCertificatesProxy;
 import eu.europa.esig.dss.diagnostic.TimestampWrapper;
@@ -43,7 +45,7 @@ public class CAdESWrongSignCertRefTest extends AbstractCAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/validation/cms-wrong-sign-cert-ref.p7m");
+        return new FileDocument(TestUtils.getResourceAsFile("validation/cms-wrong-sign-cert-ref.p7m"));
     }
 
     @Override

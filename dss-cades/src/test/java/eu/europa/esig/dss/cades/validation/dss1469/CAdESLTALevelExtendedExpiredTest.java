@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation.dss1469;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -51,7 +53,7 @@ public class CAdESLTALevelExtendedExpiredTest extends AbstractCAdESTestValidatio
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss-1469/cadesLTAwithATv2expired.p7s");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/dss-1469/cadesLTAwithATv2expired.p7s"));
 	}
 	
 	@Override

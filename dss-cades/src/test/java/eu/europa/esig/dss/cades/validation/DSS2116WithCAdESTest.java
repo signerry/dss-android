@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -38,7 +40,7 @@ public class DSS2116WithCAdESTest extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/Signature-C-HU_MIC-1.p7m");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/Signature-C-HU_MIC-1.p7m"));
 	}
 	
 	@Override

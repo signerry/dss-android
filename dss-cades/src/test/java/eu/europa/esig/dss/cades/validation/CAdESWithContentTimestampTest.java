@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.enumerations.TimestampType;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -45,7 +47,7 @@ public class CAdESWithContentTimestampTest extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		FileDocument fileDocument = new FileDocument("src/test/resources/validation/Signature-C-BES-4.p7m");
+		FileDocument fileDocument = new FileDocument(TestUtils.getResourceAsFile("validation/Signature-C-BES-4.p7m"));
 		
 		try (InputStream is = fileDocument.openStream(); ASN1InputStream asn1sInput = new ASN1InputStream(is)) {
 			ASN1Sequence asn1Seq = (ASN1Sequence) asn1sInput.readObject();

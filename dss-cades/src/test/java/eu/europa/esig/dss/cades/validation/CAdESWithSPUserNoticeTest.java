@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -34,7 +36,7 @@ public class CAdESWithSPUserNoticeTest extends AbstractCAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/validation/Signature-C-B-B-8.p7m");
+        return new FileDocument(TestUtils.getResourceAsFile("validation/Signature-C-B-B-8.p7m"));
     }
 
     @Override

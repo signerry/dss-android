@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.extension;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.alert.SilentOnStatusAlert;
 import eu.europa.esig.dss.alert.exception.AlertException;
 import eu.europa.esig.dss.cades.signature.CAdESService;
@@ -49,7 +51,7 @@ public class CAdESLeveLTAExtensionExpiredSignatureTest extends AbstractCAdESTest
 
     @BeforeEach
     public void init() {
-        document = new FileDocument("src/test/resources/validation/Signature-C-CZ_SIX-1.p7m");
+        document = new FileDocument(TestUtils.getResourceAsFile("validation/Signature-C-CZ_SIX-1.p7m"));
 
         certificateVerifier = getCompleteCertificateVerifier();
         certificateVerifier.setCheckRevocationForUntrustedChains(true);

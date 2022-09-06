@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.spi.client.http.IgnoreDataLoader;
@@ -38,7 +40,7 @@ public class TimestampValidationTest {
 
 	@Test
 	public void test() {
-		DSSDocument document = new FileDocument("src/test/resources/validation/d-trust.tsr");
+		DSSDocument document = new FileDocument(TestUtils.getResourceAsFile("validation/d-trust.tsr"));
 		SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(document);
 		assertTrue(validator instanceof DetachedTimestampValidator);
 		validator.setCertificateVerifier(getOfflineCertificateVerifier());

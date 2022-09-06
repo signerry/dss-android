@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.signature;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.cades.CAdESSignatureParameters;
 import eu.europa.esig.dss.cades.validation.CAdESSignature;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -54,7 +56,7 @@ public class CAdESLevelLTAWithSignaturePolicyStoreExtensionTest extends Abstract
 	private static final String HTTP_SPURI_TEST = "http://spuri.test";
 	private static final String SIGNATURE_POLICY_ID = "1.2.3.4.5.6";
 
-	private static final DSSDocument POLICY_CONTENT = new FileDocument("src/test/resources/validation/signature-policy.der");
+	private static final DSSDocument POLICY_CONTENT = new FileDocument(TestUtils.getResourceAsFile("validation/signature-policy.der"));
 
 	private CAdESService service;
 	private CAdESSignatureParameters signatureParameters;

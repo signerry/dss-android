@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -62,17 +64,17 @@ import eu.europa.esig.dss.validation.AdvancedSignature;
  */
 public class ExtendToCAdESLtaTest extends AbstractCAdESTestValidation {
 
-	private static final String SIGNED_DOC_PATH = "src/test/resources/validation/dss-646/CAdES_A_DETACHED.csig";
-	private static final String DETACHED_DOC_PATH = "src/test/resources/validation/dss-646/document.pdf";
+	private static final String SIGNED_DOC_PATH = "validation/dss-646/CAdES_A_DETACHED.csig";
+	private static final String DETACHED_DOC_PATH = "validation/dss-646/document.pdf";
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument(SIGNED_DOC_PATH);
+		return new FileDocument(TestUtils.getResourceAsFile(SIGNED_DOC_PATH));
 	}
 
 	@Override
 	protected List<DSSDocument> getDetachedContents() {
-		return Arrays.asList(new FileDocument(DETACHED_DOC_PATH));
+		return Arrays.asList(new FileDocument(TestUtils.getResourceAsFile(DETACHED_DOC_PATH)));
 	}
 
 	@Override
@@ -105,9 +107,9 @@ public class ExtendToCAdESLtaTest extends AbstractCAdESTestValidation {
 
 		CAdESSignatureParameters parameters = new CAdESSignatureParameters();
 		parameters.setSignatureLevel(SignatureLevel.CAdES_BASELINE_LTA);
-		DSSDocument detachedContent = new FileDocument(DETACHED_DOC_PATH);
+		DSSDocument detachedContent = new FileDocument(TestUtils.getResourceAsFile(DETACHED_DOC_PATH));
 		parameters.setDetachedContents(Arrays.asList(detachedContent));
-		FileDocument document = new FileDocument(SIGNED_DOC_PATH);
+		FileDocument document = new FileDocument(TestUtils.getResourceAsFile(SIGNED_DOC_PATH));
 		Exception exception = assertThrows(DSSException.class, () -> service.extendDocument(document, parameters));
 		assertEquals("Cryptographic signature verification has failed / Signature verification failed against the best candidate.", 
 				exception.getMessage());

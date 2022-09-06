@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -40,7 +42,7 @@ public class MultipleCounterSignatureValidationTest extends AbstractCAdESTestVal
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/signedFile.pdf.p7s");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/signedFile.pdf.p7s"));
 	}
 	
 	@Override

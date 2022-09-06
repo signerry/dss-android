@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation.dss662;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.cades.validation.AbstractCAdESTestValidation;
 import eu.europa.esig.dss.cades.validation.CAdESSignature;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -42,7 +44,7 @@ public class CAdESDEREncodedTst2Test extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/Signature-C-DE_CRY-4.p7m");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/Signature-C-DE_CRY-4.p7m"));
 	}
 	
 	@Override

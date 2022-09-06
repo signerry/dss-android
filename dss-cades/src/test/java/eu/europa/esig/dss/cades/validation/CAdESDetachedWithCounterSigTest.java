@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -44,12 +46,12 @@ public class CAdESDetachedWithCounterSigTest extends AbstractCAdESTestValidation
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss-1892/detached_with_counter_sig.p7m");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/dss-1892/detached_with_counter_sig.p7m"));
 	}
 	
 	@Override
 	protected List<DSSDocument> getDetachedContents() {
-		return Arrays.asList(new FileDocument("src/test/resources/validation/dss-1892/signed_content.bin"));
+		return Arrays.asList(new FileDocument(TestUtils.getResourceAsFile("validation/dss-1892/signed_content.bin")));
 	}
 	
 	@Override

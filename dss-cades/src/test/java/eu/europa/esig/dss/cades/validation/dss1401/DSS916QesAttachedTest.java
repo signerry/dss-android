@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation.dss1401;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -41,7 +43,7 @@ public class DSS916QesAttachedTest extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss-916/test.txt.signed.qes.attached.p7s");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/dss-916/test.txt.signed.qes.attached.p7s"));
 	}
 	
 	@Override

@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation.revocation;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -43,7 +45,7 @@ public class CAdESRevocationSourceCBpTest extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/Signature-15-CBp-LT-2.p7m");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/Signature-15-CBp-LT-2.p7m"));
 	}
 	
 	@Override

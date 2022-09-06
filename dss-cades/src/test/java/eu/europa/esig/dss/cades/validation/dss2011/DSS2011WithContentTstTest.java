@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation.dss2011;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.cades.validation.AbstractCAdESTestValidation;
 import eu.europa.esig.dss.detailedreport.DetailedReport;
 import eu.europa.esig.dss.detailedreport.jaxb.XmlBasicBuildingBlocks;
@@ -49,7 +51,7 @@ public class DSS2011WithContentTstTest extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss-2011/cades-content-tst.pkcs7");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/dss-2011/cades-content-tst.pkcs7"));
 	}
 	
 	@Override

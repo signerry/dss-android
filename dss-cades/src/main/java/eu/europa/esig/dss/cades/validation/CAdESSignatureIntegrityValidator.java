@@ -27,6 +27,7 @@ import org.bouncycastle.cms.CMSSignerDigestMismatchException;
 import org.bouncycastle.cms.SignerInformation;
 import org.bouncycastle.cms.SignerInformationVerifier;
 import org.bouncycastle.cms.jcajce.JcaSimpleSignerInfoVerifierBuilder;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.security.PublicKey;
 
@@ -53,7 +54,7 @@ public class CAdESSignatureIntegrityValidator extends SignatureIntegrityValidato
 	
 	private JcaSimpleSignerInfoVerifierBuilder instantiateVerifier() {
 		final JcaSimpleSignerInfoVerifierBuilder jcaVerifierBuilder = new JcaSimpleSignerInfoVerifierBuilder();
-		jcaVerifierBuilder.setProvider(DSSSecurityProvider.getSecurityProvider());
+		jcaVerifierBuilder.setProvider(new BouncyCastleProvider());
 		return jcaVerifierBuilder;
 	}
 

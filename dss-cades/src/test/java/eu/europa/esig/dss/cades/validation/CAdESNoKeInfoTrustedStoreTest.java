@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
@@ -40,13 +42,13 @@ public class CAdESNoKeInfoTrustedStoreTest extends AbstractCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/no-key-info-cert.pkcs7");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/no-key-info-cert.pkcs7"));
 	}
 	
 	@Override
 	protected SignedDocumentValidator getValidator(DSSDocument signedDocument) {
 		SignedDocumentValidator validator = super.getValidator(signedDocument);
-		CertificateToken signingCertificateToken = DSSUtils.loadCertificate(new File("src/test/resources/validation/signCert.cer"));
+		CertificateToken signingCertificateToken = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("validation/signCert.cer"));
 		
 		CommonCertificateVerifier commonCertificateVerifier = new CommonCertificateVerifier();
 		CommonTrustedCertificateSource trustedCertSource = new CommonTrustedCertificateSource();

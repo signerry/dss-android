@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.OrphanCertificateTokenWrapper;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -42,7 +44,7 @@ public class DSS728SignaturePolicyProviderTest extends AbstractCAdESTestValidati
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss-728/CADES-B-DETACHED-withpolicy1586434883385020407.cades");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/dss-728/CADES-B-DETACHED-withpolicy1586434883385020407.cades"));
 	}
 	
 	@Override
@@ -51,7 +53,7 @@ public class DSS728SignaturePolicyProviderTest extends AbstractCAdESTestValidati
 		SignaturePolicyProvider signaturePolicyProvider = new SignaturePolicyProvider();
 		Map<String, DSSDocument> signaturePoliciesByUrl = new HashMap<>();
 		signaturePoliciesByUrl.put("https://sede.060.gob.es/politica_de_firma_anexo_1.pdf",
-				new FileDocument(new File("src/test/resources/validation/dss-728/politica_de_firma_anexo_1.pdf")));
+				new FileDocument(TestUtils.getResourceAsFile("validation/dss-728/politica_de_firma_anexo_1.pdf")));
 		signaturePolicyProvider.setSignaturePoliciesByUrl(signaturePoliciesByUrl);
 		validator.setSignaturePolicyProvider(signaturePolicyProvider);
 		return validator;
@@ -59,7 +61,7 @@ public class DSS728SignaturePolicyProviderTest extends AbstractCAdESTestValidati
 	
 	@Override
 	protected List<DSSDocument> getDetachedContents() {
-		return Arrays.asList(new FileDocument("src/test/resources/validation/dss-728/InfoSelladoTiempo.pdf"));
+		return Arrays.asList(new FileDocument(TestUtils.getResourceAsFile("validation/dss-728/InfoSelladoTiempo.pdf")));
 	}
 	
 	@Override

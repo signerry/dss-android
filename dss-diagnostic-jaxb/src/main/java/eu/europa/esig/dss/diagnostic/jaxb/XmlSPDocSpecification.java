@@ -52,7 +52,7 @@ public class XmlSPDocSpecification implements Serializable
     protected String description;
     @XmlElementWrapper(name = "DocumentationReferences")
     @XmlElement(name = "DocumentationReference", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<String> documentationReferences = new ArrayList<String>();
+    protected List<String> documentationReferences;
 
     /**
      * Gets the value of the id property.
@@ -103,6 +103,9 @@ public class XmlSPDocSpecification implements Serializable
     }
 
     public List<String> getDocumentationReferences() {
+        if (documentationReferences == null) {
+            documentationReferences = new ArrayList<String>();
+        }
         return documentationReferences;
     }
 

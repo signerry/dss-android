@@ -54,7 +54,7 @@ public class XmlPSD2QcInfo implements Serializable
     private final static long serialVersionUID = 1L;
     @XmlElementWrapper(name = "RolesOfPSP", required = true)
     @XmlElement(name = "RoleOfPSP", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlRoleOfPSP> rolesOfPSP = new ArrayList<XmlRoleOfPSP>();
+    protected List<XmlRoleOfPSP> rolesOfPSP;
     @XmlElement(required = true)
     protected String ncaName;
     @XmlElement(required = true)
@@ -109,6 +109,9 @@ public class XmlPSD2QcInfo implements Serializable
     }
 
     public List<XmlRoleOfPSP> getRolesOfPSP() {
+        if (rolesOfPSP == null) {
+            rolesOfPSP = new ArrayList<XmlRoleOfPSP>();
+        }
         return rolesOfPSP;
     }
 

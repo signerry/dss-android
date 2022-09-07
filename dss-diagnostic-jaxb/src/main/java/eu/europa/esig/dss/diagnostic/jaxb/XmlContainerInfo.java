@@ -81,10 +81,10 @@ public class XmlContainerInfo implements Serializable
     protected String mimeTypeContent;
     @XmlElementWrapper(name = "ManifestFiles")
     @XmlElement(name = "ManifestFile", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlManifestFile> manifestFiles = new ArrayList<XmlManifestFile>();
+    protected List<XmlManifestFile> manifestFiles;
     @XmlElementWrapper(name = "ContentFiles")
     @XmlElement(name = "ContentFile", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<String> contentFiles = new ArrayList<String>();
+    protected List<String> contentFiles;
 
     /**
      * Gets the value of the containerType property.
@@ -183,6 +183,9 @@ public class XmlContainerInfo implements Serializable
     }
 
     public List<XmlManifestFile> getManifestFiles() {
+        if (manifestFiles == null) {
+            manifestFiles = new ArrayList<XmlManifestFile>();
+        }
         return manifestFiles;
     }
 
@@ -191,6 +194,9 @@ public class XmlContainerInfo implements Serializable
     }
 
     public List<String> getContentFiles() {
+        if (contentFiles == null) {
+            contentFiles = new ArrayList<String>();
+        }
         return contentFiles;
     }
 

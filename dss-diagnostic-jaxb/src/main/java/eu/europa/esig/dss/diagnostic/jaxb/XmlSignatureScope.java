@@ -59,7 +59,7 @@ public class XmlSignatureScope implements Serializable
     protected String description;
     @XmlElementWrapper(name = "Transformations")
     @XmlElement(name = "Transformation", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<String> transformations = new ArrayList<String>();
+    protected List<String> transformations;
     @XmlAttribute(name = "SignerData", required = true)
     @XmlIDREF
     @XmlSchemaType(name = "IDREF")
@@ -162,6 +162,9 @@ public class XmlSignatureScope implements Serializable
     }
 
     public List<String> getTransformations() {
+        if (transformations == null) {
+            transformations = new ArrayList<String>();
+        }
         return transformations;
     }
 

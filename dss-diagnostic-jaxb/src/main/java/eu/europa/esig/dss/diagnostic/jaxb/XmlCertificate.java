@@ -263,20 +263,20 @@ public class XmlCertificate
     protected String email;
     @XmlElementWrapper(name = "SubjectAlternativeNames")
     @XmlElement(name = "subjectAlternativeName", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<String> subjectAlternativeNames = new ArrayList<String>();
+    protected List<String> subjectAlternativeNames;
     @XmlElementWrapper(name = "AuthorityInformationAccessUrls")
     @XmlElement(name = "aiaUrl", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<String> authorityInformationAccessUrls = new ArrayList<String>();
+    protected List<String> authorityInformationAccessUrls;
     @XmlElementWrapper(name = "CRLDistributionPoints")
     @XmlElement(name = "crlUrl", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<String> crlDistributionPoints = new ArrayList<String>();
+    protected List<String> crlDistributionPoints;
     @XmlElementWrapper(name = "OCSPAccessUrls")
     @XmlElement(name = "ocspServerUrl", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<String> ocspAccessUrls = new ArrayList<String>();
+    protected List<String> ocspAccessUrls;
     @XmlElementWrapper(name = "Sources", required = true)
     @XmlElement(name = "Source", namespace = "http://dss.esig.europa.eu/validation/diagnostic", type = String.class)
     @XmlJavaTypeAdapter(Adapter11 .class)
-    protected List<CertificateSourceType> sources = new ArrayList<CertificateSourceType>();
+    protected List<CertificateSourceType> sources;
     @XmlElement(name = "NotAfter", required = true, type = String.class)
     @XmlJavaTypeAdapter(Adapter1 .class)
     @XmlSchemaType(name = "dateTime")
@@ -295,10 +295,10 @@ public class XmlCertificate
     @XmlElementWrapper(name = "KeyUsageBits")
     @XmlElement(name = "KeyUsage", namespace = "http://dss.esig.europa.eu/validation/diagnostic", type = String.class)
     @XmlJavaTypeAdapter(Adapter18 .class)
-    protected List<KeyUsageBit> keyUsageBits = new ArrayList<KeyUsageBit>();
+    protected List<KeyUsageBit> keyUsageBits;
     @XmlElementWrapper(name = "ExtendedKeyUsages")
     @XmlElement(name = "extendedKeyUsagesOid", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlOID> extendedKeyUsages = new ArrayList<XmlOID>();
+    protected List<XmlOID> extendedKeyUsages;
     @XmlElement(name = "IdPkixOcspNoCheck")
     protected Boolean idPkixOcspNoCheck;
     @XmlElement(name = "ValAssuredShortTermCertificate")
@@ -309,22 +309,22 @@ public class XmlCertificate
     protected XmlSigningCertificate signingCertificate;
     @XmlElementWrapper(name = "CertificateChain")
     @XmlElement(name = "ChainItem", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlChainItem> certificateChain = new ArrayList<XmlChainItem>();
+    protected List<XmlChainItem> certificateChain;
     @XmlElement(name = "Trusted")
     protected boolean trusted;
     @XmlElement(name = "SelfSigned")
     protected boolean selfSigned;
     @XmlElementWrapper(name = "CertificatePolicies")
     @XmlElement(name = "certificatePolicy", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlCertificatePolicy> certificatePolicies = new ArrayList<XmlCertificatePolicy>();
+    protected List<XmlCertificatePolicy> certificatePolicies;
     @XmlElement(name = "QcStatements")
     protected XmlQcStatements qcStatements;
     @XmlElementWrapper(name = "TrustedServiceProviders")
     @XmlElement(name = "TrustedServiceProvider", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlTrustedServiceProvider> trustedServiceProviders = new ArrayList<XmlTrustedServiceProvider>();
+    protected List<XmlTrustedServiceProvider> trustedServiceProviders;
     @XmlElementWrapper(name = "Revocations")
     @XmlElement(name = "CertificateRevocation", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlCertificateRevocation> revocations = new ArrayList<XmlCertificateRevocation>();
+    protected List<XmlCertificateRevocation> revocations;
     @XmlElement(name = "Base64Encoded")
     protected byte[] base64Encoded;
     @XmlElement(name = "DigestAlgoAndValue")
@@ -1035,6 +1035,9 @@ public class XmlCertificate
     }
 
     public List<String> getSubjectAlternativeNames() {
+        if (subjectAlternativeNames == null) {
+            subjectAlternativeNames = new ArrayList<String>();
+        }
         return subjectAlternativeNames;
     }
 
@@ -1043,6 +1046,9 @@ public class XmlCertificate
     }
 
     public List<String> getAuthorityInformationAccessUrls() {
+        if (authorityInformationAccessUrls == null) {
+            authorityInformationAccessUrls = new ArrayList<String>();
+        }
         return authorityInformationAccessUrls;
     }
 
@@ -1051,6 +1057,9 @@ public class XmlCertificate
     }
 
     public List<String> getCRLDistributionPoints() {
+        if (crlDistributionPoints == null) {
+            crlDistributionPoints = new ArrayList<String>();
+        }
         return crlDistributionPoints;
     }
 
@@ -1059,6 +1068,9 @@ public class XmlCertificate
     }
 
     public List<String> getOCSPAccessUrls() {
+        if (ocspAccessUrls == null) {
+            ocspAccessUrls = new ArrayList<String>();
+        }
         return ocspAccessUrls;
     }
 
@@ -1067,6 +1079,9 @@ public class XmlCertificate
     }
 
     public List<CertificateSourceType> getSources() {
+        if (sources == null) {
+            sources = new ArrayList<CertificateSourceType>();
+        }
         return sources;
     }
 
@@ -1075,6 +1090,9 @@ public class XmlCertificate
     }
 
     public List<KeyUsageBit> getKeyUsageBits() {
+        if (keyUsageBits == null) {
+            keyUsageBits = new ArrayList<KeyUsageBit>();
+        }
         return keyUsageBits;
     }
 
@@ -1083,6 +1101,9 @@ public class XmlCertificate
     }
 
     public List<XmlOID> getExtendedKeyUsages() {
+        if (extendedKeyUsages == null) {
+            extendedKeyUsages = new ArrayList<XmlOID>();
+        }
         return extendedKeyUsages;
     }
 
@@ -1091,6 +1112,9 @@ public class XmlCertificate
     }
 
     public List<XmlChainItem> getCertificateChain() {
+        if (certificateChain == null) {
+            certificateChain = new ArrayList<XmlChainItem>();
+        }
         return certificateChain;
     }
 
@@ -1099,6 +1123,9 @@ public class XmlCertificate
     }
 
     public List<XmlCertificatePolicy> getCertificatePolicies() {
+        if (certificatePolicies == null) {
+            certificatePolicies = new ArrayList<XmlCertificatePolicy>();
+        }
         return certificatePolicies;
     }
 
@@ -1107,6 +1134,9 @@ public class XmlCertificate
     }
 
     public List<XmlTrustedServiceProvider> getTrustedServiceProviders() {
+        if (trustedServiceProviders == null) {
+            trustedServiceProviders = new ArrayList<XmlTrustedServiceProvider>();
+        }
         return trustedServiceProviders;
     }
 
@@ -1115,6 +1145,9 @@ public class XmlCertificate
     }
 
     public List<XmlCertificateRevocation> getRevocations() {
+        if (revocations == null) {
+            revocations = new ArrayList<XmlCertificateRevocation>();
+        }
         return revocations;
     }
 

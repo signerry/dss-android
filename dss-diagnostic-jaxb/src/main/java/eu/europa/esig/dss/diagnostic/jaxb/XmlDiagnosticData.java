@@ -140,24 +140,24 @@ public class XmlDiagnosticData implements Serializable
     protected XmlContainerInfo containerInfo;
     @XmlElementWrapper(name = "Signatures")
     @XmlElement(name = "Signature", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlSignature> signatures = new ArrayList<XmlSignature>();
+    protected List<XmlSignature> signatures;
     @XmlElementWrapper(name = "UsedCertificates")
     @XmlElement(name = "Certificate", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlCertificate> usedCertificates = new ArrayList<XmlCertificate>();
+    protected List<XmlCertificate> usedCertificates;
     @XmlElementWrapper(name = "UsedRevocations")
     @XmlElement(name = "Revocation", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlRevocation> usedRevocations = new ArrayList<XmlRevocation>();
+    protected List<XmlRevocation> usedRevocations;
     @XmlElementWrapper(name = "UsedTimestamps")
     @XmlElement(name = "Timestamp", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlTimestamp> usedTimestamps = new ArrayList<XmlTimestamp>();
+    protected List<XmlTimestamp> usedTimestamps;
     @XmlElement(name = "OrphanTokens")
     protected XmlOrphanTokens orphanTokens;
     @XmlElementWrapper(name = "OriginalDocuments")
     @XmlElement(name = "SignerData", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlSignerData> originalDocuments = new ArrayList<XmlSignerData>();
+    protected List<XmlSignerData> originalDocuments;
     @XmlElementWrapper(name = "TrustedLists")
     @XmlElement(name = "TrustedList", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlTrustedList> trustedLists = new ArrayList<XmlTrustedList>();
+    protected List<XmlTrustedList> trustedLists;
 
     /**
      * Gets the value of the documentName property.
@@ -256,6 +256,9 @@ public class XmlDiagnosticData implements Serializable
     }
 
     public List<XmlSignature> getSignatures() {
+        if (signatures == null) {
+            signatures = new ArrayList<XmlSignature>();
+        }
         return signatures;
     }
 
@@ -264,6 +267,9 @@ public class XmlDiagnosticData implements Serializable
     }
 
     public List<XmlCertificate> getUsedCertificates() {
+        if (usedCertificates == null) {
+            usedCertificates = new ArrayList<XmlCertificate>();
+        }
         return usedCertificates;
     }
 
@@ -272,6 +278,9 @@ public class XmlDiagnosticData implements Serializable
     }
 
     public List<XmlRevocation> getUsedRevocations() {
+        if (usedRevocations == null) {
+            usedRevocations = new ArrayList<XmlRevocation>();
+        }
         return usedRevocations;
     }
 
@@ -280,6 +289,9 @@ public class XmlDiagnosticData implements Serializable
     }
 
     public List<XmlTimestamp> getUsedTimestamps() {
+        if (usedTimestamps == null) {
+            usedTimestamps = new ArrayList<XmlTimestamp>();
+        }
         return usedTimestamps;
     }
 
@@ -288,6 +300,9 @@ public class XmlDiagnosticData implements Serializable
     }
 
     public List<XmlSignerData> getOriginalDocuments() {
+        if (originalDocuments == null) {
+            originalDocuments = new ArrayList<XmlSignerData>();
+        }
         return originalDocuments;
     }
 
@@ -296,6 +311,9 @@ public class XmlDiagnosticData implements Serializable
     }
 
     public List<XmlTrustedList> getTrustedLists() {
+        if (trustedLists == null) {
+            trustedLists = new ArrayList<XmlTrustedList>();
+        }
         return trustedLists;
     }
 

@@ -102,7 +102,7 @@ public class XmlTrustedService implements Serializable
     private final static long serialVersionUID = 1L;
     @XmlElementWrapper(name = "ServiceNames", required = true)
     @XmlElement(name = "ServiceName", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlLangAndValue> serviceNames = new ArrayList<XmlLangAndValue>();
+    protected List<XmlLangAndValue> serviceNames;
     @XmlElement(name = "ServiceType", required = true)
     protected String serviceType;
     @XmlElement(name = "Status", required = true)
@@ -117,13 +117,13 @@ public class XmlTrustedService implements Serializable
     protected Date endDate;
     @XmlElementWrapper(name = "CapturedQualifiers")
     @XmlElement(name = "Qualifier", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<String> capturedQualifiers = new ArrayList<String>();
+    protected List<String> capturedQualifiers;
     @XmlElementWrapper(name = "AdditionalServiceInfoUris")
     @XmlElement(name = "AdditionalServiceInfoUri", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<String> additionalServiceInfoUris = new ArrayList<String>();
+    protected List<String> additionalServiceInfoUris;
     @XmlElementWrapper(name = "ServiceSupplyPoints")
     @XmlElement(name = "ServiceSupplyPoint", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<String> serviceSupplyPoints = new ArrayList<String>();
+    protected List<String> serviceSupplyPoints;
     @XmlElement(name = "ExpiredCertsRevocationInfo", type = String.class)
     @XmlJavaTypeAdapter(Adapter1 .class)
     @XmlSchemaType(name = "dateTime")
@@ -278,6 +278,9 @@ public class XmlTrustedService implements Serializable
     }
 
     public List<XmlLangAndValue> getServiceNames() {
+        if (serviceNames == null) {
+            serviceNames = new ArrayList<XmlLangAndValue>();
+        }
         return serviceNames;
     }
 
@@ -286,6 +289,9 @@ public class XmlTrustedService implements Serializable
     }
 
     public List<String> getCapturedQualifiers() {
+        if (capturedQualifiers == null) {
+            capturedQualifiers = new ArrayList<String>();
+        }
         return capturedQualifiers;
     }
 
@@ -294,6 +300,9 @@ public class XmlTrustedService implements Serializable
     }
 
     public List<String> getAdditionalServiceInfoUris() {
+        if (additionalServiceInfoUris == null) {
+            additionalServiceInfoUris = new ArrayList<String>();
+        }
         return additionalServiceInfoUris;
     }
 
@@ -302,6 +311,9 @@ public class XmlTrustedService implements Serializable
     }
 
     public List<String> getServiceSupplyPoints() {
+        if (serviceSupplyPoints == null) {
+            serviceSupplyPoints = new ArrayList<String>();
+        }
         return serviceSupplyPoints;
     }
 

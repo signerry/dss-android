@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.xades.signature;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
@@ -51,10 +53,10 @@ public class XAdESIndividualDataTimestampMixedOrderTest extends AbstractXAdESMul
     @BeforeEach
     public void init() throws Exception {
         documentsToSign = new ArrayList<>();
-        DSSDocument firstFile = new FileDocument(FILE1);
+        DSSDocument firstFile = new FileDocument(TestUtils.getResourceAsFile(FILE1));
         documentsToSign.add(firstFile);
 
-        DSSDocument secondFile = new FileDocument(FILE2);
+        DSSDocument secondFile = new FileDocument(TestUtils.getResourceAsFile(FILE2));
         documentsToSign.add(secondFile);
 
         signatureParameters = new XAdESSignatureParameters();

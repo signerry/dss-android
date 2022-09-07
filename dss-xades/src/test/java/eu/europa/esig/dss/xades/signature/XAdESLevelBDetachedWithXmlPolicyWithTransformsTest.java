@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.xades.signature;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -78,8 +80,8 @@ public class XAdESLevelBDetachedWithXmlPolicyWithTransformsTest extends Abstract
 		signatureParameters.setSignaturePackaging(SignaturePackaging.DETACHED);
 		signatureParameters.setSignatureLevel(SignatureLevel.XAdES_BASELINE_B);
 		
-		DSSDocument signaturePolicy = new FileDocument(
-				"validation/dss2095/SBR-signature-policy-v2.0.xml");
+		DSSDocument signaturePolicy = new FileDocument(TestUtils.getResourceAsFile(
+				"validation/dss2095/SBR-signature-policy-v2.0.xml"));
 
 		XmlPolicyWithTransforms xmlPolicyWithTransforms = new XmlPolicyWithTransforms();
 		xmlPolicyWithTransforms.setId(SIGNATURE_POLICY_ID);

@@ -106,10 +106,10 @@ public class XmlTimestamp
     protected XmlSigningCertificate signingCertificate;
     @XmlElementWrapper(name = "CertificateChain")
     @XmlElement(name = "ChainItem", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlChainItem> certificateChain = new ArrayList<XmlChainItem>();
+    protected List<XmlChainItem> certificateChain;
     @XmlElementWrapper(name = "SignerInformationStore")
     @XmlElement(name = "SignerInfo", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlSignerInfo> signerInformationStore = new ArrayList<XmlSignerInfo>();
+    protected List<XmlSignerInfo> signerInformationStore;
     @XmlElement(name = "TSAGeneralName")
     protected XmlTSAGeneralName tsaGeneralName;
     @XmlElement(name = "PDFRevision")
@@ -120,10 +120,10 @@ public class XmlTimestamp
     protected XmlFoundRevocations foundRevocations;
     @XmlElementWrapper(name = "TimestampedObjects", required = true)
     @XmlElement(name = "TimestampedObject", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlTimestampedObject> timestampedObjects = new ArrayList<XmlTimestampedObject>();
+    protected List<XmlTimestampedObject> timestampedObjects;
     @XmlElementWrapper(name = "TimestampScopes")
     @XmlElement(name = "TimestampScope", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlSignatureScope> timestampScopes = new ArrayList<XmlSignatureScope>();
+    protected List<XmlSignatureScope> timestampScopes;
     @XmlElement(name = "Base64Encoded")
     protected byte[] base64Encoded;
     @XmlElement(name = "DigestAlgoAndValue")
@@ -448,7 +448,7 @@ public class XmlTimestamp
     }
 
     public List<XmlChainItem> getCertificateChain() {
-       if (certificateChain == null) {
+        if (certificateChain == null) {
             certificateChain = new ArrayList<XmlChainItem>();
         }
         return certificateChain;
@@ -481,7 +481,7 @@ public class XmlTimestamp
     }
 
     public List<XmlSignatureScope> getTimestampScopes() {
-       if (timestampScopes == null) {
+        if (timestampScopes == null) {
             timestampScopes = new ArrayList<XmlSignatureScope>();
         }
         return timestampScopes;

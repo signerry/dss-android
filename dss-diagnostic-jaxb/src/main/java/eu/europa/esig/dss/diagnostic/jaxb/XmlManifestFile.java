@@ -58,7 +58,7 @@ public class XmlManifestFile implements Serializable
     protected String signatureFilename;
     @XmlElementWrapper(name = "Entries")
     @XmlElement(name = "Entry", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<String> entries = new ArrayList<String>();
+    protected List<String> entries;
 
     /**
      * Gets the value of the filename property.
@@ -109,6 +109,9 @@ public class XmlManifestFile implements Serializable
     }
 
     public List<String> getEntries() {
+        if (entries == null) {
+            entries = new ArrayList<String>();
+        }
         return entries;
     }
 

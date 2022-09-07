@@ -115,7 +115,7 @@ public class XmlRevocation
     protected XmlSigningCertificate signingCertificate;
     @XmlElementWrapper(name = "CertificateChain")
     @XmlElement(name = "ChainItem", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlChainItem> certificateChain = new ArrayList<XmlChainItem>();
+    protected List<XmlChainItem> certificateChain;
     @XmlElement(name = "FoundCertificates")
     protected XmlFoundCertificates foundCertificates;
     @XmlElement(name = "Base64Encoded")
@@ -482,6 +482,9 @@ public class XmlRevocation
     }
 
     public List<XmlChainItem> getCertificateChain() {
+        if (certificateChain == null) {
+            certificateChain = new ArrayList<XmlChainItem>();
+        }
         return certificateChain;
     }
 

@@ -91,16 +91,16 @@ public class XmlTrustedServiceProvider implements Serializable
     private final static long serialVersionUID = 1L;
     @XmlElementWrapper(name = "TSPNames", required = true)
     @XmlElement(name = "TSPName", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlLangAndValue> tspNames = new ArrayList<XmlLangAndValue>();
+    protected List<XmlLangAndValue> tspNames;
     @XmlElementWrapper(name = "TSPTradeNames")
     @XmlElement(name = "TSPTradeName", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlLangAndValue> tspTradeNames = new ArrayList<XmlLangAndValue>();
+    protected List<XmlLangAndValue> tspTradeNames;
     @XmlElementWrapper(name = "TSPRegistrationIdentifiers")
     @XmlElement(name = "TSPRegistrationIdentifier", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<String> tspRegistrationIdentifiers = new ArrayList<String>();
+    protected List<String> tspRegistrationIdentifiers;
     @XmlElementWrapper(name = "TrustedServices", required = true)
     @XmlElement(name = "TrustedService", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlTrustedService> trustedServices = new ArrayList<XmlTrustedService>();
+    protected List<XmlTrustedService> trustedServices;
     @XmlAttribute(name = "TL", required = true)
     @XmlIDREF
     @XmlSchemaType(name = "IDREF")
@@ -159,6 +159,9 @@ public class XmlTrustedServiceProvider implements Serializable
     }
 
     public List<XmlLangAndValue> getTSPNames() {
+        if (tspNames == null) {
+            tspNames = new ArrayList<XmlLangAndValue>();
+        }
         return tspNames;
     }
 
@@ -167,6 +170,9 @@ public class XmlTrustedServiceProvider implements Serializable
     }
 
     public List<XmlLangAndValue> getTSPTradeNames() {
+        if (tspTradeNames == null) {
+            tspTradeNames = new ArrayList<XmlLangAndValue>();
+        }
         return tspTradeNames;
     }
 
@@ -175,6 +181,9 @@ public class XmlTrustedServiceProvider implements Serializable
     }
 
     public List<String> getTSPRegistrationIdentifiers() {
+        if (tspRegistrationIdentifiers == null) {
+            tspRegistrationIdentifiers = new ArrayList<String>();
+        }
         return tspRegistrationIdentifiers;
     }
 
@@ -183,6 +192,9 @@ public class XmlTrustedServiceProvider implements Serializable
     }
 
     public List<XmlTrustedService> getTrustedServices() {
+        if (trustedServices == null) {
+            trustedServices = new ArrayList<XmlTrustedService>();
+        }
         return trustedServices;
     }
 

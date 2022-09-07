@@ -74,10 +74,10 @@ public class XmlPolicy implements Serializable
     protected Boolean asn1Processable;
     @XmlElementWrapper(name = "Transformations")
     @XmlElement(name = "Transformation", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<String> transformations = new ArrayList<String>();
+    protected List<String> transformations;
     @XmlElementWrapper(name = "DocumentationReferences")
     @XmlElement(name = "DocumentationReference", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<String> documentationReferences = new ArrayList<String>();
+    protected List<String> documentationReferences;
     @XmlElement(name = "ProcessingError")
     protected String processingError;
     @XmlElement(name = "DigestAlgoAndValue")
@@ -300,6 +300,9 @@ public class XmlPolicy implements Serializable
     }
 
     public List<String> getTransformations() {
+        if (transformations == null) {
+            transformations = new ArrayList<String>();
+        }
         return transformations;
     }
 
@@ -308,6 +311,9 @@ public class XmlPolicy implements Serializable
     }
 
     public List<String> getDocumentationReferences() {
+        if (documentationReferences == null) {
+            documentationReferences = new ArrayList<String>();
+        }
         return documentationReferences;
     }
 

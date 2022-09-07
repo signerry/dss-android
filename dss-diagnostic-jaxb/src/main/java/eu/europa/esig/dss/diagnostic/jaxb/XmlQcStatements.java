@@ -110,13 +110,13 @@ public class XmlQcStatements implements Serializable
     protected XmlQcSSCD qcSSCD;
     @XmlElementWrapper(name = "QcEuPDS")
     @XmlElement(name = "PdsLocation", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlLangAndValue> qcEuPDS = new ArrayList<XmlLangAndValue>();
+    protected List<XmlLangAndValue> qcEuPDS;
     @XmlElementWrapper(name = "QcTypes")
     @XmlElement(name = "QcType", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlOID> qcTypes = new ArrayList<XmlOID>();
+    protected List<XmlOID> qcTypes;
     @XmlElementWrapper(name = "QcCClegislation")
     @XmlElement(name = "CountryName", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<String> qcCClegislation = new ArrayList<String>();
+    protected List<String> qcCClegislation;
     @XmlElement(name = "SemanticsIdentifier")
     protected XmlOID semanticsIdentifier;
     @XmlElement(name = "PSD2QcInfo")
@@ -267,6 +267,9 @@ public class XmlQcStatements implements Serializable
     }
 
     public List<XmlLangAndValue> getQcEuPDS() {
+        if (qcEuPDS == null) {
+            qcEuPDS = new ArrayList<XmlLangAndValue>();
+        }
         return qcEuPDS;
     }
 
@@ -275,6 +278,9 @@ public class XmlQcStatements implements Serializable
     }
 
     public List<XmlOID> getQcTypes() {
+        if (qcTypes == null) {
+            qcTypes = new ArrayList<XmlOID>();
+        }
         return qcTypes;
     }
 
@@ -283,6 +289,9 @@ public class XmlQcStatements implements Serializable
     }
 
     public List<String> getQcCClegislation() {
+        if (qcCClegislation == null) {
+            qcCClegislation = new ArrayList<String>();
+        }
         return qcCClegislation;
     }
 

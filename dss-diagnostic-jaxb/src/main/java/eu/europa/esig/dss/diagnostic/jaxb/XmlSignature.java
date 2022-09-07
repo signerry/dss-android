@@ -161,14 +161,14 @@ public class XmlSignature
     protected XmlStructuralValidation structuralValidation;
     @XmlElementWrapper(name = "DigestMatchers")
     @XmlElement(name = "DigestMatcher", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlDigestMatcher> digestMatchers = new ArrayList<XmlDigestMatcher>();
+    protected List<XmlDigestMatcher> digestMatchers;
     @XmlElement(name = "BasicSignature", required = true)
     protected XmlBasicSignature basicSignature;
     @XmlElement(name = "SigningCertificate")
     protected XmlSigningCertificate signingCertificate;
     @XmlElementWrapper(name = "CertificateChain")
     @XmlElement(name = "ChainItem", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlChainItem> certificateChain = new ArrayList<XmlChainItem>();
+    protected List<XmlChainItem> certificateChain;
     @XmlElement(name = "ContentType")
     protected String contentType;
     @XmlElement(name = "MimeType")
@@ -181,7 +181,7 @@ public class XmlSignature
     protected XmlSignatureProductionPlace signatureProductionPlace;
     @XmlElementWrapper(name = "CommitmentTypeIndications")
     @XmlElement(name = "CommitmentTypeIndication", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlCommitmentTypeIndication> commitmentTypeIndications = new ArrayList<XmlCommitmentTypeIndication>();
+    protected List<XmlCommitmentTypeIndication> commitmentTypeIndications;
     @XmlElement(name = "SignerRole")
     protected List<XmlSignerRole> signerRole;
     @XmlElement(name = "Policy")
@@ -190,7 +190,7 @@ public class XmlSignature
     protected XmlSignaturePolicyStore signaturePolicyStore;
     @XmlElementWrapper(name = "SignerInformationStore")
     @XmlElement(name = "SignerInfo", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlSignerInfo> signerInformationStore = new ArrayList<XmlSignerInfo>();
+    protected List<XmlSignerInfo> signerInformationStore;
     @XmlElement(name = "PDFRevision")
     protected XmlPDFRevision pdfRevision;
     @XmlElement(name = "SignerDocumentRepresentations")
@@ -201,10 +201,10 @@ public class XmlSignature
     protected XmlFoundRevocations foundRevocations;
     @XmlElementWrapper(name = "FoundTimestamps", required = true)
     @XmlElement(name = "FoundTimestamp", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlFoundTimestamp> foundTimestamps = new ArrayList<XmlFoundTimestamp>();
+    protected List<XmlFoundTimestamp> foundTimestamps;
     @XmlElementWrapper(name = "SignatureScopes", required = true)
     @XmlElement(name = "SignatureScope", namespace = "http://dss.esig.europa.eu/validation/diagnostic")
-    protected List<XmlSignatureScope> signatureScopes = new ArrayList<XmlSignatureScope>();
+    protected List<XmlSignatureScope> signatureScopes;
     @XmlElement(name = "SignatureDigestReference", required = true)
     protected XmlSignatureDigestReference signatureDigestReference;
     @XmlElement(name = "DataToBeSignedRepresentation")
@@ -848,6 +848,9 @@ public class XmlSignature
     }
 
     public List<XmlDigestMatcher> getDigestMatchers() {
+        if (digestMatchers == null) {
+            digestMatchers = new ArrayList<XmlDigestMatcher>();
+        }
         return digestMatchers;
     }
 
@@ -856,6 +859,9 @@ public class XmlSignature
     }
 
     public List<XmlChainItem> getCertificateChain() {
+        if (certificateChain == null) {
+            certificateChain = new ArrayList<XmlChainItem>();
+        }
         return certificateChain;
     }
 
@@ -864,6 +870,9 @@ public class XmlSignature
     }
 
     public List<XmlCommitmentTypeIndication> getCommitmentTypeIndications() {
+        if (commitmentTypeIndications == null) {
+            commitmentTypeIndications = new ArrayList<XmlCommitmentTypeIndication>();
+        }
         return commitmentTypeIndications;
     }
 
@@ -872,6 +881,9 @@ public class XmlSignature
     }
 
     public List<XmlSignerInfo> getSignerInformationStore() {
+        if (signerInformationStore == null) {
+            signerInformationStore = new ArrayList<XmlSignerInfo>();
+        }
         return signerInformationStore;
     }
 
@@ -880,6 +892,9 @@ public class XmlSignature
     }
 
     public List<XmlFoundTimestamp> getFoundTimestamps() {
+        if (foundTimestamps == null) {
+            foundTimestamps = new ArrayList<XmlFoundTimestamp>();
+        }
         return foundTimestamps;
     }
 
@@ -888,6 +903,9 @@ public class XmlSignature
     }
 
     public List<XmlSignatureScope> getSignatureScopes() {
+        if (signatureScopes == null) {
+            signatureScopes = new ArrayList<XmlSignatureScope>();
+        }
         return signatureScopes;
     }
 

@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.xades.signature;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -61,7 +63,7 @@ public class XAdESSignedAssertionTest extends AbstractXAdESTestSignature {
 		service.setTspSource(getGoodTsa());
 
 		documentToSign = new FileDocument(getResourceAsFile("sample.xml"));
-		signedAssertion = new String(DSSUtils.toByteArray(getClass().getResourceAsStream("/sample-saml-assertion.xml")));
+		signedAssertion = new String(DSSUtils.toByteArray(TestUtils.getResourceAsStream("sample-saml-assertion.xml")));
 
 		signingDate = new Date();
 		contentTimestamp = service.getContentTimestamp(documentToSign, getSignatureParameters());

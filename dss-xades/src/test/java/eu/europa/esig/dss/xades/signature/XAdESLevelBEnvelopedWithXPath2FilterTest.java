@@ -102,7 +102,7 @@ public class XAdESLevelBEnvelopedWithXPath2FilterTest extends AbstractXAdESTestS
 		assertEquals(1, transformations.size());
 		
 		String transform = transformations.get(0);
-		assertEquals("XPath Filter 2.0 Transform (Filter: subtract; XPath: /descendant::ds:Signature)", transform);
+		assertEquals("XPath Filter 2.0 Transform (Filter: subtract; ds: http://www.w3.org/2000/09/xmldsig#; XPath: /descendant::ds:Signature)", transform);
 	}
 
 	@Override

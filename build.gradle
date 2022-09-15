@@ -2,6 +2,9 @@
 buildscript {
     repositories {
         mavenCentral()
+        flatDir {
+            dirs 'dependencies'
+        }
         google()
         maven { url "https://jitpack.io" }
         maven {
@@ -167,6 +170,8 @@ allprojects (subproject -> {
         // 5) The instrumentation test companion libraries
         androidTestImplementation("de.mannodermaus.junit5:android-test-core:1.3.0")
         androidTestRuntimeOnly("de.mannodermaus.junit5:android-test-runner:1.3.0")
+
+
 
 
 

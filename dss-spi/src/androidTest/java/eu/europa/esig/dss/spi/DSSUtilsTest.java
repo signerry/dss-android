@@ -476,9 +476,7 @@ public class DSSUtilsTest {
 	public void signAndConvertECSignatureValueTest() throws Exception {
 		Security.addProvider(new BouncyCastleProvider());
 
-		KeyPairGenerator gen = CryptoProvider.bind((provider) ->
-				KeyPairGenerator.getInstance("ECDSA", provider)
-		).get();
+		KeyPairGenerator gen = KeyPairGenerator.getInstance("ECDSA", CryptoProvider.BCProvider);
 
 		KeyPair pair = gen.generateKeyPair();
 

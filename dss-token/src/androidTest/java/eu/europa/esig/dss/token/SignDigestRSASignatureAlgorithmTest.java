@@ -86,9 +86,8 @@ public class SignDigestRSASignatureAlgorithmTest {
             LOG.info("Sig value : {}", Base64.getEncoder().encodeToString(signValue.getValue()));
             try {
 
-                Signature sig = CryptoProvider.bind((prov) ->
-                         Signature.getInstance(signValue.getAlgorithm().getJCEId(), prov)
-                ).get();
+                Signature sig = Signature.getInstance(signValue.getAlgorithm().getJCEId(),  CryptoProvider.BCProvider);
+
 
                 sig.initVerify(entry.getCertificate().getPublicKey());
                 sig.update(toBeSigned.getBytes());

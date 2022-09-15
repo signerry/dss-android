@@ -275,8 +275,7 @@ public class CAdESLevelBETSITS101733Test extends AbstractCAdESTestSignature {
 
 			byte[] encoded = signedInfo.getAuthenticatedAttributes().getEncoded();
 
-			MessageDigest messageDigest = CryptoProvider.bind((provider ->
-					MessageDigest.getInstance(DigestAlgorithm.SHA256.getName(), provider))).get();
+			MessageDigest messageDigest = MessageDigest.getInstance(DigestAlgorithm.SHA256.getName(), CryptoProvider.BCProvider);
 
 			byte[] digestOfAuthenticatedAttributes = messageDigest.digest(encoded);
 

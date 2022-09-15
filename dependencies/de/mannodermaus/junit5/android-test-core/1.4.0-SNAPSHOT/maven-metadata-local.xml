@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>de.mannodermaus.junit5</groupId>
+  <artifactId>android-test-core</artifactId>
+  <version>1.4.0-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <localCopy>true</localCopy>
+    </snapshot>
+    <lastUpdated>20220908190119</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>aar</extension>
+        <value>1.4.0-SNAPSHOT</value>
+        <updated>20220908190119</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>1.4.0-SNAPSHOT</value>
+        <updated>20220908190119</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <classifier>sources</classifier>
+        <extension>jar</extension>
+        <value>1.4.0-SNAPSHOT</value>
+        <updated>20220908190119</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <classifier>javadoc</classifier>
+        <extension>jar</extension>
+        <value>1.4.0-SNAPSHOT</value>
+        <updated>20220908190119</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>

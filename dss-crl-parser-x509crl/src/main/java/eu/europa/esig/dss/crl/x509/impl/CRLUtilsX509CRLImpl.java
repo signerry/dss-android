@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.crl.x509.impl;
 
+import com.signerry.android.CryptoProvider;
+
 import eu.europa.esig.dss.crl.AbstractCRLUtils;
 import eu.europa.esig.dss.crl.CRLBinary;
 import eu.europa.esig.dss.crl.CRLValidity;
@@ -104,7 +106,8 @@ public class CRLUtilsX509CRLImpl extends AbstractCRLUtils implements ICRLUtils {
 
 	private void checkSignatureValue(final X509CRL x509CRL, final CertificateToken issuerToken, final CRLValidity crlValidity) {
 		try {
-			x509CRL.verify(issuerToken.getPublicKey());
+
+			x509CRL.verify(issuerToken.getPublicKey(), CryptoProvider.BCProvider);
 			crlValidity.setSignatureIntact(true);
 			crlValidity.setIssuerToken(issuerToken);
 		} catch (GeneralSecurityException e) {
@@ -156,13 +159,13 @@ public class CRLUtilsX509CRLImpl extends AbstractCRLUtils implements ICRLUtils {
 	private CertificateFactory getCertificateFactory() {
 		try {
 			// TODO extract BC
-			CertificateFactory cf = CertificateFactory.getInstance("X.509", new BouncyCastleProvider());
+			CertificateFactory cf = CertificateFactory.getInstance("X.509", CryptoProvider.BCProvider);
 			LOG.debug("CertificateFactory instantiated with BouncyCastle");
 			return cf;
 		} catch (CertificateException e) {
 			LOG.debug("Unable to instantiate with BouncyCastle (not registered ?), trying with default CertificateFactory");
 			try {
-				return CertificateFactory.getInstance("X.509", new BouncyCastleProvider());
+				return CertificateFactory.getInstance("X.509", CryptoProvider.BCProvider);
 			} catch (CertificateException e1) {
 				throw new DSSException("Unable to create CertificateFactory", e1);
 			}

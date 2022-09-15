@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.spi.x509.revocation.ocsp;
 
+import com.signerry.android.CryptoProvider;
+
 import eu.europa.esig.dss.enumerations.CertificateStatus;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.RevocationReason;
@@ -289,7 +291,7 @@ public class OCSPToken extends RevocationToken<OCSP> {
 			signatureInvalidityReason = "";
 
 			JcaContentVerifierProviderBuilder jcaContentVerifierProviderBuilder = new JcaContentVerifierProviderBuilder();
-			jcaContentVerifierProviderBuilder.setProvider(new BouncyCastleProvider());
+			jcaContentVerifierProviderBuilder.setProvider(CryptoProvider.BCProvider);
 			ContentVerifierProvider contentVerifierProvider = jcaContentVerifierProviderBuilder.build(publicKey);
 
 			signatureValidity =  SignatureValidity.get(basicOCSPResp.isSignatureValid(contentVerifierProvider));

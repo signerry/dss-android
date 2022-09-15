@@ -315,9 +315,7 @@ public abstract class AbstractSignatureReferenceVerifyInputProcessor extends Abs
         MessageDigest messageDigest;
         try {
 
-            messageDigest = CryptoProvider.bind((provider) ->
-                    MessageDigest.getInstance(jceName, provider)
-            ).get();
+            messageDigest = MessageDigest.getInstance(jceName, CryptoProvider.BCProvider);
         } catch (Exception e) {
             throw new XMLSecurityException(e);
         }

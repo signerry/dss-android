@@ -77,7 +77,6 @@ import org.apache.xml.security.exceptions.XMLSecurityException;
 import org.apache.xml.security.signature.Reference;
 import org.apache.xml.security.signature.SignedInfo;
 import org.apache.xml.security.signature.XMLSignature;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -1233,23 +1232,23 @@ public class XAdESSignature extends DefaultAdvancedSignature {
 		if (santuarioSignature != null) {
 			return santuarioSignature;
 		}
+		try {
+			final Document document = signatureElement.getOwnerDocument();
+			final Element rootElement = document.getDocumentElement();
 
-		final Document document = signatureElement.getOwnerDocument();
-		final Element rootElement = document.getDocumentElement();
+			DSSXMLUtils.setIDIdentifier(rootElement);
+			DSSXMLUtils.recursiveIdBrowse(rootElement);
 
-		DSSXMLUtils.setIDIdentifier(rootElement);
-		DSSXMLUtils.recursiveIdBrowse(rootElement);
-
-		// Secure validation disabled to support all signature algos
-		santuarioSignature = CryptoProvider.bind((provider) -> {
-			return new XMLSignature(signatureElement, "", false, provider);
-		}).get();
-		if (Utils.isCollectionNotEmpty(detachedContents)) {
-			initDetachedSignatureResolvers(detachedContents);
-			initCounterSignatureResolver(detachedContents);
+			// Secure validation disabled to support all signature algos
+			santuarioSignature = new XMLSignature(signatureElement, "", false, CryptoProvider.BCProvider);
+			if (Utils.isCollectionNotEmpty(detachedContents)) {
+				initDetachedSignatureResolvers(detachedContents);
+				initCounterSignatureResolver(detachedContents);
+			}
+			return santuarioSignature;
+		} catch (XMLSecurityException e) {
+			throw new DSSException("Unable to initialize santuario XMLSignature", e);
 		}
-		return santuarioSignature;
-
 	}
 
 	private void initDetachedSignatureResolvers(List<DSSDocument> detachedContents) {

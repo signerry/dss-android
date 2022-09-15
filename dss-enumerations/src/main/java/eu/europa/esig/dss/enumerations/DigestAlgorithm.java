@@ -471,9 +471,7 @@ public enum DigestAlgorithm implements OidAndUriBasedEnum {
 	 *                                  if the algorithm is not supported
 	 */
 	public MessageDigest getMessageDigest() throws NoSuchAlgorithmException {
-		return CryptoProvider.bind((provider) ->
-				MessageDigest.getInstance(javaName, provider)
-		).get();
+		return MessageDigest.getInstance(javaName, CryptoProvider.BCProvider);
 	}
 
 	/**
@@ -487,7 +485,7 @@ public enum DigestAlgorithm implements OidAndUriBasedEnum {
 	 *                                  if the algorithm is not supported
 	 */
 	public MessageDigest getMessageDigest(Provider provider) throws NoSuchAlgorithmException {
-		return MessageDigest.getInstance(javaName, new BouncyCastleProvider());
+		throw new UnsupportedOperationException("Should not be called directly");
 	}
 
 }

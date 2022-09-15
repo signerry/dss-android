@@ -110,9 +110,7 @@ public final class MessageDigestAlgorithm extends Algorithm {
         }
         MessageDigest md;
         try {
-            md = CryptoProvider.bind((provider) ->
-                    MessageDigest.getInstance(algorithmID, provider)
-            ).get();
+            md =  MessageDigest.getInstance(algorithmID, CryptoProvider.BCProvider);
 
 
         } catch (Exception ex) {

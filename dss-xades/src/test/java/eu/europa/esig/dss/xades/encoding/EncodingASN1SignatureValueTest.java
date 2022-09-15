@@ -100,13 +100,9 @@ public class EncodingASN1SignatureValueTest {
 		KeyPairGenerator gen = KeyPairGenerator.getInstance("ECDSA", new BouncyCastleProvider());
 		KeyPair pair = gen.generateKeyPair();
 
-		Signature s = CryptoProvider.bind((provider) -> {
-			Signature _s = Signature.getInstance("SHA256withECDSA", provider);
-			_s.initSign(pair.getPrivate());
-			_s.update(HELLO_WORLD.getBytes());
-
-			return _s;
-		}).get();
+		Signature s = Signature.getInstance("SHA256withECDSA", CryptoProvider.BCProvider);
+		s.initSign(pair.getPrivate());
+		s.update(HELLO_WORLD.getBytes());
 
 
 		byte[] signatureValue = s.sign();
@@ -116,13 +112,9 @@ public class EncodingASN1SignatureValueTest {
 
 		byte[] asn1xmlsec = SignatureECDSA.convertXMLDSIGtoASN1(convertToXmlDSig);
 
-		Signature s2 = CryptoProvider.bind(provider -> {
-
-			Signature _s2 = Signature.getInstance("SHA256withECDSA", provider);
-			_s2.initVerify(pair.getPublic());
-			_s2.update(HELLO_WORLD.getBytes());
-			return _s2;
-		}).get();
+		Signature s2 = Signature.getInstance("SHA256withECDSA", CryptoProvider.BCProvider);
+		s2.initVerify(pair.getPublic());
+		s2.update(HELLO_WORLD.getBytes());
 		assertTrue(s2.verify(asn1xmlsec));
 	}
 

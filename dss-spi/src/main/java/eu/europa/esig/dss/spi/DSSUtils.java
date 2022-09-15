@@ -329,22 +329,9 @@ public final class DSSUtils {
 		final List<CertificateToken> certificates = new ArrayList<>();
 		try {
 
-			byte[] copyOfInputStream = DSSUtils.toByteArray(is);
 
-			try {
-				InputStream inputStream = normalizePemFormat(new ByteArrayInputStream(copyOfInputStream));
-				copyOfInputStream = DSSUtils.toByteArray(inputStream);
-			}
-			catch (IllegalArgumentException e) {
-				//ignore
-			}
-
-			byte[] finalCopyOfInputStream = copyOfInputStream;
-			@SuppressWarnings("unchecked")
-			final Collection<X509Certificate> certificatesCollection = CryptoProvider.bind((provider) -> {
-				CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509", provider);
-				return  (Collection<X509Certificate>) certificateFactory.generateCertificates(new ByteArrayInputStream(finalCopyOfInputStream));
-			}).get();
+			CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509", CryptoProvider.BCProvider);
+			Collection<X509Certificate> certificatesCollection = (Collection<X509Certificate>) certificateFactory.generateCertificates(is);
 
 			if (certificatesCollection != null) {
 				for (X509Certificate cert : certificatesCollection) {

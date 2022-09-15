@@ -871,12 +871,15 @@ public final class DSSASN1Utils {
 	 * @return {@link CertificateToken}
 	 */
 	public static CertificateToken getCertificate(final X509CertificateHolder x509CertificateHolder) {
-		X509Certificate x509Certificate = CryptoProvider.bind((provider) -> {
-			JcaX509CertificateConverter converter = new JcaX509CertificateConverter().setProvider(new BouncyCastleProvider());
-			return converter.getCertificate(x509CertificateHolder);
-		}).get();
+		JcaX509CertificateConverter converter = new JcaX509CertificateConverter().setProvider(CryptoProvider.BCProvider);
+		try {
+			X509Certificate x509Certificate = converter.getCertificate(x509CertificateHolder);
+			return new CertificateToken(x509Certificate);
 
-		return new CertificateToken(x509Certificate);
+		} catch (CertificateException e) {
+			throw new RuntimeException(e);
+		}
+
 	}
 
 	/**

@@ -404,12 +404,13 @@ public class TimestampToken extends Token {
 	}
 
 	private SignerInformationVerifier getSignerInformationVerifier(final CertificateToken candidate) {
-		return CryptoProvider.bind((provider -> {
+		try {
 			final JcaSimpleSignerInfoVerifierBuilder verifier = new JcaSimpleSignerInfoVerifierBuilder();
-			verifier.setProvider(new BouncyCastleProvider());
-
+			verifier.setProvider(CryptoProvider.BCProvider);
 			return verifier.build(candidate.getCertificate());
-		})).get();
+		} catch (OperatorException e) {
+			throw new DSSException("Unable to build an instance of SignerInformationVerifier", e);
+		}
 	}
 	
 	@Override

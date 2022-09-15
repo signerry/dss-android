@@ -20,6 +20,7 @@
  */
 package eu.europa.esig.dss.service.http.commons;
 
+import com.signerry.android.CryptoProvider;
 import com.unboundid.ldap.sdk.Attribute;
 import com.unboundid.ldap.sdk.LDAPConnection;
 import com.unboundid.ldap.sdk.LDAPException;
@@ -1112,7 +1113,7 @@ public class CommonsDataLoader implements DataLoader {
 	private KeyStore loadKeyStore(DSSDocument store, String type, String passwordStr) throws IOException, GeneralSecurityException {
 		if (store != null) {
 			try (InputStream is = store.openStream()) {
-				KeyStore ks = KeyStore.getInstance(type, new BouncyCastleProvider());
+				KeyStore ks = KeyStore.getInstance(type, CryptoProvider.BCProvider);
 				ks.load(is, toCharArray(passwordStr));
 				return ks;
 			}

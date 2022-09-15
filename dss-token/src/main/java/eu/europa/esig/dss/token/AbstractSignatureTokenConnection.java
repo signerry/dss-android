@@ -20,16 +20,8 @@
  */
 package eu.europa.esig.dss.token;
 
-import eu.europa.esig.dss.enumerations.DigestAlgorithm;
-import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
-import eu.europa.esig.dss.enumerations.MaskGenerationFunction;
-import eu.europa.esig.dss.enumerations.SignatureAlgorithm;
-import eu.europa.esig.dss.model.DSSException;
-import eu.europa.esig.dss.model.Digest;
-import eu.europa.esig.dss.model.SignatureValue;
-import eu.europa.esig.dss.model.ToBeSigned;
+import com.signerry.android.CryptoProvider;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +32,15 @@ import java.security.spec.AlgorithmParameterSpec;
 import java.security.spec.MGF1ParameterSpec;
 import java.security.spec.PSSParameterSpec;
 import java.util.Objects;
+
+import eu.europa.esig.dss.enumerations.DigestAlgorithm;
+import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
+import eu.europa.esig.dss.enumerations.MaskGenerationFunction;
+import eu.europa.esig.dss.enumerations.SignatureAlgorithm;
+import eu.europa.esig.dss.model.DSSException;
+import eu.europa.esig.dss.model.Digest;
+import eu.europa.esig.dss.model.SignatureValue;
+import eu.europa.esig.dss.model.ToBeSigned;
 
 /**
  * The abstract implementation of a remote token connection
@@ -186,7 +187,7 @@ public abstract class AbstractSignatureTokenConnection implements SignatureToken
 	 * @throws NoSuchAlgorithmException if the algorithm is not found
 	 */
 	protected Signature getSignatureInstance(final String javaSignatureAlgorithm) throws NoSuchAlgorithmException {
-		return Signature.getInstance(javaSignatureAlgorithm, new BouncyCastleProvider());
+		return Signature.getInstance(javaSignatureAlgorithm, CryptoProvider.BCProvider);
 	}
 
 	/**

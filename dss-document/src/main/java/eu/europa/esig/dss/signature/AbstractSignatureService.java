@@ -272,15 +272,15 @@ public abstract class AbstractSignatureService<SP extends SerializableSignatureP
 		Objects.requireNonNull(signatureValue, "SignatureValue cannot be null!");
 		Objects.requireNonNull(signingCertificate, "CertificateToken cannot be null!");
 
-		return CryptoProvider.bind((provider) -> {
-			Signature _signature = Signature.getInstance(signatureValue.getAlgorithm().getJCEId(), provider);
-			_signature.initVerify(signingCertificate.getPublicKey());
-			_signature.update(toBeSigned.getBytes());
-
-			return _signature.verify(signatureValue.getValue());
-		}).get();
-
+		try {
+			Signature signature = Signature.getInstance(signatureValue.getAlgorithm().getJCEId(), CryptoProvider.BCProvider);
+			signature.initVerify(signingCertificate.getPublicKey());
+			signature.update(toBeSigned.getBytes());
+			return signature.verify(signatureValue.getValue());
+		} catch (GeneralSecurityException e) {
+			LOG.error("Unable to verify the signature value : {}", e.getMessage());
+			return false;
+		}
 	}
-
 }
 

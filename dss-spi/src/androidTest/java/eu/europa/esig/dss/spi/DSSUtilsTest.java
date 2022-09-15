@@ -512,11 +512,8 @@ public class DSSUtilsTest {
 	private void signAndCheckSignatureValue(String javaAlgorithm, SignatureAlgorithm currentAlgorithm,
 										ECPrivateKey ecPrivateKey) throws Exception {
 
-		Signature s = CryptoProvider.bind((provider) -> {
-			Signature signature = Signature.getInstance(javaAlgorithm, provider);
-			signature.initSign(ecPrivateKey);
-			return signature;
-		}).get();
+		Signature s = Signature.getInstance(javaAlgorithm, CryptoProvider.BCProvider);
+		s.initSign(ecPrivateKey);
 
 		s.update("Hello world!".getBytes());
 		byte[] originalBinaries = s.sign();

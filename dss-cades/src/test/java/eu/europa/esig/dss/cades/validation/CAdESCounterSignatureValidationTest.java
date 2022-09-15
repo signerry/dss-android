@@ -20,6 +20,7 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.android.CryptoProvider;
 import com.signerry.dss.test.TestUtils;
 
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -61,7 +62,7 @@ public class CAdESCounterSignatureValidationTest extends AbstractCAdESTestValida
 			Collection<X509CertificateHolder> matches = certificates.getMatches(signerInformation.getSID());
 			X509CertificateHolder cert = matches.iterator().next();
 
-			SignerInformationVerifier verifier = new JcaSimpleSignerInfoVerifierBuilder().setProvider(new BouncyCastleProvider()).build(cert);
+			SignerInformationVerifier verifier = new JcaSimpleSignerInfoVerifierBuilder().setProvider(CryptoProvider.BCProvider).build(cert);
 
 			assertTrue(signerInformation.verify(verifier));
 
@@ -71,7 +72,7 @@ public class CAdESCounterSignatureValidationTest extends AbstractCAdESTestValida
 				Collection<X509CertificateHolder> matchesCounter = certificates.getMatches(counterSigner.getSID());
 				X509CertificateHolder counterCert = matchesCounter.iterator().next();
 
-				SignerInformationVerifier counterVerifier = new JcaSimpleSignerInfoVerifierBuilder().setProvider(new BouncyCastleProvider()).build(counterCert);
+				SignerInformationVerifier counterVerifier = new JcaSimpleSignerInfoVerifierBuilder().setProvider(CryptoProvider.BCProvider).build(counterCert);
 
 				assertTrue(counterSigner.verify(counterVerifier));
 			}

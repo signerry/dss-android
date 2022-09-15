@@ -100,22 +100,6 @@ public final class DSSPKUtils {
 	 * @return the key length
 	 */
 	public static int getPublicKeySize(PublicKey publicKey) {
-
-		/**
-		 * @Important
-		 * Openssl security provider does not work correctly with
-		 * original given code
-		 * In order to reuse existing code, Bouncy Castle KeyFactory was used
-		 */
-		X509EncodedKeySpec keySpecification =
-				new X509EncodedKeySpec(publicKey.getEncoded());
-		try {
-			KeyFactory instance = KeyFactory.getInstance(publicKey.getAlgorithm(), new BouncyCastleProvider());
-			publicKey = instance.generatePublic(keySpecification);
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			throw new RuntimeException(e);
-		}
-
 		int publicKeySize = -1;
 		if (publicKey instanceof RSAPublicKey) {
 			RSAPublicKey rsaPublicKey = (RSAPublicKey) publicKey;

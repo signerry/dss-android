@@ -119,7 +119,7 @@ public class KeyStoreCertificateSource extends CommonCertificateSource {
 
 	private void initKeystore(final InputStream ksStream, final String ksType, final String ksPassword) {
 		try (InputStream is = ksStream) {
-			keyStore = CryptoProvider.bind((provider) -> KeyStore.getInstance(ksType, provider)).get();
+			keyStore = KeyStore.getInstance(ksType, CryptoProvider.BCProvider);
 
 			final char[] password = (ksPassword == null) ? null : ksPassword.toCharArray();
 			keyStore.load(is, password);

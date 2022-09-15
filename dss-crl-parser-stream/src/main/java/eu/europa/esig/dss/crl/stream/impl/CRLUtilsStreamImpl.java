@@ -104,14 +104,10 @@ public class CRLUtilsStreamImpl extends AbstractCRLUtils implements ICRLUtils {
 	private void checkSignatureValue(CRLValidity crlValidity, byte[] signatureValue, SignatureAlgorithm signatureAlgorithm, ByteArrayOutputStream baos,
 			CertificateToken signer) {
 		try {
-			Signature signature = CryptoProvider.bind((provider) -> {
-
-				Signature _signature = Signature.getInstance(signatureAlgorithm.getJCEId(), provider);
-				_signature.initVerify(signer.getPublicKey());
-				return _signature;
-			}).get();
-
+			Signature signature = Signature.getInstance(signatureAlgorithm.getJCEId(), CryptoProvider.BCProvider);
+			signature.initVerify(signer.getPublicKey());
 			signature.update(baos.toByteArray());
+
 			if (signature.verify(signatureValue)) {
 				crlValidity.setSignatureIntact(true);
 				crlValidity.setIssuerToken(signer);

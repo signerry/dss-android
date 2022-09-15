@@ -22,6 +22,8 @@ package eu.europa.esig.dss.model.x509;
 
 import com.signerry.android.CryptoProvider;
 
+import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
+import org.bouncycastle.crypto.util.PublicKeyFactory;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import eu.europa.esig.dss.enumerations.KeyUsageBit;
@@ -33,13 +35,20 @@ import eu.europa.esig.dss.model.identifier.EntityIdentifier;
 import eu.europa.esig.dss.model.identifier.TokenIdentifier;
 
 import javax.security.auth.x500.X500Principal;
+
+import java.io.IOException;
 import java.math.BigInteger;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PublicKey;
+import java.security.Security;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.X509Certificate;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -121,7 +130,7 @@ public class CertificateToken extends Token {
 	 * @return the public key of the certificate
 	 */
 	public PublicKey getPublicKey() {
-		return x509Certificate.getPublicKey();
+		return this.x509Certificate.getPublicKey();
 	}
 	
 	/**
@@ -179,9 +188,10 @@ public class CertificateToken extends Token {
 	public boolean isSelfSigned() {
 		if (selfSigned == null) {
 			selfSigned = isSelfIssued();
+
 			if (selfSigned) {
 				try {
-					x509Certificate.verify(x509Certificate.getPublicKey(), new BouncyCastleProvider());
+					x509Certificate.verify(x509Certificate.getPublicKey(), CryptoProvider.BCProvider);
 
 					selfSigned = true;
 					signatureValidity = SignatureValidity.VALID;
@@ -287,10 +297,8 @@ public class CertificateToken extends Token {
 		signatureValidity = SignatureValidity.INVALID;
 		signatureInvalidityReason = "";
 		try {
-			signatureValidity = CryptoProvider.bind((provider) -> {
-				x509Certificate.verify(publicKey, provider);
-				return SignatureValidity.VALID;
-			}).get();
+			x509Certificate.verify(publicKey, CryptoProvider.BCProvider);
+			signatureValidity = SignatureValidity.VALID;
 		} catch (Exception e) {
 			signatureInvalidityReason = e.getClass().getSimpleName() + " : " + e.getMessage();
 		}

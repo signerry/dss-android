@@ -43,7 +43,7 @@ public class DSS1770NullUriWithDetachedTest extends AbstractXAdESTestValidation 
 			
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument(getResourceAsFile("sample.xml"));
+		return new FileDocument(getResourceAsFile("validation/dss1770/dss1770refUriRemoved.xml"));
 	}
 	
 	@Override

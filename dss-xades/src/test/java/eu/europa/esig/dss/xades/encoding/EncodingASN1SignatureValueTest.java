@@ -120,7 +120,7 @@ public class EncodingASN1SignatureValueTest {
 
 	@Test
 	public void testECDSA192() throws Exception {
-		Security.addProvider(new BouncyCastleProvider());
+		
 		KeyPairGenerator gen = KeyPairGenerator.getInstance("ECDSA", new BouncyCastleProvider());
 		gen.initialize(192);
 		KeyPair pair = gen.generateKeyPair();

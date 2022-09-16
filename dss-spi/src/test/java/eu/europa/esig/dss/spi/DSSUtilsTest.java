@@ -117,7 +117,6 @@ public class DSSUtilsTest {
 
 	@Test
 	public void digestTest() {
-		Security.addProvider(DSSSecurityProvider.getSecurityProvider());
 
 		byte[] data = "Hello world!".getBytes(StandardCharsets.UTF_8);
 		assertEquals("d3486ae9136e7856bc42212385ea797094475802", Utils.toHex(DSSUtils.digest(DigestAlgorithm.SHA1, data)));
@@ -470,7 +469,7 @@ public class DSSUtilsTest {
 
 	@Test
 	public void signAndConvertECSignatureValueTest() throws Exception {
-		Security.addProvider(new BouncyCastleProvider());
+		
 		KeyPairGenerator gen = KeyPairGenerator.getInstance("ECDSA", new BouncyCastleProvider());
 		KeyPair pair = gen.generateKeyPair();
 

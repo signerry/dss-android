@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.test.validation.AbstractTestValidator;
@@ -43,22 +45,22 @@ public class ASiCWithCAdESValidatorTest extends AbstractTestValidator {
 	@Override
 	protected List<DSSDocument> getValidDocuments() {
 		List<DSSDocument> documents = new ArrayList<>();
-		documents.add(new FileDocument("src/test/resources/validation/onefile-ok.asice"));
-		documents.add(new FileDocument("src/test/resources/validation/onefile-ok.asics"));
-		documents.add(new FileDocument("src/test/resources/validation/multifiles-ok.asice"));
-		documents.add(new FileDocument("src/test/resources/validation/multifiles-ok.asics"));
-		documents.add(new FileDocument("src/test/resources/signable/asic_cades.zip"));
+		documents.add(new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice")));
+		documents.add(new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics")));
+		documents.add(new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asice")));
+		documents.add(new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asics")));
+		documents.add(new FileDocument(TestUtils.getResourceAsFile("signable/asic_cades.zip")));
 		return documents;
 	}
 
 	@Override
 	protected DSSDocument getMalformedDocument() {
-		return new FileDocument("src/test/resources/validation/malformed-container.asics");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/malformed-container.asics"));
 	}
 
 	@Override
 	protected DSSDocument getOtherTypeDocument() {
-		return new FileDocument("src/test/resources/signable/test.txt");
+		return new FileDocument(TestUtils.getResourceAsFile("signable/test.txt"));
 	}
 
 	@Override

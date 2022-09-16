@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -40,7 +42,7 @@ public class ASiCENoMimeTypeContentTest extends AbstractASiCWithCAdESTestValidat
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/tstNoMimeType.asice");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/tstNoMimeType.asice"));
 	}
 	
 	@Override

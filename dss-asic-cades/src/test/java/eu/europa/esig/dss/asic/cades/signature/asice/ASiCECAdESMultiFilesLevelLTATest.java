@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.signature.asice;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESSignatureParameters;
 import eu.europa.esig.dss.asic.cades.signature.ASiCWithCAdESService;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -48,8 +50,8 @@ public class ASiCECAdESMultiFilesLevelLTATest extends AbstractASiCEWithCAdESMult
         service = new ASiCWithCAdESService(getCompleteCertificateVerifier());
         service.setTspSource(getGoodTsa());
 
-        documentsToSigns.add(new FileDocument("src/test/resources/signable/test.zip"));
-        documentsToSigns.add(new FileDocument("src/test/resources/signable/test.txt"));
+        documentsToSigns.add(new FileDocument(TestUtils.getResourceAsFile("signable/test.zip")));
+        documentsToSigns.add(new FileDocument(TestUtils.getResourceAsFile("signable/test.txt")));
 
         signatureParameters = new ASiCWithCAdESSignatureParameters();
         signatureParameters.setSigningCertificate(getSigningCert());

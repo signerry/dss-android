@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.signature.asice;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESContainerExtractor;
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESSignatureParameters;
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESTimestampParameters;
@@ -52,8 +54,8 @@ public class ASiCECAdESLevelBMultiArchivesTest extends AbstractASiCEWithCAdESMul
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSigns.add(new FileDocument("src/test/resources/signable/document.odt"));
-		documentToSigns.add(new FileDocument("src/test/resources/signable/test.txt"));
+		documentToSigns.add(new FileDocument(TestUtils.getResourceAsFile("signable/document.odt")));
+		documentToSigns.add(new FileDocument(TestUtils.getResourceAsFile("signable/test.txt")));
 
 		signatureParameters = new ASiCWithCAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

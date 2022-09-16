@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.extension.asice;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESSignatureParameters;
 import eu.europa.esig.dss.asic.cades.signature.ASiCWithCAdESService;
 import eu.europa.esig.dss.enumerations.ASiCContainerType;
@@ -37,7 +39,7 @@ public class ASiCeExtendTimestampedDocumentTest extends PKIFactoryAccess {
 	
 	@Test
 	public void test() throws Exception {
-		DSSDocument doc = new FileDocument("src/test/resources/signable/no-signature-container.sce");
+		DSSDocument doc = new FileDocument(TestUtils.getResourceAsFile("signable/no-signature-container.sce"));
 
 		ASiCWithCAdESService service = new ASiCWithCAdESService(getCompleteCertificateVerifier());
 		service.setTspSource(getGoodTsa());

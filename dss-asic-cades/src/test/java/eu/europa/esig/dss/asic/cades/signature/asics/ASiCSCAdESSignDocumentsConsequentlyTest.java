@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.signature.asics;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESSignatureParameters;
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESTimestampParameters;
 import eu.europa.esig.dss.asic.cades.signature.ASiCWithCAdESService;
@@ -65,8 +67,8 @@ public class ASiCSCAdESSignDocumentsConsequentlyTest extends AbstractASiCSCAdEST
         SignatureLevel[] levels = { SignatureLevel.CAdES_BASELINE_B, SignatureLevel.CAdES_BASELINE_T,
                 SignatureLevel.CAdES_BASELINE_LT, SignatureLevel.CAdES_BASELINE_LTA };
         String[] signers = { GOOD_USER, RSA_SHA3_USER };
-        DSSDocument[] documents = { new FileDocument("src/test/resources/signable/test.txt"),
-                new FileDocument("src/test/resources/signable/test.zip") };
+        DSSDocument[] documents = { new FileDocument(TestUtils.getResourceAsFile("signable/test.txt")),
+                new FileDocument(TestUtils.getResourceAsFile("signable/test.zip")) };
         return random(levels, signers, documents);
     }
 

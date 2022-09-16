@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -38,7 +40,7 @@ public class ASiCENonConformantManifestTest extends AbstractASiCWithCAdESTestVal
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/nonConformantManifest.asice");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/nonConformantManifest.asice"));
 	}
 	
 	@Override

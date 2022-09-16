@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.signature.asics;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESSignatureParameters;
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESTimestampParameters;
 import eu.europa.esig.dss.asic.cades.signature.ASiCWithCAdESService;
@@ -46,7 +48,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ASiCSCAdESCounterSignSignaturesConsequentlyTest extends AbstractASiCCAdESCounterSignatureTest {
 
-    private final DSSDocument ORIGINAL_DOCUMENT = new FileDocument("src/test/resources/signable/test.txt");
+    private final DSSDocument ORIGINAL_DOCUMENT = new FileDocument(TestUtils.getResourceAsFile("signable/test.txt"));
 
     private ASiCWithCAdESService service;
     private Date signingDate;

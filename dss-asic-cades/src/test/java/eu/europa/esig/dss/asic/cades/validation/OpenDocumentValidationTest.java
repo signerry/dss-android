@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import org.junit.jupiter.api.Test;
@@ -31,21 +33,21 @@ public class OpenDocumentValidationTest {
 
 	@Test
 	public void odt() {
-		FileDocument doc = new FileDocument("src/test/resources/validation/open-document-signed.odt");
+		FileDocument doc = new FileDocument(TestUtils.getResourceAsFile("validation/open-document-signed.odt"));
 		Exception exception = assertThrows(UnsupportedOperationException.class, () -> SignedDocumentValidator.fromDocument(doc));
 		assertEquals("Document format not recognized/handled", exception.getMessage());
 	}
 
 	@Test
 	public void odp() {
-		FileDocument doc = new FileDocument("src/test/resources/validation/open-document-signed.odp");
+		FileDocument doc = new FileDocument(TestUtils.getResourceAsFile("validation/open-document-signed.odp"));
 		Exception exception = assertThrows(UnsupportedOperationException.class, () -> SignedDocumentValidator.fromDocument(doc));
 		assertEquals("Document format not recognized/handled", exception.getMessage());
 	}
 
 	@Test
 	public void odpNotSigned() {
-		FileDocument doc = new FileDocument("src/test/resources/validation/open-document.odp");
+		FileDocument doc = new FileDocument(TestUtils.getResourceAsFile("validation/open-document.odp"));
 		Exception exception = assertThrows(UnsupportedOperationException.class, () -> SignedDocumentValidator.fromDocument(doc));
 		assertEquals("Document format not recognized/handled", exception.getMessage());
 	}

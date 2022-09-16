@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.detailedreport.DetailedReport;
 import eu.europa.esig.dss.diagnostic.CertificateWrapper;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -48,7 +50,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DSS1809Test extends AbstractASiCWithCAdESTestValidation {
 	
-	private static final DSSDocument document = new FileDocument("src/test/resources/validation/ASICE-CAdES-BpLTA-2-BpLTA-DSS5.4.asice");
+	private static final DSSDocument document = new FileDocument(TestUtils.getResourceAsFile("validation/ASICE-CAdES-BpLTA-2-BpLTA-DSS5.4.asice"));
 
 	@Override
 	protected DSSDocument getSignedDocument() {

@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -43,7 +45,7 @@ public class ASiCEWithDuplicateOrphanRevocationDataTest extends AbstractASiCWith
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/cades-duplicate-orphan-revocation.asice");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/cades-duplicate-orphan-revocation.asice"));
 	}
 	
 	@Override

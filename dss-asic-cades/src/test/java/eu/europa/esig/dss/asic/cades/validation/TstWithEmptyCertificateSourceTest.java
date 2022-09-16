@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -42,7 +44,7 @@ public class TstWithEmptyCertificateSourceTest extends AbstractASiCWithCAdESTest
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/tstWithEmptyCertSource.asice");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/tstWithEmptyCertSource.asice"));
 	}
 	
 	@Override

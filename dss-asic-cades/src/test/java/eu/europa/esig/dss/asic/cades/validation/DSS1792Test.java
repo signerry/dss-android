@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -43,7 +45,7 @@ import eu.europa.esig.dss.validation.ManifestFile;
 
 public class DSS1792Test extends AbstractASiCWithCAdESTestValidation {
 	
-	private static final DSSDocument document = new FileDocument("src/test/resources/validation/dss1792.asice");
+	private static final DSSDocument document = new FileDocument(TestUtils.getResourceAsFile("validation/dss1792.asice"));
 
 	@Override
 	protected DSSDocument getSignedDocument() {

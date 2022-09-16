@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.signature.asice;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESSignatureParameters;
 import eu.europa.esig.dss.asic.cades.signature.ASiCWithCAdESService;
 import eu.europa.esig.dss.enumerations.ASiCContainerType;
@@ -36,7 +38,7 @@ public class ASiCECAdESSignOpenDocumentTest extends PKIFactoryAccess {
 	
 	@Test
 	public void test() {
-		DSSDocument documentToSign = new FileDocument("src/test/resources/validation/open-document-signed.odt");
+		DSSDocument documentToSign = new FileDocument(TestUtils.getResourceAsFile("validation/open-document-signed.odt"));
 
 		ASiCWithCAdESSignatureParameters signatureParameters = new ASiCWithCAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

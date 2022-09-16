@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.signature.asice;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESSignatureParameters;
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESTimestampParameters;
 import eu.europa.esig.dss.asic.cades.signature.ASiCWithCAdESService;
@@ -45,7 +47,7 @@ public class CrossedASiCContainerTypeTest extends AbstractASiCECAdESTestSignatur
 	public void init() throws Exception {
 		service = new ASiCWithCAdESService(getOfflineCertificateVerifier());
 
-		documentToSign = new FileDocument("src/test/resources/validation/onefile-ok.asice");
+		documentToSign = new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice"));
 
 		signatureParameters = new ASiCWithCAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlContainerInfo;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlManifestFile;
@@ -37,7 +39,7 @@ public class ASiCELevelLTAWithCustomManifestNamespaceTest extends AbstractASiCWi
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/validation/asice-level-lta-with-custom-manifest-namespace.sce");
+        return new FileDocument(TestUtils.getResourceAsFile("validation/asice-level-lta-with-custom-manifest-namespace.sce"));
     }
 
     @Override

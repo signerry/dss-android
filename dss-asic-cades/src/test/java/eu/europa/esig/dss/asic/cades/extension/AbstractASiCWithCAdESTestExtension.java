@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.extension;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESContainerExtractor;
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESSignatureParameters;
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESTimestampParameters;
@@ -73,7 +75,7 @@ public abstract class AbstractASiCWithCAdESTestExtension extends AbstractTestExt
 
 	@Override
 	protected FileDocument getOriginalDocument() {
-		File originalDoc = new File("target/original-" + UUID.randomUUID().toString() + ".bin");
+		File originalDoc = TestUtils.getTmpFile("original-" + UUID.randomUUID().toString() + ".bin");
 		try (FileOutputStream fos = new FileOutputStream(originalDoc)) {
 			fos.write("Hello world!".getBytes());
 		} catch (IOException e) {

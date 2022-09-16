@@ -1055,6 +1055,8 @@ public class CommonsDataLoader implements DataLoader {
 		try {
 			SSLContextBuilder sslContextBuilder = SSLContextBuilder.create();
 			sslContextBuilder.setProtocol(sslProtocol);
+			sslContextBuilder.setKeyStoreType("BKS");
+			sslContextBuilder.setProvider(CryptoProvider.BCProvider);
 
 			TrustStrategy trustStrategy = getTrustStrategy();
 			if (trustStrategy != null) {
@@ -1115,6 +1117,7 @@ public class CommonsDataLoader implements DataLoader {
 			try (InputStream is = store.openStream()) {
 				KeyStore ks = KeyStore.getInstance(type, CryptoProvider.BCProvider);
 				ks.load(is, toCharArray(passwordStr));
+
 				return ks;
 			}
 		} else {

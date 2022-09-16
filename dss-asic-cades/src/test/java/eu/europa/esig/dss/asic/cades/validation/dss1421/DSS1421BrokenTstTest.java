@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.validation.dss1421;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.asic.cades.validation.AbstractASiCWithCAdESTestValidation;
 import eu.europa.esig.dss.diagnostic.CertificateWrapper;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -45,7 +47,7 @@ public class DSS1421BrokenTstTest extends AbstractASiCWithCAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/dss1421-broken.asice");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/dss1421-broken.asice"));
 	}
 	
 	@Override

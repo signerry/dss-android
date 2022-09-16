@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.signature.asice;
 
+import com.signerry.dss.test.TestUtils;
+
 import org.junit.jupiter.api.BeforeEach;
 
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESSignatureParameters;
@@ -39,7 +41,7 @@ public class ASiCECAdESMalformedZipSignTest extends AbstractASiCECAdESTestSignat
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new FileDocument("src/test/resources/signable/CP-852encoded.zip");
+		documentToSign = new FileDocument(TestUtils.getResourceAsFile("signable/CP-852encoded.zip"));
 
 		signatureParameters = new ASiCWithCAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

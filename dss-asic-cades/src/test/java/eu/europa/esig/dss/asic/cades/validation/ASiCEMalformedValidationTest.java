@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.FileDocument;
 
@@ -27,7 +29,7 @@ public class ASiCEMalformedValidationTest extends AbstractASiCWithCAdESTestValid
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/cp852encoded_signature.asice");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/cp852encoded_signature.asice"));
 	}
 
 }

@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -34,7 +36,7 @@ public class ASiCETwoSignaturesInOneTimeTest extends AbstractASiCWithCAdESTestVa
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/twoSignaturesOneTimeOneSigner.asice");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/twoSignaturesOneTimeOneSigner.asice"));
 	}
 	
 	@Override

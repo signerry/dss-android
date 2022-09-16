@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.signature.asics;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -37,7 +39,7 @@ public class ASiCSCAdESSignASiCXAdESTest extends PKIFactoryAccess {
 	
 	@Test
 	public void test() {
-		DSSDocument documentToSign = new FileDocument("src/test/resources/signable/asic_xades.zip");
+		DSSDocument documentToSign = new FileDocument(TestUtils.getResourceAsFile("signable/asic_xades.zip"));
 
 		ASiCWithCAdESSignatureParameters signatureParameters = new ASiCWithCAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

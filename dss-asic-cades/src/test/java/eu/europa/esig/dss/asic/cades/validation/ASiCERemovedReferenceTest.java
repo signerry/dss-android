@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -41,7 +43,7 @@ public class ASiCERemovedReferenceTest extends AbstractASiCWithCAdESTestValidati
 	
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/removedReference.asice");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/removedReference.asice"));
 	}
 	
 	@Override

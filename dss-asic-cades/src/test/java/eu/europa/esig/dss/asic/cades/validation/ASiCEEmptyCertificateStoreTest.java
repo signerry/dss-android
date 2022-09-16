@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.FoundCertificatesProxy;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
@@ -44,7 +46,7 @@ public class ASiCEEmptyCertificateStoreTest extends AbstractASiCWithCAdESTestVal
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/emptyCertStore.asice");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/emptyCertStore.asice"));
 	}
 	
 	@Override

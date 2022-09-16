@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.enumerations.Indication;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -39,7 +41,7 @@ public class ASiCWithCAdESNoSignatureZipValidationTest extends AbstractASiCWithC
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/signable/test.zip");
+        return new FileDocument(TestUtils.getResourceAsFile("signable/test.zip"));
     }
 
     @Override

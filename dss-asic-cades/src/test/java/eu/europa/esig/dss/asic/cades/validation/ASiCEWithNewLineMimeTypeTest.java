@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlContainerInfo;
 import eu.europa.esig.dss.enumerations.ASiCContainerType;
@@ -37,7 +39,7 @@ public class ASiCEWithNewLineMimeTypeTest extends AbstractASiCWithCAdESTestValid
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/asice-cades-new-line-mimetype");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/asice-cades-new-line-mimetype"));
 	}
 	
 	@Override

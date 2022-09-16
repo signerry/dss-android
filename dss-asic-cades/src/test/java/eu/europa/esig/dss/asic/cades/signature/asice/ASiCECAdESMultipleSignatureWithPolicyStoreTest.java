@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.signature.asice;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESSignatureParameters;
 import eu.europa.esig.dss.asic.cades.signature.ASiCWithCAdESService;
 import eu.europa.esig.dss.asic.cades.validation.AbstractASiCWithCAdESTestValidation;
@@ -54,7 +56,7 @@ public class ASiCECAdESMultipleSignatureWithPolicyStoreTest extends AbstractASiC
 	private static final String HTTP_SPURI_TEST = "http://spuri.test";
 	private static final String SIGNATURE_POLICY_ID = "1.2.3.4.5.6";
 
-	private static final DSSDocument POLICY_CONTENT = new FileDocument("src/test/resources/signature-policy.der");
+	private static final DSSDocument POLICY_CONTENT = new FileDocument(TestUtils.getResourceAsFile("signature-policy.der"));
 
 	private ASiCWithCAdESService service;
 	private DSSDocument documentToSign;

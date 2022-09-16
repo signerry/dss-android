@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.FileDocument;
 import org.junit.jupiter.api.Test;
@@ -31,7 +33,7 @@ public class ASiCWithCAdESValidateASiCXAdESTest extends AbstractASiCWithCAdESTes
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/signable/asic_xades.zip");
+        return new FileDocument(TestUtils.getResourceAsFile("signable/asic_xades.zip"));
     }
 
     @Test

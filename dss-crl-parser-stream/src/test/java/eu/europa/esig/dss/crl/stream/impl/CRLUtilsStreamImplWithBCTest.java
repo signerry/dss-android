@@ -20,7 +20,8 @@
  */
 package eu.europa.esig.dss.crl.stream.impl;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import eu.europa.esig.dss.crl.AbstractBCTestCRLUtils;
 

@@ -1056,7 +1056,6 @@ public class CommonsDataLoader implements DataLoader {
 			SSLContextBuilder sslContextBuilder = SSLContextBuilder.create();
 			sslContextBuilder.setProtocol(sslProtocol);
 			sslContextBuilder.setKeyStoreType("BKS");
-			sslContextBuilder.setProvider(CryptoProvider.BCProvider);
 
 			TrustStrategy trustStrategy = getTrustStrategy();
 			if (trustStrategy != null) {
@@ -1067,6 +1066,7 @@ public class CommonsDataLoader implements DataLoader {
 			final KeyStore sslTrustStore = getSSLTrustStore();
 			if (sslTrustStore != null) {
 				LOG.debug("Set the SSL trust store as trust materials");
+
 				sslContextBuilder.loadTrustMaterial(sslTrustStore, trustStrategy);
 			}
 

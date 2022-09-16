@@ -78,7 +78,7 @@ public class DigestDocumentTest {
 
 	@Test
 	public void defaultConstructorTest() throws IOException, NoSuchAlgorithmException {
-		Security.addProvider(new BouncyCastleProvider());
+
 		byte[] stringToEncode = "aaa".getBytes();
 		DigestDocument doc = new DigestDocument();
 		for (DigestAlgorithm digestAlgorithm : DigestAlgorithm.values()) {
@@ -95,7 +95,6 @@ public class DigestDocumentTest {
 			}
 			assertNotNull(doc.getDigest(digestAlgorithm));
 		}
-		Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME);
 	}
 
 }

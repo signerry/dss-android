@@ -54,9 +54,7 @@ import com.signerry.dss.test.TestUtils;
 
 public class SignDigestRSATest {
 
-	static {
-		Security.addProvider(DSSSecurityProvider.getSecurityProvider());
-	}
+
 
 	private static final Logger LOG = LoggerFactory.getLogger(SignDigestRSATest.class);
 

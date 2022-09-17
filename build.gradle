@@ -65,6 +65,8 @@ allprojects (subproject -> {
 
             testOptions {
                 unitTests.all {
+                    systemProperty "file.encoding", "utf-8"
+
                     systemProperty "projectDir", project.rootDir
                 }
             }
@@ -103,7 +105,9 @@ allprojects (subproject -> {
             exclude("META-INF/*.kotlin_module")
         }
 
+
         compileOptions {
+            encoding 'UTF-8'
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
         }

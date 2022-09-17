@@ -485,7 +485,7 @@ public enum DigestAlgorithm implements OidAndUriBasedEnum {
 	 *                                  if the algorithm is not supported
 	 */
 	public MessageDigest getMessageDigest(Provider provider) throws NoSuchAlgorithmException {
-		throw new UnsupportedOperationException("Should not be called directly");
+		return MessageDigest.getInstance(javaName, provider);
 	}
 
 }

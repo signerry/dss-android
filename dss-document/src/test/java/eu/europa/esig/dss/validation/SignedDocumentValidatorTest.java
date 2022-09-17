@@ -33,7 +33,7 @@ public class SignedDocumentValidatorTest {
 
 	@Test
 	public void testNoDependency() {
-		FileDocument fileDocument = new FileDocument(TestUtils.getResourceAsFile("sample.xml"));
+		FileDocument fileDocument = new FileDocument(TestUtils.getResourceAsFile("BA-QC-Wurzel-CA-2_PN.txt"));
 		Exception exception = assertThrows(UnsupportedOperationException.class,
 				() -> SignedDocumentValidator.fromDocument(fileDocument));
 		assertEquals("Document format not recognized/handled", exception.getMessage());

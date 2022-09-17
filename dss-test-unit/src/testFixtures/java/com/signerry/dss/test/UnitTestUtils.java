@@ -1,6 +1,8 @@
 package com.signerry.dss.test;
 
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +17,7 @@ import eu.europa.esig.dss.utils.Utils;
 public class UnitTestUtils implements ITestUtils {
     @Override
     public Collection<File> listFiles(String folder, String[] extensions, boolean recursive) {
-       return Utils.listFiles(new File(folder), extensions, true);
+       return FileUtils.listFiles(TestUtils.getResourceAsFile(folder), extensions, true);
     }
 
     @Override

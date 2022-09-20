@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.service.ocsp;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.enumerations.RevocationOrigin;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.model.x509.revocation.ocsp.OCSP;
@@ -56,9 +58,7 @@ public class JdbcCacheOcspSourceTest {
 	private static final Logger LOG = LoggerFactory.getLogger(JdbcCacheOcspSourceTest.class);
 	
 	private JdbcCacheOCSPSource ocspSource = new MockJdbcCacheOCSPSource();
-	
-	private JdbcDataSource dataSource = new JdbcDataSource();
-	
+
 	private OCSPToken storedRevocationToken = null;
 	private Date requestTime = null;
 	
@@ -76,8 +76,8 @@ public class JdbcCacheOcspSourceTest {
 	public void test() throws Exception {
 		OCSPToken revocationToken;
 		
-		CertificateToken certificateToken = DSSUtils.loadCertificate(new File("src/test/resources/ec.europa.eu.crt"));
-		CertificateToken rootToken = DSSUtils.loadCertificate(new File("src/test/resources/CALT.crt"));
+		CertificateToken certificateToken = DSSUtils.loadCertificate(TestUtils.getResourceAsStream("ec.europa.eu.crt"));
+		CertificateToken rootToken = DSSUtils.loadCertificate(TestUtils.getResourceAsStream("CALT.crt"));
 		revocationToken = ocspSource.getRevocationToken(certificateToken, rootToken);
 		assertNull(revocationToken);
 		

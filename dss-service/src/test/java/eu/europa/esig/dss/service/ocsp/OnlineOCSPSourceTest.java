@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.service.ocsp;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureValidity;
@@ -63,8 +65,8 @@ public class OnlineOCSPSourceTest {
 
 	@BeforeAll
 	public static void init() {
-		certificateToken = DSSUtils.loadCertificate(new File("src/test/resources/ec.europa.eu.crt"));
-		rootToken = DSSUtils.loadCertificate(new File("src/test/resources/CALT.crt"));
+		certificateToken = DSSUtils.loadCertificate(TestUtils.getResourceAsStream("ec.europa.eu.crt"));
+		rootToken = DSSUtils.loadCertificate(TestUtils.getResourceAsStream("CALT.crt"));
 
 		CommonsDataLoader dataLoader = new CommonsDataLoader();
 		goodUser = DSSUtils.loadCertificate(dataLoader.get("http://dss.nowina.lu/pki-factory/crt/good-user.crt"));
@@ -129,7 +131,7 @@ public class OnlineOCSPSourceTest {
 
 	@Test
 	public void testOCSPWithFileCache() {
-		File cacheFolder = new File("resources/test/ocsp-cache");
+		File cacheFolder = TestUtils.getTmpDedicatedDirectory();
 
 		// clean cache if exists
 		if (cacheFolder.exists()) {

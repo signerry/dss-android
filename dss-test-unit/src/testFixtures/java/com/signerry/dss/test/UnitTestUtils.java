@@ -12,7 +12,8 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.UUID;
 
-import eu.europa.esig.dss.utils.Utils;
+import eu.europa.esig.dss.service.http.commons.IResourceLoader;
+import eu.europa.esig.dss.service.http.commons.ResourceLoader;
 
 public class UnitTestUtils implements ITestUtils {
     @Override
@@ -56,5 +57,10 @@ public class UnitTestUtils implements ITestUtils {
     @Override
     public File getResourceAsFile(String resourcePath) {
         return new File(UnitTestUtils.class.getResource("/" + resourcePath).getFile());
+    }
+
+    @Override
+    public IResourceLoader getResourceLoader() {
+        return new ResourceLoader();
     }
 }

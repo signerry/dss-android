@@ -35,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -60,7 +61,7 @@ public class FileCacheDataLoader implements DataLoader, DSSFileLoader {
 	private File fileCacheDirectory = new File(System.getProperty("java.io.tmpdir"));
 
 	/** Loads absolute path */
-	private transient ResourceLoader resourceLoader = new ResourceLoader();
+	private transient IResourceLoader resourceLoader;
 
 	/** List of URIs to be loaded */
 	private List<String> toBeLoaded;
@@ -147,7 +148,7 @@ public class FileCacheDataLoader implements DataLoader, DSSFileLoader {
 	 *
 	 * @param resourceLoader {@link ResourceLoader}
 	 */
-	public void setResourceLoader(final ResourceLoader resourceLoader) {
+	public void setResourceLoader(final IResourceLoader resourceLoader) {
 		this.resourceLoader = resourceLoader;
 	}
 
@@ -279,12 +280,16 @@ public class FileCacheDataLoader implements DataLoader, DSSFileLoader {
 	}
 
 	private byte[] getLocalFileContent(final String urlString) throws DSSException {
+		Objects.requireNonNull(resourceLoader);
+
 		Objects.requireNonNull(dataLoader, DATA_LOADER_NOT_CONFIGURED);
-		// TODO usage ??
-		final String resourcePath = resourceLoader.getAbsoluteResourceFolder(Utils.trim(urlString));
-		if (resourcePath != null) {
-			final File fileResource = new File(resourcePath);
-			return DSSUtils.toByteArray(fileResource);
+
+		String trimmedUrl = Utils.trim(urlString);
+
+		InputStream inputStream = resourceLoader.getInputStream(trimmedUrl);
+
+		if (inputStream != null) {
+			return DSSUtils.toByteArray(inputStream);
 		} else {
 			return dataLoader.get(urlString);
 		}

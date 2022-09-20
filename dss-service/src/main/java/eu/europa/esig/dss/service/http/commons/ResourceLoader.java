@@ -20,16 +20,12 @@
  */
 package eu.europa.esig.dss.service.http.commons;
 
-import eu.europa.esig.dss.model.DSSException;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLDecoder;
+import java.io.InputStream;
 
 /**
  * Gets the absolute path for the defined class
  */
-public class ResourceLoader {
+public class ResourceLoader implements IResourceLoader {
 
 	/** The class to be used to build the absolute path */
 	protected Class<?> anyClass = ResourceLoader.class;
@@ -50,24 +46,8 @@ public class ResourceLoader {
 		this.anyClass = anyClass;
 	}
 
-	/**
-	 * This method converts the resource path to the absolute path in target folder.
-	 *
-	 * @param resourcePath
-	 *            resource path
-	 * @return the absolute of the parent folder
-	 */
-	public String getAbsoluteResourceFolder(final String resourcePath) throws DSSException {
-		final URL uri = anyClass.getResource(resourcePath);
-		if (uri == null) {
-			return null;
-		}
-		final String absolutePath = uri.getPath();
-		try {
-			return URLDecoder.decode(absolutePath, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new DSSException(String.format("Unable to decode URI path : %s", e.getMessage()), e);
-		}
+	@Override
+	public InputStream getInputStream(String path) {
+		return anyClass.getResourceAsStream(path);
 	}
-
 }

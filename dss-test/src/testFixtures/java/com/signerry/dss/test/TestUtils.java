@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
+import eu.europa.esig.dss.service.http.commons.IResourceLoader;
+
 public class TestUtils {
 
     /** The implementation to be used */
@@ -33,6 +35,10 @@ public class TestUtils {
         return impl.getTmpDirectory();
     }
 
+    public static File getTmpDedicatedDirectory() {
+        return impl.getTmpDedicatedDirectory();
+    }
+
     public static InputStream getResourceAsStream(String resourcePath) {
         return impl.getResourceAsStream(resourcePath);
     }
@@ -43,5 +49,9 @@ public class TestUtils {
 
     public static File getTmpFile(String filename) {
         return impl.getTmpFile(filename);
+    }
+
+    public static IResourceLoader getResourceLoader() {
+        return impl.getResourceLoader();
     }
 }

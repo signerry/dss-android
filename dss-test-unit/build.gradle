@@ -1,6 +1,8 @@
 dependencies {
     testFixturesImplementation testFixtures(project(':dss-utils'))
     testFixturesImplementation testFixtures(project(':dss-test'))
+    testFixturesImplementation testFixtures(project(':dss-service'))
+
     testFixturesImplementation 'commons-io:commons-io:1.3.1'
 }
 

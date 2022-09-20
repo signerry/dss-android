@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,10 +16,12 @@ import java.util.List;
 import java.util.UUID;
 
 import androidx.test.platform.app.InstrumentationRegistry;
+import eu.europa.esig.dss.service.http.commons.AndroidResourceLoader;
+import eu.europa.esig.dss.service.http.commons.IResourceLoader;
 
 public class InstrumentedTestUtils implements ITestUtils {
 
-    public static Context getCtx() {
+    public Context getCtx() {
         return  InstrumentationRegistry.getInstrumentation().getTargetContext();
     }
 
@@ -118,5 +119,10 @@ public class InstrumentedTestUtils implements ITestUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public IResourceLoader getResourceLoader() {
+        return new AndroidResourceLoader(this.getCtx());
     }
 }

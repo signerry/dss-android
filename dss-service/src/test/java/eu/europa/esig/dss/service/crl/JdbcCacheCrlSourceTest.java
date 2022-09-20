@@ -1,19 +1,19 @@
 /**
  * DSS - Digital Signature Services
  * Copyright (C) 2015 European Commission, provided under the CEF programme
- * 
+ *
  * This file is part of the "DSS - Digital Signature Services" project.
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -50,11 +50,11 @@ import com.signerry.dss.test.TestUtils;
 public class JdbcCacheCrlSourceTest {
 
 	private MockJdbcCacheCRLSource crlSource = new MockJdbcCacheCRLSource();
-	
+
 //	private Server webServer;
-	
+
 	@BeforeEach
-	public void setUp() throws SQLException {		
+	public void setUp() throws SQLException {
 		// for testing purposes. DB view available on http://localhost:8082
 		// webServer = Server.createWebServer("-web","-webAllowOthers","-webPort","8082").start();
 		Connection connection = DriverManager.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
@@ -70,18 +70,18 @@ public class JdbcCacheCrlSourceTest {
 		CRLToken revocationToken;
 
 		DataLoader dataLoader = new CommonsDataLoader();
-		CertificateToken certificateToken = DSSUtils.loadCertificate(dataLoader.get("http://dss.nowina.lu/pki-factory/crt/good-user-crl-ocsp.crt"));
-		CertificateToken caToken = DSSUtils.loadCertificate(dataLoader.get("http://dss.nowina.lu/pki-factory/crt/good-ca.crt"));
+		CertificateToken certificateToken = DSSUtils.loadCertificate(dataLoader.get("http://test-pki.signerry.com:8080/crt/good-user-crl-ocsp.crt"));
+		CertificateToken caToken = DSSUtils.loadCertificate(dataLoader.get("http://test-pki.signerry.com:8080/crt/good-ca.crt"));
 
 		revocationToken = crlSource.getRevocationToken(certificateToken, caToken);
 		assertNull(revocationToken);
-		
+
 		OnlineCRLSource onlineCRLSource = new OnlineCRLSource();
 		crlSource.setProxySource(onlineCRLSource);
 		revocationToken = crlSource.getRevocationToken(certificateToken, caToken);
 		assertNotNull(revocationToken);
 		assertEquals(RevocationOrigin.EXTERNAL, revocationToken.getExternalOrigin());
-		
+
 		CRLToken savedRevocationToken = crlSource.getRevocationToken(certificateToken, caToken);
 		assertNotNull(savedRevocationToken);
 		compareTokens(revocationToken, savedRevocationToken);
@@ -97,11 +97,11 @@ public class JdbcCacheCrlSourceTest {
 		assertEquals(RevocationOrigin.CACHED, savedRevocationToken.getExternalOrigin());
 
 		crlSource.setMaxNextUpdateDelay(1L);
-		
+
 		// wait one second
 		Calendar nextSecond = Calendar.getInstance();
-		nextSecond.add(Calendar.SECOND, 1);
-		await().atMost(2, TimeUnit.SECONDS).until(() -> Calendar.getInstance().getTime().compareTo(nextSecond.getTime()) > 0);
+		nextSecond.add(Calendar.SECOND, 2);
+		await().atMost(3, TimeUnit.SECONDS).until(() -> Calendar.getInstance().getTime().compareTo(nextSecond.getTime()) > 0);
 
 		forceRefresh = crlSource.getRevocationToken(certificateToken, caToken);
 		assertNotNull(forceRefresh);
@@ -113,7 +113,7 @@ public class JdbcCacheCrlSourceTest {
 		assertEquals(RevocationOrigin.CACHED, forceRefresh.getExternalOrigin());
 
 	}
-	
+
 	private void compareTokens(CRLToken originalCRL, CRLToken cachedCRL) {
 		assertEquals(originalCRL.getSignatureAlgorithm(), cachedCRL.getSignatureAlgorithm());
 		assertEquals(originalCRL.getThisUpdate(), cachedCRL.getThisUpdate());
@@ -126,7 +126,7 @@ public class JdbcCacheCrlSourceTest {
 		assertEquals(originalCRL.getSignatureValidity(), cachedCRL.getSignatureValidity());
 		assertEquals(originalCRL.getReason(), cachedCRL.getReason());
 	}
-	
+
 	@Test
 	public void testExpired() throws SQLException {
 		CRLToken revocationToken;
@@ -156,15 +156,15 @@ public class JdbcCacheCrlSourceTest {
 		//webServer.stop();
 		//webServer.shutdown();
 	}
-	
+
 	@SuppressWarnings("serial")
 	private static class MockJdbcCacheCRLSource extends JdbcCacheCRLSource {
-		
+
 		@Override
 		protected void removeRevocation(String revocationTokenKey) {
 			super.removeRevocation(revocationTokenKey);
 		}
-		
+
 	}
 
 }

@@ -17,6 +17,14 @@ dependencies {
     testImplementation 'com.h2database:h2:2.1.210'
     testImplementation project(':dss-crl-parser-x509crl')
     androidTestImplementation project(':dss-android')
+
+    androidTestImplementation testFixtures(project(':dss-test-unit'))
+    testImplementation testFixtures(project(':dss-test-instrumented'))
+
+
+    androidTestImplementation project(':dss-android')
+    testImplementation project(':dss-android')
+
 }
 
 description = 'DSS Service'

@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.spi;
 
+import com.signerry.android.CryptoProvider;
+
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.Digest;
@@ -75,6 +77,7 @@ public final class DSSRevocationUtils {
 
 	static {
 		jcaDigestCalculatorProviderBuilder = new JcaDigestCalculatorProviderBuilder();
+		jcaDigestCalculatorProviderBuilder.setProvider(CryptoProvider.BCProvider);
 	}
 
 	private DSSRevocationUtils() {

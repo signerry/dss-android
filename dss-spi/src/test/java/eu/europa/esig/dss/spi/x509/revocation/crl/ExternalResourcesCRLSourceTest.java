@@ -34,6 +34,7 @@ import eu.europa.esig.dss.utils.Utils;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -90,7 +91,9 @@ public class ExternalResourcesCRLSourceTest {
 
 	@Test
 	public void noCRL() {
-		DSSException exception = assertThrows(DSSException.class, () -> new ExternalResourcesCRLSource("keystore.jks"));
+		File resourceAsFile = TestUtils.getResourceAsFile("keystore.jks");
+
+		DSSException exception = assertThrows(DSSException.class, () -> new ExternalResourcesCRLSource(resourceAsFile.getAbsolutePath()));
 		assertEquals("Unable to parse the stream (CRL is expected)", exception.getMessage());
 	}
 

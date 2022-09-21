@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.spi;
 
+import com.signerry.dss.test.TestUtils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -61,8 +63,8 @@ public class DSSRevocationUtilsTest {
 
 	@Test
 	public void testGetOCSPCertificateIDAndMatch() throws IOException {
-		CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/citizen_ca.cer"));
-		CertificateToken issuer = DSSUtils.loadCertificate(new File("src/test/resources/belgiumrs2.crt"));
+		CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("citizen_ca.cer"));
+		CertificateToken issuer = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("belgiumrs2.crt"));
 		assertTrue(certificate.isSignedBy(issuer));
 
 		CertificateID certificateID = DSSRevocationUtils.getOCSPCertificateID(certificate, issuer, DigestAlgorithm.SHA256);
@@ -83,7 +85,7 @@ public class DSSRevocationUtilsTest {
 	
 	@Test
 	public void getCrlRevocationTokenKeys() {
-		CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/ec.europa.eu.crt"));
+		CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("ec.europa.eu.crt"));
 		List<String> revocationKeys = DSSRevocationUtils.getCRLRevocationTokenKeys(certificate);
 		assertNotNull(revocationKeys);
 		assertFalse(CollectionUtils.isEmpty(revocationKeys));
@@ -92,7 +94,7 @@ public class DSSRevocationUtilsTest {
 	
 	@Test
 	public void getOcspRevocationTokenKeys() {
-		CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/ec.europa.eu.crt"));
+		CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("ec.europa.eu.crt"));
 		List<String> revocationKeys = DSSRevocationUtils.getOcspRevocationTokenKeys(certificate);
 		assertNotNull(revocationKeys);
 		assertFalse(CollectionUtils.isEmpty(revocationKeys));
@@ -101,7 +103,7 @@ public class DSSRevocationUtilsTest {
 	
 	@Test
 	public void getEmptyCrlRevocationTokenKeys() {
-		CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/good-user.crt"));
+		CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("good-user.crt"));
 		List<String> revocationKeys = DSSRevocationUtils.getCRLRevocationTokenKeys(certificate);
 		assertNotNull(revocationKeys);
 		assertTrue(CollectionUtils.isEmpty(revocationKeys));
@@ -109,7 +111,7 @@ public class DSSRevocationUtilsTest {
 	
 	@Test
 	public void getEmptyOcspRevocationTokenKeys() {
-		CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/sk_ca.cer"));
+		CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("sk_ca.cer"));
 		List<String> revocationKeys = DSSRevocationUtils.getOcspRevocationTokenKeys(certificate);
 		assertNotNull(revocationKeys);
 		assertTrue(CollectionUtils.isEmpty(revocationKeys));

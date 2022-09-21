@@ -143,7 +143,9 @@ public class CertificateSourceCasesTest {
 
 	@Test
 	public void extractTLSKeystore() throws IOException {
-		assertTimeout(ofMillis(3000), () -> {
+		//assertTimeout(ofMillis(3000), () -> {
+		//Increasing timeout cause emulator execution can be quite slow
+		assertTimeout(ofMillis(8000), () -> {
 			KeyStoreCertificateSource kscs = new KeyStoreCertificateSource(TestUtils.getResourceAsStream("extract-tls.p12"),
 					"PKCS12", "ks-password");
 	

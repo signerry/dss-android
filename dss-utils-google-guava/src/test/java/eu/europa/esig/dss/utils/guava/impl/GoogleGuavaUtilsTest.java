@@ -20,13 +20,6 @@
  */
 package eu.europa.esig.dss.utils.guava.impl;
 
-import org.junit.Test;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-
 import eu.europa.esig.dss.utils.AbstractUtilsTest;
 
 public class GoogleGuavaUtilsTest extends AbstractUtilsTest {

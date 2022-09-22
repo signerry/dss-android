@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.extension.asice;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.alert.SilentOnStatusAlert;
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESSignatureParameters;
 import eu.europa.esig.dss.asic.cades.signature.ASiCWithCAdESService;
@@ -63,7 +65,7 @@ public class DSS2361Test extends AbstractASiCWithCAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        DSSDocument dssDocument = new InMemoryDocument(getClass().getResourceAsStream("/validation/ASiC-E-CAdES-BpLTA.sce"));
+        DSSDocument dssDocument = new InMemoryDocument(TestUtils.getResourceAsStream("validation/ASiC-E-CAdES-BpLTA.sce"));
 
         ASiCWithCAdESService service = new ASiCWithCAdESService(certificateVerifier);
         service.setTspSource(getGoodTsa());

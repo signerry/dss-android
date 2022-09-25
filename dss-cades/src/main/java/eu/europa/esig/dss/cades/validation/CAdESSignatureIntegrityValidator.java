@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.android.CryptoProvider;
+
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.spi.DSSSecurityProvider;
 import eu.europa.esig.dss.spi.x509.SignatureIntegrityValidator;
@@ -54,7 +56,7 @@ public class CAdESSignatureIntegrityValidator extends SignatureIntegrityValidato
 	
 	private JcaSimpleSignerInfoVerifierBuilder instantiateVerifier() {
 		final JcaSimpleSignerInfoVerifierBuilder jcaVerifierBuilder = new JcaSimpleSignerInfoVerifierBuilder();
-		jcaVerifierBuilder.setProvider(new BouncyCastleProvider());
+		jcaVerifierBuilder.setProvider(CryptoProvider.BCProvider);
 		return jcaVerifierBuilder;
 	}
 

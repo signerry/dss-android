@@ -278,7 +278,7 @@ public class CAdESLevelBTest extends AbstractCAdESTestSignature {
 
 			logger.info("SIGNATURE VALUE : " + signatureValue);
 
-			Cipher cipher = Cipher.getInstance("RSA");
+			Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding", CryptoProvider.BCProvider);
 			cipher.init(Cipher.DECRYPT_MODE, signerCertificate);
 			byte[] decrypted = cipher.doFinal(encryptedInfoOctedString.getOctets());
 
@@ -308,6 +308,7 @@ public class CAdESLevelBTest extends AbstractCAdESTestSignature {
 			Utils.closeQuietly(asn1sInput);
 			Utils.closeQuietly(inputDecrypted);
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error(e.getMessage(), e);
 			fail(e.getMessage());
 		}

@@ -258,10 +258,9 @@ public class CAdESLevelBETSITS101733Test extends AbstractCAdESTestSignature {
 
 			logger.info("SIGNATURE VALUE : " + signatureValue);
 
-			Cipher cipher = Cipher.getInstance("RSA");
+			Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding", CryptoProvider.BCProvider);
 			cipher.init(Cipher.DECRYPT_MODE, signerCertificate);
 			byte[] decrypted = cipher.doFinal(encryptedInfoOctedString.getOctets());
-
 			ASN1InputStream inputDecrypted = new ASN1InputStream(decrypted);
 
 			ASN1Sequence seqDecrypt = (ASN1Sequence) inputDecrypted.readObject();

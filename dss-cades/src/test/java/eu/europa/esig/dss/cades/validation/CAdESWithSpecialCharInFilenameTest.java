@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.cades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.FileDocument;
 
@@ -32,7 +34,7 @@ public class CAdESWithSpecialCharInFilenameTest extends AbstractCAdESTestValidat
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument(FILE_TO_TEST);
+		return new FileDocument(TestUtils.getResourceAsFile(FILE_TO_TEST));
 	}
 	
 }

@@ -38,6 +38,8 @@ jobs:
           - 4
         api-level:
           - 32
+        heap-size:
+          - 1024M
 
     steps:
       - name: Fetch Source

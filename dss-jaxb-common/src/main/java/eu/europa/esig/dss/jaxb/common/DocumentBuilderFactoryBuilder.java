@@ -22,6 +22,7 @@ package eu.europa.esig.dss.jaxb.common;
 
 import com.signerry.android.AndroidUtils;
 
+import org.apache.xerces.jaxp.DocumentBuilderFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,7 +80,8 @@ public class DocumentBuilderFactoryBuilder extends AbstractFactoryBuilder<Docume
 
     @Override
     protected DocumentBuilderFactory instantiateFactory() {
-        return AndroidUtils.getService(DocumentBuilderFactory.class);
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactoryImpl.newInstance();
+        return documentBuilderFactory;
     }
 
     @Override

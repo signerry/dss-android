@@ -22,7 +22,6 @@ package eu.europa.esig.dss.jaxb.common;
 
 import com.signerry.android.AndroidUtils;
 
-import org.apache.xerces.jaxp.DocumentBuilderFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +40,7 @@ public class DocumentBuilderFactoryBuilder extends AbstractFactoryBuilder<Docume
      * Default constructor building a secure pre-configured instance of {@code DocumentBuilderFactoryBuilder}
      */
     protected DocumentBuilderFactoryBuilder() {
+        disableFeature("http://apache.org/xml/features/dom/defer-node-expansion");
         enableFeature("http://xml.org/sax/features/namespaces"); // .setNamespaceAware(true)
         // XInclude is set to "false" by default. Enforcing of the feature value can throw an exception
         // if the implementation does not support the property
@@ -80,8 +80,7 @@ public class DocumentBuilderFactoryBuilder extends AbstractFactoryBuilder<Docume
 
     @Override
     protected DocumentBuilderFactory instantiateFactory() {
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactoryImpl.newInstance();
-        return documentBuilderFactory;
+        return AndroidUtils.getService(DocumentBuilderFactory.class);
     }
 
     @Override

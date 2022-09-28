@@ -231,12 +231,12 @@ allprojects (subproject -> {
         androidTestImplementation "org.mockito:mockito-android:${mockito_version}"
 
         testImplementation enforcedPlatform("org.junit:junit-bom:${junit_version}")
-        implementation "com.fasterxml.jackson.module:jackson-module-jaxb-annotations:${jackson_version}"
 
         testImplementation "com.fasterxml.jackson.module:jackson-module-jaxb-annotations:${jackson_version}"
         testImplementation "com.fasterxml.jackson.core:jackson-databind:${jackson_databind_version}"
-        implementation "com.fasterxml.jackson.core:jackson-databind:${jackson_databind_version}"
-        implementation 'org.json:json:20220320'
+        testImplementation "com.fasterxml.jackson.core:jackson-databind:${jackson_databind_version}"
+        testImplementation 'org.json:json:20220320'
+
         implementation 'ro.andob.androidawt:androidawt:1.0.4'
        // implementation 'com.github.orlleite:xerces-for-android:1.0'
 // https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api

@@ -45,13 +45,14 @@ android {
 }
 
 allprojects (subproject -> {
+    version "1.0.4"
+
     apply plugin: 'com.android.library'
     apply plugin: 'de.mannodermaus.android-junit5'
     apply plugin: 'maven-publish'
 
     configurations {
         compile.exclude group: 'org.hamcrest', name: 'hamcrest'
-
     }
 
     android {
@@ -184,8 +185,7 @@ allprojects (subproject -> {
 
 
         implementation 'com.h2database:h2:2.1.210'
-        testImplementation 'com.h2database:h2:2.1.210'
-        androidTestImplementation 'com.h2database:h2:2.1.210'
+
 
 //        implementation "org.apache.httpcomponents.client5:httpclient5:${httpclient5_version}"
 //        implementation "org.apache.pdfbox:pdfbox:${pdfbox_version}"
@@ -259,16 +259,24 @@ allprojects (subproject -> {
 
     }
 
-
-    publish.dependsOn(build);
-
-
     publishing {
         publications {
             maven(MavenPublication) {
-                groupId 'com.signerry.sd-dss'
-                version "1.0.1"
                 artifact("${subproject.buildDir}/outputs/aar/${subproject.name}-release.aar")
+
+                pom.withXml {
+                    def dependenciesNode = asNode().appendNode('dependencies')
+                    //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
+                    subproject.configurations.implementation.allDependencies.each {
+                        if(it.group != null && (it.name != null || "unspecified".equals(it.name)) && it.version != null)
+                        {
+                            def dependencyNode = dependenciesNode.appendNode('dependency')
+                            dependencyNode.appendNode('groupId', it.group)
+                            dependencyNode.appendNode('artifactId', it.name)
+                            dependencyNode.appendNode('version', it.version)
+                        }
+                    }
+                }
             }
         }
 

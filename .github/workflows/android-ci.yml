@@ -89,7 +89,7 @@ jobs:
           distribution: 'adopt'
 
       - name: Upload Snapshot
-        run: ./gradlew publish
+        run: ./gradlew build publish -x test
         env:
           GPR_USER: ${{ secrets.GITHUB_ACTOR }}
           GPR_API_KEY: ${{ secrets.GPR_API_KEY }}

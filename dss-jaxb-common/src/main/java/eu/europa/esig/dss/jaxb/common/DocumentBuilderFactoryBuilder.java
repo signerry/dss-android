@@ -40,7 +40,12 @@ public class DocumentBuilderFactoryBuilder extends AbstractFactoryBuilder<Docume
      * Default constructor building a secure pre-configured instance of {@code DocumentBuilderFactoryBuilder}
      */
     protected DocumentBuilderFactoryBuilder() {
+
+        //e.kuzma. This line is ready important for memory usage.
+        //Mostly xades xml aren't that complex, that deferred node expansion add
+        //some performance improvement.
         disableFeature("http://apache.org/xml/features/dom/defer-node-expansion");
+
         enableFeature("http://xml.org/sax/features/namespaces"); // .setNamespaceAware(true)
         // XInclude is set to "false" by default. Enforcing of the feature value can throw an exception
         // if the implementation does not support the property

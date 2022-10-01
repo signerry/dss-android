@@ -16,36 +16,8 @@ buildscript {
 }
 
 
-
-apply plugin: 'com.android.library'
-apply plugin: 'de.mannodermaus.android-junit5'
-
-
-
-android {
-    defaultConfig {
-        compileSdkVersion 30
-        minSdkVersion 29
-        targetSdkVersion 30
-        multiDexEnabled true
-
-    }
-
-        lintOptions {
-            abortOnError false
-        }
-
-
-
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-        }
-    }
-}
-
 allprojects (subproject -> {
-    version "1.0.4"
+    version "1.0.5"
 
     apply plugin: 'com.android.library'
     apply plugin: 'de.mannodermaus.android-junit5'
@@ -60,6 +32,10 @@ allprojects (subproject -> {
         defaultConfig {
             testFixtures {
                 enable = true
+            }
+
+            lintOptions {
+                abortOnError false
             }
 
             testOptions {
@@ -217,7 +193,7 @@ allprojects (subproject -> {
 
 //        implementation "jakarta.activation:jakarta.activation-api:${jakarta_activation_api_version}"
 //        implementation "org.glassfish.jaxb:jaxb-runtime:${jaxb_runtime_version}"
-     //   implementation "jakarta.ws.rs:jakarta.ws.rs-api:${jakarta_rs_api_version}"
+        //   implementation "jakarta.ws.rs:jakarta.ws.rs-api:${jakarta_rs_api_version}"
         implementation "jakarta.xml.ws:jakarta.xml.ws-api:${jakarta_ws_api_version}"
 
 
@@ -242,7 +218,7 @@ allprojects (subproject -> {
         androidTestImplementation 'org.json:json:20220320'
 
         implementation 'ro.andob.androidawt:androidawt:1.0.4'
-       // implementation 'com.github.orlleite:xerces-for-android:1.0'
+        // implementation 'com.github.orlleite:xerces-for-android:1.0'
 // https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api
         implementation 'org.glassfish.jaxb:jaxb-runtime:3.1.0-M1'
 
@@ -262,6 +238,10 @@ allprojects (subproject -> {
     publishing {
         publications {
             maven(MavenPublication) {
+                groupId = 'com.signerry.sd-dss'
+
+                version "1.0.5"
+
                 artifact("${subproject.buildDir}/outputs/aar/${subproject.name}-release.aar")
 
                 pom.withXml {

@@ -91,8 +91,5 @@ jobs:
       - name: Upload Snapshot
         run: ./gradlew publish
         env:
-          ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.SIGNING_KEY_ID }}
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          GPR_USER: ${{ secrets.GITHUB_ACTOR }}
+          GPR_API_KEY: ${{ secrets.GPR_API_KEY }}

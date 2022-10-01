@@ -47,6 +47,7 @@ android {
 allprojects (subproject -> {
     apply plugin: 'com.android.library'
     apply plugin: 'de.mannodermaus.android-junit5'
+    apply plugin: 'maven-publish'
 
     configurations {
         compile.exclude group: 'org.hamcrest', name: 'hamcrest'
@@ -256,8 +257,32 @@ allprojects (subproject -> {
         testImplementation testFixtures(project(':dss-test-unit'))
 //        androidTestImplementation project(':dss-pades-pdfbox')
 
+    }
 
 
+    publish.dependsOn(build);
+
+
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                groupId 'com.signerry.sd-dss'
+                version "1.0.1"
+                artifact("${subproject.buildDir}/outputs/aar/${subproject.name}-release.aar")
+            }
+        }
+
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/egidijus-kuzma/dss-android")
+
+                credentials {
+                    username = System.getenv("GPR_USER")
+                    password = System.getenv("GPR_API_KEY")
+                }
+            }
+        }
     }
 })
 

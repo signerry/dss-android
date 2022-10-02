@@ -31,7 +31,6 @@ allprojects (subproject -> {
         publishing {
             singleVariant("release") {
                 withSourcesJar()
-                withJavadocJar()
             }
         }
 

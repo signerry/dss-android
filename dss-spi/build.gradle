@@ -6,7 +6,7 @@
 
 dependencies {
     api project(':dss-model')
-    api project(':dss-android')
+    api project(':dss-android-compatibility')
 
     api project(':dss-utils')
     api project(':dss-crl-parser')

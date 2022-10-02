@@ -12,7 +12,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
     testImplementation project(':dss-utils-google-guava')
     testImplementation project(':dss-crl-parser-stream')
-    testImplementation project(':dss-android')
+    testImplementation project(':dss-android-compatibility')
 }
 
 description = 'DSS Document'

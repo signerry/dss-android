@@ -77,7 +77,7 @@ include(':dss-model')
 ////include(':dss-certificate-validation-rest')
 include(':dss-asic-common')
 //include(':dss-bom')
-include ':dss-android'
+include('::dss-android-compatibility')
 
 include(':dss-test-unit')
 include(':dss-test-instrumented')

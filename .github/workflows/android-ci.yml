@@ -20,6 +20,7 @@ jobs:
         with:
           java-version: 11
           distribution: 'adopt'
+          cache: gradle
 
       - name: Build & Test
         run: ./gradlew build test
@@ -50,6 +51,7 @@ jobs:
         with:
           java-version: 11
           distribution: 'adopt'
+          cache: gradle
 
       - name: Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
@@ -71,7 +73,7 @@ jobs:
         run: exit 1
 
   publish-snapshot:
-    name: Publish OSS Sonatype Snapshot
+    name: Publish github packages
     runs-on: self-hosted
     if: "github.event_name == 'push'"
     needs:
@@ -87,9 +89,10 @@ jobs:
         with:
           java-version: 11
           distribution: 'adopt'
+          cache: gradle
 
       - name: Upload Snapshot
-        run: ./gradlew build publish -x test
+        run: ./gradlew publish
         env:
           GPR_USER: ${{ secrets.GITHUB_ACTOR }}
           GPR_API_KEY: ${{ secrets.GPR_API_KEY }}

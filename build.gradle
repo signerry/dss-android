@@ -1,4 +1,3 @@
-
 buildscript {
     repositories {
         mavenCentral()
@@ -15,10 +14,11 @@ buildscript {
     }
 }
 
+tasks.withType(GenerateModuleMetadata) {
+    enabled = false
+}
 
 allprojects (subproject -> {
-    version "1.0.5"
-
     apply plugin: 'com.android.library'
     apply plugin: 'de.mannodermaus.android-junit5'
     apply plugin: 'maven-publish'
@@ -28,30 +28,30 @@ allprojects (subproject -> {
     }
 
     android {
+        publishing {
+            singleVariant("release") {
+                withSourcesJar()
+                withJavadocJar()
+            }
+        }
 
         defaultConfig {
             testFixtures {
                 enable = true
             }
 
-            lintOptions {
-                abortOnError false
-            }
-
             testOptions {
                 unitTests.all {
                     systemProperty "file.encoding", "utf-8"
-
                     systemProperty "projectDir", project.rootDir
                 }
             }
 
             minSdkVersion 29
             compileSdkVersion 29
-            targetSdkVersion 30
+            targetSdkVersion 31
             multiDexEnabled true
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-            // 2) Connect JUnit 5 to the runner
             testInstrumentationRunnerArguments["runnerBuilder"] = "de.mannodermaus.junit5.AndroidJUnit5Builder"
         }
 
@@ -80,15 +80,11 @@ allprojects (subproject -> {
             exclude("META-INF/*.kotlin_module")
         }
 
-
         compileOptions {
             encoding 'UTF-8'
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
         }
-
-
-
 
         sourceSets {
             main {
@@ -107,7 +103,6 @@ allprojects (subproject -> {
         maven { url "https://maven.andob.info/repository/open_source" }
         maven { url "https://jitpack.io" }
         maven { url "https://ec.europa.eu/digital-building-blocks/artifact/content/repositories/esignaturedss" }
-
     }
 
     ext {
@@ -146,19 +141,8 @@ allprojects (subproject -> {
 
         androidTestImplementation('org.junit.jupiter:junit-jupiter:5.8.2')
 
-
-        // 5) The instrumentation test companion libraries
         androidTestImplementation("de.mannodermaus.junit5:android-test-core:1.4.2-SNAPSHOT")
         androidTestRuntimeOnly("de.mannodermaus.junit5:android-test-runner:1.4.2-SNAPSHOT")
-
-
-
-
-
-//        implementation 'com.github.ndpgroup:jaxb-android:0.2.0'
-
-//        implementation 'com.github.andob:android-awt:1.0.0'
-
 
         implementation 'com.h2database:h2:2.1.210'
 
@@ -178,8 +162,6 @@ allprojects (subproject -> {
         implementation "ch.qos.logback:logback-classic:${logback_classic_version}"
         implementation "org.apache.xmlgraphics:fop-core:${fop_core_version}"
         implementation "org.apache.xmlgraphics:xmlgraphics-commons:${fop_core_version}"
-//        implementation "xml-apis:xml-apis:${xml_apis_version}"
-//        implementation "jakarta.xml.bind:jakarta.xml.bind-api:${jakarta_bind_api_version}"
         implementation 'xerces:xercesImpl:2.12.2'
 
         if (subproject.name != 'dss-utils') {
@@ -187,23 +169,12 @@ allprojects (subproject -> {
             androidTestImplementation project(':dss-utils-google-guava')
         }
 
-
-
-
-
-//        implementation "jakarta.activation:jakarta.activation-api:${jakarta_activation_api_version}"
-//        implementation "org.glassfish.jaxb:jaxb-runtime:${jaxb_runtime_version}"
-        //   implementation "jakarta.ws.rs:jakarta.ws.rs-api:${jakarta_rs_api_version}"
         implementation "jakarta.xml.ws:jakarta.xml.ws-api:${jakarta_ws_api_version}"
-
-
         androidTestImplementation("org.awaitility:awaitility:${awaitility_version}") {
             exclude group: 'org.hamcrest', module: 'hamcrest'
         }
 
         testImplementation("org.awaitility:awaitility:${awaitility_version}")
-
-
         testImplementation "org.mockito:mockito-core:${mockito_version}"
         androidTestImplementation "org.mockito:mockito-android:${mockito_version}"
 
@@ -218,59 +189,37 @@ allprojects (subproject -> {
         androidTestImplementation 'org.json:json:20220320'
 
         implementation 'ro.andob.androidawt:androidawt:1.0.4'
-        // implementation 'com.github.orlleite:xerces-for-android:1.0'
-// https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api
         implementation 'org.glassfish.jaxb:jaxb-runtime:3.1.0-M1'
 
-
-//        testImplementation 'org.apache.commons:commons-lang3:3.12.0'
-//        testImplementation 'org.apache.commons:commons-collections4:4.4'
         androidTestImplementation project(':dss-crl-parser-x509crl')
         androidTestImplementation testFixtures(project(':dss-test'))
         testImplementation testFixtures(project(':dss-test'))
-
         androidTestImplementation testFixtures(project(':dss-test-instrumented'))
         testImplementation testFixtures(project(':dss-test-unit'))
 //        androidTestImplementation project(':dss-pades-pdfbox')
 
     }
 
-    publishing {
-        publications {
-            maven(MavenPublication) {
-                groupId = 'com.signerry.sd-dss'
-
-                version "1.0.5"
-
-                artifact("${subproject.buildDir}/outputs/aar/${subproject.name}-release.aar")
-
-                pom.withXml {
-                    def dependenciesNode = asNode().appendNode('dependencies')
-                    //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
-                    subproject.configurations.implementation.allDependencies.each {
-                        if(it.group != null && (it.name != null || "unspecified".equals(it.name)) && it.version != null)
-                        {
-                            def dependencyNode = dependenciesNode.appendNode('dependency')
-                            dependencyNode.appendNode('groupId', it.group)
-                            dependencyNode.appendNode('artifactId', it.name)
-                            dependencyNode.appendNode('version', it.version)
-                        }
-                    }
+    afterEvaluate {
+        publishing {
+            publications {
+                release(MavenPublication) {
+                    from components.release
+                    artifactId subproject.name
                 }
             }
-        }
 
-        repositories {
-            maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/egidijus-kuzma/dss-android")
+            repositories {
+                maven {
+                    name = "GitHubPackages"
+                    url = uri("https://maven.pkg.github.com/egidijus-kuzma/dss-android")
 
-                credentials {
-                    username = System.getenv("GPR_USER")
-                    password = System.getenv("GPR_API_KEY")
+                    credentials {
+                        username = System.getenv("GPR_USER")
+                        password = System.getenv("GPR_API_KEY")
+                    }
                 }
             }
         }
     }
 })
-

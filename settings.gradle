@@ -1,4 +1,3 @@
-rootProject.name = 'com.signerry.sd-dss'
 include(':dss-simple-report-jaxb')
 ////include(':dss-timestamp-remote-soap-client')
 ////include(':specs-jws')

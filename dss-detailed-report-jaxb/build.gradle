@@ -16,6 +16,7 @@
 //}
 
 description = 'JAXB Detailed Report Data Model'
+apply from: "../module-build.gradle"
 
 
 

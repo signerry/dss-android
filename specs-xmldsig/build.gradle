@@ -1,3 +1,5 @@
+apply from: "../module-build.gradle"
+
 dependencies {
     api project(':dss-jaxb-common')
     implementation 'org.glassfish.jaxb:jaxb-runtime:3.1.0-M1'

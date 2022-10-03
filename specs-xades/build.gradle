@@ -1,4 +1,5 @@
 description = 'JAXB ETSI XAdES Model'
+apply from: "../module-build.gradle"
 
 dependencies {
     api project(':dss-jaxb-parsers')

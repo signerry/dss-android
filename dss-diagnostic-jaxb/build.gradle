@@ -4,6 +4,7 @@
 
 
 
+apply from: "../module-build.gradle"
 
 dependencies {
 

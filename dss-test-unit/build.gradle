@@ -1,3 +1,6 @@
+apply from: "../module-build.gradle"
+
+
 dependencies {
     testFixturesImplementation testFixtures(project(':dss-utils'))
     testFixturesImplementation testFixtures(project(':dss-test'))

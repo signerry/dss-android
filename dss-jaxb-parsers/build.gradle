@@ -3,6 +3,7 @@
  */
 
 
+apply from: "../module-build.gradle"
 
 dependencies {
     api project(':dss-jaxb-common')

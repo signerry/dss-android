@@ -20,7 +20,7 @@
  */
 package eu.europa.esig.dss.pdf.pdfbox.visible.nativedrawer;
 
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import com.tom_roush.pdfbox.pdmodel.font.PDType1Font;
 
 import java.awt.Font;
 

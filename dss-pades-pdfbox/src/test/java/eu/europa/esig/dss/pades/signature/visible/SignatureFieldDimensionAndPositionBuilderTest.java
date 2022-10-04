@@ -29,11 +29,11 @@ import eu.europa.esig.dss.pdf.AnnotationBox;
 import eu.europa.esig.dss.pdf.pdfbox.visible.nativedrawer.PdfBoxDSSFontMetrics;
 import eu.europa.esig.dss.pdf.visible.SignatureFieldDimensionAndPosition;
 import eu.europa.esig.dss.pdf.visible.SignatureFieldDimensionAndPositionBuilder;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDType0Font;
+import com.tom_roush.pdfbox.pdmodel.PDDocument;
+import com.tom_roush.pdfbox.pdmodel.PDPage;
+import com.tom_roush.pdfbox.pdmodel.common.PDRectangle;
+import com.tom_roush.pdfbox.pdmodel.font.PDFont;
+import com.tom_roush.pdfbox.pdmodel.font.PDType0Font;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

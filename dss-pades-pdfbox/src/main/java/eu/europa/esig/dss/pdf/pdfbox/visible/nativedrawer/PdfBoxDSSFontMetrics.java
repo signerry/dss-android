@@ -22,7 +22,7 @@ package eu.europa.esig.dss.pdf.pdfbox.visible.nativedrawer;
 
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.pdf.visible.AbstractDSSFontMetrics;
-import org.apache.pdfbox.pdmodel.font.PDFont;
+import com.tom_roush.pdfbox.pdmodel.font.PDFont;
 
 import java.io.IOException;
 

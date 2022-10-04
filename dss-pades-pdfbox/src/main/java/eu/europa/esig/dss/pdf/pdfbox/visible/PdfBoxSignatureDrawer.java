@@ -22,8 +22,8 @@ package eu.europa.esig.dss.pdf.pdfbox.visible;
 
 import eu.europa.esig.dss.pades.SignatureImageParameters;
 import eu.europa.esig.dss.pdf.visible.SignatureDrawer;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions;
+import com.tom_roush.pdfbox.pdmodel.PDDocument;
+import com.tom_roush.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions;
 
 import java.io.IOException;
 

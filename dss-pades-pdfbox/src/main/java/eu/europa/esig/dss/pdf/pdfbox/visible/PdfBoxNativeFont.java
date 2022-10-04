@@ -22,7 +22,7 @@ package eu.europa.esig.dss.pdf.pdfbox.visible;
 
 import eu.europa.esig.dss.pades.AbstractDSSFont;
 import eu.europa.esig.dss.pades.DSSNativeFont;
-import org.apache.pdfbox.pdmodel.font.PDFont;
+import com.tom_roush.pdfbox.pdmodel.font.PDFont;
 
 import java.awt.Font;
 

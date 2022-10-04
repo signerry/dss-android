@@ -142,7 +142,8 @@ public class ImageUtils {
 	}
 
 	private static ImageResolution readAndDisplayMetadataJPEG(DSSDocument image) throws IOException {
-		try (InputStream is = image.openStream(); ImageInputStream iis = ImageIO.createImageInputStream(is)) {
+		try (InputStream is = image.openStream()) {
+			ImageInputStream iis = ImageIO.createImageInputStream(is);
 
 			ImageReader reader = getImageReader("jpeg");
 			// attach source to the reader
@@ -172,7 +173,8 @@ public class ImageUtils {
 	}
 
 	private static ImageResolution readAndDisplayMetadataPNG(DSSDocument image) throws IOException {
-		try (InputStream is = image.openStream(); ImageInputStream iis = ImageIO.createImageInputStream(is)) {
+		try (InputStream is = image.openStream();) {
+			ImageInputStream iis = ImageIO.createImageInputStream(is);
 
 			ImageReader reader = getImageReader("png");
 			// attach source to the reader
@@ -223,7 +225,8 @@ public class ImageUtils {
 	 * @return {@link AnnotationBox}
 	 */
 	public static AnnotationBox getImageBoundaryBox(DSSDocument imageDocument) {
-		try (InputStream is = imageDocument.openStream(); ImageInputStream iis = ImageIO.createImageInputStream(is)) {
+		try (InputStream is = imageDocument.openStream();) {
+			ImageInputStream iis = ImageIO.createImageInputStream(is);
 			ImageReader imageReader = getImageReader(iis);
 			imageReader.setInput(iis, true, true);
 			float width = imageReader.getWidth(0);
@@ -283,20 +286,19 @@ public class ImageUtils {
 	 * @throws IOException - in case of InputStream reading error
 	 */
 	public static BufferedImage toBufferedImage(InputStream is) throws IOException {
-		try (ImageInputStream iis = ImageIO.createImageInputStream(is)) {
-			ImageReader imageReader = getImageReader(iis);
-			imageReader.setInput(iis, true, true);
-			if (isSupportedColorSpace(imageReader)) {
-				return imageReader.read(0, imageReader.getDefaultReadParam());
-			}
-			LOG.warn("The image format is not supported by the current ImageReader!");
-			Raster raster = getRaster(imageReader);
-			if (isCMYKType(raster)) {
-				LOG.info("Converting from CMYK to RGB...");
-				return convertCMYKToRGB(raster);
-			}
-			throw new UnsupportedOperationException("The color space of image is not supported!");
+		ImageInputStream iis = ImageIO.createImageInputStream(is);
+		ImageReader imageReader = getImageReader(iis);
+		imageReader.setInput(iis, true, true);
+		if (isSupportedColorSpace(imageReader)) {
+			return imageReader.read(0, imageReader.getDefaultReadParam());
 		}
+		LOG.warn("The image format is not supported by the current ImageReader!");
+		Raster raster = getRaster(imageReader);
+		if (isCMYKType(raster)) {
+			LOG.info("Converting from CMYK to RGB...");
+			return convertCMYKToRGB(raster);
+		}
+		throw new UnsupportedOperationException("The color space of image is not supported!");
 	}
 
 	private static Raster getRaster(ImageReader imageReader) throws IOException {

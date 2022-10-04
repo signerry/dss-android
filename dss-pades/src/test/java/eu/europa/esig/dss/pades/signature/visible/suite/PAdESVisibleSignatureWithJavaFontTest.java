@@ -78,7 +78,7 @@ public class PAdESVisibleSignatureWithJavaFontTest extends PKIFactoryAccess {
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
 		textParameters.setTextColor(Color.GREEN);
-		textParameters.setFont(new DSSJavaFont(new Font(Font.SERIF, Font.BOLD, 28)));
+		textParameters.setFont(new DSSJavaFont(new Font(Font.SANS_SERIF, Font.BOLD, 28)));
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
 
@@ -91,7 +91,7 @@ public class PAdESVisibleSignatureWithJavaFontTest extends PKIFactoryAccess {
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
 		textParameters.setTextColor(Color.BLUE);
-		textParameters.setFont(new DSSJavaFont(Font.SERIF));
+		textParameters.setFont(new DSSJavaFont(Font.SANS_SERIF));
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
 
@@ -103,7 +103,7 @@ public class PAdESVisibleSignatureWithJavaFontTest extends PKIFactoryAccess {
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setFont(new DSSJavaFont(Font.SERIF, 15));
+		textParameters.setFont(new DSSJavaFont(Font.SANS_SERIF, 15));
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
 
@@ -116,7 +116,7 @@ public class PAdESVisibleSignatureWithJavaFontTest extends PKIFactoryAccess {
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
 		textParameters.setTextColor(Color.GRAY);
-		textParameters.setFont(new DSSJavaFont(Font.MONOSPACED, Font.ITALIC, 16));
+		textParameters.setFont(new DSSJavaFont(Font.SANS_SERIF, Font.ITALIC, 16));
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
 

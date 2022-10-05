@@ -9,6 +9,7 @@ dependencies {
     api project(':dss-cades')
     api project(':dss-service')
     api project(':dss-token')
+    testFixturesImplementation testFixtures(project(':dss-test'))
 
 
 

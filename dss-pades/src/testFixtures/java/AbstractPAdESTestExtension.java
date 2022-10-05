@@ -18,7 +18,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package eu.europa.esig.dss.pades.extension.suite;
 
 import eu.europa.esig.dss.crl.CRLBinary;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -37,6 +36,7 @@ import eu.europa.esig.dss.pades.validation.PDFDocumentValidator;
 import eu.europa.esig.dss.pdf.PdfDssDict;
 import eu.europa.esig.dss.spi.x509.revocation.ocsp.OCSPResponseBinary;
 import eu.europa.esig.dss.spi.x509.tsp.TSPSource;
+import eu.europa.esig.dss.test.PKIFactoryAccess;
 import eu.europa.esig.dss.test.extension.AbstractTestExtension;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
@@ -223,7 +223,7 @@ public abstract class AbstractPAdESTestExtension extends AbstractTestExtension<P
 
 	@Override
 	protected String getSigningAlias() {
-		return GOOD_USER;
+		return PKIFactoryAccess.GOOD_USER;
 	}
 
 }

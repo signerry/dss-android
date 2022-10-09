@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.signature;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -51,7 +53,7 @@ public class PdfBoxSignEncryptedWithCustomFixedSecureRandomTest extends Abstract
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/protected/open_protected.pdf"), "sample.pdf", MimeType.PDF);
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("protected/open_protected.pdf"), "sample.pdf", MimeType.PDF);
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

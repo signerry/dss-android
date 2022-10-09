@@ -28,11 +28,13 @@ import eu.europa.esig.dss.pades.validation.suite.AbstractPAdESTestValidation;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DSS2574Test extends AbstractPAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new InMemoryDocument(getClass().getResourceAsStream("/validation/muestra-firmado-firmado.pdf"));
+        return new InMemoryDocument(TestUtils.getResourceAsStream("validation/muestra-firmado-firmado.pdf"));
     }
 
     @Override

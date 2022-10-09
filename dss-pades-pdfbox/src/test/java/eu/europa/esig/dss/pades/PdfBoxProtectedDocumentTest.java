@@ -41,22 +41,24 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PdfBoxProtectedDocumentTest extends AbstractPAdESTestValidation {
 
 	private final String correctProtectionPhrase = " ";
 
 	private final DSSDocument openProtected = new InMemoryDocument(
-			getClass().getResourceAsStream("/protected/open_protected.pdf"), "sample.pdf", MimeType.PDF);
+			TestUtils.getResourceAsStream("protected/open_protected.pdf"), "sample.pdf", MimeType.PDF);
 
 	private final DSSDocument editionProtectedNone = new InMemoryDocument(
-			getClass().getResourceAsStream("/protected/edition_protected_none.pdf"), "sample.pdf", MimeType.PDF);
+			TestUtils.getResourceAsStream("protected/edition_protected_none.pdf"), "sample.pdf", MimeType.PDF);
 
 	private final DSSDocument editionProtectedSigningAllowedNoField = new InMemoryDocument(
-			getClass().getResourceAsStream("/protected/edition_protected_signing_allowed_no_field.pdf"), "sample.pdf",
+			TestUtils.getResourceAsStream("protected/edition_protected_signing_allowed_no_field.pdf"), "sample.pdf",
 			MimeType.PDF);
 
 	private final DSSDocument editionProtectedSigningAllowedWithField = new InMemoryDocument(
-			getClass().getResourceAsStream("/protected/edition_protected_signing_allowed_with_field.pdf"), "sample.pdf",
+			TestUtils.getResourceAsStream("protected/edition_protected_signing_allowed_with_field.pdf"), "sample.pdf",
 			MimeType.PDF);
 
 	@Test

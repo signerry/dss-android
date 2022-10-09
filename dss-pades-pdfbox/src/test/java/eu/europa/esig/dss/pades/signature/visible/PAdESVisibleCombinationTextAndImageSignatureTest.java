@@ -46,6 +46,8 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 @Tag("slow")
 public class PAdESVisibleCombinationTextAndImageSignatureTest extends AbstractTestVisualComparator {
 
@@ -61,7 +63,7 @@ public class PAdESVisibleCombinationTextAndImageSignatureTest extends AbstractTe
 	public void init(TestInfo testInfo) {
 		testName = testInfo.getTestMethod().get().getName();
 		
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());
@@ -131,7 +133,7 @@ public class PAdESVisibleCombinationTextAndImageSignatureTest extends AbstractTe
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
 		textParameters.setTextColor(Color.BLUE);
-		DSSFileFont font = new DSSFileFont(getClass().getResourceAsStream("/fonts/OpenSansBold.ttf"));
+		DSSFileFont font = new DSSFileFont(TestUtils.getResourceAsStream("fonts/OpenSansBold.ttf"));
 		font.setSize(15);
 		textParameters.setFont(font);
 		textParameters.setSignerTextPosition(SignerTextPosition.TOP);
@@ -220,11 +222,11 @@ public class PAdESVisibleCombinationTextAndImageSignatureTest extends AbstractTe
 	}
 
 	private DSSDocument getSmallRedJPG() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/small-red.jpg"), "small-red.jpg", MimeType.JPEG);
+		return new InMemoryDocument(TestUtils.getResourceAsStream("small-red.jpg"), "small-red.jpg", MimeType.JPEG);
 	}
 
 	private DSSDocument getPngPicture() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/signature-image.png"), "signature-image.png", MimeType.PNG);
+		return new InMemoryDocument(TestUtils.getResourceAsStream("signature-image.png"), "signature-image.png", MimeType.PNG);
 	}
 
 	@Override

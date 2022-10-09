@@ -29,6 +29,8 @@ import eu.europa.esig.dss.pdf.AnnotationBox;
 import eu.europa.esig.dss.pdf.pdfbox.visible.nativedrawer.PdfBoxDSSFontMetrics;
 import eu.europa.esig.dss.pdf.visible.SignatureFieldDimensionAndPosition;
 import eu.europa.esig.dss.pdf.visible.SignatureFieldDimensionAndPositionBuilder;
+
+import com.signerry.dss.test.TestUtils;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.pdmodel.PDPage;
 import com.tom_roush.pdfbox.pdmodel.common.PDRectangle;
@@ -46,8 +48,8 @@ public class SignatureFieldDimensionAndPositionBuilderTest {
 
     @Test
     public void dss2438Test() throws IOException {
-        DSSDocument document = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
-        DSSDocument image = new InMemoryDocument(getClass().getResourceAsStream("/signature-pen.png"));
+        DSSDocument document = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
+        DSSDocument image = new InMemoryDocument(TestUtils.getResourceAsStream("signature-pen.png"));
 
         try (InputStream is = document.openStream()) {
             PDDocument pdDocument = PDDocument.load(is);

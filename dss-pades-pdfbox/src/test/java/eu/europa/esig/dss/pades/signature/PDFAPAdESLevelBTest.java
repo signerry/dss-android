@@ -22,6 +22,8 @@ package eu.europa.esig.dss.pades.signature;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +45,7 @@ public class PDFAPAdESLevelBTest extends AbstractPAdESTestSignature {
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/not_signed_pdfa.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("not_signed_pdfa.pdf"));
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());

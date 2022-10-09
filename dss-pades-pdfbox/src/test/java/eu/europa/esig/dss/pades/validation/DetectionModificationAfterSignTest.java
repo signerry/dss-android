@@ -39,12 +39,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DetectionModificationAfterSignTest extends AbstractTestVisualComparator {
 
 	@Test
 	public void testWithModification() throws IOException {
 		DSSDocument dssDocument = new InMemoryDocument(
-				getClass().getResourceAsStream("/validation/modified_after_signature.pdf"));
+				TestUtils.getResourceAsStream("validation/modified_after_signature.pdf"));
 		SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(dssDocument);
 		validator.setCertificateVerifier(new CommonCertificateVerifier());
 
@@ -58,7 +60,7 @@ public class DetectionModificationAfterSignTest extends AbstractTestVisualCompar
 		DSSDocument retrievedDocument = retrievedDocuments.get(0);
 
 		DSSDocument expected = new InMemoryDocument(
-				getClass().getResourceAsStream("/validation/retrieved-modified_after_signature.pdf"));
+				TestUtils.getResourceAsStream("validation/retrieved-modified_after_signature.pdf"));
 		assertEquals(expected.getDigest(DigestAlgorithm.SHA256), retrievedDocument.getDigest(DigestAlgorithm.SHA256));
 
 		// Additional code to detect visual difference

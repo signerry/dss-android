@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pdf;
 
+import android.graphics.Bitmap;
+
 import eu.europa.esig.dss.pades.validation.PdfModification;
 import eu.europa.esig.dss.pdf.visible.ImageUtils;
 import eu.europa.esig.dss.spi.DSSUtils;
@@ -27,7 +29,6 @@ import eu.europa.esig.dss.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -113,13 +114,13 @@ public class PdfModificationDetectionUtils {
 		for (int pageNumber = 1; pageNumber <= signedRevisionReader.getNumberOfPages()
 				&& pageNumber <= finalRevisionReader.getNumberOfPages(); pageNumber++) {
 
-			BufferedImage signedScreenshot = signedRevisionReader.generateImageScreenshot(pageNumber);
+			Bitmap signedScreenshot = signedRevisionReader.generateImageScreenshot(pageNumber);
 
 			List<PdfAnnotation> signedAnnotations = signedRevisionReader.getPdfAnnotations(pageNumber);
 			List<PdfAnnotation> finalAnnotations = finalRevisionReader.getPdfAnnotations(pageNumber);
 
 			List<PdfAnnotation> addedAnnotations = getUpdatedAnnotations(signedAnnotations, finalAnnotations);
-			BufferedImage finalScreenshot = finalRevisionReader.generateImageScreenshotWithoutAnnotations(pageNumber,
+			Bitmap finalScreenshot = finalRevisionReader.generateImageScreenshotWithoutAnnotations(pageNumber,
 					addedAnnotations);
 
 			if (!ImageUtils.imagesEqual(signedScreenshot, finalScreenshot)) {

@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pdf.pdfbox;
 
+import android.graphics.Bitmap;
+
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.enumerations.CertificationPermission;
 import eu.europa.esig.dss.pades.exception.ProtectedDocumentException;
@@ -53,7 +55,6 @@ import com.tom_roush.pdfbox.rendering.PDFRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -305,13 +306,13 @@ public class PdfBoxDocumentReader implements PdfDocumentReader {
 	}
 
 	@Override
-	public BufferedImage generateImageScreenshot(int page) throws IOException {
+	public Bitmap generateImageScreenshot(int page) throws IOException {
 		PDFRenderer renderer = new PDFRenderer(pdDocument);
 		return renderer.renderImage(page - ImageUtils.DEFAULT_FIRST_PAGE);
 	}
 
 	@Override
-	public BufferedImage generateImageScreenshotWithoutAnnotations(int page, List<PdfAnnotation> annotations)
+	public Bitmap generateImageScreenshotWithoutAnnotations(int page, List<PdfAnnotation> annotations)
 			throws IOException {
 		List<PDAnnotation> pdAnnotations = getPageAnnotations(page);
 		pdAnnotations = getMatchingPDAnnotations(pdAnnotations, annotations);

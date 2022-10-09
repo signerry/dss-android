@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pdf.visible;
 
+import android.graphics.Bitmap;
+
 import eu.europa.esig.dss.exception.IllegalInputException;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DSSException;
@@ -251,12 +253,12 @@ public class ImageUtils {
 	/**
 	 * Transforms a {@code BufferedImage} to {@code DSSDocument}
 	 *
-	 * @param bufferedImage {@link BufferedImage} to convert
+	 * @param bitmap {@link BufferedImage} to convert
 	 * @return {@link DSSDocument}
 	 */
-	public static DSSDocument toDSSDocument(BufferedImage bufferedImage) {
+	public static DSSDocument toDSSDocument(Bitmap bitmap) {
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-			ImageIO.write(bufferedImage, "png", baos);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
 			return new InMemoryDocument(baos.toByteArray(), SCREENSHOT_PNG_NAME, MimeType.PNG);
 		} catch (IOException e) {
 			throw new DSSException(
@@ -376,7 +378,7 @@ public class ImageUtils {
 	 * @param img2 {@link BufferedImage}
 	 * @return TRUE if the two images are equal, FALSE otherwise
 	 */
-	public static boolean imagesEqual(BufferedImage img1, BufferedImage img2) {
+	public static boolean imagesEqual(Bitmap img1, Bitmap img2) {
 		if (imageDimensionsEqual(img1, img2)) {
 			int diffAmount = drawSubtractionImage(img1, img2, null);
 			return diffAmount == 0;
@@ -391,7 +393,7 @@ public class ImageUtils {
 	 * @param img2 {@link BufferedImage}
 	 * @return TRUE if the size dimensions of both images is equal, FALSE otherwise
 	 */
-	public static boolean imageDimensionsEqual(BufferedImage img1, BufferedImage img2) {
+	public static boolean imageDimensionsEqual(Bitmap img1, Bitmap img2) {
 		if ((img1.getWidth() != img2.getWidth()) || (img1.getHeight() != img2.getHeight())) {
 			LOG.warn("Screenshot comparison error! Images dimensions mismatch.");
 			return false;
@@ -407,14 +409,14 @@ public class ImageUtils {
 	 * @param outImg {@link BufferedImage} the output result (subtraction image)
 	 * @return amount of different pixels between two images
 	 */
-	public static int drawSubtractionImage(BufferedImage img1, BufferedImage img2, BufferedImage outImg) {
+	public static int drawSubtractionImage(Bitmap img1, Bitmap img2, Bitmap outImg) {
 		int diffAmount = 0;
 		int diff; // Defines current pixel color difference
 		int result; // Stores output pixel
 		for (int i = 0; i < img1.getHeight() && i < img2.getHeight(); i++) {
 			for (int j = 0; j < img1.getWidth() && j < img2.getWidth(); j++) {
-				int rgb1 = img1.getRGB(j, i);
-				int rgb2 = img2.getRGB(j, i);
+				int rgb1 = img1.getPixel(j, i);
+				int rgb2 = img2.getPixel(j, i);
 				int r1 = (rgb1 >> 16) & 0xff;
 				int g1 = (rgb1 >> 8) & 0xff;
 				int b1 = (rgb1) & 0xff;
@@ -438,7 +440,7 @@ public class ImageUtils {
 					// The RGB components are all the same
 					result = (diff << 16) | (diff << 8) | diff;
 					// Set result
-					outImg.setRGB(j, i, result);
+					outImg.setPixel(j, i, result);
 				}
 			}
 		}

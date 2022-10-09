@@ -20,12 +20,13 @@
  */
 package eu.europa.esig.dss.pdf.pdfbox;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
+
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.pdf.visible.ImageUtils;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -58,20 +59,20 @@ public class PdfBoxUtils {
 	 * @return {@link DSSDocument} PNG screenshot
 	 */
 	public static DSSDocument generateScreenshot(DSSDocument pdfDocument, String passwordProtection, int page) {
-		BufferedImage bufferedImage = generateBufferedImageScreenshot(pdfDocument, passwordProtection, page);
-		return ImageUtils.toDSSDocument(bufferedImage);
+		Bitmap bitmap = generateBitmapScreenshot(pdfDocument, passwordProtection, page);
+		return ImageUtils.toDSSDocument(bitmap);
 	}
 
 	/**
-	 * The method generates a BufferedImage for the specified page of the document
+	 * The method generates a Bitmap for the specified page of the document
 	 * 
 	 * @param pdfDocument        {@link DSSDocument} to generate screenshot for
 	 * @param passwordProtection {@link String} a PDF password protection phrase
 	 * @param page               a page number to be generates (starts from 1)
-	 * @return {@link BufferedImage}
+	 * @return {@link Bitmap}
 	 */
-	public static BufferedImage generateBufferedImageScreenshot(DSSDocument pdfDocument, String passwordProtection,
-			int page) {
+	public static Bitmap generateBitmapScreenshot(DSSDocument pdfDocument, String passwordProtection,
+												  int page) {
 		Objects.requireNonNull(pdfDocument, "pdfDocument shall be defined!");
 		try (PdfBoxDocumentReader reader = new PdfBoxDocumentReader(pdfDocument, passwordProtection)) {
 			return reader.generateImageScreenshot(page);
@@ -112,23 +113,21 @@ public class PdfBoxUtils {
 	 */
 	public static DSSDocument generateSubtractionImage(DSSDocument document1, String passwordDocument1,
 			int pageDocument1, DSSDocument document2, String passwordDocument2, int pageDocument2) {
-		BufferedImage screenshotDoc1 = generateBufferedImageScreenshot(document1, passwordDocument1, pageDocument1);
-		BufferedImage screenshotDoc2 = generateBufferedImageScreenshot(document2, passwordDocument2, pageDocument2);
+		Bitmap screenshotDoc1 = generateBitmapScreenshot(document1, passwordDocument1, pageDocument1);
+		Bitmap screenshotDoc2 = generateBitmapScreenshot(document2, passwordDocument2, pageDocument2);
 
 		int width = Math.max(screenshotDoc1.getWidth(), screenshotDoc2.getWidth());
 		int height = Math.max(screenshotDoc1.getHeight(), screenshotDoc2.getHeight());
 
-		BufferedImage outputImage = getOutputImage(width, height);
+		Bitmap outputImage = getOutputImage(width, height);
 		ImageUtils.drawSubtractionImage(screenshotDoc1, screenshotDoc2, outputImage);
 
 		return ImageUtils.toDSSDocument(outputImage);
 	}
 
-	private static BufferedImage getOutputImage(int width, int height) {
-		BufferedImage outputImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		Graphics2D drawer = outputImage.createGraphics();
-		drawer.setBackground(Color.WHITE);
-		drawer.clearRect(0, 0, width, height);
+	private static Bitmap getOutputImage(int width, int height) {
+		Bitmap outputImage = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+		outputImage.eraseColor(Color.WHITE);
 		return outputImage;
 	}
 

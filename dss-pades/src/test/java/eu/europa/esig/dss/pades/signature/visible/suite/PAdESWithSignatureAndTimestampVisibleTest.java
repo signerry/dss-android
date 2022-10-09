@@ -48,6 +48,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESWithSignatureAndTimestampVisibleTest extends AbstractPAdESTestSignature {
 
 	private DocumentSignatureService<PAdESSignatureParameters, PAdESTimestampParameters> service;
@@ -56,7 +58,7 @@ public class PAdESWithSignatureAndTimestampVisibleTest extends AbstractPAdESTest
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());
@@ -64,7 +66,7 @@ public class PAdESWithSignatureAndTimestampVisibleTest extends AbstractPAdESTest
 		signatureParameters.setSignatureLevel(SignatureLevel.PAdES_BASELINE_LTA);
 
 		SignatureImageParameters signatureImageParameters = new SignatureImageParameters();
-		signatureImageParameters.setImage(new InMemoryDocument(getClass().getResourceAsStream("/small-red.jpg"), "small-red.jpg", MimeType.JPEG));
+		signatureImageParameters.setImage(new InMemoryDocument(TestUtils.getResourceAsStream("small-red.jpg"), "small-red.jpg", MimeType.JPEG));
 		
 		SignatureFieldParameters fieldParameters = new SignatureFieldParameters();
 		fieldParameters.setOriginX(25);
@@ -118,7 +120,7 @@ public class PAdESWithSignatureAndTimestampVisibleTest extends AbstractPAdESTest
 		assertTrue(secureChanges.stream().map(c -> c.getType()).collect(Collectors.toSet()).contains("DocTimeStamp"));
 		for (XmlObjectModification objectModification : secureChanges) {
 			assertEquals(PdfObjectModificationType.CREATION, objectModification.getAction());
-			if (objectModification.getValue().contains("/DSS")) {
+			if (objectModification.getValue().contains("DSS")) {
 				dssDictFound = true;
 			}
 			if ("DocTimeStamp".equals(objectModification.getType())) {

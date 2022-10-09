@@ -23,6 +23,8 @@ package eu.europa.esig.dss.pades.signature.suite;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,7 +45,7 @@ public class PAdESLevelImpossibleLTExceptionTest extends AbstractPAdESTestSignat
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

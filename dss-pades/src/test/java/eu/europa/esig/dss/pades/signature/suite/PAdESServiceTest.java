@@ -55,6 +55,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESServiceTest extends PKIFactoryAccess {
 	
 	private static DSSDocument documentToSign;
@@ -62,7 +64,7 @@ public class PAdESServiceTest extends PKIFactoryAccess {
 	
 	@BeforeEach
 	public void init() {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"), "sample.pdf", MimeType.PDF);
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"), "sample.pdf", MimeType.PDF);
         service = new PAdESService(getCompleteCertificateVerifier());
         service.setTspSource(getGoodTsa());
 	}

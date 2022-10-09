@@ -43,11 +43,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PadesWrongDigestAlgoTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/wrong-digest-algo.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/wrong-digest-algo.pdf"));
 	}
 	
 	@Override

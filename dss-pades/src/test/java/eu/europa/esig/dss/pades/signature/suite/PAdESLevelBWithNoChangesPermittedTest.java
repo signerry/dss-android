@@ -43,6 +43,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESLevelBWithNoChangesPermittedTest extends AbstractPAdESTestSignature {
 
     private DSSDocument originalDocument;
@@ -53,7 +55,7 @@ public class PAdESLevelBWithNoChangesPermittedTest extends AbstractPAdESTestSign
 
     @BeforeEach
     public void init() throws Exception {
-        originalDocument = new InMemoryDocument(PAdESDoubleSignatureTest.class.getResourceAsStream("/sample.pdf"));
+        originalDocument = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
         signatureParameters = new PAdESSignatureParameters();
         signatureParameters.setSigningCertificate(getSigningCert());

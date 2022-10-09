@@ -29,6 +29,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESExtensionNonPDFToLTALevelTest extends AbstractPAdESTestExtension {
 
     @Override
@@ -44,7 +46,7 @@ public class PAdESExtensionNonPDFToLTALevelTest extends AbstractPAdESTestExtensi
     @Test
     public void test() throws Exception {
         DSSDocument documentToExtend = new InMemoryDocument(
-                getClass().getResourceAsStream("/signature-image.png"), "toExtend");
+                TestUtils.getResourceAsStream("signature-image.png"), "toExtend");
         Exception exception = assertThrows(IllegalInputException.class, () -> extendSignature(documentToExtend));
         assertEquals("Unable to extend the document with name 'toExtend'. PDF document is expected!",
                 exception.getMessage());

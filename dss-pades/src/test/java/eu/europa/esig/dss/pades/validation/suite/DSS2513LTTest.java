@@ -42,11 +42,13 @@ import java.util.TimeZone;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DSS2513LTTest extends AbstractPAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new InMemoryDocument(getClass().getResourceAsStream("/validation/belgian_pki_multiple_ocsps_lt.pdf"));
+        return new InMemoryDocument(TestUtils.getResourceAsStream("validation/belgian_pki_multiple_ocsps_lt.pdf"));
     }
 
     @Override

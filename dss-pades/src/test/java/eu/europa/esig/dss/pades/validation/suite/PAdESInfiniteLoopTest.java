@@ -24,6 +24,8 @@ import static java.time.Duration.ofMillis;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTimeoutPreemptively;
 
+import com.signerry.dss.test.TestUtils;
+
 import org.junit.jupiter.api.Test;
 
 import eu.europa.esig.dss.model.DSSDocument;
@@ -38,7 +40,7 @@ public class PAdESInfiniteLoopTest {
 	@Test
 	public void test() {
 		assertTimeoutPreemptively(ofMillis(3000), () -> {
-			DSSDocument dssDocument = new InMemoryDocument(getClass().getResourceAsStream("/validation/pades_infinite_loop.pdf"));
+			DSSDocument dssDocument = new InMemoryDocument(TestUtils.getResourceAsStream("validation/pades_infinite_loop.pdf"));
 	
 			PDFDocumentValidator validator = new PDFDocumentValidator(dssDocument);
 			validator.setCertificateVerifier(new CommonCertificateVerifier());
@@ -51,7 +53,7 @@ public class PAdESInfiniteLoopTest {
 	@Test
 	public void oppositeLoopTest() {
 		assertTimeoutPreemptively(ofMillis(3000), () -> {
-			DSSDocument dssDocument = new InMemoryDocument(getClass().getResourceAsStream("/validation/pades_opposite_infinite_loop.pdf"));
+			DSSDocument dssDocument = new InMemoryDocument(TestUtils.getResourceAsStream("validation/pades_opposite_infinite_loop.pdf"));
 	
 			PDFDocumentValidator validator = new PDFDocumentValidator(dssDocument);
 			validator.setCertificateVerifier(new CommonCertificateVerifier());

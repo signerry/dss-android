@@ -52,13 +52,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESFiveSignaturesDocTest extends AbstractPAdESTestValidation {
 	
 	private static byte[] previousSignatureSignerDocumentDigest = null;
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/pades-5-signatures-and-1-document-timestamp.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/pades-5-signatures-and-1-document-timestamp.pdf"));
 	}
 	
 	@Override

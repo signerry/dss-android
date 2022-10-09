@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.List;
 
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -43,7 +45,7 @@ public class DSS1794OcspTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/adbe_ocsp_signed.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/adbe_ocsp_signed.pdf"));
 	}
 	
 	@Override

@@ -46,14 +46,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESTimestampWithOrphanRefsTest extends AbstractPAdESTestValidation {
 
 	private static DSSDocument document;
 
 	@BeforeEach
 	public void init() {
-		document = new InMemoryDocument(PAdESTimestampWithOrphanRefsTest.class
-				.getResourceAsStream("/validation/dss-1959/pades-tst-with-orphan-refs.pdf"));
+		document = new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-1959/pades-tst-with-orphan-refs.pdf"));
 	}
 
 	@Override

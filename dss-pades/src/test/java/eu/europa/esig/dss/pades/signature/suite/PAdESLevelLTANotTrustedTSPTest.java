@@ -39,6 +39,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESLevelLTANotTrustedTSPTest extends AbstractPAdESTestSignature {
 
     private DocumentSignatureService<PAdESSignatureParameters, PAdESTimestampParameters> service;
@@ -47,7 +49,7 @@ public class PAdESLevelLTANotTrustedTSPTest extends AbstractPAdESTestSignature {
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+        documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
         signatureParameters = new PAdESSignatureParameters();
         signatureParameters.setSigningCertificate(getSigningCert());

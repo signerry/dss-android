@@ -26,6 +26,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.List;
 
 import eu.europa.esig.dss.diagnostic.CertificateRefWrapper;
@@ -45,7 +47,7 @@ public class DSS2025Test extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/DSS-2025.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/DSS-2025.pdf"));
 	}
 	
 	@Override

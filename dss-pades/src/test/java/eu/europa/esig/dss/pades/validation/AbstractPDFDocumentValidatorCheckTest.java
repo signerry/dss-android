@@ -23,6 +23,8 @@ package eu.europa.esig.dss.pades.validation;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,25 +64,25 @@ public abstract class AbstractPDFDocumentValidatorCheckTest extends AbstractTest
 	@Override
 	protected List<DSSDocument> getValidDocuments() {
 		List<DSSDocument> documents = new ArrayList<>();
-		documents.add(new InMemoryDocument(getClass().getResourceAsStream("/validation/pdf-signed-original.pdf")));
-		documents.add(new InMemoryDocument(getClass().getResourceAsStream("/validation/PAdES-LTA.pdf")));
-		documents.add(new InMemoryDocument(getClass().getResourceAsStream("/validation/encrypted.pdf")));
+		documents.add(new InMemoryDocument(TestUtils.getResourceAsStream("validation/pdf-signed-original.pdf")));
+		documents.add(new InMemoryDocument(TestUtils.getResourceAsStream("validation/PAdES-LTA.pdf")));
+		documents.add(new InMemoryDocument(TestUtils.getResourceAsStream("validation/encrypted.pdf")));
 		return documents;
 	}
 
 	@Override
 	protected DSSDocument getMalformedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/malformed-pades.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/malformed-pades.pdf"));
 	}
 
 	@Override
 	protected DSSDocument getOtherTypeDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/signature-image.png"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("signature-image.png"));
 	}
 
 	@Override
 	protected DSSDocument getNoSignatureDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/doc.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"));
 	}
 
 }

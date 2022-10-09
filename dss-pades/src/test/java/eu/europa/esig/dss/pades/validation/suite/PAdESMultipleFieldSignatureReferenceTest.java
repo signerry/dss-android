@@ -29,12 +29,14 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 /* See DSS-1895 */
 public class PAdESMultipleFieldSignatureReferenceTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/signature-referenced-from-multiple-fields.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/signature-referenced-from-multiple-fields.pdf"));
 	}
 	
 	@Override

@@ -42,11 +42,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DSS2601Test extends AbstractPAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new InMemoryDocument(getClass().getResourceAsStream("/validation/DSS-2601.pdf"));
+        return new InMemoryDocument(TestUtils.getResourceAsStream("validation/DSS-2601.pdf"));
     }
 
     @Override

@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.signature.suite;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -46,13 +48,13 @@ public class PAdESLevelBLoopTest extends AbstractPAdESTestSignature {
 
 	private static Stream<Arguments> data() throws IOException {
 		// We use this file because File.listFiles() doesn't work from another jar
-		String listFiles = "/files_to_sign.txt";
+		String listFiles = "files_to_sign.txt";
 
 		List<Arguments> args = new ArrayList<>();
-		try (BufferedReader br = new BufferedReader(new InputStreamReader(PAdESLevelBLoopTest.class.getResourceAsStream(listFiles)))) {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(TestUtils.getResourceAsStream(listFiles)))) {
 			String filepath;
 			while ((filepath = br.readLine()) != null) {
-				args.add(Arguments.of(new InMemoryDocument(PAdESLevelBLoopTest.class.getResourceAsStream(filepath), filepath, MimeType.PDF)));
+				args.add(Arguments.of(new InMemoryDocument(TestUtils.getResourceAsStream(filepath), filepath, MimeType.PDF)));
 			}
 
 		}

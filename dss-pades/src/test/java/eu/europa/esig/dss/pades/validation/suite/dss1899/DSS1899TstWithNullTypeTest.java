@@ -37,11 +37,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DSS1899TstWithNullTypeTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/pades-tst-with-null-type.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/pades-tst-with-null-type.pdf"));
 	}
 	
 	@Override

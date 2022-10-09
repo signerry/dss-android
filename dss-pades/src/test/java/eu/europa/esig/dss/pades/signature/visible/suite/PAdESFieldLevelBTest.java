@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.signature.visible.suite;
 
+import com.signerry.dss.test.TestUtils;
+
 import org.junit.jupiter.api.BeforeEach;
 
 import eu.europa.esig.dss.enumerations.SignatureLevel;
@@ -42,7 +44,7 @@ public class PAdESFieldLevelBTest extends AbstractPAdESTestSignature {
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/doc.pdf"), "doc.pdf", MimeType.PDF);
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"), "doc.pdf", MimeType.PDF);
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());
@@ -53,7 +55,7 @@ public class PAdESFieldLevelBTest extends AbstractPAdESTestSignature {
 		signatureParameters.setContactInfo("Jira");
 
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
-		imageParameters.setImage(new InMemoryDocument(getClass().getResourceAsStream("/signature-image.png"), "signature-image.png", MimeType.PNG));
+		imageParameters.setImage(new InMemoryDocument(TestUtils.getResourceAsStream("signature-image.png"), "signature-image.png", MimeType.PNG));
 		signatureParameters.setImageParameters(imageParameters);
 		SignatureFieldParameters fieldParameters = new SignatureFieldParameters();
 		imageParameters.setFieldParameters(fieldParameters);

@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.signature.visible.suite;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.enumerations.ImageScaling;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -41,7 +43,7 @@ import java.util.Date;
 public class PAdESVisibleImageScalingTest extends AbstractPAdESTestSignature {
 
     private final DSSDocument RED_CROSS_IMAGE = new InMemoryDocument(
-            getClass().getResourceAsStream("/small-red.jpg"), "small-red.jpg", MimeType.JPEG);
+            TestUtils.getResourceAsStream("small-red.jpg"), "small-red.jpg", MimeType.JPEG);
 
     private DocumentSignatureService<PAdESSignatureParameters, PAdESTimestampParameters> service;
     private PAdESSignatureParameters signatureParameters;
@@ -49,7 +51,7 @@ public class PAdESVisibleImageScalingTest extends AbstractPAdESTestSignature {
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+        documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
         signatureParameters = new PAdESSignatureParameters();
         signatureParameters.bLevel().setSigningDate(new Date());

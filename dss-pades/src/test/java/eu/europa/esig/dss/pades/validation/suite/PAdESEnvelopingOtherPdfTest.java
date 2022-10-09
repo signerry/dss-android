@@ -32,11 +32,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESEnvelopingOtherPdfTest extends AbstractPAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new InMemoryDocument(getClass().getResourceAsStream("/validation/pades-enveloping-other-pdf.pdf"));
+        return new InMemoryDocument(TestUtils.getResourceAsStream("validation/pades-enveloping-other-pdf.pdf"));
     }
 
     @Override

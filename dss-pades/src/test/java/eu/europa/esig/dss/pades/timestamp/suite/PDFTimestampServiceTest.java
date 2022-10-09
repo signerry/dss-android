@@ -40,6 +40,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PDFTimestampServiceTest extends AbstractPAdESTestValidation {
 
 	@Override
@@ -49,7 +51,7 @@ public class PDFTimestampServiceTest extends AbstractPAdESTestValidation {
 
 		PAdESTimestampParameters parameters = new PAdESTimestampParameters();
 
-		DSSDocument document = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		DSSDocument document = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 		DSSDocument timestamped = service.timestamp(document, parameters);
 		
 		return timestamped;

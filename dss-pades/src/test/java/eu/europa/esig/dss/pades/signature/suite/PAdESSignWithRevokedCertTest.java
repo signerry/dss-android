@@ -37,6 +37,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESSignWithRevokedCertTest extends AbstractPAdESTestSignature {
 
     private DocumentSignatureService<PAdESSignatureParameters, PAdESTimestampParameters> service;
@@ -47,7 +49,7 @@ public class PAdESSignWithRevokedCertTest extends AbstractPAdESTestSignature {
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new InMemoryDocument(PAdESLevelBTest.class.getResourceAsStream("/sample.pdf"));
+        documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
         service = new PAdESService(getCompleteCertificateVerifier());
         service.setTspSource(getGoodTsa());
     }

@@ -23,6 +23,8 @@ package eu.europa.esig.dss.pades.validation.suite;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.List;
 
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -40,7 +42,7 @@ public class PdfPkcs7Test extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/pkcs7.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/pkcs7.pdf"));
 	}
 	
 	@Override

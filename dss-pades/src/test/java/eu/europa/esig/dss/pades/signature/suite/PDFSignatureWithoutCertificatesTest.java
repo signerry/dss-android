@@ -39,6 +39,8 @@ import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PDFSignatureWithoutCertificatesTest extends AbstractPAdESTestSignature {
 
     private DocumentSignatureService<PAdESSignatureParameters, PAdESTimestampParameters> service;
@@ -47,7 +49,7 @@ public class PDFSignatureWithoutCertificatesTest extends AbstractPAdESTestSignat
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+        documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
         signatureParameters = new PAdESSignatureParameters();
         signatureParameters.setSignaturePackaging(SignaturePackaging.ENVELOPING);

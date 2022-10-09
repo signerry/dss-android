@@ -48,6 +48,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESMultipleVisibleSignaturesTest extends AbstractPAdESTestValidation {
 	
 	private static DSSDocument image;
@@ -58,7 +60,7 @@ public class PAdESMultipleVisibleSignaturesTest extends AbstractPAdESTestValidat
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());
@@ -69,7 +71,7 @@ public class PAdESMultipleVisibleSignaturesTest extends AbstractPAdESTestValidat
 		service = new PAdESService(getCompleteCertificateVerifier());
 		service.setTspSource(getGoodTsa());
 		
-		image = new InMemoryDocument(getClass().getResourceAsStream("/small-red.jpg"), "small-red.jpg", MimeType.JPEG);
+		image = new InMemoryDocument(TestUtils.getResourceAsStream("small-red.jpg"), "small-red.jpg", MimeType.JPEG);
 	}
 	
 	@Test

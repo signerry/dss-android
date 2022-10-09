@@ -22,6 +22,8 @@ package eu.europa.esig.dss.pades.validation.suite.dss1469;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
@@ -40,7 +42,7 @@ public class DSS1469Test extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/doc-firmado.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/doc-firmado.pdf"));
 	}
 	
 	@Override

@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.signature.visible.suite;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.VisualSignatureRotation;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -69,13 +71,13 @@ public class PAdESVisibleSignRotatedDocumentTest extends AbstractPAdESTestSignat
 
     private static Stream<Arguments> data() {
         List<DSSDocument> signable = new ArrayList<>();
-        signable.add(new InMemoryDocument(PAdESVisibleSignRotatedDocumentTest.class.getResourceAsStream("/visualSignature/test.pdf"), "test"));
-        signable.add(new InMemoryDocument(PAdESVisibleSignRotatedDocumentTest.class.getResourceAsStream("/visualSignature/test_90.pdf"), "test_90"));
-        signable.add(new InMemoryDocument(PAdESVisibleSignRotatedDocumentTest.class.getResourceAsStream("/visualSignature/test_180.pdf"), "test_180"));
-        signable.add(new InMemoryDocument(PAdESVisibleSignRotatedDocumentTest.class.getResourceAsStream("/visualSignature/test_270.pdf"), "test_270"));
-        signable.add(new InMemoryDocument(PAdESVisibleSignRotatedDocumentTest.class.getResourceAsStream("/visualSignature/test_-90.pdf"), "test_-90"));
-        signable.add(new InMemoryDocument(PAdESVisibleSignRotatedDocumentTest.class.getResourceAsStream("/visualSignature/test_-180.pdf"), "test_-180"));
-        signable.add(new InMemoryDocument(PAdESVisibleSignRotatedDocumentTest.class.getResourceAsStream("/visualSignature/test_-270.pdf"), "test_-270"));
+        signable.add(new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test.pdf"), "test"));
+        signable.add(new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_90.pdf"), "test_90"));
+        signable.add(new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_180.pdf"), "test_180"));
+        signable.add(new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_270.pdf"), "test_270"));
+        signable.add(new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_-90.pdf"), "test_-90"));
+        signable.add(new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_-180.pdf"), "test_-180"));
+        signable.add(new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_-270.pdf"), "test_-270"));
 
         Collection<Arguments> dataToRun = new ArrayList<>();
         for (DSSDocument document : signable) {
@@ -127,7 +129,7 @@ public class PAdESVisibleSignRotatedDocumentTest extends AbstractPAdESTestSignat
         SignatureImageParameters imageParameters = new SignatureImageParameters();
         imageParameters.setBackgroundColor(Color.PINK);
         imageParameters.setRotation(rotation);
-        imageParameters.setImage(new InMemoryDocument(PAdESVisibleSignRotatedDocumentTest.class.getResourceAsStream("/signature-image.png")));
+        imageParameters.setImage(new InMemoryDocument(TestUtils.getResourceAsStream("signature-image.png")));
 
         SignatureFieldParameters fieldParameters = new SignatureFieldParameters();
         fieldParameters.setOriginX(100);

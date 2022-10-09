@@ -22,6 +22,8 @@ package eu.europa.esig.dss.pades.validation.suite;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlDigestAlgoAndValue;
@@ -38,7 +40,7 @@ public class DSS2116WithPAdESTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/Signature-P-HU_MIC-1.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/Signature-P-HU_MIC-1.pdf"));
 	}
 	
 	@Override

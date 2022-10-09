@@ -51,12 +51,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESTimestampTest extends AbstractPkiFactoryTestValidation<PAdESSignatureParameters, PAdESTimestampParameters> {
 
 	@Test
 	public void test() {
 		
-		DSSDocument documentToTimestamp = new InMemoryDocument(PAdESLevelBTest.class.getResourceAsStream("/sample.pdf"));
+		DSSDocument documentToTimestamp = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 		
 		PAdESService service = new PAdESService(getOfflineCertificateVerifier());
 		service.setTspSource(getGoodTsa());

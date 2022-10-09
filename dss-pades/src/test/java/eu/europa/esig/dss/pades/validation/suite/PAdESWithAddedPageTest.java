@@ -37,11 +37,13 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESWithAddedPageTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/pdf-signed-added-page.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/pdf-signed-added-page.pdf"));
 	}
 	
 	@Override

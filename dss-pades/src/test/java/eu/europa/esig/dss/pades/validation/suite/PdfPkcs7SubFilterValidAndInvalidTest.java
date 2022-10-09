@@ -37,11 +37,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PdfPkcs7SubFilterValidAndInvalidTest extends AbstractPAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new InMemoryDocument(getClass().getResourceAsStream("/validation/pkcs7-no-message-digest.pdf"));
+        return new InMemoryDocument(TestUtils.getResourceAsStream("validation/pkcs7-no-message-digest.pdf"));
     }
 
     @Override

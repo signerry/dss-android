@@ -43,11 +43,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DSS1794CrlTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/adbe_crl_signed.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/adbe_crl_signed.pdf"));
 	}
 	
 	@Override

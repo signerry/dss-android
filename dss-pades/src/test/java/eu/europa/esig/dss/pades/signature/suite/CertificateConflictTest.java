@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.InputStream;
 import java.security.KeyStore.PasswordProtection;
 
@@ -56,7 +58,7 @@ public class CertificateConflictTest {
 
 	@Test
 	public void testPadesCaDuplicate() {
-		DSSDocument doc = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"), "sample.pdf", MimeType.PDF);
+		DSSDocument doc = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"), "sample.pdf", MimeType.PDF);
 		DSSDocument signedDocument = padesSign(doc);
 		assertEquals(MimeType.PDF, signedDocument.getMimeType());
 		padesVerifyPreviousKeystore(signedDocument);
@@ -64,7 +66,7 @@ public class CertificateConflictTest {
 	}
 
 	private DSSDocument padesSign(DSSDocument document) {
-		InputStream pkcs12Stream = getClass().getResourceAsStream("/cert-conflict/previousKeystore.pfx");
+		InputStream pkcs12Stream = TestUtils.getResourceAsStream("cert-conflict/previousKeystore.pfx");
 		Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(pkcs12Stream, passwordProtection);
 		DSSPrivateKeyEntry privateKey = signatureToken.getKeys().get(0);
 
@@ -86,7 +88,7 @@ public class CertificateConflictTest {
 	}
 
 	private void padesVerifyPreviousKeystore(DSSDocument signedDocument) {
-		InputStream pkcs12Stream = getClass().getResourceAsStream("/cert-conflict/previousKeystore.pfx");
+		InputStream pkcs12Stream = TestUtils.getResourceAsStream("cert-conflict/previousKeystore.pfx");
 		Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(pkcs12Stream, passwordProtection);
 		DSSPrivateKeyEntry privateKey = signatureToken.getKeys().get(0);
 
@@ -109,7 +111,7 @@ public class CertificateConflictTest {
 	}
 
 	private void padesVerifyCurrentKeystore(DSSDocument signedDocument) {
-		InputStream pkcs12Stream = getClass().getResourceAsStream("/cert-conflict/currentKeystore.pfx");
+		InputStream pkcs12Stream = TestUtils.getResourceAsStream("cert-conflict/currentKeystore.pfx");
 		Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(pkcs12Stream, passwordProtection);
 		DSSPrivateKeyEntry privateKey = signatureToken.getKeys().get(0);
 

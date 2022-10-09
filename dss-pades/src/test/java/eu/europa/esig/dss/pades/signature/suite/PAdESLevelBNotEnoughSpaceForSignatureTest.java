@@ -35,11 +35,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESLevelBNotEnoughSpaceForSignatureTest extends PKIFactoryAccess {
 
 	@Test
 	public void testException() throws Exception {
-		DSSDocument toBeSigned = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		DSSDocument toBeSigned = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
 		PAdESSignatureParameters signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

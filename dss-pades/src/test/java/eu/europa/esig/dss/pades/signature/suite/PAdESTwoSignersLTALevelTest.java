@@ -23,6 +23,8 @@ package eu.europa.esig.dss.pades.signature.suite;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,7 +55,7 @@ public class PAdESTwoSignersLTALevelTest extends PKIFactoryAccess {
 	@Test
 	public void test() throws Exception {
 
-		DSSDocument toBeSigned = new InMemoryDocument(PAdESTwoSignersLTALevelTest.class.getResourceAsStream("/sample.pdf"));
+		DSSDocument toBeSigned = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
 		PAdESService service = new PAdESService(getCompleteCertificateVerifier());
 

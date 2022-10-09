@@ -27,11 +27,13 @@ import eu.europa.esig.dss.model.InMemoryDocument;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESMultiplePagesAnnotationsOverlapTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/pades-multiple-pages-annots-overlap.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/pades-multiple-pages-annots-overlap.pdf"));
 	}
 	
 	@Override

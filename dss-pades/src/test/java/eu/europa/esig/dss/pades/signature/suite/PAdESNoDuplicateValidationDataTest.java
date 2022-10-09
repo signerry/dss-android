@@ -48,12 +48,14 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESNoDuplicateValidationDataTest extends PKIFactoryAccess {
 	
 	@Test
 	public void test() throws IOException {
 		
-		DSSDocument toBeSigned = new InMemoryDocument(PAdESNoDuplicateValidationDataTest.class.getResourceAsStream("/sample.pdf"));
+		DSSDocument toBeSigned = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
 		PAdESService service = new PAdESService(getCompleteCertificateVerifier());
 		service.setTspSource(getGoodTsa());

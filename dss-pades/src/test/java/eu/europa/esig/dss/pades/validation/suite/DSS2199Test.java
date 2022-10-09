@@ -34,6 +34,8 @@ import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DSS2199Test extends AbstractPAdESTestValidation {
 	
 	private CertificateVerifier certificateVerifier;
@@ -51,7 +53,7 @@ public class DSS2199Test extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/DSS-2199.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/DSS-2199.pdf"));
 	}
 	
 	@Override

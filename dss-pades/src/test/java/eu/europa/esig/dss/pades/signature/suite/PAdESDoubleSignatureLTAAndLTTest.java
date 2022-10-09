@@ -40,6 +40,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESDoubleSignatureLTAAndLTTest extends AbstractPAdESTestSignature {
 
     private DSSDocument originalDocument;
@@ -55,7 +57,7 @@ public class PAdESDoubleSignatureLTAAndLTTest extends AbstractPAdESTestSignature
         service = new PAdESService(getCompleteCertificateVerifier());
         service.setTspSource(getGoodTsa());
 
-        originalDocument = new InMemoryDocument(PAdESDoubleSignatureTest.class.getResourceAsStream("/sample.pdf"));
+        originalDocument = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
     }
 
     @Override

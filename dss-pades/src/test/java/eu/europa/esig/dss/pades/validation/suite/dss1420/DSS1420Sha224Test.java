@@ -25,6 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.List;
 import java.util.Set;
 
@@ -41,7 +43,7 @@ public class DSS1420Sha224Test extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/dss-1420/PAdES-BpB-att-SHA256-SHA3_224withRSA.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-1420/PAdES-BpB-att-SHA256-SHA3_224withRSA.pdf"));
 	}
 	
 	@Override

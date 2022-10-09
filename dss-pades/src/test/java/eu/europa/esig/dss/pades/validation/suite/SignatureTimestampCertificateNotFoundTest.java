@@ -37,12 +37,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 // See DSS-2025
 public class SignatureTimestampCertificateNotFoundTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/TestToSignPDFSHA256_TST_SIG_NOT_FOUND.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/TestToSignPDFSHA256_TST_SIG_NOT_FOUND.pdf"));
 	}
 	
 	@Override

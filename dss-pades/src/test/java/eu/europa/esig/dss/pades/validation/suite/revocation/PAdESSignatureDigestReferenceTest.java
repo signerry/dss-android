@@ -23,6 +23,8 @@ package eu.europa.esig.dss.pades.validation.suite.revocation;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.List;
 
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -40,7 +42,7 @@ public class PAdESSignatureDigestReferenceTest extends AbstractPAdESTestValidati
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/pdf-signed-original.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/pdf-signed-original.pdf"));
 	}
 	
 	@Override

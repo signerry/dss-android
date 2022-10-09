@@ -25,6 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +50,7 @@ public class ASN1PolicyTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/AD-RB.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/AD-RB.pdf"));
 	}
 	
 	@Override
@@ -57,7 +59,7 @@ public class ASN1PolicyTest extends AbstractPAdESTestValidation {
 		SignaturePolicyProvider signaturePolicyProvider = new SignaturePolicyProvider();
 		Map<String, DSSDocument> signaturePoliciesByUrl = new HashMap<>();
 		signaturePoliciesByUrl.put("http://politicas.icpbrasil.gov.br/PA_PAdES_AD_RB_v1_0.der",
-				new InMemoryDocument(getClass().getResourceAsStream("/validation/PA_PAdES_AD_RB_v1_0.der")));
+				new InMemoryDocument(TestUtils.getResourceAsStream("validation/PA_PAdES_AD_RB_v1_0.der")));
 		signaturePolicyProvider.setSignaturePoliciesByUrl(signaturePoliciesByUrl);
 		validator.setSignaturePolicyProvider(signaturePolicyProvider);
 		return validator;

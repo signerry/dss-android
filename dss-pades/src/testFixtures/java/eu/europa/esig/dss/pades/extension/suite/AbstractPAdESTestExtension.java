@@ -18,6 +18,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+package eu.europa.esig.dss.pades.extension.suite;
 
 import eu.europa.esig.dss.crl.CRLBinary;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -62,6 +63,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public abstract class AbstractPAdESTestExtension extends AbstractTestExtension<PAdESSignatureParameters, PAdESTimestampParameters> {
 
 	@Override
@@ -76,8 +79,8 @@ public abstract class AbstractPAdESTestExtension extends AbstractTestExtension<P
 
 	@Override
 	protected FileDocument getOriginalDocument() {
-		File originalDoc = new File("target/original-" + UUID.randomUUID().toString() + ".pdf");
-		try (FileOutputStream fos = new FileOutputStream(originalDoc); InputStream is = AbstractPAdESTestExtension.class.getResourceAsStream("/sample.pdf")) {
+		File originalDoc = TestUtils.getTmpFile("original-" + UUID.randomUUID().toString() + ".pdf");
+		try (FileOutputStream fos = new FileOutputStream(originalDoc); InputStream is = TestUtils.getResourceAsStream("sample.pdf")) {
 			Utils.copy(is, fos);
 		} catch (IOException e) {
 			throw new DSSException("Unable to create the original document", e);

@@ -127,10 +127,8 @@ dependencies {
 //        implementation "org.apache.pdfbox:preflight:${pdfbox_version}"
 //        implementation "com.github.librepdf:openpdf:${openpdf_version}"
     implementation "org.apache.santuario:xmlsec:${xmlsec_version}"
-    implementation "org.bouncycastle:bcprov-jdk15on:${bouncycastle_version}"
-    testFixturesImplementation "org.bouncycastle:bcprov-jdk15on:${bouncycastle_version}"
-
-    implementation "org.bouncycastle:bcpkix-jdk15on:${bouncycastle_version}"
+    api "org.bouncycastle:bcprov-jdk15on:${bouncycastle_version}"
+    api "org.bouncycastle:bcpkix-jdk15on:${bouncycastle_version}"
 //        implementation "org.bitbucket.b_c:jose4j:${jose4j_version}"
 //        implementation "org.slf4j:slf4j-api:${slf4j_version}"
 //        implementation "org.slf4j:jcl-over-slf4j:${slf4j_version}"
@@ -172,6 +170,7 @@ dependencies {
     androidTestImplementation testFixtures(project(':dss-test-instrumented'))
     testImplementation testFixtures(project(':dss-test-unit'))
     androidTestImplementation project(':dss-pades-pdfbox')
+    testImplementation project(':dss-pades-pdfbox')
 
 }
 

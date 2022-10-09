@@ -41,9 +41,7 @@ import com.tom_roush.pdfbox.pdmodel.interactive.form.PDSignatureField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.color.ColorSpace;
-import java.awt.color.ICC_Profile;
-import java.io.ByteArrayInputStream;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
@@ -158,16 +156,15 @@ public abstract class AbstractPdfBoxSignatureDrawer implements PdfBoxSignatureDr
 	protected void addColorSpace(PDDocumentCatalog catalog, String colorSpaceName) throws IOException {
 		// sRGB supports both RGB and Grayscale color spaces
 		if (COSName.DEVICERGB.getName().equals(colorSpaceName) || COSName.DEVICEGRAY.getName().equals(colorSpaceName)) {
-			int colorSpace = ColorSpace.CS_sRGB;
+
+			InputStream resourceAsStream = AbstractPdfBoxSignatureDrawer.class.getResourceAsStream("/color-profiles/sRGB.pf");
 			String outputCondition = OUTPUT_INTENT_SRGB_PROFILE;
 
-			ICC_Profile iccProfile = ICC_Profile.getInstance(colorSpace);
-			try (InputStream is = new ByteArrayInputStream(iccProfile.getData())) {
-				PDOutputIntent outputIntent = new PDOutputIntent(document, is);
-				outputIntent.setOutputCondition(outputCondition);
-				outputIntent.setOutputConditionIdentifier(outputCondition);
-				catalog.setOutputIntents(Collections.singletonList(outputIntent));
-			}
+			PDOutputIntent outputIntent = new PDOutputIntent(document, resourceAsStream);
+			outputIntent.setOutputCondition(outputCondition);
+			outputIntent.setOutputConditionIdentifier(outputCondition);
+			catalog.setOutputIntents(Collections.singletonList(outputIntent));
+
 			LOG.info("No color profile is present in the provided document. " +
 					"A new color profile '{}' has been added.", outputCondition);
 

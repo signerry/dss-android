@@ -10,8 +10,8 @@ dependencies {
     api project(':dss-service')
     api project(':dss-token')
     testFixturesImplementation testFixtures(project(':dss-test'))
-
-
+    androidTestImplementation testFixtures(project(':dss-pades'))
+    testImplementation testFixtures(project(':dss-pades'))
 
 }
 

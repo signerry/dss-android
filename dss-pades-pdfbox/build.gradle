@@ -7,17 +7,19 @@ apply from: "../module-build.gradle"
 
 dependencies {
     api project(':dss-pades')
+    testImplementation testFixtures(project(':dss-pades'))
+    androidTestImplementation testFixtures(project(':dss-pades'))
+
     //implementation 'org.apache.pdfbox:pdfbox:2.0.25'
     api('com.tom-roush:pdfbox-android:2.0.25.0') {
         exclude group: 'org.bouncycastle'
     }
 
-    testImplementation 'org.apache.pdfbox:preflight:2.0.25'
-
-
-
-
-    testImplementation 'org.junit.platform:junit-platform-suite-engine:1.8.2'
+    androidTestImplementation (
+            group: 'com.aspose',
+            name: 'aspose-pdf',
+            version: '20.11',
+            classifier: 'android.via.java')
 }
 
 description = 'DSS PAdES using PDFBox'

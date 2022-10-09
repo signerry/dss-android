@@ -23,7 +23,7 @@ package eu.europa.esig.dss.pdf.pdfbox;
 import eu.europa.esig.dss.pdf.IPdfObjFactory;
 import eu.europa.esig.dss.pdf.PDFServiceMode;
 import eu.europa.esig.dss.pdf.PDFSignatureService;
-import eu.europa.esig.dss.pdf.pdfbox.visible.defaultdrawer.PdfBoxDefaultSignatureDrawerFactory;
+import eu.europa.esig.dss.pdf.pdfbox.visible.nativedrawer.PdfBoxNativeSignatureDrawerFactory;
 
 /**
  * The PDFBox default implementation of {@code IPdfObjFactory}
@@ -33,22 +33,22 @@ public class PdfBoxDefaultObjectFactory implements IPdfObjFactory {
 
 	@Override
 	public PDFSignatureService newPAdESSignatureService() {
-		return new PdfBoxSignatureService(PDFServiceMode.SIGNATURE, new PdfBoxDefaultSignatureDrawerFactory());
+		return new PdfBoxSignatureService(PDFServiceMode.SIGNATURE, new PdfBoxNativeSignatureDrawerFactory());
 	}
 
 	@Override
 	public PDFSignatureService newContentTimestampService() {
-		return new PdfBoxSignatureService(PDFServiceMode.CONTENT_TIMESTAMP, new PdfBoxDefaultSignatureDrawerFactory());
+		return new PdfBoxSignatureService(PDFServiceMode.CONTENT_TIMESTAMP, new PdfBoxNativeSignatureDrawerFactory());
 	}
 
 	@Override
 	public PDFSignatureService newSignatureTimestampService() {
-		return new PdfBoxSignatureService(PDFServiceMode.SIGNATURE_TIMESTAMP, new PdfBoxDefaultSignatureDrawerFactory());
+		return new PdfBoxSignatureService(PDFServiceMode.SIGNATURE_TIMESTAMP, new PdfBoxNativeSignatureDrawerFactory());
 	}
 
 	@Override
 	public PDFSignatureService newArchiveTimestampService() {
-		return new PdfBoxSignatureService(PDFServiceMode.ARCHIVE_TIMESTAMP, new PdfBoxDefaultSignatureDrawerFactory());
+		return new PdfBoxSignatureService(PDFServiceMode.ARCHIVE_TIMESTAMP, new PdfBoxNativeSignatureDrawerFactory());
 	}
 
 }

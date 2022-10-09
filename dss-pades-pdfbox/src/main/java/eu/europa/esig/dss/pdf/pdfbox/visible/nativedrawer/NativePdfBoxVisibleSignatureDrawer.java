@@ -31,6 +31,8 @@ import eu.europa.esig.dss.pdf.visible.DSSFontMetrics;
 import eu.europa.esig.dss.pdf.visible.ImageRotationUtils;
 import eu.europa.esig.dss.pdf.visible.ImageUtils;
 import eu.europa.esig.dss.pdf.visible.SignatureFieldDimensionAndPosition;
+
+import com.tom_roush.harmony.awt.AWTColor;
 import com.tom_roush.pdfbox.cos.COSName;
 import com.tom_roush.pdfbox.io.IOUtils;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
@@ -335,7 +337,9 @@ public class NativePdfBoxVisibleSignatureDrawer extends AbstractPdfBoxSignatureD
 
 	private void setNonStrokingColor(PDPageContentStream cs, Color color) throws IOException {
 		if (color != null) {
-			cs.setNonStrokingColor(color);
+
+			AWTColor awtColor = new AWTColor(color.getRed(), color.getGreen(), color.getBlue());
+			cs.setNonStrokingColor(awtColor);
 		}
 	}
 

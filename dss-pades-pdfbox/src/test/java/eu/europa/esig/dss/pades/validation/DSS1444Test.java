@@ -35,6 +35,8 @@ import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.validation.CommonCertificateVerifier;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import eu.europa.esig.dss.validation.reports.Reports;
+
+import com.signerry.dss.test.TestUtils;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import org.junit.jupiter.api.Test;
 
@@ -52,7 +54,7 @@ public class DSS1444Test {
 
 	@Test
 	public void test() throws IOException {
-		try (InputStream is = getClass().getResourceAsStream("/EmptyPage-corrupted.pdf")) {
+		try (InputStream is = TestUtils.getResourceAsStream("EmptyPage-corrupted.pdf")) {
 			Exception exception = assertThrows(IOException.class, () -> PDDocument.load(is));
 			assertEquals("Page tree root must be a dictionary", exception.getMessage());
 		}
@@ -60,7 +62,7 @@ public class DSS1444Test {
 
 	@Test
 	public void testValidation() throws IOException {
-		try (InputStream is = getClass().getResourceAsStream("/EmptyPage-corrupted.pdf")) {
+		try (InputStream is = TestUtils.getResourceAsStream("EmptyPage-corrupted.pdf")) {
 			PDFDocumentValidator val = new PDFDocumentValidator(new InMemoryDocument(is));
 			Exception exception = assertThrows(DSSException.class, () -> val.getSignatures());
 			assertTrue(exception.getMessage().contains("Page tree root must be a dictionary"));
@@ -69,7 +71,7 @@ public class DSS1444Test {
 
 	@Test
 	public void test2() throws IOException {
-		try (InputStream is = getClass().getResourceAsStream("/EmptyPage-corrupted2.pdf")) {
+		try (InputStream is = TestUtils.getResourceAsStream("EmptyPage-corrupted2.pdf")) {
 			Exception exception = assertThrows(IOException.class, () -> PDDocument.load(is));
 			assertEquals("Page tree root must be a dictionary", exception.getMessage());
 		}
@@ -77,7 +79,7 @@ public class DSS1444Test {
 
 	@Test
 	public void test2Validation() throws IOException {
-		try (InputStream is = getClass().getResourceAsStream("/EmptyPage-corrupted2.pdf")) {
+		try (InputStream is = TestUtils.getResourceAsStream("EmptyPage-corrupted2.pdf")) {
 			PDFDocumentValidator val = new PDFDocumentValidator(new InMemoryDocument(is));
 			Exception exception = assertThrows(DSSException.class, () -> val.getSignatures());
 			assertTrue(exception.getMessage().contains("Page tree root must be a dictionary"));
@@ -86,7 +88,7 @@ public class DSS1444Test {
 
 	@Test
 	public void test3() throws IOException {
-		try (InputStream is = getClass().getResourceAsStream("/small-red.jpg")) {
+		try (InputStream is = TestUtils.getResourceAsStream("small-red.jpg")) {
 			Exception exception = assertThrows(IOException.class, () -> PDDocument.load(is));
 			assertEquals("Error: End-of-File, expected line", exception.getMessage());
 		}
@@ -94,7 +96,7 @@ public class DSS1444Test {
 
 	@Test
 	public void test4() throws IOException {
-		try (InputStream is = getClass().getResourceAsStream("/sample.pdf")) {
+		try (InputStream is = TestUtils.getResourceAsStream("sample.pdf")) {
 			PDDocument document = PDDocument.load(is);
 			assertNotNull(document);
 		}
@@ -130,7 +132,7 @@ public class DSS1444Test {
 		SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(dssDocument);
 		validator.setCertificateVerifier(new CommonCertificateVerifier());
 		Reports reports = validator.validateDocument(
-				getClass().getResourceAsStream("/validation/dss-PLAIN-ECDSA/policy_without_PLAIN-ECDSA.xml"));
+				TestUtils.getResourceAsStream("validation/dss-PLAIN-ECDSA/policy_without_PLAIN-ECDSA.xml"));
 		assertNotNull(reports);
 		DiagnosticData diagnosticData = reports.getDiagnosticData();
 		assertNotNull(diagnosticData);

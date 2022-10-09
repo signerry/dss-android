@@ -45,11 +45,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PerformanceManySignaturesTest {
 
     @Test
     void extractSigDictionaries() throws IOException {
-        InMemoryDocument inMemoryDocument = new InMemoryDocument(getClass().getResourceAsStream("/validation/51sigs.pdf"));
+        InMemoryDocument inMemoryDocument = new InMemoryDocument(TestUtils.getResourceAsStream("validation/51sigs.pdf"));
 
         PdfBoxDocumentReader reader = new PdfBoxDocumentReader(inMemoryDocument);
         Map<PdfSignatureDictionary, List<PdfSignatureField>> pdfSignatureDictionaryListMap = reader.extractSigDictionaries();
@@ -58,7 +60,7 @@ public class PerformanceManySignaturesTest {
 
     @Test
     void getSignatures() {
-        InMemoryDocument inMemoryDocument = new InMemoryDocument(getClass().getResourceAsStream("/validation/51sigs.pdf"));
+        InMemoryDocument inMemoryDocument = new InMemoryDocument(TestUtils.getResourceAsStream("validation/51sigs.pdf"));
 
         PDFDocumentValidator validator = new PDFDocumentValidator(inMemoryDocument);
 
@@ -123,7 +125,7 @@ public class PerformanceManySignaturesTest {
     @Test
     void retrievePreviousPDFRevisionFirst() {
         String expectedSHA256 = "zr24pCby+v9AN0effpTLOahaEBsynz/Ap0EoARhvpsI=";
-        InMemoryDocument inMemoryDocument = new InMemoryDocument(getClass().getResourceAsStream("/validation/51sigs.pdf"));
+        InMemoryDocument inMemoryDocument = new InMemoryDocument(TestUtils.getResourceAsStream("validation/51sigs.pdf"));
         ByteRange byteRange = new ByteRange(new int[]{0, 4883, 23829, 70196});
         InMemoryDocument previousRevision = PAdESUtils.retrievePreviousPDFRevision(inMemoryDocument, byteRange);
         assertEquals(expectedSHA256, previousRevision.getDigest(DigestAlgorithm.SHA256));
@@ -132,7 +134,7 @@ public class PerformanceManySignaturesTest {
     @Test
     void retrievePreviousPDFRevisionLast() {
         String expectedSHA256 = "kRdqr7p5115vX+2McvMb/f0X/Jah0qPzKFrYrlY4v8E=";
-        InMemoryDocument inMemoryDocument = new InMemoryDocument(getClass().getResourceAsStream("/validation/51sigs.pdf"));
+        InMemoryDocument inMemoryDocument = new InMemoryDocument(TestUtils.getResourceAsStream("validation/51sigs.pdf"));
         ByteRange byteRange = new ByteRange(new int[]{0, 4533638, 4552584, 17463});
         InMemoryDocument previousRevision = PAdESUtils.retrievePreviousPDFRevision(inMemoryDocument, byteRange);
         assertEquals(expectedSHA256, previousRevision.getDigest(DigestAlgorithm.SHA256));

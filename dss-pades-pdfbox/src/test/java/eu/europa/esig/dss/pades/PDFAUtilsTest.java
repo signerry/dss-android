@@ -23,6 +23,8 @@ package eu.europa.esig.dss.pades;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import org.junit.jupiter.api.Test;
 
 import eu.europa.esig.dss.model.InMemoryDocument;
@@ -31,12 +33,12 @@ public class PDFAUtilsTest {
 
 	@Test
 	public void test() {
-		assertTrue(PDFAUtils.validatePDFAStructure(new InMemoryDocument(getClass().getResourceAsStream("/not_signed_pdfa.pdf"))));
+		assertTrue(PDFAUtils.validatePDFAStructure(new InMemoryDocument(TestUtils.getResourceAsStream("not_signed_pdfa.pdf"))));
 	}
 
 	@Test
 	public void testNotPDFA() {
-		assertFalse(PDFAUtils.validatePDFAStructure(new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"))));
+		assertFalse(PDFAUtils.validatePDFAStructure(new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"))));
 	}
 
 }

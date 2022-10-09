@@ -37,6 +37,8 @@ import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.CommonCertificateVerifier;
 import eu.europa.esig.dss.validation.SignaturePolicyProvider;
 import eu.europa.esig.dss.validation.reports.Reports;
+
+import com.signerry.dss.test.TestUtils;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.pdmodel.interactive.digitalsignature.PDSignature;
 import org.bouncycastle.asn1.ASN1Encodable;
@@ -82,12 +84,12 @@ public class InfiniteLoopDSS621Test {
 
 	private static final Logger logger = LoggerFactory.getLogger(InfiniteLoopDSS621Test.class);
 
-	private static final String FILE_PATH = "/validation/pades-5-signatures-and-1-document-timestamp.pdf";
+	private static final String FILE_PATH = "validation/pades-5-signatures-and-1-document-timestamp.pdf";
 
 	@Test
 	public void testReadTimestamp1() throws Exception {
         assertTimeout(ofMillis(5000), () -> {
-        	DSSDocument signDocument = new InMemoryDocument(getClass().getResourceAsStream(FILE_PATH));
+        	DSSDocument signDocument = new InMemoryDocument(TestUtils.getResourceAsStream(FILE_PATH));
     		final CommonCertificateVerifier certificateVerifier = new CommonCertificateVerifier();
 			certificateVerifier.setAIASource(null); // Error 404 on DER policy
 

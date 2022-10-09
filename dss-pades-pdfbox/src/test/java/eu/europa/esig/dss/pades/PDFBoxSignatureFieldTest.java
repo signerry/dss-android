@@ -37,6 +37,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PDFBoxSignatureFieldTest extends PKIFactoryAccess {
 
 	private PAdESService padesService = new PAdESService(new CommonCertificateVerifier());
@@ -44,12 +46,12 @@ public class PDFBoxSignatureFieldTest extends PKIFactoryAccess {
 	@Test
 	public void testGetSignatureFields() {
 		assertTrue(Utils.isCollectionNotEmpty(padesService.getAvailableSignatureFields(
-				new InMemoryDocument(getClass().getResourceAsStream("/doc.pdf")))));
+				new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf")))));
 	}
 
 	@Test
 	public void testAddSignatureField() throws IOException {
-		DSSDocument document = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		DSSDocument document = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 		assertTrue(Utils.isCollectionEmpty(padesService.getAvailableSignatureFields(document)));
 
 		SignatureFieldParameters parameters = new SignatureFieldParameters();
@@ -81,7 +83,7 @@ public class PDFBoxSignatureFieldTest extends PKIFactoryAccess {
 
 	@Test
 	public void testAddSignatureFieldPageNotFound() throws IOException {
-		DSSDocument document = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		DSSDocument document = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 		assertTrue(Utils.isCollectionEmpty(padesService.getAvailableSignatureFields(document)));
 
 		SignatureFieldParameters parameters = new SignatureFieldParameters();
@@ -99,7 +101,7 @@ public class PDFBoxSignatureFieldTest extends PKIFactoryAccess {
 
 	@Test
 	public void addSignatureFieldToEncryptedPdfTest() {
-		DSSDocument document = new InMemoryDocument(getClass().getResourceAsStream("/pdf-with-annotations.pdf"));
+		DSSDocument document = new InMemoryDocument(TestUtils.getResourceAsStream("pdf-with-annotations.pdf"));
 		List<String> availableSignatureFields = padesService.getAvailableSignatureFields(document);
 		assertFalse(Utils.isCollectionNotEmpty(availableSignatureFields));
 
@@ -114,7 +116,7 @@ public class PDFBoxSignatureFieldTest extends PKIFactoryAccess {
 
 	@Test
 	public void signNonSignatureFieldTest() {
-		DSSDocument document = new InMemoryDocument(getClass().getResourceAsStream("/doc.pdf"));
+		DSSDocument document = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"));
 
 		PAdESSignatureParameters padesSignatureParameters = new PAdESSignatureParameters();
 		padesSignatureParameters.setSigningCertificate(getSigningCert());

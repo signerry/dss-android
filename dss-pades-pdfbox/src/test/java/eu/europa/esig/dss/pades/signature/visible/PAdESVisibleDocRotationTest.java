@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.signature.visible;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.IOException;
 import java.util.Date;
 
@@ -52,7 +54,7 @@ public class PAdESVisibleDocRotationTest extends AbstractTestVisualComparator {
 	public void init(TestInfo testInfo) {
 		testName = testInfo.getTestMethod().get().getName();
 		
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/rotate90-rotated.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/rotate90-rotated.pdf"));
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());
@@ -102,7 +104,7 @@ public class PAdESVisibleDocRotationTest extends AbstractTestVisualComparator {
 	}
 
 	private DSSDocument getPngPicture() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/signature-image.png"), "signature-image.png", MimeType.PNG);
+		return new InMemoryDocument(TestUtils.getResourceAsStream("signature-image.png"), "signature-image.png", MimeType.PNG);
 	}
 
 	@Override

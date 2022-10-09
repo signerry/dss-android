@@ -32,6 +32,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PdfBoxUtilsTest {
 
 	private final String correctProtectionPhrase = " ";
@@ -43,10 +45,10 @@ public class PdfBoxUtilsTest {
 
 	@BeforeEach
 	public void init() {
-		sampleDocument = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
-		protectedDocument = new InMemoryDocument(getClass().getResourceAsStream("/protected/open_protected.pdf"),
+		sampleDocument = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
+		protectedDocument = new InMemoryDocument(TestUtils.getResourceAsStream("protected/open_protected.pdf"),
 				"sample.pdf", MimeType.PDF);
-		twoPagesDocument = new InMemoryDocument(getClass().getResourceAsStream("/empty-two-pages.pdf"));
+		twoPagesDocument = new InMemoryDocument(TestUtils.getResourceAsStream("empty-two-pages.pdf"));
 	}
 
 	@Test

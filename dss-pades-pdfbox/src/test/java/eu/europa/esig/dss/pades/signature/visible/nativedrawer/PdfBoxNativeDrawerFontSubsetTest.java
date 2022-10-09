@@ -48,6 +48,8 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PdfBoxNativeDrawerFontSubsetTest extends AbstractPAdESTestSignature {
 
     private static final String FONT_NAME = "PTSerif-Regular";
@@ -61,7 +63,7 @@ public class PdfBoxNativeDrawerFontSubsetTest extends AbstractPAdESTestSignature
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+        documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
         signatureParameters = new PAdESSignatureParameters();
         signatureParameters.bLevel().setSigningDate(new Date());

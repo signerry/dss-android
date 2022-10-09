@@ -35,6 +35,8 @@ import eu.europa.esig.dss.pades.SignatureImageTextParameters;
 import eu.europa.esig.dss.pades.signature.PAdESService;
 import eu.europa.esig.dss.pdf.pdfbox.PdfBoxDefaultObjectFactory;
 import eu.europa.esig.dss.pdf.pdfbox.PdfBoxNativeObjectFactory;
+
+import com.signerry.dss.test.TestUtils;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.rendering.PDFRenderer;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +45,6 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -51,6 +52,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import android.graphics.Bitmap;
 
 @Tag("slow")
 public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualComparator {
@@ -94,20 +97,20 @@ public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualCompara
 
 		service = new PAdESService(getOfflineCertificateVerifier());
 
-		signatureImage = new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/signature.png"));
+		signatureImage = new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/signature.png"));
 
-		signablePdfs.put("normal", new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test.pdf")));
-		signablePdfs.put("90", new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_90.pdf")));
-		signablePdfs.put("180", new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_180.pdf")));
-		signablePdfs.put("270", new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_270.pdf")));
-		signablePdfs.put("-90", new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_-90.pdf")));
-		signablePdfs.put("-180", new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_-180.pdf")));
-		signablePdfs.put("-270", new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_-270.pdf")));
-		signablePdfs.put("minoltaScan", new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/sun.pdf"))); // scanner
+		signablePdfs.put("normal", new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test.pdf")));
+		signablePdfs.put("90", new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_90.pdf")));
+		signablePdfs.put("180", new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_180.pdf")));
+		signablePdfs.put("270", new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_270.pdf")));
+		signablePdfs.put("-90", new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_-90.pdf")));
+		signablePdfs.put("-180", new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_-180.pdf")));
+		signablePdfs.put("-270", new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_-270.pdf")));
+		signablePdfs.put("minoltaScan", new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/sun.pdf"))); // scanner
 																															// type
-		signablePdfs.put("minoltaScan90", new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/sun_90.pdf"))); // scanner
+		signablePdfs.put("minoltaScan90", new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/sun_90.pdf"))); // scanner
 																																// type
-		signablePdfs.put("rotate90", new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/rotate90-rotated.pdf")));
+		signablePdfs.put("rotate90", new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/rotate90-rotated.pdf")));
 
 		similarityLimit = DEFAULT_SIMILARITY_LIMIT;
 	}
@@ -173,15 +176,15 @@ public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualCompara
 		 * So we need the similarity of the sun.pdf and sun90.pdf.
 		 * After the signing the visual signature does not have to change the similarity.
 		 */
-		float sunSimilarity = checkImageSimilarity(pdfToBufferedImage(signablePdfs.get("minoltaScan").openStream()),
-				pdfToBufferedImage(signablePdfs.get("minoltaScan90").openStream()), CHECK_RESOLUTION) - 0.015f;
+		float sunSimilarity = checkImageSimilarity(pdfToBitmap(signablePdfs.get("minoltaScan").openStream()),
+				pdfToBitmap(signablePdfs.get("minoltaScan90").openStream()), CHECK_RESOLUTION) - 0.015f;
 		checkImageSimilarityPdf("minoltaScan90", "check_sun.pdf", sunSimilarity);
 	}
 	
 	@Test
 	public void relativePositioningTest() throws Exception {
 		SignatureImageParameters signatureImageParameters = new SignatureImageParameters();
-		signatureImageParameters.setImage(new InMemoryDocument(getClass().getResourceAsStream("/signature-pen.png"), "signature-pen.png"));
+		signatureImageParameters.setImage(new InMemoryDocument(TestUtils.getResourceAsStream("signature-pen.png"), "signature-pen.png"));
 		signatureParameters.setImageParameters(signatureImageParameters);
 		
 		SignatureFieldParameters fieldParameters = new SignatureFieldParameters();
@@ -230,12 +233,12 @@ public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualCompara
 	@Test
 	public void rotateSunTest() throws Exception {
 		
-		try (PDDocument inputPDF = PDDocument.load(getClass().getResourceAsStream("/visualSignature/sun.pdf"))) {
+		try (PDDocument inputPDF = PDDocument.load(TestUtils.getResourceAsStream("visualSignature/sun.pdf"))) {
 			/**
 			 * minolta scanner normal(not rotated) pdf and rotation none.
 			 *
 			 * You can check the pdf rotation by this code:
-			 * PDDocument inputPDF = PDDocument.load(getClass().getResourceAsStream("/visualSignature/sun.pdf"));
+			 * PDDocument inputPDF = PDDocument.load(TestUtils.getResourceAsStream("visualSignature/sun.pdf"));
 			 * System.out.println("rotation: " + inputPDF.getPage(0).getRotation());
 			 *
 			 * result in pdf viewer: signature is top left corner and the sign image line is parallel with the sun eyes line
@@ -256,11 +259,11 @@ public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualCompara
 	@Test
 	public void rotateSun90Test() throws Exception {
 	
-		try (PDDocument inputPDF = PDDocument.load(getClass().getResourceAsStream("/visualSignature/sun_90.pdf"))) {
+		try (PDDocument inputPDF = PDDocument.load(TestUtils.getResourceAsStream("visualSignature/sun_90.pdf"))) {
 			/**
 			 * minolta scanner rotated pdf and rotation none (in pdf view the rotated and normal pdf seem equal)
 			 * you can check the pdf rotation by this code:
-			 * PDDocument inputPDF = PDDocument.load(getClass().getResourceAsStream("/visualSignature/sun_90.pdf"));
+			 * PDDocument inputPDF = PDDocument.load(TestUtils.getResourceAsStream("visualSignature/sun_90.pdf"));
 			 * System.out.println("rotation: " + inputPDF.getPage(0).getRotation());
 			 *
 			 * result in pdf viewer: signature is top right corner and the sign image line is perpendicular with the sun
@@ -327,7 +330,7 @@ public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualCompara
 		DSSDocument nativeDrawerPdf = sign(getTestName() + "_native");
 		compareVisualSimilarity(defaultDrawerPdf, nativeDrawerPdf, similaritylevel);
 		
-		compareVisualSimilarity(nativeDrawerPdf, new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/check/" + checkPdf)), similaritylevel);
+		compareVisualSimilarity(nativeDrawerPdf, new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/check/" + checkPdf)), similaritylevel);
 	}
 
 	private SignatureImageParameters createSignatureImageParameters() throws Exception {
@@ -338,7 +341,7 @@ public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualCompara
 		textParameters.setSignerTextPosition(SignerTextPosition.RIGHT);
 		textParameters.setBackgroundColor(TRANSPARENT);
 		textParameters.setTextColor(Color.MAGENTA);
-		DSSFileFont font = new DSSFileFont(getClass().getResourceAsStream("/fonts/OpenSansExtraBold.ttf"));
+		DSSFileFont font = new DSSFileFont(TestUtils.getResourceAsStream("fonts/OpenSansExtraBold.ttf"));
 		font.setSize(8);
 		textParameters.setFont(font);
 		imageParameters.setTextParameters(textParameters);
@@ -357,7 +360,7 @@ public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualCompara
 		return imageParameters;
 	}
 
-	private BufferedImage pdfToBufferedImage(InputStream inputStream) throws IOException {
+	private Bitmap pdfToBitmap(InputStream inputStream) throws IOException {
 		try (PDDocument document = PDDocument.load(inputStream)) {
 			PDFRenderer renderer = new PDFRenderer(document);
 			return renderer.renderImageWithDPI(0, DPI);

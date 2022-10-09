@@ -1,24 +1,42 @@
 /**
  * DSS - Digital Signature Services
  * Copyright (C) 2015 European Commission, provided under the CEF programme
- * 
+ *
  * This file is part of the "DSS - Digital Signature Services" project.
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 package eu.europa.esig.dss.pades.signature.visible;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import com.tom_roush.pdfbox.pdmodel.PDDocument;
+import com.tom_roush.pdfbox.pdmodel.PDPage;
+import com.tom_roush.pdfbox.pdmodel.PDPageTree;
+import com.tom_roush.pdfbox.pdmodel.common.PDRectangle;
+import com.tom_roush.pdfbox.rendering.PDFRenderer;
+
+import java.awt.Color;
+import java.io.IOException;
+import java.io.InputStream;
 
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.SignatureValue;
@@ -31,22 +49,6 @@ import eu.europa.esig.dss.pdf.pdfbox.PdfBoxNativeObjectFactory;
 import eu.europa.esig.dss.pdf.pdfbox.PdfBoxUtils;
 import eu.europa.esig.dss.pdf.visible.ImageUtils;
 import eu.europa.esig.dss.test.PKIFactoryAccess;
-import com.tom_roush.pdfbox.pdmodel.PDDocument;
-import com.tom_roush.pdfbox.pdmodel.PDPage;
-import com.tom_roush.pdfbox.pdmodel.PDPageTree;
-import com.tom_roush.pdfbox.pdmodel.common.PDRectangle;
-import com.tom_roush.pdfbox.rendering.PDFRenderer;
-
-import javax.imageio.ImageIO;
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 public abstract class AbstractTestVisualComparator extends PKIFactoryAccess {
 
@@ -99,10 +101,10 @@ public abstract class AbstractTestVisualComparator extends PKIFactoryAccess {
 	}
 
 	protected boolean arePdfDocumentsVisuallyEqual(DSSDocument dssDoc1, DSSDocument dssDoc2) throws IOException {
-		return compareBufferedImages(getScreenshotWithDpi(dssDoc1), getScreenshotWithDpi(dssDoc2));
+		return compareBitmaps(getScreenshotWithDpi(dssDoc1), getScreenshotWithDpi(dssDoc2));
 	}
 
-	private BufferedImage getScreenshotWithDpi(DSSDocument dssDoc) throws IOException {
+	private Bitmap getScreenshotWithDpi(DSSDocument dssDoc) throws IOException {
 		try (InputStream is = dssDoc.openStream(); PDDocument doc = PDDocument.load(is)) {
 			PDFRenderer renderer = new PDFRenderer(doc);
 			return renderer.renderImageWithDPI(0, DPI);
@@ -110,21 +112,21 @@ public abstract class AbstractTestVisualComparator extends PKIFactoryAccess {
 	}
 
 	protected boolean areImagesVisuallyEqual(DSSDocument dssImage1, DSSDocument dssImage2) throws IOException {
-		return compareBufferedImages(toBufferedImage(dssImage1), toBufferedImage(dssImage2));
+		return compareBitmaps(toBitmap(dssImage1), toBitmap(dssImage2));
 	}
 
-	private BufferedImage toBufferedImage(DSSDocument dssImageDocument) {
+	private Bitmap toBitmap(DSSDocument dssImageDocument) {
 		try (InputStream is = dssImageDocument.openStream()) {
-			return ImageIO.read(is);
+			return BitmapFactory.decodeStream(is);
 		} catch (Exception e) {
 			fail(e);
 			return null;
 		}
 	}
 
-	private boolean compareBufferedImages(BufferedImage img1, BufferedImage img2) {
+	private boolean compareBitmaps(Bitmap img1, Bitmap img2) {
 		if (ImageUtils.imageDimensionsEqual(img1, img2)) {
-			BufferedImage outImg = new BufferedImage(img1.getWidth(), img1.getHeight(), BufferedImage.TYPE_INT_RGB);
+			Bitmap outImg = Bitmap.createBitmap(img1.getWidth(), img1.getHeight(), Bitmap.Config.RGB_565);
 			int diffAmount = ImageUtils.drawSubtractionImage(img1, img2, outImg);
 			return diffAmount == 0;
 		}
@@ -142,7 +144,7 @@ public abstract class AbstractTestVisualComparator extends PKIFactoryAccess {
 
 	protected void compareAnnotations(DSSDocument doc1, DSSDocument doc2) throws IOException {
 		try (PdfBoxDocumentReader reader1 = new PdfBoxDocumentReader(doc1);
-				PdfBoxDocumentReader reader2 = new PdfBoxDocumentReader(doc2);) {
+			 PdfBoxDocumentReader reader2 = new PdfBoxDocumentReader(doc2);) {
 			assertEquals(reader1.getNumberOfPages(), reader2.getNumberOfPages());
 			for (int i = 1; i <= reader1.getNumberOfPages(); i++) {
 				PDPage page1 = reader1.getPDPage(i);
@@ -174,9 +176,9 @@ public abstract class AbstractTestVisualComparator extends PKIFactoryAccess {
 	protected void compareVisualSimilarity(DSSDocument doc1, DSSDocument doc2, float similarityLevel)
 			throws IOException {
 		try (InputStream is1 = doc1.openStream();
-				InputStream is2 = doc2.openStream();
-				PDDocument pdDoc1 = PDDocument.load(is1);
-				PDDocument pdDoc2 = PDDocument.load(is2);) {
+			 InputStream is2 = doc2.openStream();
+			 PDDocument pdDoc1 = PDDocument.load(is1);
+			 PDDocument pdDoc2 = PDDocument.load(is2);) {
 			checkPdfSimilarity(pdDoc1, pdDoc2, similarityLevel);
 		}
 	}
@@ -192,8 +194,8 @@ public abstract class AbstractTestVisualComparator extends PKIFactoryAccess {
 		PDFRenderer checkRenderer = new PDFRenderer(document2);
 
 		for (int pageNumber = 0; pageNumber < checkPageTree.getCount(); pageNumber++) {
-			BufferedImage sampleImage = sampleRenderer.renderImageWithDPI(pageNumber, DPI);
-			BufferedImage checkImage = checkRenderer.renderImageWithDPI(pageNumber, DPI);
+			Bitmap sampleImage = sampleRenderer.renderImageWithDPI(pageNumber, DPI);
+			Bitmap checkImage = checkRenderer.renderImageWithDPI(pageNumber, DPI);
 
 			// ImageIO.write(sampleImage, "png", new File("target\\sampleImage.png"));
 			// ImageIO.write(checkImage, "png", new File("target\\checkImage.png"));
@@ -204,7 +206,7 @@ public abstract class AbstractTestVisualComparator extends PKIFactoryAccess {
 		}
 	}
 
-	protected float checkImageSimilarity(BufferedImage sampleImage, BufferedImage checkImage, int resolution) {
+	protected float checkImageSimilarity(Bitmap sampleImage, Bitmap checkImage, int resolution) {
 		try {
 			int width = sampleImage.getWidth();
 			int height = sampleImage.getHeight();
@@ -223,13 +225,13 @@ public abstract class AbstractTestVisualComparator extends PKIFactoryAccess {
 			int checkedPixels = 0;
 			for (int y = 0; y < height; y += resolution) {
 				for (int x = 0; x < width; x += resolution) {
-					int sampleRGB = sampleImage.getRGB(x, y);
-					int checkRGB = checkImage.getRGB(x, y);
+					int sampleRGB = sampleImage.getPixel(x, y);
+					int checkRGB = checkImage.getPixel(x, y);
 
 					if (sampleRGB == checkRGB) {
 						matchingPixels++;
 					} else {
-						checkImage.setRGB(x, y, Color.RED.getRGB());
+						checkImage.setPixel(x, y, Color.RED.getRGB());
 					}
 
 					checkedPixels++;

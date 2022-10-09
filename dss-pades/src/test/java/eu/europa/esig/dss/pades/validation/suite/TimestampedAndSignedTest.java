@@ -32,12 +32,14 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 // See DSS-2294
 public class TimestampedAndSignedTest extends AbstractPAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new InMemoryDocument(getClass().getResourceAsStream("/validation/timestamped_and_signed.pdf"));
+        return new InMemoryDocument(TestUtils.getResourceAsStream("validation/timestamped_and_signed.pdf"));
     }
 
     @Override

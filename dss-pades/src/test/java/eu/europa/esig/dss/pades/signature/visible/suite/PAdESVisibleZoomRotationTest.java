@@ -43,13 +43,15 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESVisibleZoomRotationTest extends AbstractPAdESTestSignature {
 
 	private final DSSDocument RED_CROSS_IMAGE = new InMemoryDocument(
-			getClass().getResourceAsStream("/small-red.jpg"), "small-red.jpg", MimeType.JPEG);
+			TestUtils.getResourceAsStream("small-red.jpg"), "small-red.jpg", MimeType.JPEG);
 
 	private final DSSDocument PNG_IMAGE = new InMemoryDocument(
-			getClass().getResourceAsStream("/signature-image.png"), "signature-image.png", MimeType.PNG);
+			TestUtils.getResourceAsStream("signature-image.png"), "signature-image.png", MimeType.PNG);
 
 	private DocumentSignatureService<PAdESSignatureParameters, PAdESTimestampParameters> service;
 	private PAdESSignatureParameters signatureParameters;
@@ -57,7 +59,7 @@ public class PAdESVisibleZoomRotationTest extends AbstractPAdESTestSignature {
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());

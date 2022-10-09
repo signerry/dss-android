@@ -38,11 +38,13 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESWithRemovedPagesTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/pdf-removed-pages.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/pdf-removed-pages.pdf"));
 	}
 	
 	@Override

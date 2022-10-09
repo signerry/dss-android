@@ -46,6 +46,8 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public class BuildKnownObjectsTest extends PKIFactoryAccess {
 
 	/**
@@ -63,7 +65,7 @@ public class BuildKnownObjectsTest extends PKIFactoryAccess {
 	public void buildKnownObjects() throws IOException {
 
 		DSSDocument dssDocument = new InMemoryDocument(
-				getClass().getResourceAsStream("/validation/dss-1696/Test.signed_Certipost-2048-SHA512.extended.pdf"));
+				TestUtils.getResourceAsStream("validation/dss-1696/Test.signed_Certipost-2048-SHA512.extended.pdf"));
 		PDFDocumentValidator validator = new PDFDocumentValidator(dssDocument);
 		validator.setCertificateVerifier(getOfflineCertificateVerifier());
 

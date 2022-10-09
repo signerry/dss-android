@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -51,7 +53,7 @@ public class PAdESDoubleSignatureTest extends PKIFactoryAccess {
 	@RepeatedTest(10)
 	public void testDoubleSignature() throws Exception {
 
-		DSSDocument toBeSigned = new InMemoryDocument(PAdESDoubleSignatureTest.class.getResourceAsStream("/sample.pdf"));
+		DSSDocument toBeSigned = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
 		PAdESService service = new PAdESService(getCompleteCertificateVerifier());
 		service.setTspSource(getGoodTsa());

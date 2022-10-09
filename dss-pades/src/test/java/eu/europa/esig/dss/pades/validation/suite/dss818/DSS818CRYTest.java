@@ -26,11 +26,13 @@ import eu.europa.esig.dss.model.InMemoryDocument;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DSS818CRYTest extends AbstractDSS818Test {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/dss-818/Signature-P-DE_CRY-2 (HASH_FAILURE).pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-818/Signature-P-DE_CRY-2 (HASH_FAILURE).pdf"));
 	}
 	
 	@Override

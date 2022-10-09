@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.signature.suite;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -44,7 +46,7 @@ public class PAdESLevelBWithContentTimestampTest extends AbstractPAdESTestSignat
 		service = new PAdESService(getOfflineCertificateVerifier());
 		service.setTspSource(getGoodTsa());
 
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

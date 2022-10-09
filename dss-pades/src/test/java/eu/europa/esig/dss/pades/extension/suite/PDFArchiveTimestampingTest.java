@@ -65,12 +65,14 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PDFArchiveTimestampingTest extends PKIFactoryAccess {
 	
 	@Test
 	public void test() throws Exception {
 
-		DSSDocument doc = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		DSSDocument doc = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 		String originalDocDigestBase64 = Utils.toBase64(DSSUtils.digest(DigestAlgorithm.SHA256, doc));
 		
 		PAdESService service = new PAdESService(getCompleteCertificateVerifier());

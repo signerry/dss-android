@@ -31,11 +31,13 @@ import eu.europa.esig.dss.simplereport.SimpleReport;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DSS2451Test extends AbstractPAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new InMemoryDocument(getClass().getResourceAsStream("/validation/pdf-byterange-overlap.pdf"));
+        return new InMemoryDocument(TestUtils.getResourceAsStream("validation/pdf-byterange-overlap.pdf"));
     }
 
     @Override

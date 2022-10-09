@@ -33,12 +33,14 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DSS1376GetOriginalDocTest extends AbstractPAdESTestValidation {
 
 	private static final Logger LOG = LoggerFactory.getLogger(DSS1376GetOriginalDocTest.class);
 
-	private DSSDocument rev_n = new InMemoryDocument(getClass().getResourceAsStream("/validation/dss-1376/DSS1376-rev_n.pdf"));
-	private DSSDocument rev_n_1 = new InMemoryDocument(getClass().getResourceAsStream("/validation/dss-1376/DSS1376-rev_n-1.pdf"));
+	private DSSDocument rev_n = new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-1376/DSS1376-rev_n.pdf"));
+	private DSSDocument rev_n_1 = new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-1376/DSS1376-rev_n-1.pdf"));
 
 	@Override
 	protected DSSDocument getSignedDocument() {

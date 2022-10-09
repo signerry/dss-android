@@ -22,6 +22,8 @@ package eu.europa.esig.dss.pades.signature.suite;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.Date;
 
 import org.bouncycastle.asn1.ASN1EncodableVector;
@@ -58,7 +60,7 @@ public class PAdESLevelBExternalSignatureTest extends AbstractPAdESTestSignature
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new InMemoryDocument(PAdESLevelBExternalSignatureTest.class.getResourceAsStream("/sample.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.setSignaturePackaging(SignaturePackaging.ENVELOPED);

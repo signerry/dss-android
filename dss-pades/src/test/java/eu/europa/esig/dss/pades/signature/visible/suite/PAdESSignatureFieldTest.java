@@ -55,6 +55,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 
 	private PAdESService service;
@@ -84,7 +86,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 
 		signatureParameters.getImageParameters().getFieldParameters().setFieldId("Signature1");
 
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/doc.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"));
 		signAndValidate(documentToSign);
 	}
 
@@ -92,7 +94,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 	public void testSignTwice() throws IOException {
 
 		// Add second field first
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/doc.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"));
 
 		SignatureFieldParameters parameters = new SignatureFieldParameters();
 		parameters.setFieldId("test");
@@ -119,7 +121,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 	@Test
 	public void testSignTwoFields() throws IOException {
 
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/doc.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"));
 
 		assertEquals(2, countStringOccurrence(documentToSign, "startxref"));
 		assertEquals(2, countStringOccurrence(documentToSign, "%%EOF"));
@@ -171,7 +173,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 	@Test
 	public void createAndSignConsequently() throws IOException {
 
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/doc.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"));
 
 		assertEquals(2, countStringOccurrence(documentToSign, "startxref"));
 		assertEquals(2, countStringOccurrence(documentToSign, "%%EOF"));
@@ -221,7 +223,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 	@Test
 	public void createFieldInEmptyDocument() throws IOException {
 
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/EmptyPage.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("EmptyPage.pdf"));
 
 		assertEquals(2, countStringOccurrence(documentToSign, "startxref"));
 		assertEquals(2, countStringOccurrence(documentToSign, "%%EOF"));
@@ -251,7 +253,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 	public void testSignTwiceSameField() throws IOException {
 		signatureParameters.getImageParameters().getFieldParameters().setFieldId("Signature1");
 
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/doc.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"));
 		DSSDocument doc = signAndValidate(documentToSign);
 		assertNotNull(doc);
 
@@ -262,13 +264,13 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 	public void testFieldNotFound() throws IOException {
 		signatureParameters.getImageParameters().getFieldParameters().setFieldId("not-found");
 
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/doc.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"));
 		assertThrows(IllegalArgumentException.class, () -> signAndValidate(documentToSign));
 	}
 
 	@Test
 	public void fieldsOverlapTest() throws IOException {
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/EmptyPage.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("EmptyPage.pdf"));
 
 		SignatureFieldParameters parameters = new SignatureFieldParameters();
 		parameters.setFieldId("signature1");
@@ -287,7 +289,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 
 	@Test
 	public void differentPagesTest() throws IOException {
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/empty-two-pages.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("empty-two-pages.pdf"));
 
 		SignatureFieldParameters parameters = new SignatureFieldParameters();
 		parameters.setFieldId("signature1");
@@ -312,7 +314,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 
 	@Test
 	public void fieldInsideAnotherTest() throws IOException {
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/EmptyPage.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("EmptyPage.pdf"));
 
 		SignatureFieldParameters parametersOne = new SignatureFieldParameters();
 		parametersOne.setFieldId("signature1");
@@ -336,7 +338,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 
 	@Test
 	public void oneCornerOverlapTest() throws IOException {
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/EmptyPage.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("EmptyPage.pdf"));
 
 		SignatureFieldParameters parametersOne = new SignatureFieldParameters();
 		parametersOne.setFieldId("signature1");
@@ -360,7 +362,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 
 	@Test
 	public void twoCornersOverlapTest() throws IOException {
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/EmptyPage.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("EmptyPage.pdf"));
 
 		SignatureFieldParameters parametersOne = new SignatureFieldParameters();
 		parametersOne.setFieldId("signature1");
@@ -384,7 +386,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 
 	@Test
 	public void sameEdgeTest() throws IOException {
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/EmptyPage.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("EmptyPage.pdf"));
 
 		SignatureFieldParameters parametersOne = new SignatureFieldParameters();
 		parametersOne.setFieldId("signature1");
@@ -414,7 +416,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 
 	@Test
 	public void annotationOverlapTest() throws IOException {
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/doc.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"));
 
 		SignatureFieldParameters parametersOne = new SignatureFieldParameters();
 		parametersOne.setFieldId("signature1");
@@ -429,7 +431,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 
 	@Test
 	public void fieldOverCommentTest() throws IOException {
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/pdf-with-annotations.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("pdf-with-annotations.pdf"));
 
 		SignatureFieldParameters parametersOne = new SignatureFieldParameters();
 		parametersOne.setFieldId("signature1");
@@ -444,7 +446,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 
 	@Test
 	public void fieldOverTextNoteTest() throws IOException {
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/pdf-with-annotations.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("pdf-with-annotations.pdf"));
 
 		SignatureFieldParameters parametersOne = new SignatureFieldParameters();
 		parametersOne.setFieldId("signature1");
@@ -459,7 +461,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 
 	@Test
 	public void fieldOverDrawingTest() throws IOException {
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/pdf-with-annotations.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("pdf-with-annotations.pdf"));
 
 		SignatureFieldParameters parametersOne = new SignatureFieldParameters();
 		parametersOne.setFieldId("signature1");
@@ -474,7 +476,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 
 	@Test
 	public void fieldOverShapeTest() throws IOException {
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/pdf-with-annotations.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("pdf-with-annotations.pdf"));
 
 		SignatureFieldParameters parametersOne = new SignatureFieldParameters();
 		parametersOne.setFieldId("signature1");
@@ -494,7 +496,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 
 	@Test
 	public void fieldsOverlapWithRotatedDocTest() throws IOException {
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_90.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_90.pdf"));
 
 		SignatureFieldParameters parameters = new SignatureFieldParameters();
 		parameters.setFieldId("signature1");
@@ -521,7 +523,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 		assertNotNull(signed);
 		//signed.save("target/doc90Degrees.pdf");
 
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_180.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_180.pdf"));
 
 		parameters.setFieldId("signature1");
 		DSSDocument doc180Degrees = service.addNewSignatureField(documentToSign, parameters);
@@ -543,7 +545,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 		assertNotNull(signed);
 		//signed.save("target/doc180Degrees.pdf");
 
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_270.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_270.pdf"));
 
 		parameters.setFieldId("signature1");
 		DSSDocument doc270Degrees = service.addNewSignatureField(documentToSign, parameters);
@@ -565,7 +567,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 		assertNotNull(signed);
 		//signed.save("target/doc270Degrees.pdf");
 
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_-90.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_-90.pdf"));
 
 		parameters.setFieldId("signature1");
 		DSSDocument docMinus90Degrees = service.addNewSignatureField(documentToSign, parameters);
@@ -587,7 +589,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 		assertNotNull(signed);
 		//signed.save("target/docMinus90Degrees.pdf");
 
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_-180.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_-180.pdf"));
 
 		parameters.setFieldId("signature1");
 		DSSDocument docMinus180Degrees = service.addNewSignatureField(documentToSign, parameters);
@@ -609,7 +611,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 		assertNotNull(signed);
 		//signed.save("target/docMinus180Degrees.pdf");
 
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_-270.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_-270.pdf"));
 
 		parameters.setFieldId("signature1");
 		DSSDocument docMinus270Degrees = service.addNewSignatureField(documentToSign, parameters);
@@ -634,7 +636,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 
 	@Test
 	public void fieldsOverlapWithCustomRotationTest() throws IOException {
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/doc.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"));
 
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
@@ -689,7 +691,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 
 	@Test
 	public void signOutOfPageDimensionsWithRotatedDocumentsTest() throws IOException {
-		DSSDocument doc90Degrees = new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_90.pdf"));
+		DSSDocument doc90Degrees = new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_90.pdf"));
 
 		SignatureFieldParameters parameters = new SignatureFieldParameters();
 		parameters.setFieldId("signature1");
@@ -702,31 +704,31 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 				() -> service.addNewSignatureField(doc90Degrees, parameters));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
-		DSSDocument doc180Degrees = new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_180.pdf"));
+		DSSDocument doc180Degrees = new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_180.pdf"));
 
 		exception = assertThrows(AlertException.class,
 				() -> service.addNewSignatureField(doc180Degrees, parameters));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
-		DSSDocument doc270Degrees = new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_270.pdf"));
+		DSSDocument doc270Degrees = new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_270.pdf"));
 
 		exception = assertThrows(AlertException.class,
 				() -> service.addNewSignatureField(doc270Degrees, parameters));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
-		DSSDocument docMinus90Degrees = new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_-90.pdf"));
+		DSSDocument docMinus90Degrees = new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_-90.pdf"));
 
 		exception = assertThrows(AlertException.class,
 				() -> service.addNewSignatureField(docMinus90Degrees, parameters));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
-		DSSDocument docMinus180Degrees = new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_-180.pdf"));
+		DSSDocument docMinus180Degrees = new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_-180.pdf"));
 
 		exception = assertThrows(AlertException.class,
 				() -> service.addNewSignatureField(docMinus180Degrees, parameters));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
-		DSSDocument docMinus270Degrees = new InMemoryDocument(getClass().getResourceAsStream("/visualSignature/test_-270.pdf"));
+		DSSDocument docMinus270Degrees = new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/test_-270.pdf"));
 
 		exception = assertThrows(AlertException.class,
 				() -> service.addNewSignatureField(docMinus270Degrees, parameters));

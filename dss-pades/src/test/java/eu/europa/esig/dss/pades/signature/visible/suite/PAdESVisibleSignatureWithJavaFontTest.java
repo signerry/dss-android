@@ -22,6 +22,8 @@ package eu.europa.esig.dss.pades.signature.visible.suite;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
@@ -54,7 +56,7 @@ public class PAdESVisibleSignatureWithJavaFontTest extends PKIFactoryAccess {
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());

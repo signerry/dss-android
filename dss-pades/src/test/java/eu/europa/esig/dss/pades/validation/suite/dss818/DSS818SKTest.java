@@ -39,11 +39,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DSS818SKTest extends AbstractDSS818Test {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/dss-818/Signature-P-SK-1 (HASH_FAILURE).pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-818/Signature-P-SK-1 (HASH_FAILURE).pdf"));
 	}
 	
 	@Override

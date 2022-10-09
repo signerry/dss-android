@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.signature.visible.suite;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.awt.Color;
 import java.util.Date;
 
@@ -45,7 +47,7 @@ public class PAdESWithSignatureVisibleAndTimestampInvisibleTest extends Abstract
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());

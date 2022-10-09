@@ -22,6 +22,8 @@ package eu.europa.esig.dss.pades.signature.suite;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -51,7 +53,7 @@ public class PAdESSignatureParametersSerializationTest extends AbstractPAdESTest
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/doc.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"));
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());
@@ -74,7 +76,7 @@ public class PAdESSignatureParametersSerializationTest extends AbstractPAdESTest
 	public void testSerialization() throws IOException, ClassNotFoundException {
 		
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
-		imageParameters.setImage(new InMemoryDocument(getClass().getResourceAsStream("/signature-image.png"), "signature-image.png", MimeType.PNG));
+		imageParameters.setImage(new InMemoryDocument(TestUtils.getResourceAsStream("signature-image.png"), "signature-image.png", MimeType.PNG));
 		SignatureImageTextParameters imageTextParameters = new SignatureImageTextParameters();
 		imageTextParameters.setText("test");
 		imageParameters.setTextParameters(imageTextParameters);

@@ -37,6 +37,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESAllSelfSignedCertsTest extends PKIFactoryAccess {
 	
 	private DSSDocument documentToSign;
@@ -45,7 +47,7 @@ public class PAdESAllSelfSignedCertsTest extends PKIFactoryAccess {
 	
 	@BeforeEach
 	public void init() {
-		documentToSign = new InMemoryDocument(PAdESLevelBTest.class.getResourceAsStream("/sample.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 		
 		parameters = new PAdESSignatureParameters();
 		parameters.setSigningCertificate(getSigningCert());

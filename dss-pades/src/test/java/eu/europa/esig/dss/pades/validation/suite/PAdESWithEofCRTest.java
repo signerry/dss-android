@@ -33,11 +33,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESWithEofCRTest extends AbstractPAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new InMemoryDocument(getClass().getResourceAsStream("/validation/pdf-with-eof-cr.pdf"));
+        return new InMemoryDocument(TestUtils.getResourceAsStream("validation/pdf-with-eof-cr.pdf"));
     }
 
     @Override

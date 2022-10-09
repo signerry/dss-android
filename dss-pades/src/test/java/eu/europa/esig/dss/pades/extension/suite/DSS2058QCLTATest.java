@@ -22,6 +22,8 @@ package eu.europa.esig.dss.pades.extension.suite;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import org.junit.jupiter.api.Tag;
 
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -35,7 +37,7 @@ public class DSS2058QCLTATest extends AbstractDSS2058 {
 
 	@Override
 	protected DSSDocument getDocumentToExtend() {
-		return new InMemoryDocument(DSS2058QCLTATest.class.getResourceAsStream("/validation/dss-2058/dss-2058-QC-LTA-test.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-2058/dss-2058-QC-LTA-test.pdf"));
 	}
 	
 	@Override

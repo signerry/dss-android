@@ -31,11 +31,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DSS1188Test extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/dss-1188/Test.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-1188/Test.pdf"));
 	}
 	
 	@Override

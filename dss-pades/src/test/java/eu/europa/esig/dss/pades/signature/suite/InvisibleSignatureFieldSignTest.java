@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.signature.suite;
 
+import com.signerry.dss.test.TestUtils;
+
 import org.junit.jupiter.api.BeforeEach;
 
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
@@ -41,7 +43,7 @@ public class InvisibleSignatureFieldSignTest extends AbstractPAdESTestSignature 
 	@BeforeEach
 	public void init() throws Exception {
 
-		documentToSign = new InMemoryDocument(InvisibleSignatureFieldSignTest.class.getResourceAsStream("/unsignedPDFWithSignatureFieldButInvisible.pdf"),
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("unsignedPDFWithSignatureFieldButInvisible.pdf"),
 				"unsignedPDFWithSignatureFieldButInvisible.pdf",
 				MimeType.PDF);
 

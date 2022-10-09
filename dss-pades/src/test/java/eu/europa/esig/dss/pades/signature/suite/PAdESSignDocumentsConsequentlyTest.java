@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.signature.suite;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -67,8 +69,8 @@ public class PAdESSignDocumentsConsequentlyTest extends AbstractPAdESTestSignatu
                 SignatureLevel.PAdES_BASELINE_LT, SignatureLevel.PAdES_BASELINE_LTA};
         SignaturePackaging[] packagings = {SignaturePackaging.ENVELOPING};
         String[] signers = {GOOD_USER, RSA_SHA3_USER};
-        DSSDocument[] documents = { new InMemoryDocument(PAdESSignDocumentsConsequentlyTest.class.getResourceAsStream("/doc.pdf")),
-                new InMemoryDocument(PAdESSignDocumentsConsequentlyTest.class.getResourceAsStream("/sample.pdf")) };
+        DSSDocument[] documents = { new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf")),
+                new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf")) };
         return random(levels, packagings, signers, documents);
     }
 

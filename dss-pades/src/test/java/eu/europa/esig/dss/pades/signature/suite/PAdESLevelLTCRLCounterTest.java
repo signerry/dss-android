@@ -41,6 +41,8 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESLevelLTCRLCounterTest extends AbstractPAdESTestSignature {
 
     private DSSDocument originalDocument;
@@ -56,7 +58,7 @@ public class PAdESLevelLTCRLCounterTest extends AbstractPAdESTestSignature {
 
     @BeforeEach
     public void init() throws Exception {
-        originalDocument = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+        originalDocument = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
         signingTime = new Date();
 
         signatureParameters = new PAdESSignatureParameters();

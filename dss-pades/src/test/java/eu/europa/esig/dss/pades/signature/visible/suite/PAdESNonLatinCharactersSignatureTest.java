@@ -22,6 +22,8 @@ package eu.europa.esig.dss.pades.signature.visible.suite;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 import org.junit.jupiter.api.BeforeEach;
 
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -47,7 +49,7 @@ public class PAdESNonLatinCharactersSignatureTest extends AbstractPAdESTestSigna
 	
 	@BeforeEach
 	public void init() {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());
@@ -70,7 +72,7 @@ public class PAdESNonLatinCharactersSignatureTest extends AbstractPAdESTestSigna
 		SignatureImageParameters signatureImageParameters = new SignatureImageParameters();
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("Моя подпись 1");
-		textParameters.setFont(new DSSFileFont(getClass().getResourceAsStream("/fonts/OpenSansBold.ttf")));
+		textParameters.setFont(new DSSFileFont(TestUtils.getResourceAsStream("fonts/OpenSansBold.ttf")));
 		signatureImageParameters.setTextParameters(textParameters);
 		SignatureFieldParameters fieldParameters = new SignatureFieldParameters();
 		fieldParameters.setFieldId("подпись1");

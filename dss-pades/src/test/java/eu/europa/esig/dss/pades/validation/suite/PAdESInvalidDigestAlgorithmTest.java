@@ -38,11 +38,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESInvalidDigestAlgorithmTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/Signature-P-HU_NET-2.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/Signature-P-HU_NET-2.pdf"));
 	}
 	
 	@Override

@@ -23,6 +23,8 @@ package eu.europa.esig.dss.pdf.visible;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -34,21 +36,21 @@ public class ImageUtilsTest {
 
 	@Test
 	public void pngAlpha() throws IOException {
-		try (FileInputStream fis = new FileInputStream("src/test/resources/signature-pen.png")) {
+		try (FileInputStream fis = new FileInputStream(TestUtils.getResourceAsFile("signature-pen.png"))) {
 			assertTrue(ImageUtils.isTransparent(ImageUtils.toBufferedImage(fis)));
 		}
 	}
 
 	@Test
 	public void pngNoAlpha() throws IOException {
-		try (FileInputStream fis = new FileInputStream("src/test/resources/signature-pen-no-alpha.png")) {
+		try (FileInputStream fis = new FileInputStream(TestUtils.getResourceAsFile("signature-pen-no-alpha.png"))) {
 			assertFalse(ImageUtils.isTransparent(ImageUtils.toBufferedImage(fis)));
 		}
 	}
 
 	@Test
 	public void jpg() throws IOException {
-		try (FileInputStream fis = new FileInputStream("src/test/resources/small-red.jpg")) {
+		try (FileInputStream fis = new FileInputStream(TestUtils.getResourceAsFile("small-red.jpg"))) {
 			assertFalse(ImageUtils.isTransparent(ImageUtils.toBufferedImage(fis)));
 		}
 	}

@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.signature.visible.suite;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.enumerations.ImageScaling;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.TextWrapping;
@@ -44,10 +46,11 @@ import java.util.Date;
 public class PAdESExistingSignatureFieldTest extends AbstractPAdESTestSignature {
 
     private final DSSDocument RED_CROSS_IMAGE = new InMemoryDocument(
-            getClass().getResourceAsStream("/small-red.jpg"), "small-red.jpg", MimeType.JPEG);
+
+            TestUtils.getResourceAsStream("small-red.jpg"), "small-red.jpg", MimeType.JPEG);
 
     private final DSSDocument PNG_IMAGE = new InMemoryDocument(
-            getClass().getResourceAsStream("/signature-image.png"), "signature-image.png", MimeType.PNG);
+            TestUtils.getResourceAsStream("signature-image.png"), "signature-image.png", MimeType.PNG);
 
     private DocumentSignatureService<PAdESSignatureParameters, PAdESTimestampParameters> service;
     private PAdESSignatureParameters signatureParameters;
@@ -55,7 +58,7 @@ public class PAdESExistingSignatureFieldTest extends AbstractPAdESTestSignature 
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/doc.pdf"));
+        documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"));
 
         signatureParameters = new PAdESSignatureParameters();
         signatureParameters.bLevel().setSigningDate(new Date());

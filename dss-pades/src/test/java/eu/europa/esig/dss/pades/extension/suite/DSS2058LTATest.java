@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.extension.suite;
 
+import com.signerry.dss.test.TestUtils;
+
 import org.junit.jupiter.api.Tag;
 
 import eu.europa.esig.dss.model.DSSDocument;
@@ -31,7 +33,7 @@ public class DSS2058LTATest extends AbstractDSS2058 {
 
 	@Override
 	protected DSSDocument getDocumentToExtend() {
-		return new InMemoryDocument(DSS2058LTATest.class.getResourceAsStream("/validation/dss-2058/dss-2058-LTA-test.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-2058/dss-2058-LTA-test.pdf"));
 	}
 
 }

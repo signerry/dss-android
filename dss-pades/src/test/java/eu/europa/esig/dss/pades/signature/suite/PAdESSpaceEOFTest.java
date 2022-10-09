@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.signature.suite;
 
+import com.signerry.dss.test.TestUtils;
+
 import org.junit.jupiter.api.BeforeEach;
 
 import eu.europa.esig.dss.enumerations.SignatureLevel;
@@ -40,7 +42,7 @@ public class PAdESSpaceEOFTest extends AbstractPAdESTestSignature {
 	@BeforeEach
 	public void init() {
 
-		documentToSign = new InMemoryDocument(PAdESLevelBTest.class.getResourceAsStream("/sample_end_space.pdf"), null, MimeType.PDF);
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample_end_space.pdf"), null, MimeType.PDF);
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

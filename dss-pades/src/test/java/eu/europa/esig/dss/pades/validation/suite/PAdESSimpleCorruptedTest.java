@@ -22,6 +22,8 @@ package eu.europa.esig.dss.pades.validation.suite;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -31,7 +33,7 @@ public class PAdESSimpleCorruptedTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/pdf-signed-corrupted.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/pdf-signed-corrupted.pdf"));
 	}
 	
 	@Override

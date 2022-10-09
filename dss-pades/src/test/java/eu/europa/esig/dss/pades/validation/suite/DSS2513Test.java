@@ -47,11 +47,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DSS2513Test extends AbstractPAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new InMemoryDocument(getClass().getResourceAsStream("/validation/belgian_pki_multiple_ocsps.pdf"));
+        return new InMemoryDocument(TestUtils.getResourceAsStream("validation/belgian_pki_multiple_ocsps.pdf"));
     }
 
     @Override

@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.List;
 
 import eu.europa.esig.dss.detailedreport.DetailedReport;
@@ -41,7 +43,7 @@ public class BadEncodedCMSTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/BadEncodedCMS.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/BadEncodedCMS.pdf"));
 	}
 	
 	@Override

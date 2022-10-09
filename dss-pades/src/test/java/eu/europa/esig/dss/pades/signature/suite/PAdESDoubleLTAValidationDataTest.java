@@ -49,12 +49,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESDoubleLTAValidationDataTest extends PKIFactoryAccess {
 	
 	@Test
 	public void test() throws Exception {
 
-		DSSDocument doc = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		DSSDocument doc = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 		
 		// Sign with LT level and GoodTSA
 		PAdESService service = new PAdESService(getCompleteCertificateVerifier());

@@ -30,11 +30,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESExtendedToTLevelTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/pades-t-level-extended.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/pades-t-level-extended.pdf"));
 	}
 	
 	@Override

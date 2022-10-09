@@ -49,12 +49,14 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PDFTimestampingTest extends PKIFactoryAccess {
 	
 	@Test
 	public void test() {
 
-		DSSDocument doc = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		DSSDocument doc = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 		
 		PAdESService service = new PAdESService(getCompleteCertificateVerifier());
 		service.setTspSource(getGoodTsa());

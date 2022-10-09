@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.List;
 
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -37,7 +39,7 @@ public class PAdESSameBorderAnnotationsTest extends AbstractPAdESTestValidation 
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/pades-same-border-annotations.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/pades-same-border-annotations.pdf"));
 	}
 	
 	@Override

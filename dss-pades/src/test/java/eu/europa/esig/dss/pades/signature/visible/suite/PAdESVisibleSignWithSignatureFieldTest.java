@@ -22,6 +22,8 @@ package eu.europa.esig.dss.pades.signature.visible.suite;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.IOException;
 import java.util.Date;
 
@@ -54,7 +56,7 @@ public class PAdESVisibleSignWithSignatureFieldTest extends PKIFactoryAccess {
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/doc.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"));
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());
@@ -69,7 +71,7 @@ public class PAdESVisibleSignWithSignatureFieldTest extends PKIFactoryAccess {
 	@Test
 	public void testImageSign() throws IOException {
 		SignatureImageParameters imageParameters = signatureParameters.getImageParameters();
-		imageParameters.setImage(new InMemoryDocument(getClass().getResourceAsStream("/signature-image.png"), "signature-image.png", MimeType.PNG));
+		imageParameters.setImage(new InMemoryDocument(TestUtils.getResourceAsStream("signature-image.png"), "signature-image.png", MimeType.PNG));
 		signAndValidate();
 	}
 

@@ -35,11 +35,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESWithCrossCertificateOCSPsTest extends AbstractPAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new InMemoryDocument(getClass().getResourceAsStream("/validation/PAdESWithCrossCertificateOCSP.pdf"));
+        return new InMemoryDocument(TestUtils.getResourceAsStream("validation/PAdESWithCrossCertificateOCSP.pdf"));
     }
 
     @Override

@@ -23,6 +23,8 @@ package eu.europa.esig.dss.pades.signature.suite;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.security.MessageDigest;
 import java.util.Calendar;
 import java.util.Date;
@@ -61,7 +63,7 @@ public class DigestStabilityTest extends PKIFactoryAccess {
 	@Test
 	public void testTwiceGetDataToSignReturnsSameDigest() throws Exception {
 
-		DSSDocument toBeSigned = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"), "sample.pdf", MimeType.PDF);
+		DSSDocument toBeSigned = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"), "sample.pdf", MimeType.PDF);
 
 		Date signingDate = new Date();
 
@@ -77,8 +79,8 @@ public class DigestStabilityTest extends PKIFactoryAccess {
 
 	@Test
 	public void differentDocumentGetDifferentDigest() throws Exception {
-		DSSDocument toBeSigned1 = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"), "sample.pdf", MimeType.PDF);
-		DSSDocument toBeSigned2 = new InMemoryDocument(getClass().getResourceAsStream("/doc.pdf"), "doc.pdf", MimeType.PDF);
+		DSSDocument toBeSigned1 = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"), "sample.pdf", MimeType.PDF);
+		DSSDocument toBeSigned2 = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"), "doc.pdf", MimeType.PDF);
 
 		Date signingDate = new Date();
 
@@ -94,7 +96,7 @@ public class DigestStabilityTest extends PKIFactoryAccess {
 
 	@Test
 	public void differentSigningDateGetDifferentDigest() throws Exception {
-		DSSDocument toBeSigned = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"), "sample.pdf", MimeType.PDF);
+		DSSDocument toBeSigned = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"), "sample.pdf", MimeType.PDF);
 
 		Calendar calendar = Calendar.getInstance();
 

@@ -45,6 +45,8 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 @Tag("slow")
 public class PAdESLevelBWithECDSATokenTest extends AbstractPAdESTestSignature {
 
@@ -68,7 +70,7 @@ public class PAdESLevelBWithECDSATokenTest extends AbstractPAdESTestSignature {
     @ParameterizedTest(name = "Combination {index} of PLAIN_ECDSA with {0}")
     @MethodSource("data")
     public void init(DigestAlgorithm digestAlgo) {
-        documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+        documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
         signatureParameters = new PAdESSignatureParameters();
         signatureParameters.setSigningCertificate(getSigningCert());

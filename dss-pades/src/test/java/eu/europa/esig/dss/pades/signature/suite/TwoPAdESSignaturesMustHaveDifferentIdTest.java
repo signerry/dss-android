@@ -41,11 +41,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 public class TwoPAdESSignaturesMustHaveDifferentIdTest extends PKIFactoryAccess {
 
 	@Test
 	public void test() throws Exception {
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
 		PAdESSignatureParameters signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

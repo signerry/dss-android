@@ -43,6 +43,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESNoChangesPermittedTest extends AbstractPAdESTestSignature {
 
     private PAdESService service;
@@ -52,7 +54,7 @@ public class PAdESNoChangesPermittedTest extends AbstractPAdESTestSignature {
     @BeforeEach
     public void init() throws Exception {
         documentToSign = new InMemoryDocument(
-                getClass().getResourceAsStream("/validation/dss-2554/certified-no-change-permitted.pdf"));
+                TestUtils.getResourceAsStream("validation/dss-2554/certified-no-change-permitted.pdf"));
 
         signatureParameters = new PAdESSignatureParameters();
         signatureParameters.setSigningCertificate(getSigningCert());

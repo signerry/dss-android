@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.List;
 
 import eu.europa.esig.dss.model.DSSDocument;
@@ -39,7 +41,7 @@ public class PAdESSignatureDigestRefPresenceTest extends AbstractPAdESTestValida
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/PAdES-LTA.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/PAdES-LTA.pdf"));
 	}
 	
 	@Override

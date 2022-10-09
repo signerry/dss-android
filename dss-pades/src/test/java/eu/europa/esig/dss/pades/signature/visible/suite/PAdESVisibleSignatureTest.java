@@ -55,6 +55,8 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESVisibleSignatureTest extends PKIFactoryAccess {
 
 	private DocumentSignatureService<PAdESSignatureParameters, PAdESTimestampParameters> service;
@@ -63,7 +65,7 @@ public class PAdESVisibleSignatureTest extends PKIFactoryAccess {
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());
@@ -268,16 +270,16 @@ public class PAdESVisibleSignatureTest extends PKIFactoryAccess {
 	}
 
 	private DSSDocument getSmallRedJPG() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/small-red.jpg"), "small-red.jpg", MimeType.JPEG);
+		return new InMemoryDocument(TestUtils.getResourceAsStream("small-red.jpg"), "small-red.jpg", MimeType.JPEG);
 	}
 
 	private DSSDocument getPngPicture() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/signature-image.png"), "signature-image.png",
+		return new InMemoryDocument(TestUtils.getResourceAsStream("signature-image.png"), "signature-image.png",
 				MimeType.PNG);
 	}
 
 	private DSSDocument getCMYKPicture() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/cmyk.jpg"), "cmyk.jpg", MimeType.JPEG);
+		return new InMemoryDocument(TestUtils.getResourceAsStream("cmyk.jpg"), "cmyk.jpg", MimeType.JPEG);
 	}
 
 }

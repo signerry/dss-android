@@ -44,12 +44,14 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DoubleArchiveTstCoverageTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
 		return new InMemoryDocument(
-				getClass().getResourceAsStream("/validation/dss-1696/Test.signed_Certipost-2048-SHA512.extended.extended-2019-07-02.pdf"));
+				TestUtils.getResourceAsStream("validation/dss-1696/Test.signed_Certipost-2048-SHA512.extended.extended-2019-07-02.pdf"));
 	}
 	
 	@Override

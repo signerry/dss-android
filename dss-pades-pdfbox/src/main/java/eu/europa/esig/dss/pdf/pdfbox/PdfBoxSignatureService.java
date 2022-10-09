@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pdf.pdfbox;
 
+import android.graphics.Bitmap;
+
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.InMemoryDocument;
@@ -74,7 +76,6 @@ import com.tom_roush.pdfbox.pdmodel.interactive.form.PDSignatureField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -208,8 +209,8 @@ public class PdfBoxSignatureService extends AbstractPDFSignatureService {
 				AnnotationBox fieldBox = newField.getAnnotationBox();
 				AnnotationBox box = fieldBox.toPdfPageCoordinates(pageBox.getHeight());
 
-				BufferedImage page = reader.generateImageScreenshot(parameters.getImageParameters().getFieldParameters().getPage());
-				BufferedImage annotationRepresentation = page.getSubimage(
+				Bitmap page = reader.generateImageScreenshot(parameters.getImageParameters().getFieldParameters().getPage());
+				Bitmap annotationRepresentation = Bitmap.createBitmap (page,
 						Math.round((box.getMaxX() - box.getWidth())), Math.round((box.getMaxY() - box.getHeight())),
 						Math.round(box.getWidth()), Math.round(box.getHeight()));
 				return ImageUtils.toDSSDocument(annotationRepresentation);

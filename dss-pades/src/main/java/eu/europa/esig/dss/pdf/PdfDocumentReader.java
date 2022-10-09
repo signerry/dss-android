@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pdf;
 
+import android.graphics.Bitmap;
+
 import eu.europa.esig.dss.enumerations.CertificationPermission;
 import eu.europa.esig.dss.pades.validation.PdfSignatureDictionary;
 import eu.europa.esig.dss.pades.validation.PdfSignatureField;
@@ -98,7 +100,7 @@ public interface PdfDocumentReader extends Closeable {
 	 * @return {@link BufferedImage} screenshot for the given page
 	 * @throws IOException if an exception occurs
 	 */
-	BufferedImage generateImageScreenshot(int page) throws IOException;
+	Bitmap generateImageScreenshot(int page) throws IOException;
 	
 	/**
 	 * Generates the image screenshot by hiding the given list of {@code annotationBoxes}
@@ -108,7 +110,7 @@ public interface PdfDocumentReader extends Closeable {
 	 * @return {@link BufferedImage} screenshot for the given page
 	 * @throws IOException if an exception occurs
 	 */
-	BufferedImage generateImageScreenshotWithoutAnnotations(int page, List<PdfAnnotation> addedAnnotations) throws IOException;
+	Bitmap generateImageScreenshotWithoutAnnotations(int page, List<PdfAnnotation> addedAnnotations) throws IOException;
 
 	/**
 	 * This method checks if the document is not encrypted or with limited edition rights

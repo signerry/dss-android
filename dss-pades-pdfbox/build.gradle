@@ -4,6 +4,9 @@
 
 apply from: "../module-build.gradle"
 
+android {
+    defaultConfig.testInstrumentationRunnerArgument("listener", "eu.europa.esig.dss.UnitTestRunnerListener")
+}
 
 dependencies {
     api project(':dss-pades')
@@ -16,6 +19,12 @@ dependencies {
     }
 
     androidTestImplementation (
+            group: 'com.aspose',
+            name: 'aspose-pdf',
+            version: '20.11',
+            classifier: 'android.via.java')
+
+    testImplementation (
             group: 'com.aspose',
             name: 'aspose-pdf',
             version: '20.11',

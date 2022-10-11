@@ -595,10 +595,6 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		signatureImageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(signatureImageParameters);
 
-		service.setPdfObjFactory(new PdfBoxDefaultObjectFactory());
-		Exception exception = assertThrows(UnsupportedOperationException.class , () -> sign(testName + "_default"));
-		assertEquals("PdfBoxNativeFont.class can be used only with PdfBoxNativeObjectFactory!", exception.getMessage());
-		
 		service.setPdfObjFactory(new PdfBoxNativeObjectFactory());
 		DSSDocument nativeDrawerPdf = sign(testName + "_native");
 		assertNotNull(nativeDrawerPdf);

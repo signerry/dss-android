@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
+import com.signerry.dss.test.TestUtils;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.pdmodel.interactive.digitalsignature.PDSignature;
 import org.junit.jupiter.api.Test;
@@ -37,14 +38,14 @@ public class VRITest {
 
 	@Test
 	public void vri() throws Exception {
-		String path = "/validation/Signature-P-HU_MIC-3.pdf";
+		String path = "validation/Signature-P-HU_MIC-3.pdf";
 		String vriValue = "C41B1DBFE0E816D8A6F99A9DB98FD43960A5CF45";
 
-		PDDocument pdDoc = PDDocument.load(getClass().getResourceAsStream(path));
+		PDDocument pdDoc = PDDocument.load(TestUtils.getResourceAsStream(path));
 		List<PDSignature> signatureDictionaries = pdDoc.getSignatureDictionaries();
 		assertTrue(Utils.isCollectionNotEmpty(signatureDictionaries));
 		PDSignature pdSignature = signatureDictionaries.get(0);
-		byte[] contents = pdSignature.getContents(getClass().getResourceAsStream(path));
+		byte[] contents = pdSignature.getContents(TestUtils.getResourceAsStream(path));
 		byte[] digest = DSSUtils.digest(DigestAlgorithm.SHA1, contents);
 		assertEquals(vriValue, Utils.upperCase(Utils.toHex(digest)));
 

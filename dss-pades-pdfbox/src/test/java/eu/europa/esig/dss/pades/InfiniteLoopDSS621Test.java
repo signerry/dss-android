@@ -144,8 +144,8 @@ public class InfiniteLoopDSS621Test {
 	@Test
 	public void manualTest() throws Exception {
 
-		PDDocument document = PDDocument.load(getClass().getResourceAsStream(FILE_PATH));
-		try (InputStream is = getClass().getResourceAsStream(FILE_PATH)) {
+		PDDocument document = PDDocument.load(TestUtils.getResourceAsStream(FILE_PATH));
+		try (InputStream is = TestUtils.getResourceAsStream(FILE_PATH)) {
 			byte[] pdfBytes = Utils.toByteArray(is);
 
 			List<PDSignature> signatures = document.getSignatureDictionaries();
@@ -158,7 +158,7 @@ public class InfiniteLoopDSS621Test {
 
 				logger.debug("Byte range : " + Arrays.toString(pdSignature.getByteRange()));
 
-				Utils.write(contents, new FileOutputStream("target/sig" + (++idx) + ".p7s"));
+				Utils.write(contents, new FileOutputStream(TestUtils.getTmpFile("sig" + (++idx) + ".p7s")));
 
 				ASN1InputStream asn1sInput = new ASN1InputStream(contents);
 				ASN1Sequence asn1Seq = (ASN1Sequence) asn1sInput.readObject();

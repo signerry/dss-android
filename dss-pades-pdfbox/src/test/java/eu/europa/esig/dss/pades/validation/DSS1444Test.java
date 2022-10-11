@@ -107,8 +107,7 @@ public class DSS1444Test {
 	 */
 	@Test
 	public void test5() throws IOException {
-		DSSDocument dssDocument = new InMemoryDocument(getClass()
-				.getResourceAsStream("/validation/dss-PLAIN-ECDSA/TeleSec_PKS_eIDAS_QES_CA_1-baseline-b.pdf"));
+		DSSDocument dssDocument = new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-PLAIN-ECDSA/TeleSec_PKS_eIDAS_QES_CA_1-baseline-b.pdf"));
 		SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(dssDocument);
 		validator.setCertificateVerifier(new CommonCertificateVerifier());
 		Reports reports = validator.validateDocument();
@@ -127,8 +126,7 @@ public class DSS1444Test {
 	 */
 	@Test
 	public void test6() throws IOException {
-		DSSDocument dssDocument = new InMemoryDocument(getClass()
-				.getResourceAsStream("/validation/dss-PLAIN-ECDSA/TeleSec_PKS_eIDAS_QES_CA_1-baseline-b.pdf"));
+		DSSDocument dssDocument = new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-PLAIN-ECDSA/TeleSec_PKS_eIDAS_QES_CA_1-baseline-b.pdf"));
 		SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(dssDocument);
 		validator.setCertificateVerifier(new CommonCertificateVerifier());
 		Reports reports = validator.validateDocument(

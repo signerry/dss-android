@@ -41,7 +41,12 @@ public final class PDFAUtils {
 
 		Document pdfDocument = new Document(signedDocument.openStream());
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		boolean validation = pdfDocument.validate(stream, PdfFormat.PDF_A_1A);
+		boolean validation = pdfDocument.validate(stream, PdfFormat.PDF_A_1B);
+
+		if(!validation) {
+			LOG.error(new String(stream.toByteArray()));
+		}
+
 		return validation;
 	}
 }

@@ -157,7 +157,7 @@ public abstract class AbstractPdfBoxSignatureDrawer implements PdfBoxSignatureDr
 		// sRGB supports both RGB and Grayscale color spaces
 		if (COSName.DEVICERGB.getName().equals(colorSpaceName) || COSName.DEVICEGRAY.getName().equals(colorSpaceName)) {
 
-			InputStream resourceAsStream = AbstractPdfBoxSignatureDrawer.class.getResourceAsStream("/color-profiles/sRGB.pf");
+			InputStream resourceAsStream = AbstractPdfBoxSignatureDrawer.class.getResourceAsStream("/sRGB.pf");
 			String outputCondition = OUTPUT_INTENT_SRGB_PROFILE;
 
 			PDOutputIntent outputIntent = new PDOutputIntent(document, resourceAsStream);

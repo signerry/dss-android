@@ -38,6 +38,7 @@ import eu.europa.esig.dss.validation.CommonCertificateVerifier;
 import eu.europa.esig.dss.validation.SignaturePolicyProvider;
 import eu.europa.esig.dss.validation.reports.Reports;
 
+import com.signerry.android.CryptoProvider;
 import com.signerry.dss.test.TestUtils;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.pdmodel.interactive.digitalsignature.PDSignature;
@@ -240,7 +241,9 @@ public class InfiniteLoopDSS621Test {
 
 					logger.debug("SIGNATURE VALUE : " + signatureValue);
 
-					Cipher cipher = Cipher.getInstance(encryptionAlgorithm.getName());
+					String algorithmFull = encryptionAlgorithm.getName() + "/ECB/PKCS1Padding";
+
+					Cipher cipher = Cipher.getInstance(algorithmFull, CryptoProvider.BCProvider);
 					cipher.init(Cipher.DECRYPT_MODE, signerCertificate);
 					byte[] decrypted = cipher.doFinal(encryptedInfoOctedString.getOctets());
 

@@ -34,13 +34,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PdfBoxDocumentReaderTest {
 
-	private static final String FILE = "/validation/doc-firmado-LT.pdf";
+	private static final String FILE = "validation/doc-firmado-LT.pdf";
 
 	@Test
 	public void testPdfBoxUtils() throws Exception {
-		try (PdfDocumentReader documentReader = new PdfBoxDocumentReader(new InMemoryDocument(getClass().getResourceAsStream(FILE)))) {
+		try (PdfDocumentReader documentReader = new PdfBoxDocumentReader(new InMemoryDocument(TestUtils.getResourceAsStream(FILE)))) {
 			PdfDssDict dssDictionary = documentReader.getDSSDictionary();
 			assertNotNull(dssDictionary);
 		}

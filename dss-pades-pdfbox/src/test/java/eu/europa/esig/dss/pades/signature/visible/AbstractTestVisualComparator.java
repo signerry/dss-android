@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.signerry.dss.test.TestUtils;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.pdmodel.PDPage;
 import com.tom_roush.pdfbox.pdmodel.PDPageTree;
@@ -39,6 +40,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import eu.europa.esig.dss.model.DSSDocument;
+import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.pades.PAdESSignatureParameters;
@@ -73,17 +75,14 @@ public abstract class AbstractTestVisualComparator extends PKIFactoryAccess {
 	protected abstract PAdESSignatureParameters getSignatureParameters();
 
 	protected void drawAndCompareVisually() throws IOException {
-		getService().setPdfObjFactory(new PdfBoxDefaultObjectFactory());
-		DSSDocument defaultDrawerPdf = sign(getTestName() + "_default");
-		getService().setPdfObjFactory(new PdfBoxNativeObjectFactory());
+		DSSDocument defaultDrawerPdf = new InMemoryDocument(TestUtils.getResourceAsStream("default-drawer/" + this.getTestName() + ".pdf"));
 		DSSDocument nativeDrawerPdf = sign(getTestName() + "_native");
 		compareVisualSimilarity(defaultDrawerPdf, nativeDrawerPdf);
 		compareAnnotations(defaultDrawerPdf, nativeDrawerPdf);
 	}
 
 	protected void drawAndCompareExplicitly() throws IOException {
-		getService().setPdfObjFactory(new PdfBoxDefaultObjectFactory());
-		DSSDocument defaultDrawerPdf = sign("default");
+		DSSDocument defaultDrawerPdf = new InMemoryDocument(TestUtils.getResourceAsStream("default-drawer/default.pdf"));
 
 		getService().setPdfObjFactory(new PdfBoxNativeObjectFactory());
 		DSSDocument nativeDrawerPdf = sign("native");

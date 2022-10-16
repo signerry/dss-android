@@ -637,17 +637,17 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		SignatureImageParameters parameters = signatureParameters.getImageParameters();
 		parameters.setRotation(visualSignatureRotation);
 		signatureParameters.setImageParameters(parameters);
-		compareDoc("/visualSignature/test.pdf");
-		compareDoc("/visualSignature/test_90.pdf");
-		compareDoc("/visualSignature/test_180.pdf");
-		compareDoc("/visualSignature/test_270.pdf");
-		compareDoc("/visualSignature/test_-90.pdf");
-		compareDoc("/visualSignature/test_-180.pdf");
-		compareDoc("/visualSignature/test_-270.pdf");
+		compareDoc("visualSignature/test.pdf");
+		compareDoc("visualSignature/test_90.pdf");
+		compareDoc("visualSignature/test_180.pdf");
+		compareDoc("visualSignature/test_270.pdf");
+		compareDoc("visualSignature/test_-90.pdf");
+		compareDoc("visualSignature/test_-180.pdf");
+		compareDoc("visualSignature/test_-270.pdf");
 	}
 	
 	private void compareDoc(String docPath) throws IOException {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream(docPath));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream(docPath));
 		drawAndCompareVisually();
 	}
 	

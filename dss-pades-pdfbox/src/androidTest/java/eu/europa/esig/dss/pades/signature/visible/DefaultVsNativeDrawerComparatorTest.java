@@ -46,6 +46,7 @@ import eu.europa.esig.dss.pdf.pdfbox.PdfBoxUtils;
 import eu.europa.esig.dss.pdf.pdfbox.visible.PdfBoxNativeFont;
 
 import com.signerry.dss.test.TestUtils;
+import eu.europa.esig.dss.DSSColor;
 import com.tom_roush.pdfbox.pdmodel.font.PDType1Font;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -98,7 +99,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.GREEN);
+		textParameters.setTextColor(DSSColor.GREEN);
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
 		drawAndCompareVisually();
@@ -110,7 +111,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(new Color(0, 255, 0, 100));
+		textParameters.setTextColor(new DSSColor(0, 255, 0, 100));
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
 		drawAndCompareVisually();
@@ -122,7 +123,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(new Color(0, 255, 0, 0));
+		textParameters.setTextColor(new DSSColor(0, 255, 0, 0));
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
 
@@ -254,7 +255,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.GREEN);
+		textParameters.setTextColor(DSSColor.GREEN);
 		imageParameters.setTextParameters(textParameters);
 		
 		signatureParameters.setImageParameters(imageParameters);
@@ -280,7 +281,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.GREEN);
+		textParameters.setTextColor(DSSColor.GREEN);
 		imageParameters.setTextParameters(textParameters);
 
 		imageParameters.setZoom(50); // reduces 50%
@@ -302,7 +303,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.GREEN);
+		textParameters.setTextColor(DSSColor.GREEN);
 		textParameters.setSignerTextPosition(SignerTextPosition.TOP);
 		imageParameters.setTextParameters(textParameters);
 
@@ -354,7 +355,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.GREEN);
+		textParameters.setTextColor(DSSColor.GREEN);
 		textParameters.setSignerTextPosition(SignerTextPosition.TOP);
 		imageParameters.setTextParameters(textParameters);
 
@@ -410,7 +411,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.GREEN);
+		textParameters.setTextColor(DSSColor.GREEN);
 		textParameters.setSignerTextPosition(SignerTextPosition.TOP);
 		imageParameters.setTextParameters(textParameters);
 
@@ -431,7 +432,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.BLUE);
+		textParameters.setTextColor(DSSColor.BLUE);
 		DSSFileFont font = new DSSFileFont(TestUtils.getResourceAsStream("fonts/OpenSansBold.ttf"));
 		font.setSize(15);
 		textParameters.setFont(font);
@@ -454,7 +455,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.GREEN);
+		textParameters.setTextColor(DSSColor.GREEN);
 		textParameters.setSignerTextPosition(SignerTextPosition.RIGHT);
 		imageParameters.setTextParameters(textParameters);
 		imageParameters.setAlignmentHorizontal(VisualSignatureAlignmentHorizontal.RIGHT);
@@ -476,7 +477,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature\nsecond line\nlong line is very long line with long text example this");
-		textParameters.setTextColor(Color.BLUE);
+		textParameters.setTextColor(DSSColor.BLUE);
 		textParameters.setSignerTextPosition(SignerTextPosition.LEFT);
 		textParameters.setFont(new DSSJavaFont(new Font(Font.SANS_SERIF, Font.BOLD, 10)));
 		imageParameters.setTextParameters(textParameters);
@@ -506,9 +507,9 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		SignatureImageParameters imageParameters = createSignatureImageParameters();
 		similarityLimit = 0.987f;
 
-		Color transparent = new Color(0, 0, 0, 0.25f);
+		DSSColor transparent = new DSSColor(0, 0, 0, 0.25f);
 		imageParameters.getTextParameters().setBackgroundColor(transparent);
-		imageParameters.getTextParameters().setTextColor(new Color(0.5f, 0.2f, 0.8f, 0.5f));
+		imageParameters.getTextParameters().setTextColor(new DSSColor(0.5f, 0.2f, 0.8f, 0.5f));
 		imageParameters.getTextParameters().setFont(new DSSFileFont(TestUtils.getResourceAsStream("fonts/OpenSansBold.ttf")));
 		imageParameters.setBackgroundColor(transparent);
 		
@@ -542,9 +543,9 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		SignatureImageParameters imageParameters = createSignatureImageParameters();
 		similarityLimit = 0.990f;
 
-		Color transparent = new Color(0, 0, 0, 0.25f);
+		DSSColor transparent = new DSSColor(0, 0, 0, 0.25f);
 		imageParameters.getTextParameters().setBackgroundColor(transparent);
-		imageParameters.getTextParameters().setTextColor(new Color(0.5f, 0.2f, 0.8f, 0.5f));
+		imageParameters.getTextParameters().setTextColor(new DSSColor(0.5f, 0.2f, 0.8f, 0.5f));
 		imageParameters.getTextParameters().setPadding(50);
 		imageParameters.setBackgroundColor(transparent);
 
@@ -586,8 +587,8 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature\nOne more line\nAnd the last line");
-		textParameters.setTextColor(Color.BLUE);
-		textParameters.setBackgroundColor(Color.YELLOW);
+		textParameters.setTextColor(DSSColor.BLUE);
+		textParameters.setBackgroundColor(DSSColor.YELLOW);
 		textParameters.setSignerTextHorizontalAlignment(SignerTextHorizontalAlignment.CENTER);
 		
 		textParameters.setFont(new PdfBoxNativeFont(PDType1Font.HELVETICA));
@@ -611,13 +612,13 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		textParameters.setText("My signature\nsecond line\nlong line is very long line with long text example this");
 		textParameters.setSignerTextPosition(SignerTextPosition.RIGHT);
 		textParameters.setSignerTextHorizontalAlignment(SignerTextHorizontalAlignment.RIGHT);
-		textParameters.setBackgroundColor(new Color(1, 0, 0, 0.25f));
-		textParameters.setTextColor(Color.MAGENTA);
+		textParameters.setBackgroundColor(new DSSColor(1, 0, 0, 0.25f));
+		textParameters.setTextColor(DSSColor.MAGENTA);
 		DSSFileFont font = new DSSFileFont(TestUtils.getResourceAsStream("fonts/OpenSansExtraBold.ttf"));
 		font.setSize(8);
 		textParameters.setFont(font);
 		imageParameters.setTextParameters(textParameters);
-		imageParameters.setBackgroundColor(new Color(0, 0, 1, 0.25f));
+		imageParameters.setBackgroundColor(new DSSColor(0, 0, 1, 0.25f));
 		
 		SignatureFieldParameters fieldParameters = new SignatureFieldParameters();
 		fieldParameters.setOriginX(20);
@@ -723,7 +724,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		fieldParameters.setHeight(150);
 		imageParameters.setFieldParameters(fieldParameters);
 		imageParameters.setImageScaling(ImageScaling.CENTER);
-		imageParameters.setBackgroundColor(Color.PINK);
+		imageParameters.setBackgroundColor(DSSColor.PINK);
 
 		signatureParameters.setImageParameters(imageParameters);
 
@@ -916,12 +917,12 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		imageParameters.setFieldParameters(fieldParameters);
 		imageParameters.setImageScaling(ImageScaling.ZOOM_AND_CENTER);
-		imageParameters.setBackgroundColor(Color.YELLOW);
+		imageParameters.setBackgroundColor(DSSColor.YELLOW);
 		imageParameters.setRotation(VisualSignatureRotation.ROTATE_90);
 
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("Signature");
-		textParameters.setBackgroundColor(Color.WHITE);
+		textParameters.setBackgroundColor(DSSColor.WHITE);
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
 		drawAndCompareVisually();
@@ -952,7 +953,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		imageParameters.setFieldParameters(fieldParameters);
 		imageParameters.setImageScaling(ImageScaling.STRETCH);
-		imageParameters.setBackgroundColor(Color.PINK);
+		imageParameters.setBackgroundColor(DSSColor.PINK);
 		imageParameters.setZoom(50);
 		signatureParameters.setImageParameters(imageParameters);
 		drawAndCompareVisually();
@@ -978,7 +979,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setFieldParameters(fieldParameters);
 
 		imageParameters.setImageScaling(ImageScaling.ZOOM_AND_CENTER);
-		imageParameters.setBackgroundColor(Color.PINK);
+		imageParameters.setBackgroundColor(DSSColor.PINK);
 		imageParameters.setRotation(VisualSignatureRotation.ROTATE_90);
 		signatureParameters.setImageParameters(imageParameters);
 

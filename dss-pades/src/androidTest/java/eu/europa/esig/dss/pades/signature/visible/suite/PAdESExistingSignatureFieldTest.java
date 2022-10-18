@@ -21,6 +21,7 @@
 package eu.europa.esig.dss.pades.signature.visible.suite;
 
 import com.signerry.dss.test.TestUtils;
+import eu.europa.esig.dss.DSSColor;
 
 import eu.europa.esig.dss.enumerations.ImageScaling;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
@@ -83,7 +84,7 @@ public class PAdESExistingSignatureFieldTest extends AbstractPAdESTestSignature 
         SignatureImageParameters imageParameters = signatureParameters.getImageParameters();
         imageParameters.setImage(RED_CROSS_IMAGE);
         imageParameters.setImageScaling(ImageScaling.CENTER);
-        imageParameters.setBackgroundColor(Color.PINK);
+        imageParameters.setBackgroundColor(DSSColor.PINK);
 
         super.signAndVerify();
     }
@@ -102,7 +103,7 @@ public class PAdESExistingSignatureFieldTest extends AbstractPAdESTestSignature 
         SignatureImageParameters imageParameters = signatureParameters.getImageParameters();
         imageParameters.setImage(PNG_IMAGE);
         imageParameters.setImageScaling(ImageScaling.ZOOM_AND_CENTER);
-        imageParameters.setBackgroundColor(Color.PINK);
+        imageParameters.setBackgroundColor(DSSColor.PINK);
         imageParameters.setRotation(VisualSignatureRotation.ROTATE_90);
 
         super.signAndVerify();

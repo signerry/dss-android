@@ -13,10 +13,6 @@ dependencies {
     testImplementation testFixtures(project(':dss-pades'))
     androidTestImplementation testFixtures(project(':dss-pades'))
 
-    //implementation 'org.apache.pdfbox:pdfbox:2.0.25'
-    api('com.tom-roush:pdfbox-android:2.0.25.0') {
-        exclude group: 'org.bouncycastle'
-    }
 
     androidTestImplementation (
             group: 'com.aspose',

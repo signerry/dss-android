@@ -32,7 +32,7 @@ import eu.europa.esig.dss.pdf.visible.ImageRotationUtils;
 import eu.europa.esig.dss.pdf.visible.ImageUtils;
 import eu.europa.esig.dss.pdf.visible.SignatureFieldDimensionAndPosition;
 
-import com.tom_roush.harmony.awt.AWTColor;
+import eu.europa.esig.dss.DSSColor;
 import com.tom_roush.pdfbox.cos.COSName;
 import com.tom_roush.pdfbox.io.IOUtils;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
@@ -219,11 +219,11 @@ public class NativePdfBoxVisibleSignatureDrawer extends AbstractPdfBoxSignatureD
 	 * @param color {@link Color} background color
 	 * @throws IOException in case of error
 	 */
-	private void setFieldBackground(PDPageContentStream cs, Color color) throws IOException {
+	private void setFieldBackground(PDPageContentStream cs, DSSColor color) throws IOException {
 		setBackground(cs, color, new PDRectangle(-5000, -5000, 10000, 10000));
 	}
 
-	private void setBackground(PDPageContentStream cs, Color color, PDRectangle rect) throws IOException {
+	private void setBackground(PDPageContentStream cs, DSSColor color, PDRectangle rect) throws IOException {
 		if (color != null) {
 			setAlphaChannel(cs, color);
 			setNonStrokingColor(cs, color);
@@ -335,11 +335,9 @@ public class NativePdfBoxVisibleSignatureDrawer extends AbstractPdfBoxSignatureD
 		}
 	}
 
-	private void setNonStrokingColor(PDPageContentStream cs, Color color) throws IOException {
+	private void setNonStrokingColor(PDPageContentStream cs, DSSColor color) throws IOException {
 		if (color != null) {
-
-			AWTColor awtColor = new AWTColor(color.getRed(), color.getGreen(), color.getBlue());
-			cs.setNonStrokingColor(awtColor);
+			cs.setNonStrokingColor(color.getAwtColor());
 		}
 	}
 
@@ -350,7 +348,7 @@ public class NativePdfBoxVisibleSignatureDrawer extends AbstractPdfBoxSignatureD
 	 * @param color {@link Color}
 	 * @throws IOException in case of error
 	 */
-	private void setAlphaChannel(PDPageContentStream cs, Color color) throws IOException {
+	private void setAlphaChannel(PDPageContentStream cs, DSSColor color) throws IOException {
 		if (color != null) {
 			// if alpha value is less then 255 (is transparent)
 			float alpha = color.getAlpha();
@@ -374,7 +372,7 @@ public class NativePdfBoxVisibleSignatureDrawer extends AbstractPdfBoxSignatureD
 	 * @param color {@link Color}
 	 * @throws IOException in case of error
 	 */
-	private void cleanTransparency(PDPageContentStream cs, Color color) throws IOException {
+	private void cleanTransparency(PDPageContentStream cs, DSSColor color) throws IOException {
 		if (color != null) {
 			// if alpha value is less than 255 (is transparent)
 			float alpha = color.getAlpha();

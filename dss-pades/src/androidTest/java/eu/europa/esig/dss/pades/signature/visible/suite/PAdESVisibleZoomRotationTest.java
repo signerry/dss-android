@@ -20,6 +20,7 @@
  */
 package eu.europa.esig.dss.pades.signature.visible.suite;
 
+import eu.europa.esig.dss.DSSColor;
 import eu.europa.esig.dss.alert.exception.AlertException;
 import eu.europa.esig.dss.enumerations.ImageScaling;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
@@ -37,7 +38,6 @@ import eu.europa.esig.dss.signature.DocumentSignatureService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.Color;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -116,7 +116,7 @@ public class PAdESVisibleZoomRotationTest extends AbstractPAdESTestSignature {
 	    fieldParameters.setWidth(100);
 	    fieldParameters.setHeight(300);
 	    imageParameters.setFieldParameters(fieldParameters);
-	    imageParameters.setBackgroundColor(Color.PINK);
+	    imageParameters.setBackgroundColor(DSSColor.PINK);
 		
 		imageParameters.setRotation(VisualSignatureRotation.ROTATE_90);
 		signatureParameters.setImageParameters(imageParameters);
@@ -135,7 +135,7 @@ public class PAdESVisibleZoomRotationTest extends AbstractPAdESTestSignature {
 	    fieldParameters.setWidth(100);
 	    fieldParameters.setHeight(300);
 	    imageParameters.setFieldParameters(fieldParameters);
-		imageParameters.setBackgroundColor(Color.PINK);
+		imageParameters.setBackgroundColor(DSSColor.PINK);
 		imageParameters.setImageScaling(ImageScaling.ZOOM_AND_CENTER);
 		
 		imageParameters.setZoom(200);

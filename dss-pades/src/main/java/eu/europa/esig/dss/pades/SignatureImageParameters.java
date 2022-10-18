@@ -20,6 +20,7 @@
  */
 package eu.europa.esig.dss.pades;
 
+import eu.europa.esig.dss.DSSColor;
 import eu.europa.esig.dss.enumerations.ImageScaling;
 import eu.europa.esig.dss.enumerations.VisualSignatureAlignmentHorizontal;
 import eu.europa.esig.dss.enumerations.VisualSignatureAlignmentVertical;
@@ -27,7 +28,6 @@ import eu.europa.esig.dss.enumerations.VisualSignatureRotation;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.pdf.visible.DPIUtils;
 
-import java.awt.Color;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -61,7 +61,7 @@ public class SignatureImageParameters implements Serializable {
 	/**
 	 * This variable defines the color of the image
 	 */
-	private Color backgroundColor;
+	private DSSColor backgroundColor;
 
 	/**
 	 * This variable defines the DPI of the image
@@ -150,17 +150,17 @@ public class SignatureImageParameters implements Serializable {
 
     /**
      * Returns a specified background color for the signature field
-     * @return {@link Color} background color
+     * @return {@link DSSColor} background color
      */
-	public Color getBackgroundColor() {
+	public DSSColor getBackgroundColor() {
 		return backgroundColor;
 	}
 
 	/**
 	 * Sets the background color for the signature field
-	 * @param backgroundColor {@link Color} to set
+	 * @param backgroundColor {@link DSSColor} to set
 	 */
-	public void setBackgroundColor(Color backgroundColor) {
+	public void setBackgroundColor(DSSColor backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
 

@@ -47,6 +47,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.signerry.dss.test.TestUtils;
+import eu.europa.esig.dss.DSSColor;
 
 @Tag("slow")
 public class PAdESVisibleCombinationTextAndImageSignatureTest extends AbstractTestVisualComparator {
@@ -87,7 +88,7 @@ public class PAdESVisibleCombinationTextAndImageSignatureTest extends AbstractTe
 
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.GREEN);
+		textParameters.setTextColor(DSSColor.GREEN);
 		imageParameters.setTextParameters(textParameters);
 
 		imageParameters.setZoom(50); // reduces 50%
@@ -107,7 +108,7 @@ public class PAdESVisibleCombinationTextAndImageSignatureTest extends AbstractTe
 
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.GREEN);
+		textParameters.setTextColor(DSSColor.GREEN);
 		textParameters.setSignerTextPosition(SignerTextPosition.TOP);
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
@@ -132,7 +133,7 @@ public class PAdESVisibleCombinationTextAndImageSignatureTest extends AbstractTe
 		
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.BLUE);
+		textParameters.setTextColor(DSSColor.BLUE);
 		DSSFileFont font = new DSSFileFont(TestUtils.getResourceAsStream("fonts/OpenSansBold.ttf"));
 		font.setSize(15);
 		textParameters.setFont(font);
@@ -164,9 +165,9 @@ public class PAdESVisibleCombinationTextAndImageSignatureTest extends AbstractTe
 		drawAndCompareVisually();
 
 		// image and text on right and horizontal align is center with transparent colors
-		Color transparent = new Color(0, 0, 0, 0.25f);
+		DSSColor transparent = new DSSColor(0, 0, 0, 0.25f);
 		imageParameters.getTextParameters().setBackgroundColor(transparent);
-		imageParameters.getTextParameters().setTextColor(new Color(0.5f, 0.2f, 0.8f, 0.5f));
+		imageParameters.getTextParameters().setTextColor(new DSSColor(0.5f, 0.2f, 0.8f, 0.5f));
 		imageParameters.setBackgroundColor(transparent);
 		
 		SignatureFieldParameters fieldParameters = new SignatureFieldParameters();
@@ -214,7 +215,7 @@ public class PAdESVisibleCombinationTextAndImageSignatureTest extends AbstractTe
 		
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature\nsecond line\nlong line is very long line with long text example this");
-		textParameters.setTextColor(Color.BLUE);
+		textParameters.setTextColor(DSSColor.BLUE);
 		textParameters.setSignerTextPosition(SignerTextPosition.LEFT);
 		imageParameters.setTextParameters(textParameters);
 

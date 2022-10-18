@@ -51,6 +51,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.signerry.dss.test.TestUtils;
+import eu.europa.esig.dss.DSSColor;
 
 public abstract class AbstractPDFAVisibleSignatureTest extends PKIFactoryAccess {
 
@@ -82,7 +83,7 @@ public abstract class AbstractPDFAVisibleSignatureTest extends PKIFactoryAccess 
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.GREEN);
+		textParameters.setTextColor(DSSColor.GREEN);
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
 
@@ -94,7 +95,7 @@ public abstract class AbstractPDFAVisibleSignatureTest extends PKIFactoryAccess 
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(new Color(0, 255, 0, 100));
+		textParameters.setTextColor(new DSSColor(0, 255, 0, 100));
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
 

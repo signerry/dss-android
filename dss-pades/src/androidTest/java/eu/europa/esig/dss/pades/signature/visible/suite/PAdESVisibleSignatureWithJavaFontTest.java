@@ -23,6 +23,7 @@ package eu.europa.esig.dss.pades.signature.visible.suite;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.signerry.dss.test.TestUtils;
+import eu.europa.esig.dss.DSSColor;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -79,7 +80,7 @@ public class PAdESVisibleSignatureWithJavaFontTest extends PKIFactoryAccess {
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.GREEN);
+		textParameters.setTextColor(DSSColor.GREEN);
 		textParameters.setFont(new DSSJavaFont(new Font(Font.SANS_SERIF, Font.BOLD, 28)));
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
@@ -92,7 +93,7 @@ public class PAdESVisibleSignatureWithJavaFontTest extends PKIFactoryAccess {
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.BLUE);
+		textParameters.setTextColor(DSSColor.BLUE);
 		textParameters.setFont(new DSSJavaFont(Font.SANS_SERIF));
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
@@ -117,7 +118,7 @@ public class PAdESVisibleSignatureWithJavaFontTest extends PKIFactoryAccess {
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.GRAY);
+		textParameters.setTextColor(DSSColor.GRAY);
 		textParameters.setFont(new DSSJavaFont(Font.SANS_SERIF, Font.ITALIC, 16));
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
@@ -130,7 +131,7 @@ public class PAdESVisibleSignatureWithJavaFontTest extends PKIFactoryAccess {
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.RED);
+		textParameters.setTextColor(DSSColor.RED);
 		Font font = new Font(Font.SANS_SERIF, Font.BOLD + Font.ITALIC, 14);
 		textParameters.setFont(new DSSJavaFont(font));
 		imageParameters.setTextParameters(textParameters);

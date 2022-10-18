@@ -20,6 +20,7 @@
  */
 package eu.europa.esig.dss.pades;
 
+import eu.europa.esig.dss.DSSColor;
 import eu.europa.esig.dss.enumerations.SignerTextHorizontalAlignment;
 import eu.europa.esig.dss.enumerations.SignerTextPosition;
 import eu.europa.esig.dss.enumerations.SignerTextVerticalAlignment;
@@ -39,13 +40,13 @@ public class SignatureImageTextParameters implements Serializable {
 	private static final long serialVersionUID = 727438728149346847L;
 
 	/** The default background color (white) */
-	private static final Color DEFAULT_BACKGROUND_COLOR = Color.WHITE;
+	private static final DSSColor DEFAULT_BACKGROUND_COLOR = DSSColor.WHITE;
 
 	/** The default padding (5 pixels) */
 	private static final float DEFAULT_PADDING = 5f;
 
 	/** The default text color (black) */
-	private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
+	private static final DSSColor DEFAULT_TEXT_COLOR = DSSColor.BLACK;
 
 	/**
 	 * This variable allows to add signer name on the image (by default, LEFT)
@@ -96,12 +97,12 @@ public class SignatureImageTextParameters implements Serializable {
      * (default is BLACK)
 	 * (PAdES visual appearance: allow null as text color, preventing graphic operators)
 	 */
-	private Color textColor = DEFAULT_TEXT_COLOR;
+	private DSSColor textColor = DEFAULT_TEXT_COLOR;
 
 	/**
 	 * This variable defines the background of a text bounding box
 	 */
-	private Color backgroundColor = DEFAULT_BACKGROUND_COLOR;
+	private DSSColor backgroundColor = DEFAULT_BACKGROUND_COLOR;
 
 	/**
 	 * Returns a signer text position respectively to an image
@@ -228,7 +229,7 @@ public class SignatureImageTextParameters implements Serializable {
 	 * 
 	 * @return {@link Color}
 	 */
-	public Color getTextColor() {
+	public DSSColor getTextColor() {
 		return textColor;
 	}
 
@@ -241,7 +242,7 @@ public class SignatureImageTextParameters implements Serializable {
 	 *
 	 * @param textColor {@link Color} to set
 	 */
-	public void setTextColor(Color textColor) {
+	public void setTextColor(DSSColor textColor) {
 		this.textColor = textColor;
 	}
 
@@ -250,7 +251,7 @@ public class SignatureImageTextParameters implements Serializable {
 	 * 
 	 * @return {@link Color} of the text area background
 	 */
-	public Color getBackgroundColor() {
+	public DSSColor getBackgroundColor() {
 		return backgroundColor;
 	}
 
@@ -263,7 +264,7 @@ public class SignatureImageTextParameters implements Serializable {
 	 * 
 	 * @param backgroundColor {@link Color} to set
 	 */
-	public void setBackgroundColor(Color backgroundColor) {
+	public void setBackgroundColor(DSSColor backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
 

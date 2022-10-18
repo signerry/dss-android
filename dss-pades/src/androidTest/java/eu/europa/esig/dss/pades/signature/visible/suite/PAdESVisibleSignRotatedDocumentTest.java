@@ -21,6 +21,7 @@
 package eu.europa.esig.dss.pades.signature.visible.suite;
 
 import com.signerry.dss.test.TestUtils;
+import eu.europa.esig.dss.DSSColor;
 
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.VisualSignatureRotation;
@@ -101,7 +102,7 @@ public class PAdESVisibleSignRotatedDocumentTest extends AbstractPAdESTestSignat
 
         SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
         textParameters.setText("My signature");
-        textParameters.setBackgroundColor(Color.PINK);
+        textParameters.setBackgroundColor(DSSColor.PINK);
         imageParameters.setTextParameters(textParameters);
 
         SignatureFieldParameters fieldParameters = new SignatureFieldParameters();
@@ -127,7 +128,7 @@ public class PAdESVisibleSignRotatedDocumentTest extends AbstractPAdESTestSignat
         this.documentToSign.setName("image_" + originalDocName + "_" + rotation.name() + ".pdf");
 
         SignatureImageParameters imageParameters = new SignatureImageParameters();
-        imageParameters.setBackgroundColor(Color.PINK);
+        imageParameters.setBackgroundColor(DSSColor.PINK);
         imageParameters.setRotation(rotation);
         imageParameters.setImage(new InMemoryDocument(TestUtils.getResourceAsStream("signature-image.png")));
 

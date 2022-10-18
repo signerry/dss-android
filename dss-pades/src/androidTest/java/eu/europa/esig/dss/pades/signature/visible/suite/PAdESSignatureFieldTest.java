@@ -56,6 +56,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.signerry.dss.test.TestUtils;
+import eu.europa.esig.dss.DSSColor;
 
 public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 
@@ -74,7 +75,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.GREEN);
+		textParameters.setTextColor(DSSColor.GREEN);
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
 

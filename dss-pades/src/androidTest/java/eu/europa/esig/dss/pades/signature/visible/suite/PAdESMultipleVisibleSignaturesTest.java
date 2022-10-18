@@ -49,6 +49,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.signerry.dss.test.TestUtils;
+import eu.europa.esig.dss.DSSColor;
 
 public class PAdESMultipleVisibleSignaturesTest extends AbstractPAdESTestValidation {
 	
@@ -123,7 +124,7 @@ public class PAdESMultipleVisibleSignaturesTest extends AbstractPAdESTestValidat
 		
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("Timestamp");
-		textParameters.setTextColor(Color.GREEN);
+		textParameters.setTextColor(DSSColor.GREEN);
 		textParameters.setSignerTextPosition(SignerTextPosition.BOTTOM);
 		timestampImageParameters.setTextParameters(textParameters);
 		

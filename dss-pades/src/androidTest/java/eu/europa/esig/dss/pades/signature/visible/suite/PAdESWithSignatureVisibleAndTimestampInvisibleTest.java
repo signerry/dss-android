@@ -21,8 +21,8 @@
 package eu.europa.esig.dss.pades.signature.visible.suite;
 
 import com.signerry.dss.test.TestUtils;
+import eu.europa.esig.dss.DSSColor;
 
-import java.awt.Color;
 import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -58,7 +58,7 @@ public class PAdESWithSignatureVisibleAndTimestampInvisibleTest extends Abstract
 		SignatureImageParameters signatureImageParameters = new SignatureImageParameters();
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.GREEN);
+		textParameters.setTextColor(DSSColor.GREEN);
 		textParameters.setSignerTextPosition(SignerTextPosition.BOTTOM);
 		signatureImageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(signatureImageParameters);

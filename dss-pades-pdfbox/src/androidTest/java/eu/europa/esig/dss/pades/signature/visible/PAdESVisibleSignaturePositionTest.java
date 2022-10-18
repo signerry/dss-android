@@ -37,6 +37,7 @@ import eu.europa.esig.dss.pdf.pdfbox.PdfBoxDefaultObjectFactory;
 import eu.europa.esig.dss.pdf.pdfbox.PdfBoxNativeObjectFactory;
 
 import com.signerry.dss.test.TestUtils;
+import eu.europa.esig.dss.DSSColor;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.rendering.PDFRenderer;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,7 +59,7 @@ import android.graphics.Bitmap;
 @Tag("slow")
 public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualComparator {
 
-	private static final Color TRANSPARENT = new Color(0, 0, 0, 0.25f);
+	private static final DSSColor TRANSPARENT = new DSSColor(0, 0, 0, 0.25f);
 	private static final int DPI = 144;
 
 	/**
@@ -340,7 +341,7 @@ public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualCompara
 		textParameters.setText("My signature\nsecond line\nlong line is very long line with long text example this");
 		textParameters.setSignerTextPosition(SignerTextPosition.RIGHT);
 		textParameters.setBackgroundColor(TRANSPARENT);
-		textParameters.setTextColor(Color.MAGENTA);
+		textParameters.setTextColor(DSSColor.MAGENTA);
 		DSSFileFont font = new DSSFileFont(TestUtils.getResourceAsStream("fonts/OpenSansExtraBold.ttf"));
 		font.setSize(8);
 		textParameters.setFont(font);

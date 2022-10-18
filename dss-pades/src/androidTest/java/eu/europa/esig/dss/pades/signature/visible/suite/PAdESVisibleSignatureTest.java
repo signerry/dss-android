@@ -56,6 +56,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.signerry.dss.test.TestUtils;
+import eu.europa.esig.dss.DSSColor;
 
 public class PAdESVisibleSignatureTest extends PKIFactoryAccess {
 
@@ -81,7 +82,7 @@ public class PAdESVisibleSignatureTest extends PKIFactoryAccess {
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My signature");
-		textParameters.setTextColor(Color.GREEN);
+		textParameters.setTextColor(DSSColor.GREEN);
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
 
@@ -189,8 +190,8 @@ public class PAdESVisibleSignatureTest extends PKIFactoryAccess {
 		DSSFileFont fileFont = DSSFileFont.initializeDefault();
 		fileFont.setSize(10);
 		textParameters.setFont(fileFont);
-		textParameters.setTextColor(Color.BLACK);
-		textParameters.setBackgroundColor(Color.WHITE);
+		textParameters.setTextColor(DSSColor.BLACK);
+		textParameters.setBackgroundColor(DSSColor.WHITE);
 		textParameters.setPadding(0f);
 		textParameters.setSignerTextVerticalAlignment(SignerTextVerticalAlignment.TOP);
 		textParameters.setSignerTextHorizontalAlignment(SignerTextHorizontalAlignment.LEFT);
@@ -216,7 +217,7 @@ public class PAdESVisibleSignatureTest extends PKIFactoryAccess {
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setSignerTextPosition(SignerTextPosition.TOP);
 		textParameters.setText(signature);
-		textParameters.setBackgroundColor(Color.PINK);
+		textParameters.setBackgroundColor(DSSColor.PINK);
 		imageParams.setTextParameters(textParameters);
 
 		signatureParameters.setImageParameters(imageParams);
@@ -238,7 +239,7 @@ public class PAdESVisibleSignatureTest extends PKIFactoryAccess {
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setSignerTextPosition(SignerTextPosition.BOTTOM);
 		textParameters.setSignerTextHorizontalAlignment(SignerTextHorizontalAlignment.RIGHT);
-		textParameters.setBackgroundColor(Color.PINK);
+		textParameters.setBackgroundColor(DSSColor.PINK);
 		textParameters.setPadding(10);
 		textParameters.setText(signature);
 		imageParams.setTextParameters(textParameters);

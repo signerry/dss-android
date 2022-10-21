@@ -63,7 +63,7 @@ public class PAdESLevelLTAAndLevelTTest extends AbstractPAdESTestSignature {
         signingTime = new Date();
         signingAlias = GOOD_USER;
 
-        documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
+        documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"));
 
         signatureParameters = new PAdESSignatureParameters();
         signatureParameters.setSigningCertificate(getSigningCert());

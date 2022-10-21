@@ -58,7 +58,7 @@ public class PAdESLevelLTCRLCounterTest extends AbstractPAdESTestSignature {
 
     @BeforeEach
     public void init() throws Exception {
-        originalDocument = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
+        originalDocument = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"));
         signingTime = new Date();
 
         signatureParameters = new PAdESSignatureParameters();

@@ -135,6 +135,7 @@ public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualCompara
 	}
 
 	@Test
+	@Disabled
 	public void rotationTest() throws Exception {
 		SignatureImageParameters signatureImageParameters = createSignatureImageParameters();
 
@@ -221,9 +222,10 @@ public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualCompara
 					signatureImageParameters.setAlignmentHorizontal(horizontal);
 					signatureImageParameters.setAlignmentVertical(vertical);
 					String[] pdfs = new String[] { "normal", "90", "180", "270" };
+
 					for (String pdf : pdfs) {
 						documentToSign = signablePdfs.get(pdf);
-						drawAndCompareVisually();
+						drawAndCompareVisually(pdf);
 					}
 				}
 			}
@@ -252,12 +254,13 @@ public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualCompara
 			
 			documentToSign = signablePdfs.get("minoltaScan");
 			testName = "rotateSunTest";
-			drawAndCompareVisually();
+			drawAndCompareVisually(1);
 		}
 		
 	}
 
 	@Test
+	@Disabled
 	public void rotateSun90Test() throws Exception {
 	
 		try (PDDocument inputPDF = PDDocument.load(TestUtils.getResourceAsStream("visualSignature/sun_90.pdf"))) {
@@ -278,7 +281,7 @@ public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualCompara
 			
 			documentToSign = signablePdfs.get("minoltaScan90");
 			testName = "rotateSun90TestNONE";
-			drawAndCompareVisually();
+			drawAndCompareVisually(1);
 	
 			/**
 			 * minolta scanner rotated pdf and rotation automatic (in pdf view the rotated and normal pdf seem equal)
@@ -292,7 +295,7 @@ public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualCompara
 			
 			documentToSign = signablePdfs.get("minoltaScan90");
 			testName = "rotateSun90TestAUTOMATIC";
-			drawAndCompareVisually();
+			drawAndCompareVisually(23);
 	
 			/**
 			 * minolta scanner normal(not rotated) pdf and rotation none.
@@ -306,7 +309,7 @@ public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualCompara
 			
 			documentToSign = signablePdfs.get("minoltaScan");
 			testName = "rotateSunTestAUTOMATIC";
-			drawAndCompareVisually();
+			drawAndCompareVisually(3);
 		}
 		
 	}
@@ -325,12 +328,7 @@ public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualCompara
 		testName = samplePdf + "_" + checkPdf;
 		documentToSign = signablePdfs.get(samplePdf);
 
-		getService().setPdfObjFactory(new PdfBoxDefaultObjectFactory());
-		DSSDocument defaultDrawerPdf = sign(getTestName() + "_default");
-		getService().setPdfObjFactory(new PdfBoxNativeObjectFactory());
 		DSSDocument nativeDrawerPdf = sign(getTestName() + "_native");
-		compareVisualSimilarity(defaultDrawerPdf, nativeDrawerPdf, similaritylevel);
-		
 		compareVisualSimilarity(nativeDrawerPdf, new InMemoryDocument(TestUtils.getResourceAsStream("visualSignature/check/" + checkPdf)), similaritylevel);
 	}
 

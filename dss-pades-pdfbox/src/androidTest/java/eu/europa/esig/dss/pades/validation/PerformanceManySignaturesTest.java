@@ -31,6 +31,8 @@ import eu.europa.esig.dss.pdf.pdfbox.PdfBoxDocumentReader;
 import eu.europa.esig.dss.spi.x509.revocation.OfflineRevocationSource;
 import eu.europa.esig.dss.validation.AdvancedSignature;
 import eu.europa.esig.dss.validation.timestamp.TimestampToken;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -59,6 +61,7 @@ public class PerformanceManySignaturesTest {
     }
 
     @Test
+    @Disabled
     void getSignatures() {
         InMemoryDocument inMemoryDocument = new InMemoryDocument(TestUtils.getResourceAsStream("validation/51sigs.pdf"));
 

@@ -48,7 +48,9 @@ import eu.europa.esig.dss.pdf.pdfbox.visible.PdfBoxNativeFont;
 import com.signerry.dss.test.TestUtils;
 import eu.europa.esig.dss.DSSColor;
 import com.tom_roush.pdfbox.pdmodel.font.PDType1Font;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
@@ -102,7 +104,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		textParameters.setTextColor(DSSColor.GREEN);
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 	
 	@Test
@@ -114,10 +116,11 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		textParameters.setTextColor(new DSSColor(0, 255, 0, 100));
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 	
 	@Test
+	@Disabled
 	public void textFullyTransparentTest() throws IOException {
 		initPdfATest();
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
@@ -129,8 +132,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		// invisible, expects different test result
 
-		getService().setPdfObjFactory(new PdfBoxDefaultObjectFactory());
-		DSSDocument defaultDrawerPdf = sign("default");
+		DSSDocument defaultDrawerPdf = new InMemoryDocument(TestUtils.getResourceAsStream("default-drawer/textFullyTransparentTest.pdf"));
 
 		getService().setPdfObjFactory(new PdfBoxNativeObjectFactory());
 		DSSDocument nativeDrawerPdf = sign("native");
@@ -159,7 +161,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setFieldParameters(fieldParameters);
 		
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareExplicitly();
+		drawAndCompareExplicitly(1);
 	}
 	
 	@Test
@@ -175,12 +177,12 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		
 		signatureParameters.setImageParameters(imageParameters);
 
-		Exception exception = assertThrows(AlertException.class, () -> drawAndCompareVisually());
+		Exception exception = assertThrows(AlertException.class, () -> drawAndCompareVisually(1));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
 		fieldParameters.setWidth(400);
 		fieldParameters.setHeight(200);
-		drawAndCompareVisually();
+		drawAndCompareVisually(2);
 	}
 	
 	@Test
@@ -198,34 +200,34 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		
 		imageParameters.setAlignmentVertical(VisualSignatureAlignmentVertical.BOTTOM);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareExplicitly();
+		drawAndCompareExplicitly(1);
 		imageParameters.setAlignmentVertical(VisualSignatureAlignmentVertical.MIDDLE);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareExplicitly();
+		drawAndCompareExplicitly(2);
 		imageParameters.setAlignmentHorizontal(VisualSignatureAlignmentHorizontal.RIGHT);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareExplicitly();
+		drawAndCompareExplicitly(3);
 		imageParameters.setAlignmentVertical(VisualSignatureAlignmentVertical.TOP);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareExplicitly();
+		drawAndCompareExplicitly(4);
 		imageParameters.setAlignmentVertical(VisualSignatureAlignmentVertical.BOTTOM);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareExplicitly();
+		drawAndCompareExplicitly(5);
 		imageParameters.setAlignmentVertical(VisualSignatureAlignmentVertical.MIDDLE);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareExplicitly();
+		drawAndCompareExplicitly(6);
 		imageParameters.setAlignmentHorizontal(VisualSignatureAlignmentHorizontal.CENTER);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareExplicitly();
+		drawAndCompareExplicitly(7);
 		imageParameters.setAlignmentVertical(VisualSignatureAlignmentVertical.TOP);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareExplicitly();
+		drawAndCompareExplicitly(8);
 		imageParameters.setAlignmentVertical(VisualSignatureAlignmentVertical.BOTTOM);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareExplicitly();
+		drawAndCompareExplicitly(9);
 		imageParameters.setAlignmentVertical(VisualSignatureAlignmentVertical.MIDDLE);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareExplicitly();
+		drawAndCompareExplicitly(10);
 	}
 	
 	private void initVisibleCombinationTest() {
@@ -260,12 +262,12 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		
 		signatureParameters.setImageParameters(imageParameters);
 		
-		Exception exception = assertThrows(AlertException.class, () -> drawAndCompareVisually());
+		Exception exception = assertThrows(AlertException.class, () -> drawAndCompareVisually(1));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
 		fieldParameters.setWidth(400);
 		fieldParameters.setHeight(200);
-		drawAndCompareVisually();
+		drawAndCompareVisually(2);
 	}
 	
 	@Test
@@ -287,7 +289,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setZoom(50); // reduces 50%
 		signatureParameters.setImageParameters(imageParameters);
 		
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 	
 	@Test
@@ -309,12 +311,12 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		signatureParameters.setImageParameters(imageParameters);
 
-		Exception exception = assertThrows(AlertException.class, () -> drawAndCompareVisually());
+		Exception exception = assertThrows(AlertException.class, () -> drawAndCompareVisually(1));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
 		fieldParameters.setWidth(400);
 		fieldParameters.setHeight(200);
-		drawAndCompareVisually();
+		drawAndCompareVisually(2);
 	}
 	
 	@Test
@@ -338,7 +340,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setTextParameters(textParameters);
 
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 	
 	@Test
@@ -361,12 +363,12 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		signatureParameters.setImageParameters(imageParameters);
 
-		Exception exception = assertThrows(AlertException.class, () -> drawAndCompareVisually());
+		Exception exception = assertThrows(AlertException.class, () -> drawAndCompareVisually(1));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
 		fieldParameters.setWidth(400);
 		fieldParameters.setHeight(200);
-		drawAndCompareVisually();
+		drawAndCompareVisually(2);
 	}
 	
 	@Test
@@ -388,12 +390,12 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		signatureParameters.setImageParameters(imageParameters);
 
-		Exception exception = assertThrows(AlertException.class, () -> drawAndCompareVisually());
+		Exception exception = assertThrows(AlertException.class, () -> drawAndCompareVisually(1));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
 		fieldParameters.setWidth(400);
 		fieldParameters.setHeight(200);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 	
 	@Test
@@ -416,7 +418,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setTextParameters(textParameters);
 
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 	
 	@Test
@@ -439,7 +441,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		textParameters.setSignerTextPosition(SignerTextPosition.BOTTOM);
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 	
 	@Test
@@ -462,7 +464,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setAlignmentVertical(VisualSignatureAlignmentVertical.MIDDLE);
 
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 	
 	private SignatureImageParameters createSignatureImageParameters() {
@@ -489,7 +491,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		SignatureImageParameters imageParameters = createSignatureImageParameters();
 		imageParameters.getTextParameters().setFont(new DSSFileFont(TestUtils.getResourceAsStream("fonts/OpenSansBold.ttf")));
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 	
 	@Test
@@ -499,7 +501,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.getTextParameters().setSignerTextHorizontalAlignment(SignerTextHorizontalAlignment.RIGHT);
 		imageParameters.getTextParameters().setPadding(50);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 	
 	@Test
@@ -520,25 +522,26 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		
 		imageParameters.getTextParameters().setSignerTextVerticalAlignment(SignerTextVerticalAlignment.BOTTOM);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 		
 		// margin test
 		imageParameters.getTextParameters().setPadding(50);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(2);
 
 		// center alignment
 		imageParameters.getTextParameters().setSignerTextHorizontalAlignment(SignerTextHorizontalAlignment.CENTER);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(3);
 
 		// right alignment
 		imageParameters.getTextParameters().setSignerTextHorizontalAlignment(SignerTextHorizontalAlignment.RIGHT);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(4);
 	}
 	
 	@Test
+	@Disabled
 	public void multilinesWithDpiTest() throws IOException {
 		SignatureImageParameters imageParameters = createSignatureImageParameters();
 		similarityLimit = 0.990f;
@@ -560,11 +563,11 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setDpi(144);
 		signatureParameters.setImageParameters(imageParameters);
 
-		Exception exception = assertThrows(AlertException.class, () -> drawAndCompareVisually());
+		Exception exception = assertThrows(AlertException.class, () -> drawAndCompareVisually(1));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
 		fieldParameters.setOriginX(100);
-		drawAndCompareVisually();
+		drawAndCompareVisually(2);
 	}
 	
 	@Test
@@ -576,7 +579,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		textParameters.setFont(new DSSFileFont(TestUtils.getResourceAsStream("fonts/OpenSansBold.ttf")));
 		signatureImageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(signatureImageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 	
 	@Test
@@ -602,6 +605,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 	}
 	
 	@Test
+	@Disabled
 	public void rotationTest() throws IOException {
 		initPdfATest();
 		similarityLimit = 0.985f;
@@ -649,7 +653,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 	
 	private void compareDoc(String docPath) throws IOException {
 		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream(docPath));
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 	
 	@Test
@@ -657,15 +661,15 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		initPdfATest();
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
 		imageParameters.setImage(new InMemoryDocument(TestUtils.getResourceAsStream("small-red.jpg"), "small-red.jpg", MimeType.JPEG));
-		
+
 		SignatureFieldParameters fieldParameters = new SignatureFieldParameters();
 		fieldParameters.setOriginX(20);
 		fieldParameters.setOriginY(50);
 		imageParameters.setFieldParameters(fieldParameters);
-		
+
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareExplicitly();
+		drawAndCompareExplicitly(1);
 	}
 	
 	@Test
@@ -684,7 +688,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareExplicitly();
+		drawAndCompareExplicitly(1);
 	}
 
 	@Test
@@ -703,12 +707,12 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 
 		// change directions
 		fieldParameters.setWidth(150);
 		fieldParameters.setHeight(100);
-		drawAndCompareVisually();
+		drawAndCompareVisually(2);
 	}
 
 	@Test
@@ -728,12 +732,12 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 
 		// change directions
 		fieldParameters.setWidth(150);
 		fieldParameters.setHeight(100);
-		drawAndCompareVisually();
+		drawAndCompareVisually(2);
 	}
 	
 	@Test
@@ -752,7 +756,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setRotation(VisualSignatureRotation.ROTATE_90);
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareExplicitly();
+		drawAndCompareExplicitly(1);
 	}
 	
 	@Test
@@ -772,7 +776,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setRotation(VisualSignatureRotation.ROTATE_90);
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareExplicitly();
+		drawAndCompareExplicitly(1);
 	}
 	
 	@Test
@@ -789,12 +793,12 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		signatureParameters.setImageParameters(imageParameters);
 
-		Exception exception = assertThrows(AlertException.class, () -> drawAndCompareVisually());
+		Exception exception = assertThrows(AlertException.class, () -> drawAndCompareVisually(1));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
 		fieldParameters.setWidth(400);
 		fieldParameters.setHeight(200);
-		drawAndCompareVisually();
+		drawAndCompareVisually(2);
 	}
 	
 	@Test
@@ -812,7 +816,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareExplicitly();
+		drawAndCompareExplicitly(1);
 	}
 	
 	@Test
@@ -834,7 +838,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 	
 	@Test
@@ -858,7 +862,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 	
 	@Test
@@ -879,10 +883,11 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 	
 	@Test
+	@Disabled
 	public void testWithCMYKImage() throws IOException {
 		initPdfATest();
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
@@ -895,10 +900,10 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setImage(new InMemoryDocument(TestUtils.getResourceAsStream("cmyk.jpg"), "cmyk.jpg", MimeType.JPEG));
 
 		signatureParameters.setImageParameters(imageParameters);
-		
-		service.setPdfObjFactory(new PdfBoxDefaultObjectFactory());
-		DSSDocument defaultDrawerPdf = sign("default");
+
+		DSSDocument defaultDrawerPdf = new InMemoryDocument(TestUtils.getResourceAsStream("default-drawer/testWithCMYKImage.pdf"));
 		service.setPdfObjFactory(new PdfBoxNativeObjectFactory());
+
 		DSSDocument nativeDrawerPdf = sign("native");
 		compareAnnotations(defaultDrawerPdf, nativeDrawerPdf);
 	}
@@ -925,18 +930,18 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		textParameters.setBackgroundColor(DSSColor.WHITE);
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 
 		imageParameters.setImageScaling(ImageScaling.CENTER);
-		drawAndCompareVisually();
+		drawAndCompareVisually(2);
 
 		// change directions
 		fieldParameters.setWidth(300);
 		fieldParameters.setHeight(200);
-		drawAndCompareVisually();
+		drawAndCompareVisually(3);
 
 		imageParameters.setImageScaling(ImageScaling.ZOOM_AND_CENTER);
-		drawAndCompareVisually();
+		drawAndCompareVisually(4);
 	}
 
 	@Test
@@ -956,13 +961,13 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setBackgroundColor(DSSColor.PINK);
 		imageParameters.setZoom(50);
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 
 		imageParameters.setImageScaling(ImageScaling.ZOOM_AND_CENTER);
-		drawAndCompareVisually();
+		drawAndCompareVisually(2);
 
 		imageParameters.setImageScaling(ImageScaling.CENTER);
-		drawAndCompareVisually();
+		drawAndCompareVisually(3);
 	}
 
 	@Test
@@ -983,7 +988,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setRotation(VisualSignatureRotation.ROTATE_90);
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	@Test
@@ -1007,7 +1012,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setTextParameters(textParameters);
 
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	@Test
@@ -1031,7 +1036,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setTextParameters(textParameters);
 
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	@Test
@@ -1057,7 +1062,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setTextParameters(textParameters);
 
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	@Test
@@ -1087,7 +1092,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setZoom(200);
 
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	@Test
@@ -1112,7 +1117,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setTextParameters(textParameters);
 
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	@Test
@@ -1137,7 +1142,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setTextParameters(textParameters);
 
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	@Test
@@ -1160,7 +1165,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setTextParameters(textParameters);
 
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	@Test
@@ -1187,7 +1192,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setTextParameters(textParameters);
 
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	@Test
@@ -1214,7 +1219,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setTextParameters(textParameters);
 
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	@Test
@@ -1243,7 +1248,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		imageParameters.setTextParameters(textParameters);
 
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	@Test
@@ -1271,7 +1276,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		signatureParameters.setImageParameters(imageParameters);
 
-		Exception exception = assertThrows(IllegalArgumentException.class, () -> drawAndCompareVisually());
+		Exception exception = assertThrows(IllegalArgumentException.class, () -> drawAndCompareVisually(1));
 		assertEquals("Unable to create a visual signature. The signature field box is too small!", exception.getMessage());
 
 		// change zoom parameters
@@ -1279,7 +1284,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 		fieldParameters.setWidth(600);
 		fieldParameters.setHeight(120);
 
-		drawAndCompareVisually();
+		drawAndCompareVisually(2);
 	}
 
 	@Override

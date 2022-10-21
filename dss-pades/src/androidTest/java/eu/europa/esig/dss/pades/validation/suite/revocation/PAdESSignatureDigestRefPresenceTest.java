@@ -26,6 +26,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.signerry.dss.test.TestUtils;
 
+import org.junit.jupiter.api.Disabled;
+
 import java.util.List;
 
 import eu.europa.esig.dss.model.DSSDocument;
@@ -37,6 +39,7 @@ import eu.europa.esig.validationreport.jaxb.SignatureReferenceType;
 import eu.europa.esig.validationreport.jaxb.ValidationObjectListType;
 import eu.europa.esig.validationreport.jaxb.ValidationObjectType;
 
+@Disabled
 public class PAdESSignatureDigestRefPresenceTest extends AbstractPAdESTestValidation {
 
 	@Override

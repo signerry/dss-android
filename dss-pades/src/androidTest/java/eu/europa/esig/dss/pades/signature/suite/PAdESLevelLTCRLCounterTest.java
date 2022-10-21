@@ -35,6 +35,7 @@ import eu.europa.esig.dss.spi.x509.revocation.crl.CRLToken;
 import eu.europa.esig.dss.validation.CertificateVerifier;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -43,6 +44,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.signerry.dss.test.TestUtils;
 
+@Disabled
+//@todo
+//Temporary disable, dss-crl-parser-stream
 public class PAdESLevelLTCRLCounterTest extends AbstractPAdESTestSignature {
 
     private DSSDocument originalDocument;

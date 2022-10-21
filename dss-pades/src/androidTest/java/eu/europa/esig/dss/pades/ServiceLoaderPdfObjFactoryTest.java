@@ -22,6 +22,7 @@ package eu.europa.esig.dss.pades;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import eu.europa.esig.dss.pdf.IPdfObjFactory;
@@ -30,6 +31,7 @@ import eu.europa.esig.dss.pdf.ServiceLoaderPdfObjFactory;
 public class ServiceLoaderPdfObjFactoryTest {
 
 	@Test
+	@Disabled
 	public void testFallback() {
 		IPdfObjFactory factory = new ServiceLoaderPdfObjFactory();
 

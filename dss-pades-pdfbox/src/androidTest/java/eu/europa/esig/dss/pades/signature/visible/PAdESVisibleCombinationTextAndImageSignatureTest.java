@@ -93,7 +93,7 @@ public class PAdESVisibleCombinationTextAndImageSignatureTest extends AbstractTe
 
 		imageParameters.setZoom(50); // reduces 50%
 		signatureParameters.setImageParameters(imageParameters);
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	@Test
@@ -113,12 +113,12 @@ public class PAdESVisibleCombinationTextAndImageSignatureTest extends AbstractTe
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
 
-		Exception exception = assertThrows(AlertException.class, () -> drawAndCompareVisually());
+		Exception exception = assertThrows(AlertException.class, () -> drawAndCompareVisually(1));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
 		fieldParameters.setWidth(400);
 		fieldParameters.setHeight(200);
-		drawAndCompareVisually();
+		drawAndCompareVisually(2);
 	}
 
 	@Test
@@ -141,7 +141,7 @@ public class PAdESVisibleCombinationTextAndImageSignatureTest extends AbstractTe
 		imageParameters.setTextParameters(textParameters);
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	@Test
@@ -150,19 +150,19 @@ public class PAdESVisibleCombinationTextAndImageSignatureTest extends AbstractTe
 		similarityLimit = 0.993f;
 		signatureParameters.setImageParameters(imageParameters);
 		// image and text on left
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 
 		// image and text on right
 		imageParameters.getTextParameters().setSignerTextPosition(SignerTextPosition.RIGHT);
-		drawAndCompareVisually();
+		drawAndCompareVisually(2);
 
 		// image and text on right and horizontal align is right
 		imageParameters.getTextParameters().setSignerTextHorizontalAlignment(SignerTextHorizontalAlignment.RIGHT);
-		drawAndCompareVisually();
+		drawAndCompareVisually(3);
 
 		// image and text on right and horizontal align is center
 		imageParameters.getTextParameters().setSignerTextHorizontalAlignment(SignerTextHorizontalAlignment.CENTER);
-		drawAndCompareVisually();
+		drawAndCompareVisually(4);
 
 		// image and text on right and horizontal align is center with transparent colors
 		DSSColor transparent = new DSSColor(0, 0, 0, 0.25f);
@@ -176,32 +176,32 @@ public class PAdESVisibleCombinationTextAndImageSignatureTest extends AbstractTe
 		imageParameters.setFieldParameters(fieldParameters);
 
 		similarityLimit = 0.990f;
-		drawAndCompareVisually();
+		drawAndCompareVisually(5);
 
 		// image and text on right and horizontal align is center with transparent colors with big image
 		imageParameters.setImage(getPngPicture());
 		fieldParameters.setWidth(500);
 		fieldParameters.setHeight(250);
-		drawAndCompareVisually();
+		drawAndCompareVisually(6);
 		
 		// image and text on right and horizontal align is center with transparent colors with big image and vertical
 		// align top
 		imageParameters.getTextParameters().setSignerTextVerticalAlignment(SignerTextVerticalAlignment.TOP);
-		drawAndCompareVisually();
+		drawAndCompareVisually(7);
 
 		// image and text on right and horizontal align is center with transparent colors with big image and vertical
 		// align bottom
 		imageParameters.getTextParameters().setSignerTextVerticalAlignment(SignerTextVerticalAlignment.BOTTOM);
-		drawAndCompareVisually();
+		drawAndCompareVisually(8);
 
 		// image and text on left and horizontal align is center with transparent colors with big image and vertical
 		// align bottom
 		imageParameters.getTextParameters().setSignerTextPosition(SignerTextPosition.LEFT);
-		drawAndCompareVisually();
+		drawAndCompareVisually(9);
 
 		// image and text on left and horizontal align is center with transparent colors and vertical align bottom
 		imageParameters.setImage(getSmallRedJPG());
-		drawAndCompareVisually();
+		drawAndCompareVisually(10);
 	}
 
 	private SignatureImageParameters createSignatureImageParameters() {

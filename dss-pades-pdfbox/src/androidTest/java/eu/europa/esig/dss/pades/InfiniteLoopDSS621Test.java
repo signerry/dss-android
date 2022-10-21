@@ -60,6 +60,7 @@ import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
 import org.bouncycastle.asn1.x509.DigestInfo;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.util.encoders.Hex;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,6 +89,7 @@ public class InfiniteLoopDSS621Test {
 	private static final String FILE_PATH = "validation/pades-5-signatures-and-1-document-timestamp.pdf";
 
 	@Test
+	@Disabled
 	public void testReadTimestamp1() throws Exception {
         assertTimeout(ofMillis(5000), () -> {
         	DSSDocument signDocument = new InMemoryDocument(TestUtils.getResourceAsStream(FILE_PATH));

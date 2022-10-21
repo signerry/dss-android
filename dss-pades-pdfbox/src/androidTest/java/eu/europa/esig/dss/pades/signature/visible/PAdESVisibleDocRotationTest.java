@@ -78,7 +78,7 @@ public class PAdESVisibleDocRotationTest extends AbstractTestVisualComparator {
 		
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 	
 	@Test
@@ -89,7 +89,7 @@ public class PAdESVisibleDocRotationTest extends AbstractTestVisualComparator {
 		imageParameters.setAlignmentHorizontal(VisualSignatureAlignmentHorizontal.CENTER);
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 	
 	@Test
@@ -100,7 +100,7 @@ public class PAdESVisibleDocRotationTest extends AbstractTestVisualComparator {
 		imageParameters.setAlignmentVertical(VisualSignatureAlignmentVertical.BOTTOM);
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	private DSSDocument getPngPicture() {

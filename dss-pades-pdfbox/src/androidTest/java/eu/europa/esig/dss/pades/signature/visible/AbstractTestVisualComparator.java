@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 
 import com.signerry.dss.test.TestUtils;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
@@ -35,7 +36,7 @@ import com.tom_roush.pdfbox.pdmodel.PDPageTree;
 import com.tom_roush.pdfbox.pdmodel.common.PDRectangle;
 import com.tom_roush.pdfbox.rendering.PDFRenderer;
 
-import java.awt.Color;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -74,15 +75,16 @@ public abstract class AbstractTestVisualComparator extends PKIFactoryAccess {
 
 	protected abstract PAdESSignatureParameters getSignatureParameters();
 
-	protected void drawAndCompareVisually() throws IOException {
-		DSSDocument defaultDrawerPdf = new InMemoryDocument(TestUtils.getResourceAsStream("default-drawer/" + this.getTestName() + ".pdf"));
+	protected void drawAndCompareVisually(Object i) throws IOException {
 		DSSDocument nativeDrawerPdf = sign(getTestName() + "_native");
+		DSSDocument defaultDrawerPdf = new InMemoryDocument(TestUtils.getResourceAsStream("default-drawer/" + this.getTestName() + "_" + i + ".pdf"));
+
 		compareVisualSimilarity(defaultDrawerPdf, nativeDrawerPdf);
 		compareAnnotations(defaultDrawerPdf, nativeDrawerPdf);
 	}
 
-	protected void drawAndCompareExplicitly() throws IOException {
-		DSSDocument defaultDrawerPdf = new InMemoryDocument(TestUtils.getResourceAsStream("default-drawer/default.pdf"));
+	protected void drawAndCompareExplicitly(Object i) throws IOException {
+		DSSDocument defaultDrawerPdf = new InMemoryDocument(TestUtils.getResourceAsStream("default-drawer/" + this.getTestName() + "_" + i + ".pdf"));
 
 		getService().setPdfObjFactory(new PdfBoxNativeObjectFactory());
 		DSSDocument nativeDrawerPdf = sign("native");
@@ -196,8 +198,19 @@ public abstract class AbstractTestVisualComparator extends PKIFactoryAccess {
 			Bitmap sampleImage = sampleRenderer.renderImageWithDPI(pageNumber, DPI);
 			Bitmap checkImage = checkRenderer.renderImageWithDPI(pageNumber, DPI);
 
-			// ImageIO.write(sampleImage, "png", new File("target\\sampleImage.png"));
-			// ImageIO.write(checkImage, "png", new File("target\\checkImage.png"));
+			FileOutputStream out = new FileOutputStream(TestUtils.getTmpFile("bbb__check.png"));
+			checkImage.compress(Bitmap.CompressFormat.PNG, 90, out);
+			out.close();
+
+
+			FileOutputStream out2 = new FileOutputStream(TestUtils.getTmpFile("bbb_sample.png"));
+			sampleImage.compress(Bitmap.CompressFormat.PNG, 90, out2);
+			out.close();
+
+//			System.out.println("kurvaaa:" +TestUtils.getTmpFile("bbb_sample.pdf").getAbsolutePath());
+//
+//			 ImageIO.write(sampleImage, "png", new File("target\\sampleImage.png"));
+//			 ImageIO.write(checkImage, "png", new File("target\\checkImage.png"));
 
 			float checkSimilarity = checkImageSimilarity(sampleImage, checkImage, CHECK_RESOLUTION);
 			assertTrue(checkSimilarity >= minSimilarity,
@@ -230,7 +243,7 @@ public abstract class AbstractTestVisualComparator extends PKIFactoryAccess {
 					if (sampleRGB == checkRGB) {
 						matchingPixels++;
 					} else {
-						checkImage.setPixel(x, y, Color.RED.getRGB());
+						checkImage.setPixel(x, y, Color.RED);
 					}
 
 					checkedPixels++;

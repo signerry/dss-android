@@ -169,7 +169,10 @@ dependencies {
         exclude group: 'org.bouncycastle'
     }
 
-    androidTestImplementation project(':dss-crl-parser-x509crl')
+    androidTestImplementation project(':dss-crl-parser-stream')
+    testImplementation project(':dss-crl-parser-stream')
+
+
     androidTestImplementation testFixtures(project(':dss-test'))
     testImplementation testFixtures(project(':dss-test'))
     androidTestImplementation testFixtures(project(':dss-test-instrumented'))

@@ -57,7 +57,7 @@ public class PAdESDoubleSignatureLTAAndLTTest extends AbstractPAdESTestSignature
         service = new PAdESService(getCompleteCertificateVerifier());
         service.setTspSource(getGoodTsa());
 
-        originalDocument = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
+        originalDocument = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"));
     }
 
     @Override

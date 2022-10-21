@@ -16,6 +16,8 @@ dependencies {
     testFixturesImplementation testFixtures(project(':dss-test'))
     androidTestImplementation testFixtures(project(':dss-pades'))
     testImplementation testFixtures(project(':dss-pades'))
+    implementation 'com.drewnoakes:metadata-extractor:2.18.0'
+
 
 }
 

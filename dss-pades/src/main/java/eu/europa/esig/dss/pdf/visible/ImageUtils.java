@@ -21,6 +21,26 @@
 package eu.europa.esig.dss.pdf.visible;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.ColorSpace;
+
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.MetadataException;
+import com.drew.metadata.jfif.JfifDirectory;
+import com.drew.metadata.png.PngDirectory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import eu.europa.esig.dss.exception.IllegalInputException;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -30,25 +50,6 @@ import eu.europa.esig.dss.model.MimeType;
 import eu.europa.esig.dss.pades.SignatureImageParameters;
 import eu.europa.esig.dss.pdf.AnnotationBox;
 import eu.europa.esig.dss.utils.Utils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.stream.ImageInputStream;
-import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Iterator;
 
 /**
  * Static utilities for image creation and processing
@@ -63,11 +64,6 @@ public class ImageUtils {
 	private static final String SCREENSHOT_PNG_NAME = "screenshot.png";
 
 	/**
-	 * Contains supported transparent color spaces
-	 */
-	private static final int[] IMAGE_TRANSPARENT_TYPES;
-
-	/**
 	 * Default image DPI
 	 */
 	private static final int DEFAULT_DPI = 96;
@@ -76,13 +72,6 @@ public class ImageUtils {
 	 * Defines a number of a first page in a document
 	 */
 	public static final int DEFAULT_FIRST_PAGE = 1;
-
-	static {
-		int[] imageAlphaTypes = new int[] { BufferedImage.TYPE_4BYTE_ABGR, BufferedImage.TYPE_4BYTE_ABGR_PRE,
-				BufferedImage.TYPE_INT_ARGB, BufferedImage.TYPE_INT_ARGB_PRE };
-		Arrays.sort(imageAlphaTypes);
-		IMAGE_TRANSPARENT_TYPES = imageAlphaTypes;
-	}
 
 	/**
 	 * Default constructor
@@ -144,80 +133,68 @@ public class ImageUtils {
 	}
 
 	private static ImageResolution readAndDisplayMetadataJPEG(DSSDocument image) throws IOException {
-		try (InputStream is = image.openStream()) {
-			ImageInputStream iis = ImageIO.createImageInputStream(is);
+		int hdpi = DEFAULT_DPI;
+		int vdpi = DEFAULT_DPI;
 
-			ImageReader reader = getImageReader("jpeg");
-			// attach source to the reader
-			reader.setInput(iis, true);
+		try {
+			Metadata metadata = ImageMetadataReader.readMetadata(image.openStream());
 
-			int hdpi = DEFAULT_DPI;
-			int vdpi = DEFAULT_DPI;
-
-			if (isSupportedColorSpace(reader)) {
-				// read metadata of first image
-				IIOMetadata metadata = reader.getImageMetadata(0);
-
-				Element root = (Element) metadata.getAsTree("javax_imageio_jpeg_image_1.0");
-
-				NodeList elements = root.getElementsByTagName("app0JFIF");
-
-				Element e = (Element) elements.item(0);
-				hdpi = Integer.parseInt(e.getAttribute("Xdensity"));
-				vdpi = Integer.parseInt(e.getAttribute("Ydensity"));
-			} else {
-				LOG.warn("Cannot read metadata of the image with name [{}]. The color space is not supported. "
-						+ "Using the default dpi with value [{}]", image.getName(), DEFAULT_DPI);
+			for (JfifDirectory xmpDirectory : metadata.getDirectoriesOfType(JfifDirectory.class)) {
+				try {
+					hdpi = xmpDirectory.getResX();
+					vdpi = xmpDirectory.getResY();
+				} catch (MetadataException e) {
+					throw new IOException(e);
+				}
 			}
-
 			return new ImageResolution(hdpi, vdpi);
+
+		} catch (ImageProcessingException e) {
+			throw new IOException(e);
 		}
 	}
 
 	private static ImageResolution readAndDisplayMetadataPNG(DSSDocument image) throws IOException {
-		try (InputStream is = image.openStream();) {
-			ImageInputStream iis = ImageIO.createImageInputStream(is);
+		int hdpi = DEFAULT_DPI;
+		int vdpi = DEFAULT_DPI;
 
-			ImageReader reader = getImageReader("png");
-			// attach source to the reader
-			reader.setInput(iis, true);
+		Metadata metadata = null;
+		try {
+			metadata = ImageMetadataReader.readMetadata(image.openStream());
+		} catch (ImageProcessingException e) {
+			throw new IOException(e);
+		}
 
-			int hdpi = DEFAULT_DPI;
-			int vdpi = DEFAULT_DPI;
+		double mm2inch = 25.4;
 
-			if (isSupportedColorSpace(reader)) {
-				// read metadata of first image
-				IIOMetadata metadata = reader.getImageMetadata(0);
+		for (PngDirectory xmpDirectory : metadata.getDirectoriesOfType(PngDirectory.class)) {
 
-				double mm2inch = 25.4;
+			if(xmpDirectory.containsTag(PngDirectory.TAG_PIXELS_PER_UNIT_X)) {
+				int x = 0;
+				try {
+					x = xmpDirectory.getInt(PngDirectory.TAG_PIXELS_PER_UNIT_X);
 
-				Element node = (Element) metadata.getAsTree("javax_imageio_1.0");
-				NodeList lst = node.getElementsByTagName("HorizontalPixelSize");
-				if (lst != null && lst.getLength() == 1) {
-					hdpi = (int) (mm2inch / Float.parseFloat(((Element) lst.item(0)).getAttribute("value")));
-				} else {
-					LOG.debug("Cannot get HorizontalPixelSize value. Using the default dpi [{}]", DEFAULT_DPI);
+					vdpi = (int) (mm2inch / x);
+
+				} catch (MetadataException e) {
+					e.printStackTrace();
 				}
-
-				lst = node.getElementsByTagName("VerticalPixelSize");
-				if (lst != null && lst.getLength() == 1) {
-					vdpi = (int) (mm2inch / Float.parseFloat(((Element) lst.item(0)).getAttribute("value")));
-				} else {
-					LOG.debug("Cannot get HorizontalPixelSize value. Using the default dpi [{}]", DEFAULT_DPI);
-				}
-			} else {
-				LOG.warn("Cannot read metadata of the image with name [{}]. The color space is not supported. "
-						+ "Using the default dpi with value [{}]", image.getName(), DEFAULT_DPI);
 			}
 
-			return new ImageResolution(hdpi, vdpi);
-		}
-	}
+			if(xmpDirectory.containsTag(PngDirectory.TAG_PIXELS_PER_UNIT_Y)) {
 
-	private static boolean isSupportedColorSpace(ImageReader reader) throws IOException {
-		Iterator<ImageTypeSpecifier> imageTypes = reader.getImageTypes(0);
-		// ImageReader detects only processable types
-		return imageTypes.hasNext();
+				try {
+					int y = xmpDirectory.getInt(PngDirectory.TAG_PIXELS_PER_UNIT_Y);
+					hdpi = (int) (mm2inch / y);
+
+				} catch (MetadataException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return new ImageResolution(hdpi, vdpi);
+
 	}
 
 	/**
@@ -228,11 +205,9 @@ public class ImageUtils {
 	 */
 	public static AnnotationBox getImageBoundaryBox(DSSDocument imageDocument) {
 		try (InputStream is = imageDocument.openStream();) {
-			ImageInputStream iis = ImageIO.createImageInputStream(is);
-			ImageReader imageReader = getImageReader(iis);
-			imageReader.setInput(iis, true, true);
-			float width = imageReader.getWidth(0);
-			float height = imageReader.getHeight(0);
+			Bitmap bitmap = BitmapFactory.decodeStream(is);
+			int height = bitmap.getHeight();
+			int width = bitmap.getWidth();
 			return new AnnotationBox(0, 0, width, height);
 
 		} catch (IOException e) {
@@ -270,10 +245,10 @@ public class ImageUtils {
 	 * Reads the image document and returns a {@code BufferedImage}
 	 *
 	 * @param imageDocument {@link DSSDocument} image document to read
-	 * @return {@link BufferedImage}
+	 * @return {@link Bitmap}
 	 * @throws IOException - in case of InputStream reading error
 	 */
-	public static BufferedImage toBufferedImage(DSSDocument imageDocument) throws IOException {
+	public static Bitmap toBufferedImage(DSSDocument imageDocument) throws IOException {
 		try (InputStream is = imageDocument.openStream()) {
 			return toBufferedImage(is);
 		}
@@ -287,88 +262,45 @@ public class ImageUtils {
 	 * @return {@link BufferedImage}
 	 * @throws IOException - in case of InputStream reading error
 	 */
-	public static BufferedImage toBufferedImage(InputStream is) throws IOException {
-		ImageInputStream iis = ImageIO.createImageInputStream(is);
-		ImageReader imageReader = getImageReader(iis);
-		imageReader.setInput(iis, true, true);
-		if (isSupportedColorSpace(imageReader)) {
-			return imageReader.read(0, imageReader.getDefaultReadParam());
-		}
-		LOG.warn("The image format is not supported by the current ImageReader!");
-		Raster raster = getRaster(imageReader);
-		if (isCMYKType(raster)) {
+	public static Bitmap toBufferedImage(InputStream is) throws IOException {
+		Bitmap bitmap = BitmapFactory.decodeStream(is);
+
+		if (isCMYKType(bitmap)) {
 			LOG.info("Converting from CMYK to RGB...");
-			return convertCMYKToRGB(raster);
+			return convertCMYKToRGB(bitmap);
 		}
-		throw new UnsupportedOperationException("The color space of image is not supported!");
+		else {
+			return bitmap;
+		}
 	}
 
-	private static Raster getRaster(ImageReader imageReader) throws IOException {
-		return imageReader.readRaster(0, imageReader.getDefaultReadParam());
+
+	private static boolean isCMYKType(Bitmap raster) {
+		ColorSpace colorSpace = raster.getColorSpace();
+		return colorSpace.getModel() == ColorSpace.Model.CMYK;
 	}
 
-	private static boolean isCMYKType(Raster raster) {
-		return raster.getNumBands() == 4; // number of parameters for CMYK color scheme per pixel
-	}
-
-	private static BufferedImage convertCMYKToRGB(Raster raster) {
+	private static Bitmap convertCMYKToRGB(Bitmap raster) {
 		int width = raster.getWidth();
 		int height = raster.getHeight();
-		BufferedImage rgbImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		int[] cmyk = new int[4];
-		int r, g, b, p;
+		Bitmap rgbImage = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				cmyk = raster.getPixel(x, y, cmyk);
-				r = ((cmyk[0]) * (cmyk[3])) / 255;
-				g = ((cmyk[1]) * (cmyk[3])) / 255;
-				b = ((cmyk[2]) * (cmyk[3])) / 255;
-				p = (r << 16) | (g << 8) | b;
-				rgbImage.setRGB(x, y, p);
+				Color color = raster.getColor(x, y);
+				rgbImage.setPixel(x, y, color.toArgb());
 			}
 		}
 		return rgbImage;
 	}
 
-	private static ImageReader getImageReader(String type) {
-		Iterator<ImageReader> readers = ImageIO.getImageReadersByFormatName(type);
-		ImageReader reader = getRasterReader(readers);
-		if (reader == null) {
-			throw new UnsupportedOperationException(String.format("No reader for '%s' found", type));
-		}
-		return reader;
-	}
-
-	private static ImageReader getImageReader(ImageInputStream iis) {
-		Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
-		ImageReader reader = getRasterReader(readers);
-		if (reader == null) {
-			throw new UnsupportedOperationException("No reader for the image found");
-		}
-		return reader;
-	}
-
-	private static ImageReader getRasterReader(Iterator<ImageReader> readers) {
-		ImageReader reader = null;
-		// pick the first available ImageReader that reads raster
-		while (readers.hasNext()) {
-			reader = readers.next();
-			if (reader.canReadRaster()) {
-				break;
-			}
-		}
-		return reader;
-	}
-
 	/**
 	 * Checks if the image has a transparent layer
 	 *
-	 * @param bufferedImage {@link BufferedImage}
+	 * @param bitmap {@link BufferedImage}
 	 * @return TRUE if the image has a transparent layer, FALSE otherwise
 	 */
-	public static boolean isTransparent(BufferedImage bufferedImage) {
-		int type = bufferedImage.getType();
-		return Arrays.binarySearch(IMAGE_TRANSPARENT_TYPES, type) > -1;
+	public static boolean isTransparent(Bitmap bitmap) {
+		return bitmap.hasAlpha();
 	}
 
 	/**
@@ -415,19 +347,14 @@ public class ImageUtils {
 		int result; // Stores output pixel
 		for (int i = 0; i < img1.getHeight() && i < img2.getHeight(); i++) {
 			for (int j = 0; j < img1.getWidth() && j < img2.getWidth(); j++) {
-				int rgb1 = img1.getPixel(j, i);
-				int rgb2 = img2.getPixel(j, i);
-				int r1 = (rgb1 >> 16) & 0xff;
-				int g1 = (rgb1 >> 8) & 0xff;
-				int b1 = (rgb1) & 0xff;
-				int r2 = (rgb2 >> 16) & 0xff;
-				int g2 = (rgb2 >> 8) & 0xff;
-				int b2 = (rgb2) & 0xff;
+				Color rgb1 = img1.getColor(j, i);
+				Color rgb2 = img2.getColor(j, i);
+
 
 				// Overwrite for a new pixel
-				diff = Math.abs(r1 - r2);
-				diff += Math.abs(g1 - g2);
-				diff += Math.abs(b1 - b2);
+				diff = Math.abs((int)rgb1.red() - (int)rgb2.red());
+				diff += Math.abs((int)rgb1.green() - (int)rgb2.green());
+				diff += Math.abs((int)rgb1.blue() - (int)rgb2.blue());
 
 				if (diff > 0) {
 					diffAmount++;
@@ -436,8 +363,8 @@ public class ImageUtils {
 				if (outImg != null) {
 					// Change - Ensure result is between 0 - 255
 					diff /= 3;
-					// Make the difference image gray scale
-					// The RGB components are all the same
+				// Make the difference image gray scale
+				// The RGB components are all the same
 					result = (diff << 16) | (diff << 8) | diff;
 					// Set result
 					outImg.setPixel(j, i, result);

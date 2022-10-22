@@ -1,6 +1,1 @@
 apply from: "../module-build.gradle"
-
-
-dependencies {
-    implementation 'org.apache.santuario:xmlsec:2.3.0'
-}

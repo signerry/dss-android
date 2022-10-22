@@ -39,7 +39,7 @@ dependencies {
     testFixturesImplementation project(':dss-document')
     testFixturesImplementation project(':dss-token')
     testFixturesImplementation project(':dss-service')
-    testFixturesImplementation 'org.apache.santuario:xmlsec:2.3.0'
+    testFixturesImplementation 'com.signerry.santuario:xmlsec:2.3.2'
     testFixturesImplementation 'ch.qos.logback:logback-classic:1.2.10'
     testFixturesImplementation 'com.h2database:h2:2.1.210'
     testFixturesImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'

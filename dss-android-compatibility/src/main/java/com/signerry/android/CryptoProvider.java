@@ -1,6 +1,5 @@
 package com.signerry.android;
 
-import org.apache.xml.security.exceptions.XMLSecurityException;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.OperatorCreationException;
 

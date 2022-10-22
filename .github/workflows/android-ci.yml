@@ -55,11 +55,11 @@ jobs:
           java-version: 11
           distribution: 'adopt'
           cache: gradle
-          env:
-            GPR_USER: ${{ secrets.GITHUB_ACTOR }}
-            GPR_API_KEY: ${{ secrets.GPR_API_KEY }}
       - name: Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
+        env:
+            GPR_USER: ${{ secrets.GITHUB_ACTOR }}
+            GPR_API_KEY: ${{ secrets.GPR_API_KEY }}
         with:
           api-level: ${{ matrix.api-level }}
           target: google_apis

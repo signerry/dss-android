@@ -9,8 +9,8 @@ dependencies {
     api project(':dss-document')
     api project(':dss-service')
     api project(':dss-token')
+    implementation "com.signnery.santuario:xmlsec:${xmlsec_version}"
 
-    implementation 'org.apache.santuario:xmlsec:2.3.0'
 }
 
 description = 'DSS XAdES'

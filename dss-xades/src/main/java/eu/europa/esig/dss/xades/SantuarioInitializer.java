@@ -20,6 +20,9 @@
  */
 package eu.europa.esig.dss.xades;
 
+import com.signerry.android.AndroidUtils;
+import com.signerry.android.CryptoProvider;
+
 import eu.europa.esig.dss.spi.DSSSecurityProvider;
 import org.apache.xml.security.Init;
 import org.apache.xml.security.algorithms.JCEMapper;
@@ -27,6 +30,7 @@ import org.apache.xml.security.algorithms.SignatureAlgorithm;
 import org.apache.xml.security.c14n.Canonicalizer;
 import org.apache.xml.security.exceptions.XMLSecurityException;
 import org.apache.xml.security.keys.keyresolver.KeyResolver;
+import org.apache.xml.security.parser.XMLParserImpl;
 import org.apache.xml.security.transforms.Transform;
 import org.apache.xml.security.utils.ElementProxy;
 import org.apache.xml.security.utils.I18n;
@@ -34,6 +38,8 @@ import org.apache.xml.security.utils.resolver.ResourceResolver;
 import org.apache.xml.security.utils.resolver.implementations.ResolverXPointer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Customized Initialization of Santuario.
@@ -119,8 +125,10 @@ public class SantuarioInitializer {
 		//
 		// Set the default JCE algorithms
 		//
-		//JCEMapper.setProviderId(new BouncyCastleProvider());
+		JCEMapper.setProviderId(CryptoProvider.BCProvider);
 		JCEMapper.registerDefaultAlgorithms();
+
+		XMLParserImpl.setCustomDocumentBuilderFactory(AndroidUtils.getService(DocumentBuilderFactory.class));
 
 		//
 		// Set the default c14n algorithms
@@ -136,6 +144,8 @@ public class SantuarioInitializer {
 		// Register the default key resolvers
 		//
 		KeyResolver.registerDefaultResolvers();
+
+
 	}
 
 	/**

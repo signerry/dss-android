@@ -20,10 +20,14 @@
  */
 package eu.europa.esig.dss.jaxb.common;
 
+import com.signerry.android.AndroidUtils;
+
 import eu.europa.esig.dss.alert.ExceptionOnStatusAlert;
 import eu.europa.esig.dss.alert.StatusAlert;
 import eu.europa.esig.dss.alert.status.ObjectStatus;
 import eu.europa.esig.dss.jaxb.common.exception.SecurityConfigurationException;
+
+import org.glassfish.jaxb.core.v2.util.XmlFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,12 +35,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.validation.SchemaFactory;
+
 /**
  * Abstract class containing util classes helping to configure a Factory or a Validator
  *
  * @param <F> class of the object to be configured
  */
 public abstract class AbstractConfigurator<F> {
+
+    static {
+        XmlFactory.setDocumentBuilderFactory(AndroidUtils.getService(DocumentBuilderFactory.class));
+        XmlFactory.setTransformerFactory(AndroidUtils.getService(TransformerFactory.class));
+        XmlFactory.setDocumentBuilderFactory(AndroidUtils.getService(DocumentBuilderFactory.class));
+        XmlFactory.setSchemaFactory(AndroidUtils.getService(SchemaFactory.class));
+    }
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractConfigurator.class);
 

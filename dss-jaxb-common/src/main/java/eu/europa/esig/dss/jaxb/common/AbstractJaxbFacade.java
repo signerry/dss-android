@@ -20,6 +20,9 @@
  */
 package eu.europa.esig.dss.jaxb.common;
 
+import com.signerry.android.AndroidUtils;
+
+import org.glassfish.jaxb.core.v2.util.XmlFactory;
 import org.xml.sax.SAXException;
 
 import jakarta.xml.bind.JAXBContext;
@@ -27,12 +30,17 @@ import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
+
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.Source;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,6 +56,13 @@ import java.util.Objects;
  * @param <T> A JAXB Object
  */
 public abstract class AbstractJaxbFacade<T> {
+
+	static {
+		XmlFactory.setDocumentBuilderFactory(AndroidUtils.getService(DocumentBuilderFactory.class));
+		XmlFactory.setTransformerFactory(AndroidUtils.getService(TransformerFactory.class));
+		XmlFactory.setDocumentBuilderFactory(AndroidUtils.getService(DocumentBuilderFactory.class));
+		XmlFactory.setSchemaFactory(AndroidUtils.getService(SchemaFactory.class));
+	}
 
 	/**
 	 * This method returns the instance of {@link JAXBContext} which can handle the

@@ -150,7 +150,6 @@ dependencies {
         androidTestImplementation project(':dss-utils-google-guava')
     }
 
-    implementation "jakarta.xml.ws:jakarta.xml.ws-api:${jakarta_ws_api_version}"
     androidTestImplementation("org.awaitility:awaitility:${awaitility_version}") {
         exclude group: 'org.hamcrest', module: 'hamcrest'
     }
@@ -170,7 +169,7 @@ dependencies {
     androidTestImplementation 'org.json:json:20220320'
 
     implementation 'ro.andob.androidawt:androidawt:1.0.4'
-    implementation 'org.glassfish.jaxb:jaxb-runtime:3.1.0-M1'
+    implementation 'org.glassfish.jaxb:jaxb-runtime:3.1.6'
 
     api('com.tom-roush:pdfbox-android:2.0.25.0') {
         exclude group: 'org.bouncycastle'

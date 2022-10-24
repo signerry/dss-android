@@ -32,6 +32,7 @@ import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.SAXParserFactory;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -62,6 +63,7 @@ public abstract class AbstractJaxbFacade<T> {
 		XmlFactory.setTransformerFactory(AndroidUtils.getService(TransformerFactory.class));
 		XmlFactory.setDocumentBuilderFactory(AndroidUtils.getService(DocumentBuilderFactory.class));
 		XmlFactory.setSchemaFactory(AndroidUtils.getService(SchemaFactory.class));
+		XmlFactory.setSaxParserFactory(AndroidUtils.getService(SAXParserFactory.class));
 	}
 
 	/**

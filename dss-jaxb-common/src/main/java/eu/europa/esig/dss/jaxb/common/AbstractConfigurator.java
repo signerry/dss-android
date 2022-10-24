@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.validation.SchemaFactory;
 
@@ -51,6 +52,7 @@ public abstract class AbstractConfigurator<F> {
         XmlFactory.setTransformerFactory(AndroidUtils.getService(TransformerFactory.class));
         XmlFactory.setDocumentBuilderFactory(AndroidUtils.getService(DocumentBuilderFactory.class));
         XmlFactory.setSchemaFactory(AndroidUtils.getService(SchemaFactory.class));
+        XmlFactory.setSaxParserFactory(AndroidUtils.getService(SAXParserFactory.class));
     }
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractConfigurator.class);

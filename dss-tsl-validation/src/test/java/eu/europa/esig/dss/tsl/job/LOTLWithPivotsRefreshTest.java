@@ -49,6 +49,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 
 public class LOTLWithPivotsRefreshTest {
 
@@ -178,26 +180,26 @@ public class LOTLWithPivotsRefreshTest {
 	private Map<String, DSSDocument> correctUrlMap() {
 		Map<String, DSSDocument> urlMap = new HashMap<>();
 		urlMap.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-247-mp.xml",
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_247_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_247_mp.xml")));
 		urlMap.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-226-mp.xml",
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_226_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_226_mp.xml")));
 		urlMap.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-191-mp.xml",
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_191_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_191_mp.xml")));
 		urlMap.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-172-mp.xml",
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_172_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_172_mp.xml")));
 		return urlMap;
 	}
 
 	private Map<String, DSSDocument> missingUrlMap() {
 		Map<String, DSSDocument> urlMap = new HashMap<>();
 		urlMap.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-247-mp.xml",
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_247_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_247_mp.xml")));
 		urlMap.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-226-mp.xml",
 				null);
 		urlMap.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-191-mp.xml",
 				null);
 		urlMap.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-172-mp.xml",
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_172_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_172_mp.xml")));
 		return urlMap;
 	}
 

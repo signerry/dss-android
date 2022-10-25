@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +61,7 @@ public class LOTLAndTLRefreshTest {
 	public void test() {
 
 		FileCacheDataLoader offlineFileLoader = getOfflineFileLoader(correctUrlMap());
-
+		offlineFileLoader.setResourceLoader(TestUtils.getResourceLoader());
 		TLValidationJob job = new TLValidationJob();
 		job.setListOfTrustedListSources(europeanLOTL());
 		job.setTrustedListSources(peruvianTrustedList());
@@ -88,8 +90,8 @@ public class LOTLAndTLRefreshTest {
 
 	private Map<String, DSSDocument> correctUrlMap() {
 		Map<String, DSSDocument> urlMap = new HashMap<>();
-		urlMap.put("EU", new FileDocument("src/test/resources/lotlCache/EU.xml"));
-		urlMap.put("PE", new FileDocument("src/test/resources/tsl-pe.xml"));
+		urlMap.put("EU", new FileDocument(TestUtils.getResourceAsFile("lotlCache/EU.xml")));
+		urlMap.put("PE", new FileDocument(TestUtils.getResourceAsFile("tsl-pe.xml")));
 		return urlMap;
 	}
 

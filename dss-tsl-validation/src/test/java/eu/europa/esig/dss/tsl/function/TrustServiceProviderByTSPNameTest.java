@@ -23,6 +23,8 @@ package eu.europa.esig.dss.tsl.function;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.File;
 import java.util.List;
 
@@ -37,7 +39,7 @@ class TrustServiceProviderByTSPNameTest {
 
     @Test
     void test() throws Exception {
-        File fileToTest = new File("src/test/resources/fr.xml");
+        File fileToTest = TestUtils.getResourceAsFile("fr.xml");
         
         TrustStatusListType trustStatusList = TrustedListFacade.newFacade().unmarshall(fileToTest);
 

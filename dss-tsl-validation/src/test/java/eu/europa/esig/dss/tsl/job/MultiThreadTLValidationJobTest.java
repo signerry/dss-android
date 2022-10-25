@@ -51,6 +51,8 @@ import java.util.concurrent.Future;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public class MultiThreadTLValidationJobTest {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MultiThreadTLValidationJobTest.class);
@@ -68,9 +70,9 @@ public class MultiThreadTLValidationJobTest {
 	public static void init() throws IOException {
 		
 		Map<String, DSSDocument> urlMap = new HashMap<>();
-		urlMap.put(CZ_URL, new FileDocument("src/test/resources/lotlCache/CZ.xml"));
+		urlMap.put(CZ_URL, new FileDocument(TestUtils.getResourceAsFile("lotlCache/CZ.xml")));
 
-		File cacheDirectory = new File("target/cache");
+		File cacheDirectory = TestUtils.getTmpDedicatedDirectory();
 		
 		offlineFileLoader = new FileCacheDataLoader();
 		offlineFileLoader.setCacheExpirationTime(Long.MAX_VALUE);
@@ -83,6 +85,7 @@ public class MultiThreadTLValidationJobTest {
 		onlineFileLoader.setCacheExpirationTime(0);
 		onlineFileLoader.setDataLoader(new MockDataLoader(onlineMap));
 		onlineFileLoader.setFileCacheDirectory(cacheDirectory);
+		onlineFileLoader.setResourceLoader(TestUtils.getResourceLoader());
 		
 		cacheCleaner = new CacheCleaner();
 		cacheCleaner.setDSSFileLoader(offlineFileLoader);

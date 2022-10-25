@@ -36,13 +36,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class SchemeInformationURIPredicatesTest {
 
 	private static NonEmptyMultiLangURIListType SCHEME_INFORMATION_URI_LIST_TYPE;
 
 	@BeforeAll
 	public static void init() throws Exception {
-		try (FileInputStream fis = new FileInputStream("src/test/resources/eu-lotl-pivot.xml")) {
+		try (FileInputStream fis = new FileInputStream(TestUtils.getResourceAsFile("eu-lotl-pivot.xml"))) {
 			TrustStatusListType lotlPivot = TrustedListFacade.newFacade().unmarshall(fis);
 			assertNotNull(lotlPivot);
 			SCHEME_INFORMATION_URI_LIST_TYPE = lotlPivot.getSchemeInformation().getSchemeInformationURI();

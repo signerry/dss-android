@@ -28,6 +28,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.File;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -58,13 +60,13 @@ public class TransitionTest {
 	@TempDir
 	File cacheDirectory;
 
-	private DSSDocument CZ = new FileDocument("src/test/resources/lotlCache/CZ.xml");
+	private DSSDocument CZ = new FileDocument(TestUtils.getResourceAsFile("lotlCache/CZ.xml"));
 	private DSSDocument CZ_NULL = null;
-	private DSSDocument CZ_NO_XML = new FileDocument("src/test/resources/lotlCache/CZ.pdf");
-	private DSSDocument CZ_BROKEN_SIG = new FileDocument("src/test/resources/lotlCache/CZ_broken-sig.xml");
-	private DSSDocument CZ_NO_SIG = new FileDocument("src/test/resources/lotlCache/CZ_no-sig.xml");
-	private DSSDocument CZ_NOT_CONFORM = new FileDocument("src/test/resources/lotlCache/CZ_not-conform.xml");
-	private DSSDocument CZ_NOT_COMPLIANT = new FileDocument("src/test/resources/lotlCache/CZ_not-compliant.xml");
+	private DSSDocument CZ_NO_XML = new FileDocument(TestUtils.getResourceAsFile("lotlCache/CZ.pdf"));
+	private DSSDocument CZ_BROKEN_SIG = new FileDocument(TestUtils.getResourceAsFile("lotlCache/CZ_broken-sig.xml"));
+	private DSSDocument CZ_NO_SIG = new FileDocument(TestUtils.getResourceAsFile("lotlCache/CZ_no-sig.xml"));
+	private DSSDocument CZ_NOT_CONFORM = new FileDocument(TestUtils.getResourceAsFile("lotlCache/CZ_not-conform.xml"));
+	private DSSDocument CZ_NOT_COMPLIANT = new FileDocument(TestUtils.getResourceAsFile("lotlCache/CZ_not-compliant.xml"));
 
 	@Test
 	public void nullDoc() {
@@ -389,6 +391,8 @@ public class TransitionTest {
 		onlineMap.put(url, doc);
 		onlineFileLoader.setDataLoader(new MockDataLoader(onlineMap));
 		onlineFileLoader.setFileCacheDirectory(cacheDirectory);
+		onlineFileLoader.setResourceLoader(TestUtils.getResourceLoader());
+
 		return onlineFileLoader;
 	}
 

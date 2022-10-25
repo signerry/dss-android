@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +59,7 @@ public class LOTLRefreshTest {
 	public void test() {
 
 		FileCacheDataLoader offlineFileLoader = getOfflineFileLoader(correctUrlMap());
-
+		offlineFileLoader.setResourceLoader(TestUtils.getResourceLoader());
 		TLValidationJob job = new TLValidationJob();
 		job.setListOfTrustedListSources(getLOTLSource());
 		job.setOfflineDataLoader(offlineFileLoader);
@@ -78,6 +80,7 @@ public class LOTLRefreshTest {
 	public void testMissingCert() {
 
 		FileCacheDataLoader offlineFileLoader = getOfflineFileLoader(correctUrlMap());
+		offlineFileLoader.setResourceLoader(TestUtils.getResourceLoader());
 
 		TLValidationJob job = new TLValidationJob();
 		LOTLSource lotlSource = getLOTLSource();
@@ -99,6 +102,7 @@ public class LOTLRefreshTest {
 	public void testWrongCert() {
 
 		FileCacheDataLoader offlineFileLoader = getOfflineFileLoader(correctUrlMap());
+		offlineFileLoader.setResourceLoader(TestUtils.getResourceLoader());
 
 		TLValidationJob job = new TLValidationJob();
 		LOTLSource lotlSource = getLOTLSource();
@@ -123,6 +127,7 @@ public class LOTLRefreshTest {
 	public void testNullCertSource() {
 
 		FileCacheDataLoader offlineFileLoader = getOfflineFileLoader(correctUrlMap());
+		offlineFileLoader.setResourceLoader(TestUtils.getResourceLoader());
 
 		TLValidationJob job = new TLValidationJob();
 
@@ -149,7 +154,7 @@ public class LOTLRefreshTest {
 
 	private Map<String, DSSDocument> correctUrlMap() {
 		Map<String, DSSDocument> urlMap = new HashMap<>();
-		urlMap.put("EU", new FileDocument("src/test/resources/lotlCache/EU.xml"));
+		urlMap.put("EU", new FileDocument(TestUtils.getResourceAsFile("lotlCache/EU.xml")));
 		return urlMap;
 	}
 

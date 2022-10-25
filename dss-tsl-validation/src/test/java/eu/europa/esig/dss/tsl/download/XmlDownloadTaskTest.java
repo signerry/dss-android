@@ -25,6 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,11 +61,11 @@ public class XmlDownloadTaskTest {
 	public void nonNullResults() {
 		Map<String, byte[]> dataMap = new HashMap<>();
 
-		byte[] sampleByteArray = DSSUtils.toByteArray(new FileDocument(new File("src/test/resources/sample.xml")));
+		byte[] sampleByteArray = DSSUtils.toByteArray(new FileDocument(TestUtils.getResourceAsFile("sample.xml")));
 		dataMap.put("sample", sampleByteArray);
-		dataMap.put("sample-spaces", DSSUtils.toByteArray(new FileDocument(new File("src/test/resources/sample-spaces.xml"))));
-		dataMap.put("sample-comment", DSSUtils.toByteArray(new FileDocument(new File("src/test/resources/sample-comment.xml"))));
-		byte[] sampleWithBomByteArray = DSSUtils.toByteArray(new FileDocument(new File("src/test/resources/sample-bom.xml")));
+		dataMap.put("sample-spaces", DSSUtils.toByteArray(new FileDocument(TestUtils.getResourceAsFile("sample-spaces.xml"))));
+		dataMap.put("sample-comment", DSSUtils.toByteArray(new FileDocument(TestUtils.getResourceAsFile("sample-comment.xml"))));
+		byte[] sampleWithBomByteArray = DSSUtils.toByteArray(new FileDocument(TestUtils.getResourceAsFile("sample-bom.xml")));
 		dataMap.put("sample-bom", sampleWithBomByteArray);
 
 		assertNotEquals(DSSUtils.getMD5Digest(sampleByteArray), DSSUtils.getMD5Digest(sampleWithBomByteArray));
@@ -71,6 +73,7 @@ public class XmlDownloadTaskTest {
 		MemoryDataLoader memoryDataLoader = new MemoryDataLoader(dataMap);
 		FileCacheDataLoader fileCacheDataLoader = new FileCacheDataLoader(memoryDataLoader);
 		fileCacheDataLoader.setCacheExpirationTime(0);
+		fileCacheDataLoader.setResourceLoader(TestUtils.getResourceLoader());
 		
 		XmlDownloadResult first = null;
 		for (String url : dataMap.keySet()) {
@@ -88,9 +91,10 @@ public class XmlDownloadTaskTest {
 			}
 		}
 
-		dataMap.put("sample-diff", DSSUtils.toByteArray(new FileDocument(new File("src/test/resources/sample-diff.xml"))));
+		dataMap.put("sample-diff", DSSUtils.toByteArray(new FileDocument(TestUtils.getResourceAsFile("sample-diff.xml"))));
 		memoryDataLoader = new MemoryDataLoader(dataMap);
 		fileCacheDataLoader = new FileCacheDataLoader(memoryDataLoader);
+		fileCacheDataLoader.setResourceLoader(TestUtils.getResourceLoader());
 		
 		XmlDownloadTask task = new XmlDownloadTask(fileCacheDataLoader, "sample-diff");
 		XmlDownloadResult downloadResultDiff = task.get();

@@ -51,6 +51,8 @@ import eu.europa.esig.dss.tsl.source.TLSource;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.trustedlist.jaxb.tsl.TSPServiceType;
 import eu.europa.esig.trustedlist.jaxb.tsl.TSPType;
+
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -62,6 +64,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +77,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import com.signerry.dss.test.TestUtils;
 
 public class TLValidationJobTest {
 
@@ -99,9 +104,10 @@ public class TLValidationJobTest {
 	@BeforeAll
 	public static void initBeforeAll() throws IOException {
 		urlMap = new HashMap<>();
-		
-		cacheDirectory = new File("target/cache");
-		
+
+		cacheDirectory = TestUtils.getTmpDedicatedDirectory();
+
+
 		offlineFileLoader = new FileCacheDataLoader();
 		offlineFileLoader.setCacheExpirationTime(Long.MAX_VALUE);
 		offlineFileLoader.setDataLoader(new MockDataLoader(urlMap));
@@ -156,62 +162,62 @@ public class TLValidationJobTest {
 	}
 	
 	private void populateMap() {
-		urlMap.put(LOTL_URL, new FileDocument("src/test/resources/lotlCache/eu-lotl_original.xml"));
+		urlMap.put(LOTL_URL, new FileDocument(TestUtils.getResourceAsFile("lotlCache/eu-lotl_original.xml")));
 		
 		urlMap.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-247-mp.xml", 
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_247_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_247_mp.xml")));
 		urlMap.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-226-mp.xml", 
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_226_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_226_mp.xml")));
 		urlMap.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-191-mp.xml", 
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_191_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_191_mp.xml")));
 		urlMap.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-172-mp.xml", 
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_172_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_172_mp.xml")));
 		
-		urlMap.put("https://www.signatur.rtr.at/currenttl.xml", new FileDocument("src/test/resources/lotlCache/AT.xml"));
-		urlMap.put("https://tsl.belgium.be/tsl-be.xml", new FileDocument("src/test/resources/lotlCache/BE.xml"));
-		urlMap.put("https://crc.bg/files/_en/TSL_BG.xml", new FileDocument("src/test/resources/lotlCache/BG.xml"));
+		urlMap.put("https://www.signatur.rtr.at/currenttl.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/AT.xml")));
+		urlMap.put("https://tsl.belgium.be/tsl-be.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/BE.xml")));
+		urlMap.put("https://crc.bg/files/_en/TSL_BG.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/BG.xml")));
 		urlMap.put("http://www.mcw.gov.cy/mcw/dec/dec.nsf/all/B28C11BBFDBAC045C2257E0D002937E9/$file/TSL-CY-sign.xml",
-				new FileDocument("src/test/resources/lotlCache/CY.xml"));
-		urlMap.put(CZ_URL, new FileDocument("src/test/resources/lotlCache/CZ.xml"));
-		urlMap.put("https://www.nrca-ds.de/st/TSL-XML.xml", new FileDocument("src/test/resources/lotlCache/DE.xml"));
-		urlMap.put("https://www.digst.dk/TSLDKxml", new FileDocument("src/test/resources/lotlCache/DK.xml"));
-		urlMap.put("https://sr.riik.ee/tsl/estonian-tsl.xml", new FileDocument("src/test/resources/lotlCache/ES.xml")); // wrong country code
-		urlMap.put("https://www.eett.gr/tsl/EL-TSL.xml", new FileDocument("src/test/resources/lotlCache/EL.xml"));
-		urlMap.put("https://sede.minetur.gob.es/Prestadores/TSL/TSL.xml", new FileDocument("src/test/resources/lotlCache/ES.xml"));
-		urlMap.put("https://dp.trustedlist.fi/fi-tl.xml", new FileDocument("src/test/resources/lotlCache/FI.xml"));
-		urlMap.put("http://www.ssi.gouv.fr/eidas/TL-FR.xml", new FileDocument("src/test/resources/lotlCache/FR.xml"));
-		urlMap.put("https://www.mingo.hr/TLS/TSL-HR.xml", new FileDocument("src/test/resources/lotlCache/HR.xml"));
-		urlMap.put("http://www.nmhh.hu/tl/pub/HU_TL.xml", new FileDocument("src/test/resources/lotlCache/HU.xml"));
-		urlMap.put("http://files.dcenr.gov.ie/rh/Irelandtslsigned.xml", new FileDocument("src/test/resources/lotlCache/IE.xml"));
-		urlMap.put("http://www.neytendastofa.is/library/Files/TSl/tsl.xml", new FileDocument("src/test/resources/lotlCache/IS.xml"));
-		urlMap.put("https://eidas.agid.gov.it/TL/TSL-IT.xml", new FileDocument("src/test/resources/lotlCache/IT.xml"));
-		urlMap.put("https://www.llv.li/files/ak/xml-llv-ak-tsl.xml", new FileDocument("src/test/resources/lotlCache/LI.xml"));
-		urlMap.put("https://elektroninisparasas.lt/LT-TSL.xml", new FileDocument("src/test/resources/lotlCache/LT.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/CY.xml")));
+		urlMap.put(CZ_URL, new FileDocument(TestUtils.getResourceAsFile("lotlCache/CZ.xml")));
+		urlMap.put("https://www.nrca-ds.de/st/TSL-XML.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/DE.xml")));
+		urlMap.put("https://www.digst.dk/TSLDKxml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/DK.xml")));
+		urlMap.put("https://sr.riik.ee/tsl/estonian-tsl.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/ES.xml"))); // wrong country code
+		urlMap.put("https://www.eett.gr/tsl/EL-TSL.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/EL.xml")));
+		urlMap.put("https://sede.minetur.gob.es/Prestadores/TSL/TSL.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/ES.xml")));
+		urlMap.put("https://dp.trustedlist.fi/fi-tl.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/FI.xml")));
+		urlMap.put("http://www.ssi.gouv.fr/eidas/TL-FR.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/FR.xml")));
+		urlMap.put("https://www.mingo.hr/TLS/TSL-HR.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/HR.xml")));
+		urlMap.put("http://www.nmhh.hu/tl/pub/HU_TL.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/HU.xml")));
+		urlMap.put("http://files.dcenr.gov.ie/rh/Irelandtslsigned.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/IE.xml")));
+		urlMap.put("http://www.neytendastofa.is/library/Files/TSl/tsl.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/IS.xml")));
+		urlMap.put("https://eidas.agid.gov.it/TL/TSL-IT.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/IT.xml")));
+		urlMap.put("https://www.llv.li/files/ak/xml-llv-ak-tsl.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/LI.xml")));
+		urlMap.put("https://elektroninisparasas.lt/LT-TSL.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/LT.xml")));
 		urlMap.put("https://portail-qualite.public.lu/content/dam/qualite/fr/publications/confiance-numerique/liste-confiance-nationale/tsl-xml/tsl.xml",
-				new FileDocument("src/test/resources/lotlCache/LU.xml"));
-		urlMap.put("https://trustlist.gov.lv/tsl/latvian-tsl.xml", new FileDocument("src/test/resources/lotlCache/LV.xml"));
-		urlMap.put("https://www.mca.org.mt/tsl/MT_TSL.xml", new FileDocument("src/test/resources/lotlCache/MT.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/LU.xml")));
+		urlMap.put("https://trustlist.gov.lv/tsl/latvian-tsl.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/LV.xml")));
+		urlMap.put("https://www.mca.org.mt/tsl/MT_TSL.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/MT.xml")));
 		urlMap.put(
 				"https://www.agentschaptelecom.nl/binaries/agentschap-telecom/documenten/publicaties/2018/januari/01/digitale-statuslijst-van-vertrouwensdiensten/current-tsl.xml",
-				new FileDocument("src/test/resources/lotlCache/NL.xml"));
-		urlMap.put("https://tl-norway.no/TSL/NO_TSL.XML", new FileDocument("src/test/resources/lotlCache/NO.xml"));
-		urlMap.put("https://www.nccert.pl/tsl/PL_TSL.xml", new FileDocument("src/test/resources/lotlCache/PL.xml"));
-		urlMap.put("https://www.gns.gov.pt/media/1894/TSLPT.xml", new FileDocument("src/test/resources/lotlCache/PT.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/NL.xml")));
+		urlMap.put("https://tl-norway.no/TSL/NO_TSL.XML", new FileDocument(TestUtils.getResourceAsFile("lotlCache/NO.xml")));
+		urlMap.put("https://www.nccert.pl/tsl/PL_TSL.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/PL.xml")));
+		urlMap.put("https://www.gns.gov.pt/media/1894/TSLPT.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/PT.xml")));
 		// RO is missed
-		urlMap.put("https://trustedlist.pts.se/SE-TL.xml", new FileDocument("src/test/resources/lotlCache/SE.xml"));
+		urlMap.put("https://trustedlist.pts.se/SE-TL.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/SE.xml")));
 		urlMap.put("http://www.mju.gov.si/fileadmin/mju.gov.si/pageuploads/DID/Informacijska_druzba/eIDAS/SI_TL.xml",
-				new FileDocument("src/test/resources/lotlCache/SI.xml"));
-		urlMap.put("http://tl.nbu.gov.sk/kca/tsl/tsl.xml", new FileDocument("src/test/resources/lotlCache/SK.xml"));
-		urlMap.put("https://www.tscheme.org/UK_TSL/TSL-UKsigned.xml", new FileDocument("src/test/resources/lotlCache/UK.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/SI.xml")));
+		urlMap.put("http://tl.nbu.gov.sk/kca/tsl/tsl.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/SK.xml")));
+		urlMap.put("https://www.tscheme.org/UK_TSL/TSL-UKsigned.xml", new FileDocument(TestUtils.getResourceAsFile("lotlCache/UK.xml")));
 		
 		// Dummy Peruvian TL and good-user signed LOTL for testing
-		urlMap.put("http://dss.nowina.lu/peru-lotl", new FileDocument("src/test/resources/peru-lotl.xml"));
-		urlMap.put("https://iofe.indecopi.gob.pe/TSL/tsl-pe.xml", new FileDocument("src/test/resources/tsl-pe.xml"));
+		urlMap.put("http://dss.nowina.lu/peru-lotl", new FileDocument(TestUtils.getResourceAsFile("peru-lotl.xml")));
+		urlMap.put("https://iofe.indecopi.gob.pe/TSL/tsl-pe.xml", new FileDocument(TestUtils.getResourceAsFile("tsl-pe.xml")));
 	}
 	
 	@Test
 	public void test() {
-		updateTLUrl("src/test/resources/lotlCache/CZ.xml");
+		updateTLUrl("lotlCache/CZ.xml");
 
 		TLValidationJob validationJob = getTLValidationJob();
 		TLValidationJobSummary summary = validationJob.getSummary();
@@ -300,7 +306,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void noTrustedListCertificateSourceTest() {
-		updateTLUrl("src/test/resources/lotlCache/CZ.xml");
+		updateTLUrl("lotlCache/CZ.xml");
 		
 		tlValidationJob = new TLValidationJob();
 		tlValidationJob.setOfflineDataLoader(offlineFileLoader);
@@ -398,7 +404,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void brokenSigTest() {
-		updateTLUrl("src/test/resources/lotlCache/CZ_broken-sig.xml");
+		updateTLUrl("lotlCache/CZ_broken-sig.xml");
 		
 		TLValidationJobSummary summary = getTLValidationJob().getSummary();
 		
@@ -426,7 +432,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void tlEmptyTest() {
-		updateTLUrl("src/test/resources/lotlCache/CZ_empty.xml");
+		updateTLUrl("lotlCache/CZ_empty.xml");
 		
 		TLValidationJobSummary summary = getTLValidationJob().getSummary();
 		
@@ -452,7 +458,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void tlNotParsableTest() {
-		updateTLUrl("src/test/resources/lotlCache/CZ_not-parsable.xml");
+		updateTLUrl("lotlCache/CZ_not-parsable.xml");
 		
 		TLValidationJobSummary summary = getTLValidationJob().getSummary();
 		
@@ -478,7 +484,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void tlNotCompliantTest() {
-		updateTLUrl("src/test/resources/lotlCache/CZ_not-compliant.xml");
+		updateTLUrl("lotlCache/CZ_not-compliant.xml");
 		
 		TLValidationJobSummary summary = getTLValidationJob().getSummary();
 		
@@ -507,7 +513,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void tlTwoSignaturesTest() {
-		updateTLUrl("src/test/resources/lotlCache/CZ_two-sigs.xml");
+		updateTLUrl("lotlCache/CZ_two-sigs.xml");
 		
 		TLValidationJobSummary summary = getTLValidationJob().getSummary();
 		
@@ -536,7 +542,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void tlNoSignaturesTest() {
-		updateTLUrl("src/test/resources/lotlCache/CZ_no-sig.xml");
+		updateTLUrl("lotlCache/CZ_no-sig.xml");
 		
 		TLValidationJobSummary summary = getTLValidationJob().getSummary();
 		
@@ -565,7 +571,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void tlPdfTest() {
-		updateTLUrl("src/test/resources/lotlCache/CZ.pdf");
+		updateTLUrl("lotlCache/CZ.pdf");
 		
 		TLValidationJobSummary summary = getTLValidationJob().getSummary();
 		List<TLInfo> tlInfos = summary.getOtherTLInfos();
@@ -584,7 +590,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void lotlBrokenSigTest() {
-		updateLOTLUrl("src/test/resources/lotlCache/eu-lotl_broken-sig.xml");
+		updateLOTLUrl("lotlCache/eu-lotl_broken-sig.xml");
 		
 		TLValidationJobSummary summary = getLOTLValidationJob().getSummary();
 		List<LOTLInfo> tlInfos = summary.getLOTLInfos();
@@ -608,7 +614,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void lotlNotParsableTest() {
-		updateLOTLUrl("src/test/resources/lotlCache/eu-lotl_not-parsable.xml");
+		updateLOTLUrl("lotlCache/eu-lotl_not-parsable.xml");
 		
 		TLValidationJobSummary summary = getLOTLValidationJob().getSummary();
 		List<LOTLInfo> tlInfos = summary.getLOTLInfos();
@@ -629,7 +635,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void lotlNonCompliantTest() {
-		updateLOTLUrl("src/test/resources/lotlCache/eu-lotl_non-compliant.xml");
+		updateLOTLUrl("lotlCache/eu-lotl_non-compliant.xml");
 		
 		TLValidationJobSummary summary = getLOTLValidationJob().getSummary();
 		List<LOTLInfo> tlInfos = summary.getLOTLInfos();
@@ -650,7 +656,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void lotlXmlDeclarationRemovedTest() {
-		updateLOTLUrl("src/test/resources/lotlCache/eu-lotl_xml-directive-removed.xml");
+		updateLOTLUrl("lotlCache/eu-lotl_xml-directive-removed.xml");
 		
 		TLValidationJobSummary summary = getLOTLValidationJob().getSummary();
 		List<LOTLInfo> tlInfos = summary.getLOTLInfos();
@@ -676,7 +682,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void pivotTest() {
-		updatePivotUrl("src/test/resources/lotlCache/tl_pivot_247_mp.xml");
+		updatePivotUrl("lotlCache/tl_pivot_247_mp.xml");
 		
 		TLValidationJobSummary summary = getLOTLValidationJob().getSummary();
 		List<LOTLInfo> tlInfos = summary.getLOTLInfos();
@@ -732,7 +738,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void pivotBrokenSigTest() {
-		updatePivotUrl("src/test/resources/lotlCache/tl_pivot_247_mp_broken-sig.xml");
+		updatePivotUrl("lotlCache/tl_pivot_247_mp_broken-sig.xml");
 		
 		TLValidationJobSummary summary = getLOTLValidationJob().getSummary();
 		List<LOTLInfo> tlInfos = summary.getLOTLInfos();
@@ -776,10 +782,10 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void intermediatePivotBrokenSigTest() {
-		updatePivotUrl("src/test/resources/lotlCache/tl_pivot_247_mp.xml");
+		updatePivotUrl("lotlCache/tl_pivot_247_mp.xml");
 		
 		urlMap.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-191-mp.xml", 
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_191_mp_broken-sig.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_191_mp_broken-sig.xml")));
 		
 		TLValidationJobSummary summary = getLOTLValidationJob().getSummary();
 		List<LOTLInfo> tlInfos = summary.getLOTLInfos();
@@ -840,7 +846,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void missingPivotTest() {
-		updatePivotUrl("src/test/resources/lotlCache/tl_pivot_247_mp_missing-pivot.xml");
+		updatePivotUrl("lotlCache/tl_pivot_247_mp_missing-pivot.xml");
 		
 		TLValidationJobSummary summary = getLOTLValidationJob().getSummary();
 		List<LOTLInfo> tlInfos = summary.getLOTLInfos();
@@ -877,7 +883,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void pivotNoSigTest() {
-		updatePivotUrl("src/test/resources/lotlCache/tl_pivot_247_mp_no-sig.xml");
+		updatePivotUrl("lotlCache/tl_pivot_247_mp_no-sig.xml");
 		
 		TLValidationJobSummary summary = getLOTLValidationJob().getSummary();
 		List<LOTLInfo> tlInfos = summary.getLOTLInfos();
@@ -899,10 +905,10 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void intermediatePivotNoSigTest() {
-		updatePivotUrl("src/test/resources/lotlCache/tl_pivot_247_mp.xml");
+		updatePivotUrl("lotlCache/tl_pivot_247_mp.xml");
 		
 		urlMap.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-191-mp.xml", 
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_191_mp_no-sig.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_191_mp_no-sig.xml")));
 		
 		TLValidationJobSummary summary = getLOTLValidationJob().getSummary();
 		List<LOTLInfo> tlInfos = summary.getLOTLInfos();
@@ -956,7 +962,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void pivotNotParsableTest() {
-		updatePivotUrl("src/test/resources/lotlCache/tl_pivot_247_mp_not-parsable.xml");
+		updatePivotUrl("lotlCache/tl_pivot_247_mp_not-parsable.xml");
 		
 		TLValidationJobSummary summary = getLOTLValidationJob().getSummary();
 		List<LOTLInfo> tlInfos = summary.getLOTLInfos();
@@ -977,10 +983,10 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void intermediatePivotNotParsableTest() {
-		updatePivotUrl("src/test/resources/lotlCache/tl_pivot_247_mp.xml");
+		updatePivotUrl("lotlCache/tl_pivot_247_mp.xml");
 		
 		urlMap.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-191-mp.xml", 
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_191_mp_not-parsable.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_191_mp_not-parsable.xml")));
 		
 		TLValidationJobSummary summary = getLOTLValidationJob().getSummary();
 		List<LOTLInfo> tlInfos = summary.getLOTLInfos();
@@ -1034,7 +1040,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void pivotUTF8WithBomTest() {
-		updatePivotUrl("src/test/resources/lotlCache/tl_pivot_247_mp_with-bom.xml");
+		updatePivotUrl("lotlCache/tl_pivot_247_mp_with-bom.xml");
 		
 		TLValidationJobSummary summary = getLOTLValidationJob().getSummary();
 		List<LOTLInfo> tlInfos = summary.getLOTLInfos();
@@ -1062,7 +1068,7 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void pivotWithSpacesTest() {
-		updatePivotUrl("src/test/resources/lotlCache/tl_pivot_247_mp_with-spaces.xml");
+		updatePivotUrl("lotlCache/tl_pivot_247_mp_with-spaces.xml");
 		
 		TLValidationJobSummary summary = getLOTLValidationJob().getSummary();
 		List<LOTLInfo> tlInfos = summary.getLOTLInfos();
@@ -1090,8 +1096,8 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void wrongPivotKeystoreTest() throws IOException {
-		updatePivotUrl("src/test/resources/lotlCache/tl_pivot_247_mp_with-spaces.xml");
-		lotlSource.setCertificateSource(new KeyStoreCertificateSource(new File("src/test/resources/keystore_corrupted.p12"), "PKCS12", "dss-password"));
+		updatePivotUrl("lotlCache/tl_pivot_247_mp_with-spaces.xml");
+		lotlSource.setCertificateSource(new KeyStoreCertificateSource(TestUtils.getResourceAsFile("keystore_corrupted.p12"), "PKCS12", "dss-password"));
 		
 		TLValidationJobSummary summary = getLOTLValidationJob().getSummary();
 		List<LOTLInfo> tlInfos = summary.getLOTLInfos();
@@ -1119,8 +1125,8 @@ public class TLValidationJobTest {
 	
 	@Test
 	public void lotlCorruptedKeystoreTest() throws IOException {
-		updateLOTLUrl("src/test/resources/lotlCache/eu-lotl_original.xml");
-		lotlSource.setCertificateSource(new KeyStoreCertificateSource(new File("src/test/resources/keystore_corrupted.p12"), "PKCS12", "dss-password"));
+		updateLOTLUrl("lotlCache/eu-lotl_original.xml");
+		lotlSource.setCertificateSource(new KeyStoreCertificateSource(TestUtils.getResourceAsFile("keystore_corrupted.p12"), "PKCS12", "dss-password"));
 		
 		TLValidationJobSummary summary = getLOTLValidationJob().getSummary();
 		List<LOTLInfo> tlInfos = summary.getLOTLInfos();
@@ -1207,7 +1213,7 @@ public class TLValidationJobTest {
 
 	@Test
 	public void ecdsaTLTest() {
-		DSSDocument ecdsaTLDoc = new FileDocument("src/test/resources/tl-ecdsa-brainpool.xml");
+		DSSDocument ecdsaTLDoc = new FileDocument(TestUtils.getResourceAsFile("tl-ecdsa-brainpool.xml"));
 		Map<String, DSSDocument> map = new HashMap<>();
 		map.put("ecdsa-tl.xml", ecdsaTLDoc);
 		MockDataLoader mockDataLoader = new MockDataLoader(map);
@@ -1221,6 +1227,7 @@ public class TLValidationJobTest {
 
 		FileCacheDataLoader fileCacheDataLoader = new FileCacheDataLoader(mockDataLoader);
 		fileCacheDataLoader.setCacheExpirationTime(0);
+		fileCacheDataLoader.setResourceLoader(TestUtils.getResourceLoader());
 
 		TLValidationJob tlValidationJob = new TLValidationJob();
 		tlValidationJob.setOfflineDataLoader(fileCacheDataLoader);
@@ -1266,17 +1273,17 @@ public class TLValidationJobTest {
 		LOTLSource peruvianLotlSource = new LOTLSource();
 		peruvianLotlSource.setUrl("http://dss.nowina.lu/peru-lotl");
 		CertificateSource trustedCertificateSource = new CommonTrustedCertificateSource();
-		trustedCertificateSource.addCertificate(DSSUtils.loadCertificate(new File("src/test/resources/pe-signing-cert.cer")));
+		trustedCertificateSource.addCertificate(DSSUtils.loadCertificate(TestUtils.getResourceAsFile("pe-signing-cert.cer")));
 		peruvianLotlSource.setCertificateSource(trustedCertificateSource);
 		return peruvianLotlSource;
 	}
 	
 	private void updateTLUrl(String url) {
-		urlMap.put(CZ_URL, new FileDocument(url));
+		urlMap.put(CZ_URL, new FileDocument(TestUtils.getResourceAsFile(url)));
 	}
 	
 	private void updateLOTLUrl(String url) {
-		urlMap.put(LOTL_URL, new FileDocument(url));
+		urlMap.put(LOTL_URL, new FileDocument(TestUtils.getResourceAsFile(url)));
 	}
 	
 	private void updatePivotUrl(String url) {
@@ -1285,15 +1292,12 @@ public class TLValidationJobTest {
 		lotlSource.setCertificateSource(trustedCertificateSource);
 
 		urlMap.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-247-mp.xml", 
-				new FileDocument(url));
+				new FileDocument(TestUtils.getResourceAsFile(url)));
 		updateLOTLUrl(url);
 	}
 	
 	@AfterEach
 	public void clean() throws IOException {
-		File cacheDirectory = new File("target/cache");
-		cacheDirectory.mkdirs();
-		Files.walk(cacheDirectory.toPath()).map(Path::toFile).forEach(File::delete);
+		FileUtils.cleanDirectory(cacheDirectory);
 	}
-
 }

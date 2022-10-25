@@ -53,6 +53,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class CacheCleanerTest {
 	
 	private CacheCleaner cacheCleaner;
@@ -83,6 +85,7 @@ public class CacheCleanerTest {
 		fileLoader.setCacheExpirationTime(0);
 		fileLoader.setDataLoader(memoryDataLoader);
 		fileLoader.setFileCacheDirectory(cacheDirectory);
+		fileLoader.setResourceLoader(TestUtils.getResourceLoader());
 		
 		byte[] sampleContent = fileLoader.get(SAMPLE_FILE_NAME);
 		assertArrayEquals(SAMPLE_FILE_NAME.getBytes(), sampleContent);

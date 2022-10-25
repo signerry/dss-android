@@ -25,6 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
@@ -61,7 +63,7 @@ public class LOTLChangesTest {
 	@Test
 	public void test() {
 		FileCacheDataLoader offlineFileLoader = getOfflineFileLoader(originalFiles());
-
+		offlineFileLoader.setResourceLoader(TestUtils.getResourceLoader());
 		TLValidationJob job = new TLValidationJob();
 		job.setListOfTrustedListSources(getLOTLSource());
 		job.setOfflineDataLoader(offlineFileLoader);
@@ -151,6 +153,8 @@ public class LOTLChangesTest {
 		onlineFileLoader.setCacheExpirationTime(0);
 		onlineFileLoader.setDataLoader(new MockDataLoader(urlMap));
 		onlineFileLoader.setFileCacheDirectory(cacheDirectory);
+		onlineFileLoader.setResourceLoader(TestUtils.getResourceLoader());
+
 		return onlineFileLoader;
 	}
 
@@ -165,18 +169,18 @@ public class LOTLChangesTest {
 	}
 
 	private Map<String, DSSDocument> originalFiles() {
-		DSSDocument lotl248 = new FileDocument("src/test/resources/eu-lotl.xml");
+		DSSDocument lotl248 = new FileDocument(TestUtils.getResourceAsFile("eu-lotl.xml"));
 
 		Map<String, DSSDocument> urlMap = new HashMap<>();
 		urlMap.put("EU", lotl248);
 
 		String siURL248 = "http://www.mju.gov.si/fileadmin/mju.gov.si/pageuploads/DID/Informacijska_druzba/eIDAS/SI_TL.xml";
-		DSSDocument siTL = new FileDocument("src/test/resources/lotlCache/SI.xml");
+		DSSDocument siTL = new FileDocument(TestUtils.getResourceAsFile("lotlCache/SI.xml"));
 
 		urlMap.put(siURL248, siTL);
 
 		String frURL = "http://www.ssi.gouv.fr/eidas/TL-FR.xml";
-		DSSDocument frTL = new FileDocument("src/test/resources/lotlCache/FR.xml");
+		DSSDocument frTL = new FileDocument(TestUtils.getResourceAsFile("lotlCache/FR.xml"));
 
 		urlMap.put(frURL, frTL);
 
@@ -185,18 +189,18 @@ public class LOTLChangesTest {
 
 	private Map<String, DSSDocument> refreshFiles() {
 
-		DSSDocument lotl250 = new FileDocument("src/test/resources/eu-lotl-250.xml");
+		DSSDocument lotl250 = new FileDocument(TestUtils.getResourceAsFile("eu-lotl-250.xml"));
 
 		Map<String, DSSDocument> urlMap = new HashMap<>();
 		urlMap.put("EU", lotl250);
 
 		String siURL248 = "http://www.mju.gov.si/fileadmin/mju.gov.si/pageuploads/DID/Informacijska_druzba/eIDAS/SI_TL.xml";
-		DSSDocument siTL = new FileDocument("src/test/resources/lotlCache/SI.xml");
+		DSSDocument siTL = new FileDocument(TestUtils.getResourceAsFile("lotlCache/SI.xml"));
 
 		urlMap.put(siURL248, siTL);
 
 		String frURL = "http://www.ssi.gouv.fr/eidas/TL-FR.xml";
-		DSSDocument frTL = new FileDocument("src/test/resources/lotlCache/FR_59.xml");
+		DSSDocument frTL = new FileDocument(TestUtils.getResourceAsFile("lotlCache/FR_59.xml"));
 
 		urlMap.put(frURL, frTL);
 

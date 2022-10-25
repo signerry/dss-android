@@ -25,6 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -130,17 +132,17 @@ public class DuplicatedStatusInTLValidationJob {
 	}
 
 	private DSSFileLoader getOfflineFileLoader() {
-
 		FileCacheDataLoader offlineFileLoader = new FileCacheDataLoader();
 		offlineFileLoader.setCacheExpirationTime(Long.MAX_VALUE);
 		offlineFileLoader.setDataLoader(new MockDataLoader(getMap()));
 		offlineFileLoader.setFileCacheDirectory(tempDir);
+		offlineFileLoader.setResourceLoader(TestUtils.getResourceLoader());
 		return offlineFileLoader;
 	}
 
 	private Map<String, DSSDocument> getMap() {
 		Map<String, DSSDocument> map = new HashMap<>();
-		map.put(URL, new FileDocument("src/test/resources/fr-65-docusign.xml"));
+		map.put(URL, new FileDocument(TestUtils.getResourceAsFile("fr-65-docusign.xml")));
 		return map;
 	}
 

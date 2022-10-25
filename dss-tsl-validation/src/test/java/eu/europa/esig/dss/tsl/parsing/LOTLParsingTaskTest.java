@@ -26,6 +26,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
@@ -55,12 +57,12 @@ public class LOTLParsingTaskTest {
 
 	@BeforeAll
 	public static void init() throws IOException {
-		LOTL = new FileDocument("src/test/resources/eu-lotl.xml");
-		LOTL_NO_SIG = new FileDocument("src/test/resources/eu-lotl-no-sig.xml");
-		LOTL_NOT_PARSEABLE = new FileDocument("src/test/resources/eu-lotl-not-parseable.xml");
-		LOTL_PIVOT = new FileDocument("src/test/resources/eu-lotl-pivot.xml");
+		LOTL = new FileDocument(TestUtils.getResourceAsFile("eu-lotl.xml"));
+		LOTL_NO_SIG = new FileDocument(TestUtils.getResourceAsFile("eu-lotl-no-sig.xml"));
+		LOTL_NOT_PARSEABLE = new FileDocument(TestUtils.getResourceAsFile("eu-lotl-not-parseable.xml"));
+		LOTL_PIVOT = new FileDocument(TestUtils.getResourceAsFile("eu-lotl-pivot.xml"));
 
-		TL = new FileDocument("src/test/resources/ie-tl.xml");
+		TL = new FileDocument(TestUtils.getResourceAsFile("ie-tl.xml"));
 	}
 
 	@Test

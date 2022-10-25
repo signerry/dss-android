@@ -26,6 +26,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -66,13 +68,13 @@ public class TLParsingTaskTest {
 
 	@BeforeAll
 	public static void init() throws IOException {
-		DE_TL = new FileDocument("src/test/resources/de-tl.xml");
-		IE_TL = new FileDocument("src/test/resources/ie-tl.xml");
-		SK_TL = new FileDocument("src/test/resources/sk-tl.xml");
-		SK_1911 = new FileDocument("src/test/resources/tsl-sk-minimal-dss-1911.xml");
+		DE_TL = new FileDocument(TestUtils.getResourceAsFile("de-tl.xml"));
+		IE_TL = new FileDocument(TestUtils.getResourceAsFile("ie-tl.xml"));
+		SK_TL = new FileDocument(TestUtils.getResourceAsFile("sk-tl.xml"));
+		SK_1911 = new FileDocument(TestUtils.getResourceAsFile("tsl-sk-minimal-dss-1911.xml"));
 
-		LOTL = new FileDocument("src/test/resources/eu-lotl.xml");
-		LOTL_NOT_PARSEABLE = new FileDocument("src/test/resources/eu-lotl-not-parseable.xml");
+		LOTL = new FileDocument(TestUtils.getResourceAsFile("eu-lotl.xml"));
+		LOTL_NOT_PARSEABLE = new FileDocument(TestUtils.getResourceAsFile("eu-lotl-not-parseable.xml"));
 	}
 
 	@Test

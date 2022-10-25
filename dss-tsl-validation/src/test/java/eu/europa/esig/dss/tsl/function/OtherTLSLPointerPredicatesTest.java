@@ -25,6 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -43,7 +45,7 @@ public class OtherTLSLPointerPredicatesTest {
 
 	@Test
 	public void test() throws Exception {
-		try (FileInputStream fis = new FileInputStream("src/test/resources/eu-lotl.xml")) {
+		try (FileInputStream fis = new FileInputStream(TestUtils.getResourceAsFile("eu-lotl.xml"))) {
 			TrustStatusListType trustStatusListType = TrustedListFacade.newFacade().unmarshall(fis);
 			assertNotNull(trustStatusListType);
 

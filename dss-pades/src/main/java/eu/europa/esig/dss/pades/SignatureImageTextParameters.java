@@ -27,7 +27,6 @@ import eu.europa.esig.dss.enumerations.SignerTextVerticalAlignment;
 import eu.europa.esig.dss.enumerations.TextWrapping;
 import eu.europa.esig.dss.utils.Utils;
 
-import java.awt.Color;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -227,7 +226,7 @@ public class SignatureImageTextParameters implements Serializable {
 	/**
 	 * Returns text color parameter
 	 * 
-	 * @return {@link Color}
+	 * @return {@link DSSFont}
 	 */
 	public DSSColor getTextColor() {
 		return textColor;
@@ -240,7 +239,7 @@ public class SignatureImageTextParameters implements Serializable {
 	 * DEFAULT: Color.BLACK
 	 * (PAdES visual appearance: allow null as text color, preventing graphic operators)
 	 *
-	 * @param textColor {@link Color} to set
+	 * @param textColor {@link DSSFont} to set
 	 */
 	public void setTextColor(DSSColor textColor) {
 		this.textColor = textColor;
@@ -249,7 +248,7 @@ public class SignatureImageTextParameters implements Serializable {
 	/**
 	 * Returns background color for the text's area
 	 * 
-	 * @return {@link Color} of the text area background
+	 * @return {@link DSSFont} of the text area background
 	 */
 	public DSSColor getBackgroundColor() {
 		return backgroundColor;
@@ -262,7 +261,7 @@ public class SignatureImageTextParameters implements Serializable {
 	 * DEFAULT: Color.WHITE 
 	 * (PAdES visual appearance: allow null as text color, preventing graphic operators)
 	 * 
-	 * @param backgroundColor {@link Color} to set
+	 * @param backgroundColor {@link DSSFont} to set
 	 */
 	public void setBackgroundColor(DSSColor backgroundColor) {
 		this.backgroundColor = backgroundColor;

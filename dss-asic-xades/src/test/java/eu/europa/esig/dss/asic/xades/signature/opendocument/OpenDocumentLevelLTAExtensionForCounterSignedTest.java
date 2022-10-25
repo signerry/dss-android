@@ -64,6 +64,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class OpenDocumentLevelLTAExtensionForCounterSignedTest extends AbstractASiCWithXAdESTestValidation {
 
 	private DSSDocument documentToSign;
@@ -74,8 +76,7 @@ public class OpenDocumentLevelLTAExtensionForCounterSignedTest extends AbstractA
 	private String signingAlias;
 	
 	private static Stream<Arguments> data() {
-		File folder = new File("src/test/resources/opendocument");
-		Collection<File> listFiles = Utils.listFiles(folder,
+		Collection<File> listFiles = TestUtils.listFiles("opendocument",
 				new String[] { "odt", "ods", "odp", "odg" }, true);
 		
 

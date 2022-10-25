@@ -23,6 +23,8 @@ package eu.europa.esig.dss.asic.xades.signature.opendocument;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,8 +53,7 @@ public abstract class AbstractOpenDocumentCounterSignatureTest extends AbstractA
 	private DSSDocument fileToTest;
 	
 	private static Stream<Arguments> data() {
-		File folder = new File("src/test/resources/opendocument");
-		Collection<File> listFiles = Utils.listFiles(folder,
+		Collection<File> listFiles = TestUtils.listFiles("opendocument",
 				new String[] { "odt", "ods", "odp", "odg" }, true);
 		
 

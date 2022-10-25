@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.xades.signature.asice;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
@@ -74,7 +76,7 @@ public class ASiCEXAdESLevelBPolicyIdTest extends AbstractASiCEXAdESTestSignatur
 	protected SignaturePolicyProvider getSignaturePolicyProvider() {
 		SignaturePolicyProvider spp = new SignaturePolicyProvider();
 		Map<String, DSSDocument> signaturePoliciesByUrl = new HashMap<>();
-		signaturePoliciesByUrl.put("https://www.sk.ee/repository/bdoc-spec21.pdf", new FileDocument(new File("src/test/resources/bdoc-spec21.pdf")));
+		signaturePoliciesByUrl.put("https://www.sk.ee/repository/bdoc-spec21.pdf", new FileDocument(TestUtils.getResourceAsFile("bdoc-spec21.pdf")));
 		spp.setSignaturePoliciesByUrl(signaturePoliciesByUrl);
 		return spp;
 	}

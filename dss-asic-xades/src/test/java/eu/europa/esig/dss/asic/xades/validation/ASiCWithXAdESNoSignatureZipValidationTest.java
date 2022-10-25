@@ -35,11 +35,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCWithXAdESNoSignatureZipValidationTest extends AbstractASiCWithXAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/signable/test.zip");
+        return new FileDocument(TestUtils.getResourceAsFile("signable/test.zip"));
     }
 
     @Override

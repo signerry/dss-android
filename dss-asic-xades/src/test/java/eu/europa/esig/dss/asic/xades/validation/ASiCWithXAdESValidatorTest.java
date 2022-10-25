@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.xades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.test.validation.AbstractTestValidator;
@@ -43,31 +45,31 @@ public class ASiCWithXAdESValidatorTest extends AbstractTestValidator {
 	@Override
 	protected List<DSSDocument> getValidDocuments() {
 		List<DSSDocument> documents = new ArrayList<>();
-		documents.add(new FileDocument("src/test/resources/validation/onefile-ok.asice"));
-		documents.add(new FileDocument("src/test/resources/validation/onefile-ok.asics"));
-		documents.add(new FileDocument("src/test/resources/validation/multifiles-ok.asice"));
-		documents.add(new FileDocument("src/test/resources/validation/multifiles-ok.asics"));
-		documents.add(new FileDocument("src/test/resources/validation/libreoffice.ods"));
-		documents.add(new FileDocument("src/test/resources/validation/libreoffice.odt"));
-		documents.add(new FileDocument("src/test/resources/validation/open-document-signed.odt"));
-		documents.add(new FileDocument("src/test/resources/validation/open-document-resigned.odt"));
-		documents.add(new FileDocument("src/test/resources/signable/asic_xades.zip"));
+		documents.add(new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice")));
+		documents.add(new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics")));
+		documents.add(new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asice")));
+		documents.add(new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asics")));
+		documents.add(new FileDocument(TestUtils.getResourceAsFile("validation/libreoffice.ods")));
+		documents.add(new FileDocument(TestUtils.getResourceAsFile("validation/libreoffice.odt")));
+		documents.add(new FileDocument(TestUtils.getResourceAsFile("validation/open-document-signed.odt")));
+		documents.add(new FileDocument(TestUtils.getResourceAsFile("validation/open-document-resigned.odt")));
+		documents.add(new FileDocument(TestUtils.getResourceAsFile("signable/asic_xades.zip")));
 		return documents;
 	}
 
 	@Override
 	protected DSSDocument getMalformedDocument() {
-		return new FileDocument("src/test/resources/validation/malformed-container.asice");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/malformed-container.asice"));
 	}
 
 	@Override
 	protected DSSDocument getOtherTypeDocument() {
-		return new FileDocument("src/test/resources/manifest-sample.xml");
+		return new FileDocument(TestUtils.getResourceAsFile("manifest-sample.xml"));
 	}
 
 	@Override
 	protected DSSDocument getNoSignatureDocument() {
-		return new FileDocument("src/test/resources/validation/no-signature.asics");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/no-signature.asics"));
 	}
 
 }

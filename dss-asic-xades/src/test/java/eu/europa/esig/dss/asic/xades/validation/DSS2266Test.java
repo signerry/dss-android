@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.xades.validation;
 
+import com.signerry.dss.test.TestUtils;
+
 import org.junit.jupiter.api.RepeatedTest;
 
 import eu.europa.esig.dss.model.DSSDocument;
@@ -34,7 +36,7 @@ public class DSS2266Test extends AbstractASiCWithXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/DSS-2266.asice");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/DSS-2266.asice"));
 	}
 
 	@Override

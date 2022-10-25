@@ -44,13 +44,15 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCSWithXAdESOneFileValidationTest extends AbstractASiCWithXAdESTestValidation {
 
 	private static final DSSDocument EXPECTED_ONEFILE = new InMemoryDocument("Hello World !".getBytes(), "test.text", MimeType.TEXT);
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/onefile-too-much-files.asics");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/onefile-too-much-files.asics"));
 	}
 	
 	@Override

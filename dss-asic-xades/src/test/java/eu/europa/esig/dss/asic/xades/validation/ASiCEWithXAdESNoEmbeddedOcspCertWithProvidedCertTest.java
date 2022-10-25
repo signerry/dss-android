@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.List;
 import java.util.Set;
 
@@ -44,7 +46,7 @@ public class ASiCEWithXAdESNoEmbeddedOcspCertWithProvidedCertTest extends Abstra
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/Signature-A-EE_AS-6.asice");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/Signature-A-EE_AS-6.asice"));
 	}
 	
 	@Override

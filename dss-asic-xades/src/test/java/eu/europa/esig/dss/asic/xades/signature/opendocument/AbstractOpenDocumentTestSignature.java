@@ -55,13 +55,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public abstract class AbstractOpenDocumentTestSignature extends AbstractASiCEXAdESTestSignature {
 
 	protected DSSDocument fileToTest;
 	
 	protected static Stream<Arguments> data() {
-		File folder = new File("src/test/resources/opendocument");
-		Collection<File> listFiles = Utils.listFiles(folder,
+		Collection<File> listFiles = TestUtils.listFiles("opendocument",
 				new String[] { "odt", "ods", "odp", "odg" }, true);
 
 		List<Arguments> args = new ArrayList<>();

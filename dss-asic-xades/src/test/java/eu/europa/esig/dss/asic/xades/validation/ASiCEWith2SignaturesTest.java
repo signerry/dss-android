@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +48,7 @@ public class ASiCEWith2SignaturesTest extends AbstractASiCWithXAdESTestValidatio
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/ASiCEWith2Signatures.bdoc");
+		return new FileDocument(TestUtils.getResourceAsFile("ASiCEWith2Signatures.bdoc"));
 	}
 	
 	@Override
@@ -55,7 +57,7 @@ public class ASiCEWith2SignaturesTest extends AbstractASiCWithXAdESTestValidatio
 		validator.setCertificateVerifier(new CommonCertificateVerifier());
 		SignaturePolicyProvider signaturePolicyProvider = new SignaturePolicyProvider();
 		Map<String, DSSDocument> signaturePoliciesByUrl = new HashMap<>();
-		signaturePoliciesByUrl.put("https://www.sk.ee/repository/bdoc-spec21.pdf", new FileDocument(new File("src/test/resources/bdoc-spec21.pdf")));
+		signaturePoliciesByUrl.put("https://www.sk.ee/repository/bdoc-spec21.pdf", new FileDocument(TestUtils.getResourceAsFile("bdoc-spec21.pdf")));
 		signaturePolicyProvider.setSignaturePoliciesByUrl(signaturePoliciesByUrl);
 		validator.setSignaturePolicyProvider(signaturePolicyProvider);
 		return validator;

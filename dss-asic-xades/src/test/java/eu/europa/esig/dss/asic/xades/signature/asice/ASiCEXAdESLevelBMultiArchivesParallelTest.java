@@ -25,6 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,8 +58,8 @@ public class ASiCEXAdESLevelBMultiArchivesParallelTest extends PKIFactoryAccess 
 	@Test
 	public void test() throws Exception {
 		List<DSSDocument> documentToSigns = new ArrayList<>();
-		documentToSigns.add(new FileDocument("src/test/resources/signable/open-document.odt"));
-		documentToSigns.add(new FileDocument("src/test/resources/signable/test.txt"));
+		documentToSigns.add(new FileDocument(TestUtils.getResourceAsFile("signable/open-document.odt")));
+		documentToSigns.add(new FileDocument(TestUtils.getResourceAsFile("signable/test.txt")));
 
 		ASiCWithXAdESSignatureParameters signatureParameters = new ASiCWithXAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());

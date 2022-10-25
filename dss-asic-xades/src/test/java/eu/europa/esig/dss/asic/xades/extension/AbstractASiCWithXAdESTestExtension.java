@@ -51,6 +51,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public abstract class AbstractASiCWithXAdESTestExtension extends AbstractTestExtension<ASiCWithXAdESSignatureParameters, XAdESTimestampParameters> {
 
 	@Override
@@ -65,7 +67,7 @@ public abstract class AbstractASiCWithXAdESTestExtension extends AbstractTestExt
 
 	@Override
 	protected FileDocument getOriginalDocument() {
-		File originalDoc = new File("target/original-" + UUID.randomUUID().toString() + ".bin");
+		File originalDoc = TestUtils.getTmpFile("original-" + UUID.randomUUID().toString() + ".bin");
 		try (FileOutputStream fos = new FileOutputStream(originalDoc)) {
 			fos.write("Hello world!".getBytes());
 		} catch (IOException e) {

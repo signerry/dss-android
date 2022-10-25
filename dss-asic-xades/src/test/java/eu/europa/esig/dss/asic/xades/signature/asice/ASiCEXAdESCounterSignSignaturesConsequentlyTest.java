@@ -42,9 +42,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCEXAdESCounterSignSignaturesConsequentlyTest extends AbstractASiCXAdESCounterSignatureTest {
 
-    private final DSSDocument ORIGINAL_DOCUMENT = new FileDocument("src/test/resources/signable/test.txt");
+    private final DSSDocument ORIGINAL_DOCUMENT = new FileDocument(TestUtils.getResourceAsFile("signable/test.txt"));
 
     private ASiCWithXAdESService service;
     private Date signingDate;

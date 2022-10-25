@@ -43,6 +43,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.signerry.dss.test.TestUtils;
+
 /**
  * Unit test added to fix : https://joinup.ec.europa.eu/asset/sd-dss/issue/xades-signedproperties-reference
  * XAdES standard : The generator shall create as many <code>ds:Reference</code> element as signed data objects (each
@@ -53,7 +55,7 @@ public class SignedPropertiesNotCheckedTest extends AbstractASiCWithXAdESTestVal
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/xades_no-signedpropref.asice_.zip");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/xades_no-signedpropref.asice_.zip"));
 	}
 	
 	@Override

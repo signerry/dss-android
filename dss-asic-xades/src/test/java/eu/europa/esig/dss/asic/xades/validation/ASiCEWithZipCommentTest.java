@@ -22,6 +22,8 @@ package eu.europa.esig.dss.asic.xades.validation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.FileDocument;
@@ -30,7 +32,7 @@ public class ASiCEWithZipCommentTest extends AbstractASiCWithXAdESTestValidation
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/test-zip-comment.asice");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/test-zip-comment.asice"));
 	}
 	
 	@Override

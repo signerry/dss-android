@@ -31,12 +31,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCEWithXAdESModifiedCertValuesTest extends AbstractASiCWithXAdESTestValidation {
 
 	/* File contains empty tags or blank lines for level LT */
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/Signature-ASiC_LT_modified_cert_values.asice");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/Signature-ASiC_LT_modified_cert_values.asice"));
 	}
 	
 	@Override

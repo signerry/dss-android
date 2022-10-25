@@ -34,11 +34,13 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCEXAdESSignASiCCAdESTest extends PKIFactoryAccess {
 	
 	@Test
 	public void test() {
-		DSSDocument documentToSign = new FileDocument("src/test/resources/signable/asic_cades.zip");
+		DSSDocument documentToSign = new FileDocument(TestUtils.getResourceAsFile("signable/asic_cades.zip"));
 
 		ASiCWithXAdESSignatureParameters signatureParameters = new ASiCWithXAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());

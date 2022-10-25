@@ -25,6 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.List;
 
 import eu.europa.esig.dss.diagnostic.CertificateRevocationWrapper;
@@ -40,7 +42,7 @@ public class DSS2123Test extends AbstractASiCWithXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/DSS-2123.asice"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/DSS-2123.asice"));
 	}
 	@Override
 	protected void checkRevocationData(DiagnosticData diagnosticData) {

@@ -35,6 +35,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class CrossedASiCContainerTypeTest extends AbstractASiCEXAdESTestSignature {
 
 	private DocumentSignatureService<ASiCWithXAdESSignatureParameters, XAdESTimestampParameters> service;
@@ -45,7 +47,7 @@ public class CrossedASiCContainerTypeTest extends AbstractASiCEXAdESTestSignatur
 	public void init() throws Exception {
 		service = new ASiCWithXAdESService(getCompleteCertificateVerifier());
 
-		documentToSign = new FileDocument("src/test/resources/validation/onefile-ok.asice");
+		documentToSign = new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice"));
 
 		signatureParameters = new ASiCWithXAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

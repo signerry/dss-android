@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.List;
 
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -38,7 +40,7 @@ public class ASiCSWithXAdESMultiFilesCorruptedTest extends AbstractASiCWithXAdES
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/multifiles-wrong-file.asics");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-wrong-file.asics"));
 	}
 	
 	@Override

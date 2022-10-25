@@ -29,6 +29,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCSXAdESMultiFilesLevelBDoubleSignatureTest extends AbstractASiCSWithXAdESMultipleDocumentsTestSignature {
 
     private final List<DSSDocument> ORIGINAL_DOCS = new ArrayList<>();
@@ -42,7 +44,7 @@ public class ASiCSXAdESMultiFilesLevelBDoubleSignatureTest extends AbstractASiCS
         service = new ASiCWithXAdESService(getOfflineCertificateVerifier());
 
         ORIGINAL_DOCS.add(new InMemoryDocument("Hello World !".getBytes(), "test.text", MimeType.TEXT));
-        ORIGINAL_DOCS.add(new FileDocument("src/test/resources/manifest-sample.xml"));
+        ORIGINAL_DOCS.add(new FileDocument(TestUtils.getResourceAsFile("manifest-sample.xml")));
         ORIGINAL_DOCS.add(new InMemoryDocument(DSSUtils.EMPTY_BYTE_ARRAY, "emptyByteArray"));
 
         signatureParameters = new ASiCWithXAdESSignatureParameters();

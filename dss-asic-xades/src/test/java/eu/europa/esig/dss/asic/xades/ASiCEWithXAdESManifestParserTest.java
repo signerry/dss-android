@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.File;
 import java.util.List;
 
@@ -41,7 +43,7 @@ public class ASiCEWithXAdESManifestParserTest {
 	@Test
 	public void test() {
 		DSSDocument signatureDoc = new InMemoryDocument("Hello".getBytes(), "test");
-		DSSDocument manifestDoc = new FileDocument(new File("src/test/resources/manifest-sample.xml"));
+		DSSDocument manifestDoc = new FileDocument(TestUtils.getResourceAsFile("manifest-sample.xml"));
 		ASiCEWithXAdESManifestParser parser = new ASiCEWithXAdESManifestParser(signatureDoc, manifestDoc);
 
 		ManifestFile description = parser.getManifest();

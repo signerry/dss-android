@@ -35,6 +35,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class SecureContainerHandlerTest extends PKIFactoryAccess {
 
 	private static DSSDocument smallerDocument;
@@ -42,8 +44,8 @@ public class SecureContainerHandlerTest extends PKIFactoryAccess {
 
 	@BeforeAll
 	public static void init() {
-		smallerDocument = new FileDocument("src/test/resources/validation/dss-2245-2400.asice");
-		biggerDocument = new FileDocument("src/test/resources/validation/dss-2245-2500.asice");
+		smallerDocument = new FileDocument(TestUtils.getResourceAsFile("validation/dss-2245-2400.asice"));
+		biggerDocument = new FileDocument(TestUtils.getResourceAsFile("validation/dss-2245-2500.asice"));
 	}
 
 	@Test

@@ -27,11 +27,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCWithXAdESValidateASiCCAdESTest extends AbstractASiCWithXAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/signable/asic_cades.zip");
+        return new FileDocument(TestUtils.getResourceAsFile("signable/asic_cades.zip"));
     }
 
     @Test

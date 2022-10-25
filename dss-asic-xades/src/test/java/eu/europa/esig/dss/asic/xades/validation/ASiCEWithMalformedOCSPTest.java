@@ -22,6 +22,8 @@ package eu.europa.esig.dss.asic.xades.validation;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.List;
 
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -39,7 +41,7 @@ public class ASiCEWithMalformedOCSPTest extends AbstractASiCWithXAdESTestValidat
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/Signature-A-EE_AS-19.asice");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/Signature-A-EE_AS-19.asice"));
 	}
 	
 	@Override

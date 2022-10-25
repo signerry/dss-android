@@ -25,6 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
@@ -87,9 +89,9 @@ public class ASiCSXAdESLevelBMultiFilesParallelTest extends PKIFactoryAccess {
 		signatureValue = getToken().sign(dataToSign, signatureParameters.getDigestAlgorithm(), getPrivateKeyEntry());
 		DSSDocument resignedDocument = service.signDocument(signedDocument, signatureParameters, signatureValue);
 
-		resignedDocument.writeTo(new FileOutputStream("build/resources/test/resigned.asics"));
-
-		DSSDocument docToCheck = new FileDocument(new File("build/resources/test/resigned.asics"));
+		File tmpFile = TestUtils.getTmpFile("resigned.asics");
+		resignedDocument.writeTo(new FileOutputStream(tmpFile));
+		DSSDocument docToCheck = new FileDocument(tmpFile);
 
 		SignedDocumentValidator validator = SignedDocumentValidator.fromDocument(docToCheck);
 		validator.setCertificateVerifier(getCompleteCertificateVerifier());

@@ -49,6 +49,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCSWithXAdESMultiFilesValidationTest extends AbstractASiCWithXAdESTestValidation {
 
 	private final List<DSSDocument> EXPECTED_MULTIFILES = Arrays.asList(
@@ -57,7 +59,7 @@ public class ASiCSWithXAdESMultiFilesValidationTest extends AbstractASiCWithXAdE
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/multifiles-too-much-files.asics");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-too-much-files.asics"));
 	}
 	
 	@Override

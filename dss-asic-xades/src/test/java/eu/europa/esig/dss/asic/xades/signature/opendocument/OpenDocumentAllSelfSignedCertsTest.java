@@ -34,6 +34,7 @@ import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.test.PKIFactoryAccess;
 import eu.europa.esig.dss.utils.Utils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -45,6 +46,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class OpenDocumentAllSelfSignedCertsTest extends PKIFactoryAccess {
 	
 	private DSSDocument documentToSign;
@@ -53,8 +56,7 @@ public class OpenDocumentAllSelfSignedCertsTest extends PKIFactoryAccess {
 	private ASiCWithXAdESService service;
 	
 	public static Collection<Object[]> data() {
-		File folder = new File("src/test/resources/opendocument");
-		Collection<File> listFiles = Utils.listFiles(folder,
+		Collection<File> listFiles = TestUtils.listFiles("opendocument",
 				new String[] { "odt", "ods", "odp", "odg" }, true);
 		Collection<Object[]> dataToRun = new ArrayList<>();
 		for (File file : listFiles) {

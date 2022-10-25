@@ -22,6 +22,8 @@ package eu.europa.esig.dss.asic.xades.validation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.detailedreport.DetailedReport;
 import eu.europa.esig.dss.detailedreport.jaxb.XmlBasicBuildingBlocks;
 import eu.europa.esig.dss.detailedreport.jaxb.XmlSAV;
@@ -34,7 +36,7 @@ public class LibreOfficeODSValidationTest extends AbstractOpenDocumentTestValida
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/libreoffice.ods");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/libreoffice.ods"));
 	}
 	
 	@Override

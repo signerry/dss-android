@@ -54,6 +54,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCEXAdESMultiFilesLevelBTest extends AbstractASiCEWithXAdESMultipleDocumentsTestSignature {
 
 	private ASiCWithXAdESService service;
@@ -66,7 +68,7 @@ public class ASiCEXAdESMultiFilesLevelBTest extends AbstractASiCEWithXAdESMultip
 		service.setTspSource(getGoodTsa());
 
 		documentToSigns.add(new InMemoryDocument("Hello World !".getBytes(), "test.text", MimeType.TEXT));
-		documentToSigns.add(new FileDocument("src/test/resources/manifest-sample.xml"));
+		documentToSigns.add(new FileDocument(TestUtils.getResourceAsFile("manifest-sample.xml")));
 		documentToSigns.add(new InMemoryDocument(DSSUtils.EMPTY_BYTE_ARRAY, "emptyByteArray"));
 
 		signatureParameters = new ASiCWithXAdESSignatureParameters();

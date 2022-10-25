@@ -48,6 +48,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ZipExtractorTest extends PKIFactoryAccess {
 	
 	private DSSDocument openDocument;
@@ -56,8 +58,8 @@ public class ZipExtractorTest extends PKIFactoryAccess {
 	
 	@BeforeEach
 	public void init() throws Exception {
-		openDocument = new FileDocument(new File("src/test/resources/signable/open-document.odt"));
-		zipArchive = new FileDocument(new File("src/test/resources/signable/test.zip"));
+		openDocument = new FileDocument(TestUtils.getResourceAsFile("signable/open-document.odt"));
+		zipArchive = new FileDocument(TestUtils.getResourceAsFile("signable/test.zip"));
 	}
 	
 	@Test

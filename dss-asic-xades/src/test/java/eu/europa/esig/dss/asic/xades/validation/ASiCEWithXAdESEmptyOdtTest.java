@@ -39,13 +39,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCEWithXAdESEmptyOdtTest extends AbstractASiCWithXAdESTestValidation {
 
     private DSSDocument signedDocument;
 
     public static Collection<Object[]> data() {
-        File folder = new File("src/test/resources/opendocument");
-        Collection<File> listFiles = Utils.listFiles(folder,
+        Collection<File> listFiles = TestUtils.listFiles("opendocument",
                 new String[] { "odt", "ods", "odp", "odg" }, true);
         Collection<Object[]> dataToRun = new ArrayList<>();
         for (File file : listFiles) {

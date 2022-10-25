@@ -23,6 +23,8 @@ package eu.europa.esig.dss.asic.xades.validation;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.enumerations.ASiCContainerType;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -32,7 +34,7 @@ public class ASiCEWithXAdESBDocValidationTest extends AbstractASiCWithXAdESTestV
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/hello.bdoc");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/hello.bdoc"));
 	}
 
 	@Override

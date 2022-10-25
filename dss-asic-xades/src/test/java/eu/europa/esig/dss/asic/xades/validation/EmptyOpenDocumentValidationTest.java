@@ -23,6 +23,8 @@ package eu.europa.esig.dss.asic.xades.validation;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,8 +45,7 @@ import eu.europa.esig.dss.validation.reports.Reports;
 public class EmptyOpenDocumentValidationTest {
 	
 	private static Stream<Arguments> data() {
-		File folder = new File("src/test/resources/opendocument");
-		Collection<File> listFiles = Utils.listFiles(folder,
+		Collection<File> listFiles = TestUtils.listFiles("opendocument",
 				new String[] { "odt", "ods", "odp", "odg" }, true);
 		
 

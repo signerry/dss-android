@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -64,8 +66,8 @@ public class OpenDocumentMultipleTimestampsTest extends PKIFactoryAccess {
 		service.setTspSource(getGoodTsa());
 
 		List<DSSDocument> documentsToSign = new ArrayList<>();
-		documentsToSign.add(new FileDocument(new File("src/test/resources/opendocument/open-document.odt")));
-		documentsToSign.add(new FileDocument(new File("src/test/resources/opendocument/open-document.ods")));
+		documentsToSign.add(new FileDocument(TestUtils.getResourceAsFile("opendocument/open-document.odt")));
+		documentsToSign.add(new FileDocument(TestUtils.getResourceAsFile("opendocument/open-document.ods")));
 
 		ASiCWithXAdESSignatureParameters signatureParameters = new ASiCWithXAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());

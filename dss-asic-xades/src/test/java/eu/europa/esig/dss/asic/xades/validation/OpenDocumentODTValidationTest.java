@@ -22,6 +22,8 @@ package eu.europa.esig.dss.asic.xades.validation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.detailedreport.DetailedReport;
 import eu.europa.esig.dss.detailedreport.jaxb.XmlBasicBuildingBlocks;
 import eu.europa.esig.dss.detailedreport.jaxb.XmlSAV;
@@ -33,7 +35,7 @@ public class OpenDocumentODTValidationTest extends AbstractOpenDocumentTestValid
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/sig-6_2.odt");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/sig-6_2.odt"));
 	}
 	
 	@Override

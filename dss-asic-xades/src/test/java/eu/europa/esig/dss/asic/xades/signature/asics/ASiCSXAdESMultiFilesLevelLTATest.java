@@ -39,6 +39,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCSXAdESMultiFilesLevelLTATest extends AbstractASiCSWithXAdESMultipleDocumentsTestSignature {
 
     private ASiCWithXAdESService service;
@@ -50,8 +52,8 @@ public class ASiCSXAdESMultiFilesLevelLTATest extends AbstractASiCSWithXAdESMult
         service = new ASiCWithXAdESService(getCompleteCertificateVerifier());
         service.setTspSource(getGoodTsa());
 
-        documentsToSigns.add(new FileDocument("src/test/resources/signable/open-document.odt"));
-        documentsToSigns.add(new FileDocument("src/test/resources/signable/test.txt"));
+        documentsToSigns.add(new FileDocument(TestUtils.getResourceAsFile("signable/open-document.odt")));
+        documentsToSigns.add(new FileDocument(TestUtils.getResourceAsFile("signable/test.txt")));
 
         signatureParameters = new ASiCWithXAdESSignatureParameters();
         signatureParameters.setSigningCertificate(getSigningCert());

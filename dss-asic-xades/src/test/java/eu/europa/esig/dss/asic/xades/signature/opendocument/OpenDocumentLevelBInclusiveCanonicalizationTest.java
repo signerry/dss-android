@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Date;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
 
 import org.junit.jupiter.api.BeforeEach;
 
@@ -37,6 +36,7 @@ import eu.europa.esig.dss.enumerations.ASiCContainerType;
 import eu.europa.esig.dss.enumerations.Indication;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
 import eu.europa.esig.dss.xades.XAdESTimestampParameters;
 
 public class OpenDocumentLevelBInclusiveCanonicalizationTest extends AbstractOpenDocumentTestSignature {

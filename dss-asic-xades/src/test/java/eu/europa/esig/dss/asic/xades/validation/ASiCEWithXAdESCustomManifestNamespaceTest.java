@@ -35,11 +35,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCEWithXAdESCustomManifestNamespaceTest extends AbstractASiCWithXAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/validation/container-with-custom-manifest-namespace.asice");
+        return new FileDocument(TestUtils.getResourceAsFile("validation/container-with-custom-manifest-namespace.asice"));
     }
 
     @Override

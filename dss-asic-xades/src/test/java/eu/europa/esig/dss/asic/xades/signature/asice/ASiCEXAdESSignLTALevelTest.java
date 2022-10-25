@@ -49,14 +49,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCEXAdESSignLTALevelTest extends AbstractPkiFactoryTestValidation<ASiCWithXAdESSignatureParameters, XAdESTimestampParameters> {
 	
 	@Test
 	public void test() throws IOException {
 		
 		List<DSSDocument> documentsToSign = new ArrayList<>();
-		documentsToSign.add(new FileDocument("src/test/resources/signable/open-document.odt"));
-		documentsToSign.add(new FileDocument("src/test/resources/signable/test.txt"));
+		documentsToSign.add(new FileDocument(TestUtils.getResourceAsFile("signable/open-document.odt")));
+		documentsToSign.add(new FileDocument(TestUtils.getResourceAsFile("signable/test.txt")));
 
 		ASiCWithXAdESSignatureParameters signatureParameters = new ASiCWithXAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

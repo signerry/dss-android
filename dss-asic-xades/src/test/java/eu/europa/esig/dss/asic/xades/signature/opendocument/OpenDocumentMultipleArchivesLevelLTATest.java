@@ -53,6 +53,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class OpenDocumentMultipleArchivesLevelLTATest extends AbstractASiCEWithXAdESMultipleDocumentsTestSignature {
 	
 	private ASiCWithXAdESService service;
@@ -61,8 +63,8 @@ public class OpenDocumentMultipleArchivesLevelLTATest extends AbstractASiCEWithX
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentsToSign.add(new FileDocument(new File("src/test/resources/opendocument/open-document.odt")));
-		documentsToSign.add(new FileDocument(new File("src/test/resources/opendocument/open-document.ods")));
+		documentsToSign.add(new FileDocument(TestUtils.getResourceAsFile("opendocument/open-document.odt")));
+		documentsToSign.add(new FileDocument(TestUtils.getResourceAsFile("opendocument/open-document.ods")));
 
 		signatureParameters = new ASiCWithXAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());

@@ -38,11 +38,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCSWithXAdESNotRootFileSignedTest extends AbstractASiCWithXAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/no-root-signed-file.asics");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/no-root-signed-file.asics"));
 	}
 	
 	@Override

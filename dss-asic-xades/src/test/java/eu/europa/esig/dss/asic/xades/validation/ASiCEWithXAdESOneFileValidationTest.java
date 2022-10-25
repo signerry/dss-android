@@ -22,6 +22,8 @@ package eu.europa.esig.dss.asic.xades.validation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.util.List;
 
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -39,7 +41,7 @@ public class ASiCEWithXAdESOneFileValidationTest extends AbstractASiCWithXAdESTe
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new FileDocument("src/test/resources/validation/onefile-too-much-files.asice");
+		return new FileDocument(TestUtils.getResourceAsFile("validation/onefile-too-much-files.asice"));
 	}
 	
 	@Override

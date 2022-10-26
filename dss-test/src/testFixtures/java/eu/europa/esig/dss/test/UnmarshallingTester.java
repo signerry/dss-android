@@ -101,6 +101,7 @@ public class UnmarshallingTester {
 			unmarshall = DiagnosticDataFacade.newFacade().unmarshall(xmlDiagnosticData);
 			assertNotNull(unmarshall);
 		} catch (Exception e) {
+			e.printStackTrace();
 			LOG.error("Unable to unmarshall the Diagnostic data : {}", e.getMessage(), e);
 			fail(e.getMessage());
 		}

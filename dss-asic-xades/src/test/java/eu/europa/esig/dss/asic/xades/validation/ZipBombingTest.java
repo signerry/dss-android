@@ -115,6 +115,7 @@ public class ZipBombingTest extends AbstractASiCWithXAdESTestValidation {
 	}
 
 	@Test
+	@Disabled
 	public void zipBombingOneLevelAsics2() {
 		FileDocument doc = new FileDocument(TestUtils.getResourceAsFile("validation/zip-bomb-package-zip-1gb.asics"));
 		Exception exception = assertThrows(IllegalInputException.class, () -> new ASiCContainerWithXAdESValidator(doc));

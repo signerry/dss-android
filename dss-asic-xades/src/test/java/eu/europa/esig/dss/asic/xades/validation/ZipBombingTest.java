@@ -90,7 +90,7 @@ public class ZipBombingTest extends AbstractASiCWithXAdESTestValidation {
 		assertEquals("Zip Bomb detected in the ZIP container. Validation is interrupted.", exception.getMessage());
 	}
 
-	@Test
+	//@Test
 	@Disabled
 	//@E.K @TODO fix temporary disabled
 	public void zipBombingOneLevelAsice2() {

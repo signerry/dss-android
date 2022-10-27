@@ -41,6 +41,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
+import javax.xml.xpath.XPathFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,7 +62,7 @@ public abstract class AbstractJaxbFacade<T> {
 	static {
 		XmlFactory.setDocumentBuilderFactory(AndroidUtils.getService(DocumentBuilderFactory.class));
 		XmlFactory.setTransformerFactory(AndroidUtils.getService(TransformerFactory.class));
-		XmlFactory.setDocumentBuilderFactory(AndroidUtils.getService(DocumentBuilderFactory.class));
+		XmlFactory.setxPathFactory(AndroidUtils.getService(XPathFactory.class));
 		XmlFactory.setSchemaFactory(AndroidUtils.getService(SchemaFactory.class));
 		XmlFactory.setSaxParserFactory(AndroidUtils.getService(SAXParserFactory.class));
 	}

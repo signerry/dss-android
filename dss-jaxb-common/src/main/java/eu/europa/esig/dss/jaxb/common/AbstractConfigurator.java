@@ -39,6 +39,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.validation.SchemaFactory;
+import javax.xml.xpath.XPathFactory;
 
 /**
  * Abstract class containing util classes helping to configure a Factory or a Validator
@@ -50,7 +51,7 @@ public abstract class AbstractConfigurator<F> {
     static {
         XmlFactory.setDocumentBuilderFactory(AndroidUtils.getService(DocumentBuilderFactory.class));
         XmlFactory.setTransformerFactory(AndroidUtils.getService(TransformerFactory.class));
-        XmlFactory.setDocumentBuilderFactory(AndroidUtils.getService(DocumentBuilderFactory.class));
+        XmlFactory.setxPathFactory(AndroidUtils.getService(XPathFactory.class));
         XmlFactory.setSchemaFactory(AndroidUtils.getService(SchemaFactory.class));
         XmlFactory.setSaxParserFactory(AndroidUtils.getService(SAXParserFactory.class));
     }

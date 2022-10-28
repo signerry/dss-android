@@ -62,7 +62,8 @@ public class InstrumentedTestUtils implements ITestUtils {
 
     @Override
     public File getTmpFile(String filename) {
-        File file = new File(getTmpDirectory().getPath(), filename);
+        UUID uuid = UUID.randomUUID();
+        File file = new File(getTmpDirectory().getPath(), uuid + filename);
         try {
             file.createNewFile();
         } catch (IOException e) {

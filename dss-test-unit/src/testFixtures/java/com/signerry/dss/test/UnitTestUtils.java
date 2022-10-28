@@ -25,7 +25,8 @@ public class UnitTestUtils implements ITestUtils {
 
     @Override
     public File getTmpFile(String filename) {
-        File file = new File(getTmpDirectory(), filename);
+        UUID uuid = UUID.randomUUID();
+        File file = new File(getTmpDirectory(), uuid+filename);
         try {
             file.createNewFile();
         } catch (IOException e) {

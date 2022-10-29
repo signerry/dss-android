@@ -97,7 +97,7 @@ public class UnmarshallingTester {
 		try {
 			String xmlDiagnosticData = reports.getXmlDiagnosticData();
 			assertTrue(Utils.isStringNotBlank(xmlDiagnosticData));
-//			LOG.info(xmlDiagnosticData);
+			LOG.warn(xmlDiagnosticData);
 			unmarshall = DiagnosticDataFacade.newFacade().unmarshall(xmlDiagnosticData);
 			assertNotNull(unmarshall);
 		} catch (Exception e) {

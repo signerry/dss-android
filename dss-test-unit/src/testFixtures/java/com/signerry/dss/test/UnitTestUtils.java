@@ -27,12 +27,11 @@ public class UnitTestUtils implements ITestUtils {
     public File getTmpFile(String filename) {
         File file = new File(getTmpDirectory(), filename);
         try {
-            boolean newFile = file.createNewFile();
-            if(!newFile) {
+            if(file.exists()) {
                 file.delete();
-                file.createNewFile();
             }
 
+            file.createNewFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

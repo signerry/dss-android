@@ -20,7 +20,9 @@
  */
 package eu.europa.esig.dss.asic.xades.extension;
 
+import eu.europa.esig.dss.asic.common.ASiCContent;
 import eu.europa.esig.dss.asic.common.ZipUtils;
+import eu.europa.esig.dss.asic.xades.ASiCWithXAdESContainerExtractor;
 import eu.europa.esig.dss.asic.xades.ASiCWithXAdESSignatureParameters;
 import eu.europa.esig.dss.asic.xades.signature.ASiCWithXAdESService;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -62,7 +64,15 @@ public abstract class AbstractTestOpenDocumentExtension extends AbstractTestExte
 
 		List<Arguments> args = new ArrayList<>();
 		for (File file : listFiles) {
-			args.add(Arguments.of(new FileDocument(file)));
+			FileDocument document = new FileDocument(file);
+			ASiCWithXAdESContainerExtractor a = new ASiCWithXAdESContainerExtractor(document);
+			ASiCContent extract = a.extract();
+			if(extract.getZipComment() != null) {
+				throw new RuntimeException(extract.getZipComment());
+			}
+
+
+			args.add(Arguments.of(document));
 		}
 		return args.stream();
 	}

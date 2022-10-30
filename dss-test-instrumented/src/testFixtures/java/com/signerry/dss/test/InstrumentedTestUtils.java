@@ -64,11 +64,7 @@ public class InstrumentedTestUtils implements ITestUtils {
     public File getTmpFile(String filename) {
         File file = new File(getTmpDirectory().getPath(), filename);
         try {
-            boolean newFile = file.createNewFile();
-            if(!newFile) {
-                file.delete();
-                file.createNewFile();
-            }
+            file.createNewFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

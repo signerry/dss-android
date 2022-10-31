@@ -187,6 +187,9 @@ public class SecureContainerHandler implements ZipContainerHandler {
 					secureCopy(entryIS, zos, -1);
 				}
 			}
+
+			zos.flush();
+
 			if (Utils.isStringNotEmpty(zipComment)) {
 				zos.setComment(zipComment);
 			}
@@ -310,6 +313,7 @@ public class SecureContainerHandler implements ZipContainerHandler {
 			assertExtractEntryLengthValid(allowedSize);
 			os.write(data, 0, nRead);
 		}
+
 	}
 
 	/**

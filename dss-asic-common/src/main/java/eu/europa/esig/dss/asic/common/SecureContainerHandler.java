@@ -188,8 +188,6 @@ public class SecureContainerHandler implements ZipContainerHandler {
 				}
 			}
 
-			zos.flush();
-
 			if (Utils.isStringNotEmpty(zipComment)) {
 				zos.setComment(zipComment);
 			}

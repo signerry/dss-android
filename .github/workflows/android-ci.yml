@@ -42,7 +42,7 @@ jobs:
         cores: 
           - 4
         api-level:
-          - [32]
+          - 32
         heap-size:
           - 128M
 

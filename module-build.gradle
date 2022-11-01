@@ -25,9 +25,9 @@ android {
             }
         }
 
-        minSdkVersion 29
-        compileSdkVersion 29
-        targetSdkVersion 33
+        minSdkVersion 24
+        compileSdkVersion 33
+        targetSdkVersion 31
         multiDexEnabled true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["runnerBuilder"] = "de.mannodermaus.junit5.AndroidJUnit5Builder"

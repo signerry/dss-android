@@ -25,9 +25,9 @@ android {
             }
         }
 
-        minSdkVersion 29
-        compileSdkVersion 29
-        targetSdkVersion 33
+        minSdkVersion 24
+        compileSdkVersion 33
+        targetSdkVersion 31
         multiDexEnabled true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["runnerBuilder"] = "de.mannodermaus.junit5.AndroidJUnit5Builder"
@@ -170,6 +170,8 @@ dependencies {
 
     implementation 'ro.andob.androidawt:androidawt:1.0.4'
     implementation 'org.glassfish.jaxb:jaxb-runtime:3.1.6'
+    implementation 'net.lingala.zip4j:zip4j:2.11.2'
+
 
     api('com.tom-roush:pdfbox-android:2.0.25.0') {
         exclude group: 'org.bouncycastle'

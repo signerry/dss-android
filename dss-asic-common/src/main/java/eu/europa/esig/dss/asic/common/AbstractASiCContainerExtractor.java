@@ -20,15 +20,19 @@
  */
 package eu.europa.esig.dss.asic.common;
 
+import net.lingala.zip4j.ZipFile;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.List;
+import java.util.UUID;
+
 import eu.europa.esig.dss.enumerations.ASiCContainerType;
 import eu.europa.esig.dss.exception.IllegalInputException;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.utils.Utils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.InputStream;
-import java.util.List;
 
 /**
  * This class is used to read an ASiC Container and to retrieve its content files
@@ -118,34 +122,21 @@ public abstract class AbstractASiCContainerExtractor {
 	 * @return {@link String} zip comment
 	 */
 	public String getZipComment() {
-		try (InputStream is = asicContainer.openStream()) {
-			byte[] buffer = Utils.toByteArray(is);
-			final int len = buffer.length;
-			final byte[] magicDirEnd = { 0x50, 0x4b, 0x05, 0x06 };
+		File tmpfile = null;
 
-			// Check the buffer from the end
-			for (int ii = len - magicDirEnd.length - 22; ii >= 0; ii--) {
-				boolean isMagicStart = true;
-				for (int jj = 0; jj < magicDirEnd.length; jj++) {
-					if (buffer[ii + jj] != magicDirEnd[jj]) {
-						isMagicStart = false;
-						break;
-					}
-				}
-				if (isMagicStart) {
-					// Magic Start found!
-					int commentLen = buffer[ii + 20] + buffer[ii + 21] * 256;
-					int realLen = len - ii - 22;
-					if (commentLen != realLen) {
-						LOG.warn("WARNING! ZIP comment size mismatch: directory says len is {}, but file ends after {} bytes!", commentLen, realLen);
-						return null;
-					}
-					return new String(buffer, ii + 22, realLen);
+		try {
+			tmpfile = File.createTempFile(UUID.randomUUID().toString(), ".tmp");
+			asicContainer.save(tmpfile.getAbsolutePath());
+			ZipFile zipFile = new ZipFile(tmpfile);
 
-				}
-			}
+			return zipFile.getComment();
 		} catch (Exception e) {
 			LOG.warn("Unable to extract the ZIP comment : {}", e.getMessage());
+		}
+		finally {
+			if(tmpfile != null) {
+				tmpfile.delete();
+			}
 		}
 		return null;
 	}

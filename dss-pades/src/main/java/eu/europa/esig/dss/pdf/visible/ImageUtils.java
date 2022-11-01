@@ -24,6 +24,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.ColorSpace;
+import android.util.Half;
 
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
@@ -286,7 +287,7 @@ public class ImageUtils {
 		Bitmap rgbImage = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				Color color = raster.getColor(x, y);
+				Color color = getColor(raster, x, y);
 				rgbImage.setPixel(x, y, color.toArgb());
 			}
 		}
@@ -333,23 +334,36 @@ public class ImageUtils {
 		return true;
 	}
 
-	/**
-	 * Draws the subtraction image and returns different pixels amount
-	 * 
-	 * @param img1   {@link BufferedImage} to compare
-	 * @param img2   {@link BufferedImage} to compare
-	 * @param outImg {@link BufferedImage} the output result (subtraction image)
-	 * @return amount of different pixels between two images
-	 */
+	public static Color getColor(Bitmap bitmap, int x, int y) {
+		final ColorSpace cs = bitmap.getColorSpace();
+		if (cs.equals(ColorSpace.get(ColorSpace.Named.SRGB))) {
+			return Color.valueOf(bitmap.getPixel(x, y));
+		}
+		// The returned value is in kRGBA_F16_SkColorType, which is packed as
+		// four half-floats, r,g,b,a.
+		long rgba = bitmap.getPixel(x, y);
+		float r = Half.toFloat((short) ((rgba >> 0) & 0xffff));
+		float g = Half.toFloat((short) ((rgba >> 16) & 0xffff));
+		float b = Half.toFloat((short) ((rgba >> 32) & 0xffff));
+		float a = Half.toFloat((short) ((rgba >> 48) & 0xffff));
+
+		// Skia may draw outside of the numerical range of the colorSpace.
+		// Clamp to get an expected value.
+		return Color.valueOf(clamp(r, cs, 0), clamp(g, cs, 1), clamp(b, cs, 2), a, cs);
+	}
+
+	private static float clamp(float value, ColorSpace cs, int index) {
+		return Math.max(Math.min(value, cs.getMaxValue(index)), cs.getMinValue(index));
+	}
+
 	public static int drawSubtractionImage(Bitmap img1, Bitmap img2, Bitmap outImg) {
 		int diffAmount = 0;
 		int diff; // Defines current pixel color difference
 		int result; // Stores output pixel
 		for (int i = 0; i < img1.getHeight() && i < img2.getHeight(); i++) {
 			for (int j = 0; j < img1.getWidth() && j < img2.getWidth(); j++) {
-				Color rgb1 = img1.getColor(j, i);
-				Color rgb2 = img2.getColor(j, i);
-
+				Color rgb1 = getColor(img1, j, i);
+				Color rgb2 = getColor(img2, j, i);
 
 				// Overwrite for a new pixel
 				diff = Math.abs((int)rgb1.red() - (int)rgb2.red());

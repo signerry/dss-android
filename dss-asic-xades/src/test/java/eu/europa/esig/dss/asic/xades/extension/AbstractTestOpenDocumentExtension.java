@@ -57,22 +57,14 @@ import com.signerry.dss.test.TestUtils;
 public abstract class AbstractTestOpenDocumentExtension extends AbstractTestExtension<ASiCWithXAdESSignatureParameters, XAdESTimestampParameters> {
 
 	protected FileDocument fileToTest;
-	
+
 	private static Stream<Arguments> data() {
 		Collection<File> listFiles = TestUtils.listFiles("opendocument",
 				new String[] { "odt", "ods", "odp", "odg" }, true);
 
 		List<Arguments> args = new ArrayList<>();
 		for (File file : listFiles) {
-			FileDocument document = new FileDocument(file);
-			ASiCWithXAdESContainerExtractor a = new ASiCWithXAdESContainerExtractor(document);
-			ASiCContent extract = a.extract();
-			if(extract.getZipComment() != null) {
-				throw new RuntimeException(extract.getZipComment());
-			}
-
-
-			args.add(Arguments.of(document));
+			args.add(Arguments.of(new FileDocument(file)));
 		}
 		return args.stream();
 	}

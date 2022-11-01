@@ -138,6 +138,7 @@ public abstract class AbstractASiCContainerExtractor {
 					int realLen = len - ii - 22;
 					if (commentLen != realLen) {
 						LOG.warn("WARNING! ZIP comment size mismatch: directory says len is {}, but file ends after {} bytes!", commentLen, realLen);
+						return null;
 					}
 					return new String(buffer, ii + 22, realLen);
 

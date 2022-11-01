@@ -9,7 +9,8 @@ on:
 jobs:
   build:
     name: Build & Run Unit Tests
-    runs-on: self-hosted
+    #runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Fetch Source
@@ -41,7 +42,7 @@ jobs:
         cores: 
           - 4
         api-level:
-          - 32
+          - [32]
         heap-size:
           - 128M
 

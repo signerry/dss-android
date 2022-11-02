@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
+import eu.europa.esig.dss.model.FileDocument;
 import jakarta.xml.bind.JAXBElement;
 
 import org.junit.jupiter.api.Test;
@@ -75,6 +76,7 @@ public abstract class AbstractCounterSignatureTest<SP extends SerializableSignat
 		signatureId = signature.getId();
 		
 		DSSDocument counterSigned = counterSign(signedDocument, getSignatureIdToCounterSign());
+
 
 		assertNotNull(counterSigned.getName());
 		assertNotNull(DSSUtils.toByteArray(counterSigned));

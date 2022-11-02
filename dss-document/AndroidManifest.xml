@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.signerry.dss"
+    package="eu.europa.esig.dss.document"
     android:versionName="1.0" >
 </manifest>

@@ -21,8 +21,6 @@ jobs:
         with:
           java-version: 11
           distribution: 'adopt'
-          cache: gradle
-
       - name: Build & Test
         run: ./gradlew build test
         env:
@@ -95,7 +93,6 @@ jobs:
         with:
           java-version: 11
           distribution: 'adopt'
-          cache: gradle
 
       - name: Upload Snapshot
         run: ./gradlew publish

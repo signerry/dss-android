@@ -39,8 +39,7 @@ jobs:
 #            - "emulator-5554"
         cores: 
           - 4
-        api-level:
-          - 32
+        api-level: [26,32]
         heap-size:
           - 128M
 

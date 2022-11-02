@@ -66,8 +66,8 @@ public abstract class AbstractTestExtension<SP extends SerializableSignaturePara
 
 		DSSDocument signedDocument = getSignedDocument(originalDocument);
 
-//		String signedFilePath = TestUtils.getTmpFile(signedDocument.getName()).getPath();
-//		signedDocument.save(signedFilePath);
+		String signedFilePath = TestUtils.getTmpFile(signedDocument.getName()).getPath();
+		signedDocument.save(signedFilePath);
 
 		onDocumentSigned(signedDocument);
 		
@@ -85,20 +85,20 @@ public abstract class AbstractTestExtension<SP extends SerializableSignaturePara
 
 		reports = verify(extendedDocument);
 		checkFinalLevel(reports.getDiagnosticData());
-//		checkTLevelAndValid(reports.getDiagnosticData());
-//
-//		File fileToBeDeleted;
-//		deleteOriginalFile(originalDocument);
-//
-//		fileToBeDeleted = new File(signedFilePath);
-//		assertTrue(fileToBeDeleted.exists());
-//		assertTrue(fileToBeDeleted.delete(), "Cannot delete signed document (IO error)");
-//		assertFalse(fileToBeDeleted.exists());
-//
-//		fileToBeDeleted = new File(extendedFilePath);
-//		assertTrue(fileToBeDeleted.exists());
-//		assertTrue(fileToBeDeleted.delete(), "Cannot delete extended document (IO error)");
-//		assertFalse(fileToBeDeleted.exists());
+		checkTLevelAndValid(reports.getDiagnosticData());
+
+		File fileToBeDeleted;
+		deleteOriginalFile(originalDocument);
+
+		fileToBeDeleted = new File(signedFilePath);
+		assertTrue(fileToBeDeleted.exists());
+		assertTrue(fileToBeDeleted.delete(), "Cannot delete signed document (IO error)");
+		assertFalse(fileToBeDeleted.exists());
+
+		fileToBeDeleted = new File(extendedFilePath);
+		assertTrue(fileToBeDeleted.exists());
+		assertTrue(fileToBeDeleted.delete(), "Cannot delete extended document (IO error)");
+		assertFalse(fileToBeDeleted.exists());
 	}
 
 	protected void deleteOriginalFile(FileDocument originalDocument) {
@@ -115,12 +115,12 @@ public abstract class AbstractTestExtension<SP extends SerializableSignaturePara
 		SP extensionParameters = getExtensionParameters();
 		DocumentSignatureService<SP, TP> service = getSignatureServiceToExtend();
 
-//		DSSDocument extendedDocument = service.extendDocument(signedDocument, extensionParameters);
-//		assertNotNull(extendedDocument);
+		DSSDocument extendedDocument = service.extendDocument(signedDocument, extensionParameters);
+		assertNotNull(extendedDocument);
 
 		// extendedDocument.save("target/pdf.pdf");
 
-		return signedDocument;
+		return extendedDocument;
 	}
 
 	protected abstract SP getSignatureParameters();

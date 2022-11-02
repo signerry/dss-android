@@ -36,7 +36,6 @@ ext {
 
 dependencies {
 
-    implementation project(path: ':dss-asic-xades')
     testFixturesImplementation project(':dss-document')
     testFixturesImplementation project(':dss-token')
     testFixturesImplementation project(':dss-service')

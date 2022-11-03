@@ -7,8 +7,6 @@ apply from: "../module-build.gradle"
 
 dependencies {
     api project(':dss-spi')
-    implementation 'org.apache.httpcomponents.client5:httpclient5:5.1.2'
-    implementation 'commons-codec:commons-codec:1.15'
     testImplementation 'ch.qos.logback:logback-classic:1.2.10'
     testImplementation 'org.slf4j:jcl-over-slf4j:1.7.35'
     implementation 'com.unboundid:unboundid-ldapsdk:6.0.5'

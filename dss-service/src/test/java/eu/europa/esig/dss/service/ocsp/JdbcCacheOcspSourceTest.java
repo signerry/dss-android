@@ -20,6 +20,7 @@
  */
 package eu.europa.esig.dss.service.ocsp;
 
+import com.signerry.apache.commons.codec.binary.Hex;
 import com.signerry.dss.test.TestUtils;
 
 import eu.europa.esig.dss.enumerations.RevocationOrigin;
@@ -29,7 +30,6 @@ import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.spi.client.jdbc.JdbcCacheConnector;
 import eu.europa.esig.dss.spi.x509.revocation.RevocationToken;
 import eu.europa.esig.dss.spi.x509.revocation.ocsp.OCSPToken;
-import org.apache.commons.codec.binary.Hex;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -133,15 +133,9 @@ dependencies {
     implementation "com.signerry:android-http-client:5.1.2"
 
 
-//        implementation "org.apache.httpcomponents.client5:httpclient5:${httpclient5_version}"
-//        implementation "org.apache.pdfbox:pdfbox:${pdfbox_version}"
-//        implementation "com.github.librepdf:openpdf:${openpdf_version}"
     implementation "com.signerry.santuario:xmlsec:${xmlsec_version}"
     api "org.bouncycastle:bcprov-jdk15on:${bouncycastle_version}"
     api "org.bouncycastle:bcpkix-jdk15on:${bouncycastle_version}"
-//        implementation "org.bitbucket.b_c:jose4j:${jose4j_version}"
-//        implementation "org.slf4j:slf4j-api:${slf4j_version}"
-//        implementation "org.slf4j:jcl-over-slf4j:${slf4j_version}"
     implementation "ch.qos.logback:logback-classic:${logback_classic_version}"
     implementation "org.apache.xmlgraphics:fop-core:${fop_core_version}"
     implementation "org.apache.xmlgraphics:xmlgraphics-commons:${fop_core_version}"

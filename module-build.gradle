@@ -185,8 +185,9 @@ dependencies {
 
     androidTestImplementation testFixtures(project(':dss-test'))
     testImplementation testFixtures(project(':dss-test'))
-    androidTestImplementation testFixtures(project(':dss-test-instrumented'))
-    testImplementation testFixtures(project(':dss-test-unit'))
+
+    androidTestImplementation project(':dss-test-instrumented')
+    testImplementation project(':dss-test-unit')
 
     if (project.name != 'dss-document') {
 

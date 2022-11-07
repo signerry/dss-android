@@ -17,11 +17,6 @@ dependencies {
     testImplementation project(':dss-crl-parser-x509crl')
     androidTestImplementation project(':dss-android-compatibility')
 
-    androidTestImplementation testFixtures(project(':dss-test-unit'))
-    testImplementation testFixtures(project(':dss-test-instrumented'))
-
-
-    androidTestImplementation project(':dss-android-compatibility')
     testImplementation project(':dss-android-compatibility')
 
 }

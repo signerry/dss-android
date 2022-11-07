@@ -7,7 +7,7 @@ apply from: "../module-build.gradle"
 
 dependencies {
     api project(':dss-spi')
-    testImplementation 'ch.qos.logback:logback-classic:1.2.10'
+    
     testImplementation 'org.slf4j:jcl-over-slf4j:1.7.35'
     implementation 'com.unboundid:unboundid-ldapsdk:6.0.5'
 

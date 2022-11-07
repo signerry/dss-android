@@ -11,7 +11,7 @@ dependencies {
     
     testImplementation 'org.apache.xmlgraphics:fop-core:2.7'
     testImplementation 'org.slf4j:jcl-over-slf4j:1.7.35'
-    testImplementation 'ch.qos.logback:logback-classic:1.2.10'
+    
 }
 
 description = 'JAXB Simple Report Model'

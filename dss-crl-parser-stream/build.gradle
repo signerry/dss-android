@@ -13,7 +13,7 @@ dependencies {
     androidTestImplementation testFixtures(project(':dss-crl-parser'))
 
 
-    testImplementation 'ch.qos.logback:logback-classic:1.2.10'
+    
     
     testImplementation project(':dss-utils-google-guava')
 }

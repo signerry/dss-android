@@ -8,7 +8,7 @@ dependencies {
     api project(':dss-server-signing-dto')
     api project(':dss-common-remote-converter')
     api project(':dss-token')
-    testImplementation 'ch.qos.logback:logback-classic:1.2.10'
+    
     
 }
 

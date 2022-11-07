@@ -12,7 +12,7 @@
 //    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 //    testImplementation 'org.apache.xmlgraphics:fop-core:2.7'
 //    testImplementation 'org.slf4j:jcl-over-slf4j:1.7.35'
-//    testImplementation 'ch.qos.logback:logback-classic:1.2.10'
+//    
 //}
 
 description = 'JAXB Detailed Report Data Model'
@@ -30,7 +30,7 @@ dependencies {
     
     testImplementation 'org.apache.xmlgraphics:fop-core:2.7'
     testImplementation 'org.slf4j:jcl-over-slf4j:1.7.35'
-    testImplementation 'ch.qos.logback:logback-classic:1.2.10'
+    
 
 
     implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"

@@ -11,7 +11,7 @@ dependencies {
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:2.3.3'
     runtimeOnly 'org.glassfish.jaxb:jaxb-runtime:2.3.5'
     
-    testImplementation 'ch.qos.logback:logback-classic:1.2.10'
+    
 }
 
 description = 'DSS JAXB Parsers'

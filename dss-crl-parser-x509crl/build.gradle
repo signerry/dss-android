@@ -11,7 +11,7 @@ dependencies {
     testImplementation testFixtures(project(':dss-crl-parser'))
     androidTestImplementation testFixtures(project(':dss-crl-parser'))
     testImplementation project(':dss-crl-parser')
-    testImplementation 'ch.qos.logback:logback-classic:1.2.10'
+    
     
 }
 

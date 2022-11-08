@@ -1,7 +1,6 @@
 name: "Android CI"
 
 on:
-  pull_request:
   push:
     branches:
       - master
@@ -11,22 +10,6 @@ jobs:
     name: Build & Run Unit Tests
     #runs-on: self-hosted
     runs-on: ubuntu-latest
-
-    steps:
-      - name: Fetch Source
-        uses: actions/checkout@v3
-
-      - name: Setup Java
-        uses: actions/setup-java@v3.3.0
-        with:
-          java-version: 11
-          distribution: 'adopt'
-      - name: Build & Test
-        run: ./gradlew build test
-        env:
-          GPR_USER: ${{ secrets.GITHUB_ACTOR }}
-          GPR_API_KEY: ${{ secrets.GPR_API_KEY }}
-
   instrumentation-tests:
     name: Instrumentation Tests
     runs-on: self-hosted

@@ -20,7 +20,7 @@
  */
 package eu.europa.esig.dss.service.crl;
 
-import org.apache.commons.io.IOUtils;
+
 import org.h2.jdbc.JdbcBlob;
 
 import java.util.ArrayList;
@@ -161,7 +161,7 @@ public class JdbcCacheCRLSource extends JdbcRevocationSource<CRL> implements CRL
 				CertificateToken certificateToken, CertificateToken issuerCertificateToken) throws DSSExternalResourceException {
 		try {
 			JdbcBlob clob = (JdbcBlob) resultRecord.get(SQL_FIND_QUERY_DATA);
-			byte[] bytes = IOUtils.toByteArray(clob.getBinaryStream());
+			byte[] bytes = DSSUtils.toByteArray(clob.getBinaryStream());
 
 			CRLBinary crlBinary = CRLUtils.buildCRLBinary(bytes);
 

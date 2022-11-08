@@ -137,8 +137,6 @@ dependencies {
     api "org.bouncycastle:bcprov-jdk15on:${bouncycastle_version}"
     api "org.bouncycastle:bcpkix-jdk15on:${bouncycastle_version}"
     implementation "ch.qos.logback:logback-classic:${logback_classic_version}"
-    implementation "org.apache.xmlgraphics:fop-core:${fop_core_version}"
-    implementation "org.apache.xmlgraphics:xmlgraphics-commons:${fop_core_version}"
     implementation 'xerces:xercesImpl:2.12.2'
 
     if (project.name != 'dss-utils') {
@@ -167,7 +165,7 @@ dependencies {
     implementation 'ro.andob.androidawt:androidawt:1.0.4'
     implementation 'org.glassfish.jaxb:jaxb-runtime:3.1.6'
     implementation 'net.lingala.zip4j:zip4j:2.11.2'
-
+    implementation 'xalan:xalan:2.7.2'
 
     api('com.tom-roush:pdfbox-android:2.0.25.0') {
         exclude group: 'org.bouncycastle'

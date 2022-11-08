@@ -24,6 +24,7 @@ import eu.europa.esig.dss.enumerations.RevocationOrigin;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.model.x509.revocation.ocsp.OCSP;
 import eu.europa.esig.dss.spi.DSSRevocationUtils;
+import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.spi.client.jdbc.JdbcCacheConnector;
 import eu.europa.esig.dss.spi.exception.DSSExternalResourceException;
 import eu.europa.esig.dss.spi.x509.revocation.JdbcRevocationSource;
@@ -31,7 +32,6 @@ import eu.europa.esig.dss.spi.x509.revocation.RevocationToken;
 import eu.europa.esig.dss.spi.x509.revocation.ocsp.OCSPSource;
 import eu.europa.esig.dss.spi.x509.revocation.ocsp.OCSPToken;
 
-import org.apache.commons.io.IOUtils;
 import org.bouncycastle.cert.ocsp.BasicOCSPResp;
 import org.bouncycastle.cert.ocsp.OCSPException;
 import org.bouncycastle.cert.ocsp.OCSPResp;
@@ -152,7 +152,7 @@ public class JdbcCacheOCSPSource extends JdbcRevocationSource<OCSP> implements O
 			final JdbcBlob clob = (JdbcBlob) resultRecord.get(SQL_FIND_QUERY_DATA);
 			final String url = (String) resultRecord.get(SQL_FIND_QUERY_LOC);
 			
-			final OCSPResp ocspResp = new OCSPResp(IOUtils.toByteArray(clob.getBinaryStream()));
+			final OCSPResp ocspResp = new OCSPResp(DSSUtils.toByteArray(clob.getBinaryStream()));
 			BasicOCSPResp basicResponse = (BasicOCSPResp) ocspResp.getResponseObject();
 			SingleResp latestSingleResponse = DSSRevocationUtils.getLatestSingleResponse(basicResponse, certificateToken, issuerCert);
 			OCSPToken ocspToken = new OCSPToken(basicResponse, latestSingleResponse, certificateToken, issuerCert);

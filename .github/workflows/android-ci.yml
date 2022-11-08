@@ -1,10 +1,6 @@
 name: "Android CI"
 on: push
 jobs:
-  build:
-    name: Build & Run Unit Tests
-    #runs-on: self-hosted
-    runs-on: ubuntu-latest
   instrumentation-tests:
     name: Instrumentation Tests
     runs-on: self-hosted

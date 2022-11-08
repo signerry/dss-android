@@ -136,7 +136,6 @@ dependencies {
     implementation "com.signerry.santuario:xmlsec:${xmlsec_version}"
     api "org.bouncycastle:bcprov-jdk15on:${bouncycastle_version}"
     api "org.bouncycastle:bcpkix-jdk15on:${bouncycastle_version}"
-    implementation "ch.qos.logback:logback-classic:${logback_classic_version}"
     implementation 'xerces:xercesImpl:2.12.2'
 
     if (project.name != 'dss-utils') {

@@ -27,7 +27,7 @@ dependencies {
     api project(':dss-jaxb-parsers')
 
 
-    
+    testImplementation 'org.apache.xmlgraphics:fop-core:2.7'
     testImplementation 'org.slf4j:jcl-over-slf4j:1.7.35'
 }
 

@@ -52,7 +52,6 @@ import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.trustedlist.jaxb.tsl.TSPServiceType;
 import eu.europa.esig.trustedlist.jaxb.tsl.TSPType;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -62,6 +61,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -1298,6 +1298,9 @@ public class TLValidationJobTest {
 	
 	@AfterEach
 	public void clean() throws IOException {
-		FileUtils.cleanDirectory(cacheDirectory);
+		Files.walk(Paths.get(cacheDirectory.toURI()))
+				.filter(Files::isRegularFile)
+				.map(Path::toFile)
+				.forEach(File::delete);
 	}
 }

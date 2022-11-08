@@ -8,10 +8,6 @@ apply from: "../module-build.gradle"
 dependencies {
     api project(':dss-jaxb-common')
     implementation 'org.slf4j:slf4j-api:1.7.35'
-    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:2.3.3'
-    runtimeOnly 'org.glassfish.jaxb:jaxb-runtime:2.3.5'
-    
-    
 }
 
 description = 'DSS JAXB Parsers'

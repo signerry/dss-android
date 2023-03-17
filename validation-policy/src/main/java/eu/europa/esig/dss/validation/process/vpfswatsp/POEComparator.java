@@ -40,6 +40,13 @@ public class POEComparator implements Comparator<POE>, Serializable {
 
 	private static final long serialVersionUID = -4256501779628944917L;
 
+	/**
+	 * Default constructor
+	 */
+	public POEComparator() {
+		// empty
+	}
+
 	@Override
 	public int compare(POE poe1, POE poe2) {
 		int result = compareByTime(poe1, poe2);

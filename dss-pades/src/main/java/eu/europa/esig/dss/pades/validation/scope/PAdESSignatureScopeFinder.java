@@ -34,6 +34,13 @@ import java.util.List;
  */
 public class PAdESSignatureScopeFinder extends PdfRevisionScopeFinder implements SignatureScopeFinder<PAdESSignature> {
 
+	/**
+	 * Default constructor
+	 */
+	public PAdESSignatureScopeFinder() {
+		// empty
+	}
+
 	@Override
 	public List<SignatureScope> findSignatureScope(final PAdESSignature padesSignature) {
 		return Arrays.asList(findSignatureScope(padesSignature.getPdfRevision()));

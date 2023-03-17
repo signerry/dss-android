@@ -41,6 +41,13 @@ public class SoapDocumentSignatureServiceImpl implements SoapDocumentSignatureSe
 	private RemoteDocumentSignatureService service;
 
 	/**
+	 * Default construction instantiating object with null RemoteDocumentSignatureService
+	 */
+	public SoapDocumentSignatureServiceImpl() {
+		// empty
+	}
+
+	/**
 	 * Sets the remote signature service
 	 *
 	 * @param service {@link RemoteDocumentSignatureService}

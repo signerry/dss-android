@@ -22,8 +22,13 @@ package eu.europa.esig.dss.pades;
 
 import eu.europa.esig.dss.pdf.IPdfObjFactory;
 import eu.europa.esig.dss.pdf.PDFSignatureService;
+import eu.europa.esig.dss.pdf.PdfPermissionsChecker;
+import eu.europa.esig.dss.pdf.PdfSignatureFieldPositionChecker;
 import eu.europa.esig.dss.pdf.ServiceLoaderPdfObjFactory;
+import eu.europa.esig.dss.pdf.modifications.PdfDifferencesFinder;
+import eu.europa.esig.dss.pdf.modifications.PdfObjectModificationsFinder;
 import eu.europa.esig.dss.pdf.pdfbox.PdfBoxDefaultObjectFactory;
+import eu.europa.esig.dss.signature.resources.DSSResourcesHandlerBuilder;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -82,6 +87,31 @@ public class PdfBoxObjectFactoryTest {
 		@Override
 		public PDFSignatureService newArchiveTimestampService() {
 			return null;
+		}
+
+		@Override
+		public void setResourcesHandlerBuilder(DSSResourcesHandlerBuilder resourcesHandlerBuilder) {
+			// do nothing
+		}
+
+		@Override
+		public void setPdfDifferencesFinder(PdfDifferencesFinder pdfDifferencesFinder) {
+			// do nothing
+		}
+
+		@Override
+		public void setPdfObjectModificationsFinder(PdfObjectModificationsFinder pdfObjectModificationsFinder) {
+			// do nothing
+		}
+
+		@Override
+		public void setPdfPermissionsChecker(PdfPermissionsChecker pdfPermissionsChecker) {
+			// do nothing
+		}
+
+		@Override
+		public void setPdfSignatureFieldPositionChecker(PdfSignatureFieldPositionChecker pdfSignatureFieldPositionChecker) {
+			// do nothing
 		}
 
 	}

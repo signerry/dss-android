@@ -34,6 +34,7 @@ import java.util.List;
 /**
  * This class allows to handle a list {@code OfflineRevocationSource}
  *
+ * @param <R> implementation of revocation data token (CRL/OCSP)
  */
 public class ListRevocationSource<R extends Revocation> implements MultipleRevocationSource<R> {
 
@@ -46,6 +47,7 @@ public class ListRevocationSource<R extends Revocation> implements MultipleRevoc
 	 * Default constructor
 	 */
 	public ListRevocationSource() {
+		// empty
 	}
 
 	/**

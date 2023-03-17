@@ -21,10 +21,12 @@
 package eu.europa.esig.dss.asic.cades.signature;
 
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESCommonParameters;
+import eu.europa.esig.dss.asic.cades.ASiCWithCAdESFilenameFactory;
 import eu.europa.esig.dss.asic.cades.signature.manifest.ASiCEWithCAdESManifestBuilder;
 import eu.europa.esig.dss.asic.cades.signature.manifest.ASiCWithCAdESSignatureManifestBuilder;
-import eu.europa.esig.dss.asic.cades.validation.ASiCWithCAdESUtils;
 import eu.europa.esig.dss.asic.common.ASiCContent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Builds a {@code GetDataToSignASiCWithCAdESHelper} for a signature creation
@@ -32,11 +34,22 @@ import eu.europa.esig.dss.asic.common.ASiCContent;
  */
 public class ASiCWithCAdESSignatureDataToSignHelperBuilder extends ASiCWithCAdESDataToSignHelperBuilder {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ASiCWithCAdESSignatureDataToSignHelperBuilder.class);
+
+    /**
+     * Default constructor
+     *
+     * @param asicFilenameFactory {@link ASiCWithCAdESFilenameFactory}
+     */
+    public ASiCWithCAdESSignatureDataToSignHelperBuilder(final ASiCWithCAdESFilenameFactory asicFilenameFactory) {
+        super(asicFilenameFactory);
+    }
+
     @Override
     protected ASiCEWithCAdESManifestBuilder getManifestBuilder(ASiCContent asicContent, ASiCWithCAdESCommonParameters parameters) {
-        String uri = ASiCWithCAdESUtils.getSignatureFileName(asicContent.getSignatureDocuments(),
-                parameters.aSiC().getSignatureFileName());
-        return new ASiCWithCAdESSignatureManifestBuilder(asicContent, parameters.getDigestAlgorithm(), uri);
+        // Required as a part of the created manifest file
+        String signatureFilename = asicFilenameFactory.getSignatureFilename(asicContent);
+        return new ASiCWithCAdESSignatureManifestBuilder(asicContent, parameters.getDigestAlgorithm(), signatureFilename, asicFilenameFactory);
     }
 
 }

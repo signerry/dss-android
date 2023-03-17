@@ -20,10 +20,13 @@
  */
 package eu.europa.esig.dss.model;
 
+import eu.europa.esig.dss.enumerations.MimeType;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Base64;
+import java.util.Objects;
 
 /**
  * In memory representation of a document
@@ -34,6 +37,7 @@ public class InMemoryDocument extends CommonDocument {
 	private byte[] bytes;
 
 	public InMemoryDocument() {
+		// empty
 	}
 
 	/**
@@ -55,9 +59,7 @@ public class InMemoryDocument extends CommonDocument {
 	 *            the file name if the data originates from a file
 	 */
 	public InMemoryDocument(final byte[] bytes, final String name) {
-		this.bytes = bytes;
-		this.name = name;
-		this.mimeType = MimeType.fromFileName(name);
+		this(bytes, name, MimeType.fromFileName(name));
 	}
 
 	/**
@@ -71,6 +73,7 @@ public class InMemoryDocument extends CommonDocument {
 	 *            the mime type of the file if the data originates from a file
 	 */
 	public InMemoryDocument(final byte[] bytes, final String name, final MimeType mimeType) {
+		Objects.requireNonNull(bytes, "Bytes cannot be null");
 		this.bytes = bytes;
 		this.name = name;
 		this.mimeType = mimeType;
@@ -120,8 +123,18 @@ public class InMemoryDocument extends CommonDocument {
 		}
 	}
 
+	/**
+	 * Creates an empty in memory document
+	 *
+	 * @return {@link InMemoryDocument}
+	 */
+	public static InMemoryDocument createEmptyDocument() {
+		return new InMemoryDocument(new byte[0]);
+	}
+
 	@Override
 	public InputStream openStream() {
+		Objects.requireNonNull(bytes, "Byte array is not defined!");
 		return new ByteArrayInputStream(bytes);
 	}
 
@@ -134,6 +147,7 @@ public class InMemoryDocument extends CommonDocument {
 	}
 
 	public String getBase64Encoded() {
+		Objects.requireNonNull(bytes, "Byte array is not defined!");
 		return Base64.getEncoder().encodeToString(bytes);
 	}
 

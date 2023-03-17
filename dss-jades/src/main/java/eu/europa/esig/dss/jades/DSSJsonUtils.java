@@ -37,6 +37,7 @@ import eu.europa.esig.dss.model.SpDocSpecification;
 import eu.europa.esig.dss.model.TimestampBinary;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.spi.DSSASN1Utils;
+import eu.europa.esig.dss.spi.DSSMessageDigestCalculator;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.AdvancedSignature;
@@ -127,9 +128,6 @@ public class DSSJsonUtils {
 
 	/** Format date-time as specified in RFC 3339 5.6 */
 	private static final String DATE_TIME_FORMAT_RFC3339 = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-
-	/** The URN OID prefix (RFC 3061) */
-	public static final String OID_NAMESPACE_PREFIX = "urn:oid:";
 	
 	/**
 	 * Copied from org.jose4j.base64url.internal.apache.commons.codec.binary.Base64
@@ -173,6 +171,7 @@ public class DSSJsonUtils {
 	}
 	
 	private DSSJsonUtils() {
+		// empty
 	}
 	
 	/**
@@ -392,23 +391,9 @@ public class DSSJsonUtils {
 		 */
 		String uri = objectIdentifier.getUri();
 		if (uri == null && objectIdentifier.getOid() != null) {
-			uri = toUrnOid(objectIdentifier.getOid());
+			uri = DSSUtils.toUrnOid(objectIdentifier.getOid());
 		}
 		return uri;
-	}
-
-	/**
-	 * Returns a URN URI generated from the given OID:
-	 *
-	 * Ex.: OID = 1.2.4.5.6.8 becomes URI = urn:oid:1.2.4.5.6.8
-	 *
-	 * Note: see RFC 3061 "A URN Namespace of Object Identifiers"
-	 *
-	 * @param oid {@link String} to be converted to URN URI
-	 * @return URI based on the algorithm's OID
-	 */
-	public static String toUrnOid(String oid) {
-		return OID_NAMESPACE_PREFIX + oid;
 	}
 
 	/**
@@ -502,6 +487,32 @@ public class DSSJsonUtils {
 
 		} catch (IOException e) {
 			throw new DSSException(String.format("Unable to build a JWS Payload. Reason : %s", e.getMessage()), e);
+		}
+	}
+
+	/**
+	 * Writes digest on a concatenated binaries of provided {@code documents}
+	 *
+	 * @param documents list of {@link DSSDocument}s to be concatenated
+	 * @param isBase64UrlEncoded defines whether the document octets shall be base64url-encoded
+	 * @param digestCalculator {@link DSSMessageDigestCalculator} to compute message-digest with
+	 */
+	public static void writeDocumentsDigest(List<DSSDocument> documents, boolean isBase64UrlEncoded,
+											DSSMessageDigestCalculator digestCalculator) {
+		if (Utils.isCollectionEmpty(documents)) {
+			throw new IllegalArgumentException("Unable to build a message-digest. Reason : the detached content is not provided!");
+		}
+
+		byte[] octets = null;
+		if (documents.size() == 1) {
+			octets = getDocumentOctets(documents.get(0), isBase64UrlEncoded);
+			digestCalculator.update(octets);
+
+		} else {
+			for (DSSDocument document : documents) {
+				octets = getDocumentOctets(document, isBase64UrlEncoded);
+				digestCalculator.update(octets);
+			}
 		}
 	}
 
@@ -857,15 +868,24 @@ public class DSSJsonUtils {
 				LOG.warn("The {} element is empty!", JAdESHeaderParameterNames.SP_DSPEC);
 				return null;
 			}
+
 			SpDocSpecification spDocSpecification = new SpDocSpecification();
+
 			String id = getAsString(spDSpec, JAdESHeaderParameterNames.ID);
-			spDocSpecification.setId(DSSUtils.getObjectIdentifier(id));
+			if (Utils.isStringNotEmpty(id)) {
+				spDocSpecification.setId(DSSUtils.getObjectIdentifierValue(id));
+			}
+
 			String desc = getAsString(spDSpec, JAdESHeaderParameterNames.DESC);
-			spDocSpecification.setDescription(desc);
+			if (Utils.isStringNotEmpty(desc)) {
+				spDocSpecification.setDescription(desc);
+			}
+
 			List<?> docRefsList = getAsList(spDSpec, JAdESHeaderParameterNames.DOC_REFS);
 			if (Utils.isCollectionNotEmpty(docRefsList)) {
 				spDocSpecification.setDocumentationReferences(docRefsList.toArray(new String[0]));
 			}
+
 			return spDocSpecification;
 
 		} catch (Exception e) {

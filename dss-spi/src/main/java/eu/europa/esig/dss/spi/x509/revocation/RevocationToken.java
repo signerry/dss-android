@@ -105,6 +105,12 @@ public abstract class RevocationToken<R extends Revocation> extends Token {
 	 * The reason of the revocation.
 	 */
 	protected RevocationReason reason;
+
+	/**
+	 * Default constructor instantiating object with null values
+	 */
+	protected RevocationToken() {
+	}
 	
 	/**
 	 * Returns the Revocation Token type (CRL or OCSP)
@@ -112,6 +118,15 @@ public abstract class RevocationToken<R extends Revocation> extends Token {
 	 * @return {@link RevocationType} of the token
 	 */
 	public abstract RevocationType getRevocationType();
+
+	/**
+	 * Returns a certificate token the current revocation data has been issued for
+	 *
+	 * @return {@link CertificateToken}
+	 */
+	public CertificateToken getRelatedCertificate() {
+		return relatedCertificate;
+	}
 
 	/**
 	 * Gets DSS String Id of the related certificate
@@ -283,14 +298,6 @@ public abstract class RevocationToken<R extends Revocation> extends Token {
 	public boolean isInternal() {
 		return externalOrigin == null;
 	}
-
-	/**
-	 * Indicates if the token signature is intact and the signing certificate matches with the signature and if the
-	 * extended key usage is present.
-	 *
-	 * @return {@code true} if the conditions are meet
-	 */
-	public abstract boolean isValid();
 
 	@Override
 	protected TokenIdentifier buildTokenIdentifier() {

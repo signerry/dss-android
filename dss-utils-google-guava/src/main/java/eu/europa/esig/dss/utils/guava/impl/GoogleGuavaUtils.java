@@ -32,6 +32,7 @@ import com.google.common.io.Closeables;
 import com.google.common.io.Files;
 import eu.europa.esig.dss.utils.IUtils;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.File;
@@ -52,7 +53,15 @@ import java.util.Objects;
  */
 public class GoogleGuavaUtils implements IUtils {
 
+	/** Defined an empty String */
 	private static final String STRING_EMPTY = "";
+
+	/**
+	 * Default constructor
+	 */
+	public GoogleGuavaUtils() {
+		// empty
+	}
 
 	@Override
 	public boolean isStringEmpty(String text) {
@@ -143,6 +152,14 @@ public class GoogleGuavaUtils implements IUtils {
 	}
 
 	@Override
+	public String getFileNameExtension(String filename) {
+		if (filename != null) {
+			return Files.getFileExtension(filename);
+		}
+		return null;
+	}
+
+	@Override
 	public String lowerCase(String text) {
 		if (Strings.isNullOrEmpty(text)) {
 			return text;
@@ -175,6 +192,16 @@ public class GoogleGuavaUtils implements IUtils {
 
 	@Override
 	public boolean isArrayNotEmpty(byte[] array) {
+		return !isArrayEmpty(array);
+	}
+
+	@Override
+	public boolean isArrayEmpty(char[] array) {
+		return array == null || array.length == 0;
+	}
+
+	@Override
+	public boolean isArrayNotEmpty(char[] array) {
 		return !isArrayEmpty(array);
 	}
 
@@ -285,10 +312,36 @@ public class GoogleGuavaUtils implements IUtils {
 	}
 
 	@Override
+	public boolean compareInputStreams(InputStream stream1, InputStream stream2) throws IOException {
+		if (stream1 == stream2) {
+			return true;
+		}
+		if (stream1 == null || stream2 == null) {
+			return false;
+		}
+		if (!(stream1 instanceof BufferedInputStream)) {
+			stream1 = new BufferedInputStream(stream1);
+		}
+		if (!(stream2 instanceof BufferedInputStream)) {
+			stream2 = new BufferedInputStream(stream2);
+		}
+		int b1 = stream1.read();
+		while (-1 != b1) {
+			int b2 = stream2.read();
+			if (b1 != b2) {
+				return false;
+			}
+			b1 = stream1.read();
+		}
+		int b2 = stream2.read();
+		return b2 == -1;
+	}
+
+	@Override
 	public void cleanDirectory(File directory) throws IOException {
 		Objects.requireNonNull(directory, "Directory cannot be null");
 		if (!directory.exists() || !directory.isDirectory()) {
-			throw new FileNotFoundException("Directory '" + directory.getAbsolutePath() + "' not found");
+			throw new FileNotFoundException(String.format("Directory with name '%s' not found", directory.getName()));
 		} else if (directory.isDirectory()) {
 			File[] listFiles = directory.listFiles();
 			if (listFiles != null) {
@@ -297,7 +350,7 @@ public class GoogleGuavaUtils implements IUtils {
 						cleanDirectory(file);
 					} else if (file.isFile()) {
 						if (!file.delete()) {
-							throw new IOException("Unable to delete file " + file.getAbsolutePath());
+							throw new IOException(String.format("Unable to delete file with name '%s'", file.getName()));
 						}
 					}
 				}

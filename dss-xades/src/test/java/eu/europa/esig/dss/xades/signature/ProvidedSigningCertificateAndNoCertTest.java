@@ -23,6 +23,7 @@ package eu.europa.esig.dss.xades.signature;
 import eu.europa.esig.dss.DomUtils;
 import eu.europa.esig.dss.definition.xmldsig.XMLDSigPaths;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -30,7 +31,6 @@ import eu.europa.esig.dss.model.DSSException;
 import static com.signerry.dss.test.TestUtils.getResourceAsFile;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
-import eu.europa.esig.dss.model.MimeType;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.spi.x509.CertificateSource;
 import eu.europa.esig.dss.spi.x509.CommonCertificateSource;
@@ -88,7 +88,7 @@ public class ProvidedSigningCertificateAndNoCertTest extends AbstractXAdESTestSi
 		byte[] bytes = DSSXMLUtils.serializeNode(dom);
 		final InMemoryDocument inMemoryDocument = new InMemoryDocument(bytes);
 		inMemoryDocument.setName("bla.xml");
-		inMemoryDocument.setMimeType(MimeType.XML);
+		inMemoryDocument.setMimeType(MimeTypeEnum.XML);
 		return inMemoryDocument;
 	}
 

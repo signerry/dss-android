@@ -20,37 +20,36 @@
  */
 package eu.europa.esig.dss.pdf.visible;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.ColorSpace;
-import android.util.Half;
-
-import com.drew.imaging.ImageMetadataReader;
-import com.drew.imaging.ImageProcessingException;
-import com.drew.metadata.Metadata;
-import com.drew.metadata.MetadataException;
-import com.drew.metadata.jfif.JfifDirectory;
-import com.drew.metadata.png.PngDirectory;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
+import eu.europa.esig.dss.enumerations.MimeType;
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.exception.IllegalInputException;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DSSException;
-import eu.europa.esig.dss.model.InMemoryDocument;
-import eu.europa.esig.dss.model.MimeType;
+import eu.europa.esig.dss.pades.PAdESUtils;
 import eu.europa.esig.dss.pades.SignatureImageParameters;
 import eu.europa.esig.dss.pdf.AnnotationBox;
+import eu.europa.esig.dss.signature.resources.DSSResourcesHandler;
 import eu.europa.esig.dss.utils.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.ImageTypeSpecifier;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.stream.ImageInputStream;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.awt.image.Raster;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * Static utilities for image creation and processing
@@ -63,6 +62,36 @@ public class ImageUtils {
 
 	/** The default name for a screenshot document */
 	private static final String SCREENSHOT_PNG_NAME = "screenshot.png";
+
+	/**
+	 * Contains supported transparent color spaces
+	 */
+	private static final int[] IMAGE_TRANSPARENT_TYPES;
+
+	/**
+	 * Defines the default value for a non-transparent alpha layer
+	 * */
+	public static final float OPAQUE_VALUE = 0xff;
+
+	/**
+	 * The CMYK color profile
+	 */
+	public static final String CMYK_PROFILE_NAME = "cmyk";
+
+	/**
+	 * The RGB color profile
+	 */
+	public static final String RGB_PROFILE_NAME = "rgb";
+
+	/**
+	 * The GRAY color profile
+	 */
+	public static final String GRAY_PROFILE_NAME = "gray";
+
+	/**
+	 * Defines the sRGB ICC profile name used in OutputIntent
+	 */
+	public static final String OUTPUT_INTENT_SRGB_PROFILE = "sRGB";
 
 	/**
 	 * Default image DPI
@@ -107,9 +136,9 @@ public class ImageUtils {
 	 * @throws IOException in case of image reading error
 	 */
 	public static ImageResolution readDisplayMetadata(DSSDocument image) throws IOException {
-		if (isImageWithContentType(image, MimeType.JPEG)) {
+		if (isImageWithContentType(image, MimeTypeEnum.JPEG)) {
 			return readAndDisplayMetadataJPEG(image);
-		} else if (isImageWithContentType(image, MimeType.PNG)) {
+		} else if (isImageWithContentType(image, MimeTypeEnum.PNG)) {
 			return readAndDisplayMetadataPNG(image);
 		}
 		throw new IllegalInputException("Unsupported image type");
@@ -227,15 +256,32 @@ public class ImageUtils {
 	}
 
 	/**
-	 * Transforms a {@code BufferedImage} to {@code DSSDocument}
+	 * Transforms a {@code BufferedImage} to {@code DSSDocument} using in memory processing
 	 *
 	 * @param bitmap {@link BufferedImage} to convert
 	 * @return {@link DSSDocument}
 	 */
-	public static DSSDocument toDSSDocument(Bitmap bitmap) {
-		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-			bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-			return new InMemoryDocument(baos.toByteArray(), SCREENSHOT_PNG_NAME, MimeType.PNG);
+	public static DSSDocument toDSSDocument(BufferedImage bufferedImage) {
+		return toDSSDocument(bufferedImage, PAdESUtils.initializeDSSResourcesHandler());
+	}
+
+	/**
+	 * Transforms a {@code BufferedImage} to {@code DSSDocument}, using a provided {@code DSSResourcesHandler}
+	 *
+	 * @param bufferedImage {@link BufferedImage} to convert
+	 * @param dssResourcesHandler {@link DSSResourcesHandler}
+	 * @return {@link DSSDocument}
+	 */
+	public static DSSDocument toDSSDocument(BufferedImage bufferedImage,
+											DSSResourcesHandler dssResourcesHandler) {
+		try (DSSResourcesHandler resourcesHandler = dssResourcesHandler;
+			 OutputStream os = resourcesHandler.createOutputStream()) {
+			ImageIO.write(bufferedImage, "png", os);
+			DSSDocument dssDocument = resourcesHandler.writeToDSSDocument();
+			dssDocument.setName(SCREENSHOT_PNG_NAME);
+			dssDocument.setMimeType(MimeTypeEnum.PNG);
+			return dssDocument;
+
 		} catch (IOException e) {
 			throw new DSSException(
 					String.format("Unable to convert BufferedImage to DSSDocument. Reason : %s", e.getMessage()), e);
@@ -386,6 +432,36 @@ public class ImageUtils {
 			}
 		}
 		return diffAmount;
+	}
+
+	/**
+	 * This method verifies if the provided color lies in the grayscale color space (e.g. WHITE, GRAY, BLACK)
+	 *
+	 * @param color {@link Color} to check
+	 * @return TRUE if the color is a grayscale, FALSE otherwise
+	 */
+	public static boolean isGrayscale(Color color) {
+		return color != null && color.getAlpha() == OPAQUE_VALUE &&
+				color.getRed() == color.getGreen() && color.getRed() == color.getBlue();
+	}
+
+	/**
+	 * This method verifies whether the {@code parameters} contain at least one RGB color
+	 *
+	 * @param parameters {@link SignatureImageParameters} to check
+	 * @return TRUE if the given parameters contains at least one RGB color, FALSE otherwise
+	 */
+	public static boolean containRGBColor(SignatureImageParameters parameters) {
+		if (parameters.getBackgroundColor() != null && !ImageUtils.isGrayscale(parameters.getBackgroundColor())) {
+			return true;
+		}
+		if (parameters.getTextParameters().getTextColor() != null && !ImageUtils.isGrayscale(parameters.getTextParameters().getTextColor())) {
+			return true;
+		}
+		if (parameters.getTextParameters().getBackgroundColor() != null && !ImageUtils.isGrayscale(parameters.getTextParameters().getBackgroundColor())) {
+			return true;
+		}
+		return false;
 	}
 
 }

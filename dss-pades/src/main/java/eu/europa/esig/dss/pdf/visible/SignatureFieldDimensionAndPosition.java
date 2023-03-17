@@ -28,6 +28,8 @@ import eu.europa.esig.dss.pdf.AnnotationBox;
  */
 public class SignatureFieldDimensionAndPosition implements VisualSignatureFieldAppearance {
 
+	private static final long serialVersionUID = 5513776649702929990L;
+
 	/** Upper left X coordinate of the signature bounding box */
 	private float boxX = 0;
 	/** Upper left Y coordinate of the signature bounding box */
@@ -83,6 +85,13 @@ public class SignatureFieldDimensionAndPosition implements VisualSignatureFieldA
 
 	/** ImageResolution */
 	private ImageResolution imageResolution;
+
+	/**
+	 * Default constructor instantiating object with null parameters
+	 */
+	public SignatureFieldDimensionAndPosition() {
+		// empty
+	}
 
 	/**
 	 * Gets upper left X coordinate of the signature bounding box

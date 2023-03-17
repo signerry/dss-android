@@ -37,7 +37,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -199,6 +200,20 @@ public abstract class AbstractUtilsTest {
 	}
 
 	@Test
+	public void getFileNameExtension() {
+		assertEquals("xml", Utils.getFileNameExtension("file.xml"));
+		assertEquals("pdf", Utils.getFileNameExtension("document.pdf"));
+		assertEquals("pdf", Utils.getFileNameExtension("document..pdf"));
+		assertEquals("pdf", Utils.getFileNameExtension("document.one.pdf"));
+		assertEquals("java", Utils.getFileNameExtension("C:/root/demo.java"));
+		assertEquals("java", Utils.getFileNameExtension("http://nowina.lu/demo.java"));
+		assertEquals("", Utils.getFileNameExtension("document"));
+		assertEquals("", Utils.getFileNameExtension("    "));
+		assertEquals("", Utils.getFileNameExtension(""));
+		assertNull(Utils.getFileNameExtension(null));
+	}
+
+	@Test
 	public void lowerCase() {
 		assertNull(Utils.lowerCase(null));
 		assertEquals("", Utils.lowerCase(""));
@@ -218,6 +233,7 @@ public abstract class AbstractUtilsTest {
 
 	@Test
 	public void isArrayEmptyObj() {
+		assertTrue(Utils.isArrayEmpty((Object[]) null));
 		assertTrue(Utils.isArrayEmpty(new Object[] {}));
 		assertFalse(Utils.isArrayEmpty(new Object[] { null }));
 		assertFalse(Utils.isArrayEmpty(new Object[] { "1", 1 }));
@@ -225,21 +241,44 @@ public abstract class AbstractUtilsTest {
 
 	@Test
 	public void isArrayNotEmptyObj() {
+		assertFalse(Utils.isArrayNotEmpty((Object[]) null));
 		assertFalse(Utils.isArrayNotEmpty(new Object[] {}));
 		assertTrue(Utils.isArrayNotEmpty(new Object[] { null }));
 		assertTrue(Utils.isArrayNotEmpty(new Object[] { "1", 1 }));
 	}
 
 	@Test
+	public void isArrayEmpty() {
+		assertTrue(Utils.isArrayEmpty((byte[]) null));
+		assertTrue(Utils.isArrayEmpty(new byte[] {}));
+		assertFalse(Utils.isArrayEmpty(new byte[] { 1 }));
+	}
+
+	@Test
 	public void isArrayNotEmpty() {
+		assertFalse(Utils.isArrayNotEmpty((byte[]) null));
 		assertFalse(Utils.isArrayNotEmpty(new byte[] {}));
 		assertTrue(Utils.isArrayNotEmpty(new byte[] { 1 }));
 	}
 
 	@Test
-	public void isArrayEmpty() {
-		assertTrue(Utils.isArrayEmpty(new byte[] {}));
-		assertFalse(Utils.isArrayEmpty(new byte[] { 1 }));
+	public void isArrayEmptyChar() {
+		assertTrue(Utils.isArrayEmpty((char[]) null));
+		assertTrue(Utils.isArrayEmpty(new char[] {}));
+		assertFalse(Utils.isArrayEmpty(new char[] { ' ' }));
+		assertFalse(Utils.isArrayEmpty(new char[] { 'A' }));
+		assertFalse(Utils.isArrayEmpty(new char[] { 'A', 'A', 'A', 'A' }));
+		assertFalse(Utils.isArrayEmpty(new char[] { 'A', 'B', 'C', 'D' }));
+	}
+
+	@Test
+	public void isArrayNotEmptyChar() {
+		assertFalse(Utils.isArrayNotEmpty((char[]) null));
+		assertFalse(Utils.isArrayNotEmpty(new char[] {}));
+		assertTrue(Utils.isArrayNotEmpty(new char[] { ' ' }));
+		assertTrue(Utils.isArrayNotEmpty(new char[] { 'A' }));
+		assertTrue(Utils.isArrayNotEmpty(new char[] { 'A', 'A', 'A', 'A' }));
+		assertTrue(Utils.isArrayNotEmpty(new char[] { 'A', 'B', 'C', 'D' }));
 	}
 
 	@Test
@@ -399,14 +438,21 @@ public abstract class AbstractUtilsTest {
 	}
 
 	@Test
-	public void toByteArray() throws UnsupportedEncodingException, IOException {
-		File newFileName = TestUtils.getTmpFile("sample.txt");
+	public void toByteArray() throws  IOException {
+		File newFile = new File("target/sample.txt");
 		String newFileContent = "Hello world!";
 
-		FileOutputStream fos = new FileOutputStream(newFileName);
-		fos.write(newFileContent.getBytes("UTF-8"));
+		FileOutputStream fos = new FileOutputStream(newFile);
+		fos.write(newFileContent.getBytes(StandardCharsets.UTF_8));
 		fos.close();
-		assertArrayEquals(newFileContent.getBytes("UTF-8"), Utils.toByteArray(new FileInputStream(newFileName)));
+
+		FileInputStream fis = new FileInputStream(newFile);
+		assertArrayEquals(newFileContent.getBytes(StandardCharsets.UTF_8), Utils.toByteArray(fis));
+		fis.close();
+
+		assertTrue(newFile.exists());
+		assertTrue(newFile.delete());
+		assertFalse(newFile.exists());
 	}
 
 	@Test
@@ -427,18 +473,20 @@ public abstract class AbstractUtilsTest {
 	@Test
 	public void closeQuietly() throws IOException {
 		Utils.closeQuietly(null);
-		File newFileName = TestUtils.getTmpFile("sample2.txt");
+		File newFile = new File("target/sample2.txt");
 		String newFileContent = "Hello world!";
 
-		FileOutputStream fos = new FileOutputStream(newFileName);
-		fos.write(newFileContent.getBytes("UTF-8"));
+		FileOutputStream fos = new FileOutputStream(newFile);
+		fos.write(newFileContent.getBytes(StandardCharsets.UTF_8));
 		fos.close();
-		assertTrue(newFileName.exists());
+		assertTrue(newFile.exists());
 
-		Utils.closeQuietly(new FileInputStream(newFileName));
-		File sample3File = TestUtils.getTmpFile("sample3.txt");
-
-		FileOutputStream sampleFos = new FileOutputStream(sample3File);
+		Utils.closeQuietly(Files.newInputStream(newFile.toPath()));
+		assertTrue(newFile.exists());
+		assertTrue(newFile.delete(), "Cannot delete the file");
+		assertFalse(newFile.exists());
+		
+		FileOutputStream sampleFos = new FileOutputStream("target/sample3.txt");
 		Utils.closeQuietly(sampleFos);
 		Utils.closeQuietly(sampleFos); // must handle closed
 
@@ -473,26 +521,138 @@ public abstract class AbstractUtilsTest {
 			assertEquals(0, Utils.getInputStreamSize(emptyIs));
 		}
 
-		File newFileName = TestUtils.getTmpFile("sample.txt");
+		File newFile = new File("target/sample.txt");
 		String newFileContent = "Hello world!\r\n";
 		
-		try (FileOutputStream fos = new FileOutputStream(newFileName)) {
-			fos.write(newFileContent.getBytes("UTF-8"));
+		try (FileOutputStream fos = new FileOutputStream(newFile)) {
+			fos.write(newFileContent.getBytes(StandardCharsets.UTF_8));
 		}
-		try (FileInputStream fileInputStream = new FileInputStream(newFileName)) {
+		try (FileInputStream fileInputStream = new FileInputStream(newFile)) {
 			assertEquals(14, Utils.getInputStreamSize(fileInputStream));
 		}
+
+		assertTrue(newFile.exists());
+		assertTrue(newFile.delete());
+		assertFalse(newFile.exists());
 		
+	}
+
+	@Test
+	public void compareInputStreams() throws IOException {
+		String content = "Hello world!";
+		String contentTwo = "Bye world!";
+		try (InputStream is1 = new ByteArrayInputStream(content.getBytes())) {
+			assertTrue(Utils.compareInputStreams(is1, is1));
+		}
+		try (InputStream is1 = new ByteArrayInputStream(content.getBytes());
+			 InputStream is2 = new ByteArrayInputStream(content.getBytes())) {
+			assertTrue(Utils.compareInputStreams(is1, is2));
+		}
+		try (InputStream is1 = new ByteArrayInputStream(contentTwo.getBytes());
+			 InputStream is2 = new ByteArrayInputStream(contentTwo.getBytes())) {
+			assertTrue(Utils.compareInputStreams(is1, is2));
+		}
+		try (InputStream is1 = new ByteArrayInputStream(new byte[0]);
+			 InputStream is2 = new ByteArrayInputStream(new byte[0])) {
+			assertTrue(Utils.compareInputStreams(is1, is2));
+		}
+		try (InputStream is1 = new ByteArrayInputStream(content.getBytes());
+			 InputStream is2 = new ByteArrayInputStream(new byte[0])) {
+			assertFalse(Utils.compareInputStreams(is1, is2));
+		}
+		try (InputStream is1 = new ByteArrayInputStream(content.getBytes());
+			 InputStream is2 = new ByteArrayInputStream(new byte[0])) {
+			assertFalse(Utils.compareInputStreams(is2, is1));
+		}
+		try (InputStream is1 = new ByteArrayInputStream(content.getBytes());
+			 InputStream is2 = new ByteArrayInputStream(contentTwo.getBytes())) {
+			assertFalse(Utils.compareInputStreams(is1, is2));
+		}
+		try (InputStream is1 = new ByteArrayInputStream(content.getBytes());
+			 InputStream is2 = new ByteArrayInputStream(contentTwo.getBytes())) {
+			assertFalse(Utils.compareInputStreams(is2, is1));
+		}
+		try (InputStream is1 = null; InputStream is2 = null) {
+			assertTrue(Utils.compareInputStreams(is1, is2));
+		}
+		try (InputStream is1 = new ByteArrayInputStream(content.getBytes());
+			 InputStream is2 = null) {
+			assertFalse(Utils.compareInputStreams(is1, is2));
+		}
+		try (InputStream is1 = new ByteArrayInputStream(content.getBytes());
+			 InputStream is2 = null) {
+			assertFalse(Utils.compareInputStreams(is2, is1));
+		}
+
+		File newFileOne = new File("target/sample.txt");
+		File newFileTwo = new File("target/sampleTwo.txt");
+
+		try (FileOutputStream fos = new FileOutputStream(newFileOne)) {
+			fos.write(content.getBytes(StandardCharsets.UTF_8));
+		}
+		assertTrue(newFileOne.exists());
+		try (FileOutputStream fos = new FileOutputStream(newFileTwo)) {
+			fos.write(contentTwo.getBytes(StandardCharsets.UTF_8));
+		}
+		assertTrue(newFileTwo.exists());
+
+		try (FileInputStream fis1 = new FileInputStream(newFileOne)) {
+			assertTrue(Utils.compareInputStreams(fis1, fis1));
+		}
+		try (FileInputStream fis1 = new FileInputStream(newFileOne);
+			 FileInputStream fis2 = new FileInputStream(newFileOne)) {
+			assertTrue(Utils.compareInputStreams(fis1, fis2));
+		}
+		try (FileInputStream fis1 = new FileInputStream(newFileOne);
+			 FileInputStream fis2 = new FileInputStream(newFileTwo)) {
+			assertFalse(Utils.compareInputStreams(fis1, fis2));
+		}
+		try (FileInputStream fis1 = new FileInputStream(newFileOne);
+			 FileInputStream fis2 = new FileInputStream(newFileTwo)) {
+			assertFalse(Utils.compareInputStreams(fis2, fis1));
+		}
+		try (FileInputStream fis1 = new FileInputStream(newFileOne);
+			 InputStream is2 = new ByteArrayInputStream(content.getBytes())) {
+			assertTrue(Utils.compareInputStreams(fis1, is2));
+		}
+		try (FileInputStream fis1 = new FileInputStream(newFileOne);
+			 InputStream is2 = new ByteArrayInputStream(content.getBytes())) {
+			assertTrue(Utils.compareInputStreams(is2, fis1));
+		}
+		try (FileInputStream fis1 = new FileInputStream(newFileOne);
+			 InputStream is2 = new ByteArrayInputStream(contentTwo.getBytes())) {
+			assertFalse(Utils.compareInputStreams(fis1, is2));
+		}
+		try (FileInputStream fis1 = new FileInputStream(newFileOne);
+			 InputStream is2 = new ByteArrayInputStream(contentTwo.getBytes())) {
+			assertFalse(Utils.compareInputStreams(is2, fis1));
+		}
+		try (FileInputStream fis1 = new FileInputStream(newFileTwo);
+			 InputStream is2 = new ByteArrayInputStream(contentTwo.getBytes())) {
+			assertTrue(Utils.compareInputStreams(fis1, is2));
+		}
+		try (FileInputStream fis1 = new FileInputStream(newFileTwo);
+			 InputStream is2 = new ByteArrayInputStream(contentTwo.getBytes())) {
+			assertTrue(Utils.compareInputStreams(is2, fis1));
+		}
+
+		assertTrue(newFileOne.delete());
+		assertTrue(newFileTwo.delete());
+		assertFalse(newFileOne.exists());
+		assertFalse(newFileTwo.exists());
 	}
 
 	@Test
 	public void clearDirectory() throws IOException {
 		Path pathToFolder = folder.resolve("test");
 		File dir = new File(pathToFolder.toString());
-		dir.mkdir();
+		assertTrue(dir.mkdir());
 		Utils.cleanDirectory(dir);
 		assertTrue(dir.exists());
-		assertEquals(0, dir.list().length);
+
+		String[] list = dir.list();
+		assertNotNull(list);
+		assertEquals(0, list.length);
 		assertTrue(dir.delete(), "Cannot delete the directory");
 		assertFalse(dir.exists());
 	}

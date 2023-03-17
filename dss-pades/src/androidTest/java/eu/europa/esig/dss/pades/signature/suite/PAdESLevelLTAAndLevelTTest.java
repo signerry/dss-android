@@ -99,11 +99,6 @@ public class PAdESLevelLTAAndLevelTTest extends AbstractPAdESTestSignature {
     }
 
     @Override
-    protected void onDocumentSigned(byte[] byteArray) {
-        // skip
-    }
-
-    @Override
     protected void checkNumberOfSignatures(DiagnosticData diagnosticData) {
         assertEquals(2, diagnosticData.getSignatures().size());
     }

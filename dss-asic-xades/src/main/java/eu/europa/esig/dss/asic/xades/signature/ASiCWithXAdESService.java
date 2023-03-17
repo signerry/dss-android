@@ -65,6 +65,11 @@ public class ASiCWithXAdESService extends AbstractASiCSignatureService<ASiCWithX
 
 	private static final Logger LOG = LoggerFactory.getLogger(ASiCWithXAdESService.class);
 
+	/**
+	 * Defines rules for filename creation for new ZIP entries (e.g. signature files, etc.)
+	 */
+	private ASiCWithXAdESFilenameFactory asicFilenameFactory = new DefaultASiCWithXAdESFilenameFactory();
+
 	static {
 		DomUtils.registerNamespace(ASiCNamespace.NS);
 		DomUtils.registerNamespace(ManifestNamespace.NS);
@@ -80,6 +85,17 @@ public class ASiCWithXAdESService extends AbstractASiCSignatureService<ASiCWithX
 		LOG.debug("+ ASiCService with XAdES created");
 	}
 
+	/**
+	 * Sets {@code ASiCWithXAdESFilenameFactory} defining a set of rules for naming of newly create ZIP entries,
+	 * such as signature files.
+	 *
+	 * @param asicFilenameFactory {@link ASiCWithXAdESFilenameFactory}
+	 */
+	public void setAsicFilenameFactory(ASiCWithXAdESFilenameFactory asicFilenameFactory) {
+		Objects.requireNonNull(asicFilenameFactory, "ASiCWithXAdESFilenameFactory cannot be null!");
+		this.asicFilenameFactory = asicFilenameFactory;
+	}
+
 	@Override
 	public TimestampToken getContentTimestamp(List<DSSDocument> toSignDocuments, ASiCWithXAdESSignatureParameters parameters) {
 		Objects.requireNonNull(parameters, "SignatureParameters cannot be null!");
@@ -87,7 +103,7 @@ public class ASiCWithXAdESService extends AbstractASiCSignatureService<ASiCWithX
 
 		ASiCContent asicContent = new ASiCWithXAdESASiCContentBuilder()
 				.build(toSignDocuments, parameters.aSiC().getContainerType());
-		GetDataToSignASiCWithXAdESHelper getDataToSignHelper = new ASiCWithXAdESDataToSignHelperBuilder()
+		GetDataToSignASiCWithXAdESHelper getDataToSignHelper = new ASiCWithXAdESDataToSignHelperBuilder(asicFilenameFactory)
 				.build(asicContent, parameters);
 		XAdESSignatureParameters xadesParameters = getXAdESParameters(
 				parameters, asicContent.getSignatureDocuments(), getDataToSignHelper.isOpenDocument());
@@ -102,7 +118,7 @@ public class ASiCWithXAdESService extends AbstractASiCSignatureService<ASiCWithX
 
 		ASiCContent asicContent = new ASiCWithXAdESASiCContentBuilder()
 				.build(toSignDocuments, parameters.aSiC().getContainerType());
-		GetDataToSignASiCWithXAdESHelper dataToSignHelper = new ASiCWithXAdESDataToSignHelperBuilder()
+		GetDataToSignASiCWithXAdESHelper dataToSignHelper = new ASiCWithXAdESDataToSignHelperBuilder(asicFilenameFactory)
 				.build(asicContent, parameters);
 		XAdESSignatureParameters xadesParameters = getXAdESParameters(
 				parameters, asicContent.getSignatureDocuments(), dataToSignHelper.isOpenDocument());
@@ -119,14 +135,13 @@ public class ASiCWithXAdESService extends AbstractASiCSignatureService<ASiCWithX
 
 		ASiCContent asicContent = new ASiCWithXAdESASiCContentBuilder()
 				.build(toSignDocuments, parameters.aSiC().getContainerType());
-		GetDataToSignASiCWithXAdESHelper dataToSignHelper = new ASiCWithXAdESDataToSignHelperBuilder()
+		GetDataToSignASiCWithXAdESHelper dataToSignHelper = new ASiCWithXAdESDataToSignHelperBuilder(asicFilenameFactory)
 				.build(asicContent, parameters);
 
 		XAdESSignatureParameters xadesParameters = getXAdESParameters(
 				parameters, asicContent.getSignatureDocuments(), dataToSignHelper.isOpenDocument());
 		final DSSDocument newSignature = getXAdESService().signDocument(dataToSignHelper.getToBeSigned(), xadesParameters, signatureValue);
-		String newSignatureFilename = dataToSignHelper.getSignatureFilename();
-		newSignature.setName(newSignatureFilename);
+		newSignature.setName(asicFilenameFactory.getSignatureFilename(asicContent));
 
 		ASiCUtils.addOrReplaceDocument(asicContent.getSignatureDocuments(), newSignature);
 
@@ -257,11 +272,6 @@ public class ASiCWithXAdESService extends AbstractASiCSignatureService<ASiCWithX
 	@Override
 	protected AbstractASiCContainerExtractor getArchiveExtractor(DSSDocument archive) {
 		return new ASiCWithXAdESContainerExtractor(archive);
-	}
-
-	@Override
-	protected String getExpectedSignatureExtension() {
-		return ".xml";
 	}
 
 	/**

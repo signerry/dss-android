@@ -30,11 +30,12 @@ import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlDigestAlgoAndValue;
 import eu.europa.esig.dss.enumerations.CommitmentTypeEnum;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
+import eu.europa.esig.dss.enumerations.MimeType;
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
-import eu.europa.esig.dss.model.MimeType;
 import eu.europa.esig.dss.model.SignerLocation;
 import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.model.x509.CertificateToken;
@@ -273,14 +274,14 @@ public class CAdESLevelBTest extends AbstractCAdESTestSignature {
 			}
 			assertEquals(encodeHexDigest, embeddedDigest);
 
-			ASN1OctetString encryptedInfoOctedString = signedInfo.getEncryptedDigest();
-			String signatureValue = Hex.toHexString(encryptedInfoOctedString.getOctets());
+			ASN1OctetString encryptedInfoOctetString = signedInfo.getEncryptedDigest();
+			String signatureValue = Hex.toHexString(encryptedInfoOctetString.getOctets());
 
 			logger.info("SIGNATURE VALUE : " + signatureValue);
 
 			Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding", CryptoProvider.BCProvider);
 			cipher.init(Cipher.DECRYPT_MODE, signerCertificate);
-			byte[] decrypted = cipher.doFinal(encryptedInfoOctedString.getOctets());
+			byte[] decrypted = cipher.doFinal(encryptedInfoOctetString.getOctets());
 
 			ASN1InputStream inputDecrypted = new ASN1InputStream(decrypted);
 
@@ -362,7 +363,7 @@ public class CAdESLevelBTest extends AbstractCAdESTestSignature {
 
 	@Override
 	protected MimeType getExpectedMime() {
-		return MimeType.PKCS7;
+		return MimeTypeEnum.PKCS7;
 	}
 
 	@Override

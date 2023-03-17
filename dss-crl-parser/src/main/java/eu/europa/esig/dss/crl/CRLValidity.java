@@ -26,6 +26,7 @@ import org.bouncycastle.asn1.x509.ReasonFlags;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
@@ -34,7 +35,9 @@ import java.util.Objects;
  * This class encapsulates all information related to the validity of a CRL. It
  * exposes the method {@code isValid} to check the validity.
  */
-public class CRLValidity {
+public class CRLValidity implements Serializable {
+
+	private static final long serialVersionUID = -3382192356286810341L;
 
 	/** Incorporates CRL binaries */
 	private final CRLBinary crlBinary;
@@ -391,8 +394,8 @@ public class CRLValidity {
 	}
 
 	/**
-	 * This method indicates if the CRL is valid. To be valid the CRL must full
-	 * fill the following requirements:
+	 * This method indicates if the CRL is valid. To be valid the CRL must fulfill
+	 * the following requirements:
 	 *
 	 * - its signature must be valid, - the issuer of the certificate for which
 	 * the CRL is used must match the CRL signing certificate and - the
@@ -415,41 +418,55 @@ public class CRLValidity {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((crlBinary == null) ? 0 : crlBinary.hashCode());
-		result = prime * result + ((issuerToken == null) ? 0 : issuerToken.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof CRLValidity)) return false;
+
+		CRLValidity that = (CRLValidity) o;
+
+		if (onlyUserCerts != that.onlyUserCerts) return false;
+		if (onlyCaCerts != that.onlyCaCerts) return false;
+		if (indirectCrl != that.indirectCrl) return false;
+		if (onlyAttributeCerts != that.onlyAttributeCerts) return false;
+		if (crlSignKeyUsage != that.crlSignKeyUsage) return false;
+		if (issuerX509PrincipalMatches != that.issuerX509PrincipalMatches) return false;
+		if (signatureIntact != that.signatureIntact) return false;
+		if (!Objects.equals(crlBinary, that.crlBinary)) return false;
+		if (!Objects.equals(url, that.url)) return false;
+		if (!Objects.equals(onlySomeReasonFlags, that.onlySomeReasonFlags))
+			return false;
+		if (!Objects.equals(signatureInvalidityReason, that.signatureInvalidityReason))
+			return false;
+		if (signatureAlgorithm != that.signatureAlgorithm) return false;
+		if (!Objects.equals(issuerToken, that.issuerToken)) return false;
+		if (!Objects.equals(criticalExtensionsOid, that.criticalExtensionsOid))
+			return false;
+		if (!Objects.equals(expiredCertsOnCRL, that.expiredCertsOnCRL))
+			return false;
+		if (!Objects.equals(nextUpdate, that.nextUpdate)) return false;
+		return Objects.equals(thisUpdate, that.thisUpdate);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		CRLValidity other = (CRLValidity) obj;
-		if (crlBinary == null) {
-			if (other.crlBinary != null) {
-				return false;
-			}
-		} else if (!crlBinary.equals(other.crlBinary)) {
-			return false;
-		}
-		if (issuerToken == null) {
-			if (other.issuerToken != null) {
-				return false;
-			}
-		} else if (!issuerToken.equals(other.issuerToken)) {
-			return false;
-		}
-		return true;
+	public int hashCode() {
+		int result = crlBinary != null ? crlBinary.hashCode() : 0;
+		result = 31 * result + (url != null ? url.hashCode() : 0);
+		result = 31 * result + (onlyUserCerts ? 1 : 0);
+		result = 31 * result + (onlyCaCerts ? 1 : 0);
+		result = 31 * result + (onlySomeReasonFlags != null ? onlySomeReasonFlags.hashCode() : 0);
+		result = 31 * result + (indirectCrl ? 1 : 0);
+		result = 31 * result + (onlyAttributeCerts ? 1 : 0);
+		result = 31 * result + (crlSignKeyUsage ? 1 : 0);
+		result = 31 * result + (issuerX509PrincipalMatches ? 1 : 0);
+		result = 31 * result + (signatureIntact ? 1 : 0);
+		result = 31 * result + (signatureInvalidityReason != null ? signatureInvalidityReason.hashCode() : 0);
+		result = 31 * result + (signatureAlgorithm != null ? signatureAlgorithm.hashCode() : 0);
+		result = 31 * result + (issuerToken != null ? issuerToken.hashCode() : 0);
+		result = 31 * result + (criticalExtensionsOid != null ? criticalExtensionsOid.hashCode() : 0);
+		result = 31 * result + (expiredCertsOnCRL != null ? expiredCertsOnCRL.hashCode() : 0);
+		result = 31 * result + (nextUpdate != null ? nextUpdate.hashCode() : 0);
+		result = 31 * result + (thisUpdate != null ? thisUpdate.hashCode() : 0);
+		return result;
 	}
 
 	@Override

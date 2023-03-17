@@ -68,6 +68,13 @@ public abstract class AbstractJaxbFacade<T> {
 	}
 
 	/**
+	 * Default constructor
+	 */
+	protected AbstractJaxbFacade() {
+		// empty
+	}
+
+	/**
 	 * This method returns the instance of {@link JAXBContext} which can handle the
 	 * JAXB Object
 	 * 

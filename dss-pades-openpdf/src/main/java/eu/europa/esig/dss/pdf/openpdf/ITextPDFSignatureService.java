@@ -23,12 +23,10 @@ package eu.europa.esig.dss.pdf.openpdf;
 import com.lowagie.text.exceptions.BadPasswordException;
 import com.lowagie.text.pdf.AcroFields;
 import com.lowagie.text.pdf.AcroFields.Item;
-import com.lowagie.text.pdf.ByteBuffer;
 import com.lowagie.text.pdf.PRIndirectReference;
 import com.lowagie.text.pdf.PdfArray;
 import com.lowagie.text.pdf.PdfDate;
 import com.lowagie.text.pdf.PdfDictionary;
-import com.lowagie.text.pdf.PdfLiteral;
 import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfObject;
 import com.lowagie.text.pdf.PdfReader;
@@ -38,10 +36,11 @@ import com.lowagie.text.pdf.PdfStream;
 import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfWriter;
 import eu.europa.esig.dss.enumerations.CertificationPermission;
+import eu.europa.esig.dss.enumerations.DigestAlgorithm;
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DSSException;
-import eu.europa.esig.dss.model.InMemoryDocument;
-import eu.europa.esig.dss.model.MimeType;
+import eu.europa.esig.dss.model.DSSMessageDigest;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.model.x509.Token;
 import eu.europa.esig.dss.pades.PAdESCommonParameters;
@@ -50,7 +49,6 @@ import eu.europa.esig.dss.pades.SignatureFieldParameters;
 import eu.europa.esig.dss.pades.SignatureImageParameters;
 import eu.europa.esig.dss.pades.exception.InvalidPasswordException;
 import eu.europa.esig.dss.pades.validation.PAdESSignature;
-import eu.europa.esig.dss.pades.validation.PdfModification;
 import eu.europa.esig.dss.pades.validation.PdfValidationDataContainer;
 import eu.europa.esig.dss.pdf.AbstractPDFSignatureService;
 import eu.europa.esig.dss.pdf.AnnotationBox;
@@ -59,9 +57,12 @@ import eu.europa.esig.dss.pdf.PDFServiceMode;
 import eu.europa.esig.dss.pdf.PdfDict;
 import eu.europa.esig.dss.pdf.PdfDocumentReader;
 import eu.europa.esig.dss.pdf.PdfSigDictWrapper;
+import eu.europa.esig.dss.pdf.modifications.PdfModification;
 import eu.europa.esig.dss.pdf.openpdf.visible.ITextSignatureDrawer;
 import eu.europa.esig.dss.pdf.openpdf.visible.ITextSignatureDrawerFactory;
 import eu.europa.esig.dss.pdf.visible.ImageRotationUtils;
+import eu.europa.esig.dss.pdf.visible.SignatureDrawer;
+import eu.europa.esig.dss.signature.resources.DSSResourcesHandler;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.spi.x509.revocation.crl.CRLToken;
 import eu.europa.esig.dss.spi.x509.revocation.ocsp.OCSPToken;
@@ -72,10 +73,11 @@ import eu.europa.esig.dss.validation.timestamp.TimestampToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.CharBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -107,11 +109,12 @@ public class ITextPDFSignatureService extends AbstractPDFSignatureService {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private PdfStamper prepareStamper(PdfReader reader, OutputStream output, PAdESCommonParameters parameters)
+	private PdfStamper prepareStamper(ITextDocumentReader documentReader, OutputStream output, PAdESCommonParameters parameters)
 			throws IOException {
+		PdfReader reader = documentReader.getPdfReader();
 		PdfStamper stp = PdfStamper.createSignature(reader, output, '\0', null, true);
 		stp.setIncludeFileID(true);
-		stp.setOverrideFileId(generateFileId(parameters));
+		stp.setOverrideFileId(documentReader.generateDocumentId(parameters));
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(parameters.getSigningDate());
@@ -130,7 +133,7 @@ public class ITextPDFSignatureService extends AbstractPDFSignatureService {
 			signatureDrawer.init(imageParameters, reader, sap);
 
 			if (fieldItem == null) {
-				getVisibleSignatureFieldBoxPosition(signatureDrawer, new ITextDocumentReader(reader), fieldParameters);
+				getVisibleSignatureFieldBoxPosition(signatureDrawer, documentReader, fieldParameters);
 			}
 
 			signatureDrawer.draw();
@@ -194,6 +197,14 @@ public class ITextPDFSignatureService extends AbstractPDFSignatureService {
 			dic.put(PdfName.SUBFILTER, new PdfName(parameters.getSubFilter()));
 		}
 
+		if (Utils.isStringNotEmpty(parameters.getAppName())) {
+			PdfDictionary propBuildDict = new PdfDictionary();
+			dic.put(new PdfName(PAdESConstants.PROP_BUILD), propBuildDict);
+			PdfDictionary appDict = new PdfDictionary();
+			propBuildDict.put(new PdfName(PAdESConstants.APP), appDict);
+			appDict.put(PdfName.NAME, new PdfName(parameters.getAppName()));
+		}
+
 		if (PdfName.SIG.equals(type)) {
 			
 			PAdESSignatureParameters signatureParameters = (PAdESSignatureParameters) parameters;
@@ -229,90 +240,74 @@ public class ITextPDFSignatureService extends AbstractPDFSignatureService {
 		return false;
 	}
 
-	private PdfObject generateFileId(PAdESCommonParameters parameters) {
-		try (ByteBuffer buf = new ByteBuffer(90)) {
-			String deterministicId = DSSUtils.getDeterministicId(parameters.getSigningDate(), null);
-			byte[] id = deterministicId.getBytes();
-			buf.append('[').append('<');
-			for (int k = 0; k < 16; ++k) {
-				buf.appendHex(id[k]);
-			}
-			buf.append('>').append('<');
-			for (int k = 0; k < 16; ++k) {
-				buf.appendHex(id[k]);
-			}
-			buf.append('>').append(']');
-			return new PdfLiteral(buf.toByteArray());
-		} catch (IOException e) {
-			throw new DSSException("Unable to generate the fileId", e);
-		}
-	}
-
 	@Override
-	public byte[] digest(DSSDocument toSignDocument, PAdESCommonParameters parameters) {
-		try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			 	ITextDocumentReader documentReader = new ITextDocumentReader(
-						 toSignDocument, getPasswordBinary(parameters.getPasswordProtection())) ) {
-			checkDocumentPermissions(documentReader);
-			if (parameters instanceof PAdESSignatureParameters) {
-				checkNewSignatureIsPermitted(documentReader, parameters.getImageParameters().getFieldParameters());
+	protected DSSMessageDigest computeDigest(final DSSDocument toSignDocument, final PAdESCommonParameters parameters) {
+		try (DSSResourcesHandler resourcesHandler = instantiateResourcesHandler();
+			 OutputStream os = resourcesHandler.createOutputStream();
+			 ITextDocumentReader documentReader = new ITextDocumentReader(
+					 toSignDocument, getPasswordBytes(parameters.getPasswordProtection())) ) {
+
+			final SignatureFieldParameters fieldParameters = parameters.getImageParameters().getFieldParameters();
+			checkPdfPermissions(documentReader, fieldParameters);
+
+			PdfStamper stp = prepareStamper(documentReader, os, parameters);
+			PdfSignatureAppearance sap = stp.getSignatureAppearance();
+
+			final DigestAlgorithm digestAlgorithm = parameters.getDigestAlgorithm();
+			final byte[] digest = DSSUtils.digest(digestAlgorithm, sap.getRangeStream());
+			final DSSMessageDigest messageDigest = new DSSMessageDigest(digestAlgorithm, digest);
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(messageDigest.toString());
 			}
 
-			PdfStamper stp = prepareStamper(documentReader.getPdfReader(), baos, parameters);
-			PdfSignatureAppearance sap = stp.getSignatureAppearance();
-			final byte[] digest = DSSUtils.digest(parameters.getDigestAlgorithm(), sap.getRangeStream());
-			if (LOG.isDebugEnabled()) {
-				LOG.debug("Base64 messageDigest : {}", Utils.toBase64(digest));
-			}
-			return digest;
+			// Ensure OutputStream to contain the data with preserved /Contents
+			PdfDictionary dic = new PdfDictionary();
+			byte[] outc = new byte[parameters.getContentSize()];
+			dic.put(PdfName.CONTENTS, new PdfString(outc).setHexWriting(true));
+			sap.close(dic);
+
+			// cache the computed document
+			parameters.getPdfSignatureCache().setToBeSignedDocument(resourcesHandler.writeToDSSDocument());
+
+			return messageDigest;
+
 		} catch (IOException e) {
 			throw new DSSException(String.format("Unable to build message-digest : %s", e.getMessage()), e);
 		}
 	}
 
 	@Override
-	public DSSDocument previewPageWithVisualSignature(DSSDocument toSignDocument, PAdESCommonParameters parameters) {
-		throw new UnsupportedOperationException("Screenshot feature is not supported by Open PDF");
-	}
+	protected DSSDocument signDocument(final DSSDocument toSignDocument, final byte[] cmsSignedData,
+							final PAdESCommonParameters parameters) {
+		try (DSSResourcesHandler resourcesHandler = instantiateResourcesHandler();
+			 OutputStream os = resourcesHandler.createOutputStream();
+			 ITextDocumentReader documentReader = new ITextDocumentReader(
+					 toSignDocument, getPasswordBytes(parameters.getPasswordProtection())) ) {
 
-	@Override
-	public DSSDocument previewSignatureField(DSSDocument toSignDocument, PAdESCommonParameters parameters) {
-		throw new UnsupportedOperationException("Screenshot feature is not supported by Open PDF");
-	}
+			final SignatureFieldParameters fieldParameters = parameters.getImageParameters().getFieldParameters();
+			checkPdfPermissions(documentReader, fieldParameters);
 
-	@Override
-	public DSSDocument sign(DSSDocument toSignDocument, byte[] signatureValue, PAdESCommonParameters parameters) {
-
-		try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			 	ITextDocumentReader documentReader = new ITextDocumentReader(
-						 toSignDocument, getPasswordBinary(parameters.getPasswordProtection())); ) {
-			checkDocumentPermissions(documentReader);
-			if (parameters instanceof PAdESSignatureParameters) {
-				checkNewSignatureIsPermitted(documentReader, parameters.getImageParameters().getFieldParameters());
-			}
-
-			PdfStamper stp = prepareStamper(documentReader.getPdfReader(), baos, parameters);
+			PdfStamper stp = prepareStamper(documentReader, os, parameters);
 			PdfSignatureAppearance sap = stp.getSignatureAppearance();
 
-			byte[] pk = signatureValue;
 			int csize = parameters.getContentSize();
-			if (csize < pk.length) {
+			if (csize < cmsSignedData.length) {
 				throw new IllegalArgumentException(
 						String.format("Unable to save a document. Reason : The signature size [%s] is too small " +
 								"for the signature value with a length [%s]. Use setContentSize(...) method " +
-								"to define a bigger length.", csize, pk.length));
+								"to define a bigger length.", csize, cmsSignedData.length));
 			}
 
 			byte[] outc = new byte[csize];
-			System.arraycopy(pk, 0, outc, 0, pk.length);
+			System.arraycopy(cmsSignedData, 0, outc, 0, cmsSignedData.length);
 
 			PdfDictionary dic = new PdfDictionary();
 			dic.put(PdfName.CONTENTS, new PdfString(outc).setHexWriting(true));
 			sap.close(dic);
 
-			DSSDocument signature = new InMemoryDocument(baos.toByteArray());
-			signature.setMimeType(MimeType.PDF);
-			return signature;
+			DSSDocument signedDocument = resourcesHandler.writeToDSSDocument();
+			signedDocument.setMimeType(MimeTypeEnum.PDF);
+			return signedDocument;
 
 		} catch (IOException e) {
 			throw new DSSException(String.format("Unable to sign a PDF : %s", e.getMessage()), e);
@@ -320,17 +315,19 @@ public class ITextPDFSignatureService extends AbstractPDFSignatureService {
 	}
 
 	@Override
-	public DSSDocument addDssDictionary(DSSDocument document, PdfValidationDataContainer validationDataForInclusion, String pwd) {
-		try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				InputStream is = document.openStream();
-				PdfReader reader = new PdfReader(is, getPasswordBinary(pwd))) {
+	public DSSDocument addDssDictionary(DSSDocument document, PdfValidationDataContainer validationDataForInclusion,
+										char[] pwd, boolean includeVRIDict) {
+		try (DSSResourcesHandler resourcesHandler = instantiateResourcesHandler();
+			 OutputStream os = resourcesHandler.createOutputStream();
+			 InputStream is = document.openStream();
+			 PdfReader reader = new PdfReader(is, getPasswordBytes(pwd))) {
 
-			PdfStamper stp = new PdfStamper(reader, baos, '\0', true);
+			PdfStamper stp = new PdfStamper(reader, os, '\0', true);
 			PdfWriter writer = stp.getWriter();
 
 			if (!validationDataForInclusion.isEmpty()) {
 				PdfDictionary catalog = reader.getCatalog();
-				PdfDictionary dss = buildDSSDictionary(reader, writer, validationDataForInclusion);
+				PdfDictionary dss = buildDSSDictionary(reader, writer, validationDataForInclusion, includeVRIDict);
 				catalog.put(new PdfName(PAdESConstants.DSS_DICTIONARY_NAME),
 						writer.addToBody(dss, false).getIndirectReference());
 
@@ -339,8 +336,8 @@ public class ITextPDFSignatureService extends AbstractPDFSignatureService {
 
 			stp.close();
 
-			DSSDocument signature = new InMemoryDocument(baos.toByteArray());
-			signature.setMimeType(MimeType.PDF);
+			DSSDocument signature = resourcesHandler.writeToDSSDocument();
+			signature.setMimeType(MimeTypeEnum.PDF);
 			return signature;
 		} catch (IOException e) {
 			throw new DSSException("Unable to add DSS dictionary", e);
@@ -348,7 +345,8 @@ public class ITextPDFSignatureService extends AbstractPDFSignatureService {
 	}
 
 	private PdfDictionary buildDSSDictionary(PdfReader reader, PdfWriter writer,
-											 PdfValidationDataContainer validationDataForInclusion) throws IOException {
+											 PdfValidationDataContainer validationDataForInclusion,
+											 boolean includeVRIDict) throws IOException {
 		final PdfDictionary dss = new PdfDictionary();
 		final PdfArray ocsps = new PdfArray();
 		final PdfArray crls = new PdfArray();
@@ -421,8 +419,12 @@ public class ITextPDFSignatureService extends AbstractPDFSignatureService {
 					vrim.put(new PdfName(vriKey), vri);
 				}
 			}
-			dss.put(new PdfName(PAdESConstants.VRI_DICTIONARY_NAME),
-					writer.addToBody(vrim, false).getIndirectReference());
+
+			// optional
+			if (includeVRIDict) {
+				dss.put(new PdfName(PAdESConstants.VRI_DICTIONARY_NAME),
+						writer.addToBody(vrim, false).getIndirectReference());
+			}
 
 		}
 
@@ -497,9 +499,9 @@ public class ITextPDFSignatureService extends AbstractPDFSignatureService {
 	}
 
 	@Override
-	public List<String> getAvailableSignatureFields(final DSSDocument document, final String pwd) {
+	public List<String> getAvailableSignatureFields(final DSSDocument document, final char[] pwd) {
 		try (InputStream is = document.openStream();
-				PdfReader reader = new PdfReader(is, getPasswordBinary(pwd))) {
+				PdfReader reader = new PdfReader(is, getPasswordBytes(pwd))) {
 			AcroFields acroFields = reader.getAcroFields();
 			return acroFields.getFieldNamesWithBlankSignatures();
 		} catch (BadPasswordException e) {
@@ -510,18 +512,20 @@ public class ITextPDFSignatureService extends AbstractPDFSignatureService {
 	}
 	
 	@Override
-	public DSSDocument addNewSignatureField(DSSDocument document, SignatureFieldParameters parameters, String pwd) {
-		try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			 	ITextDocumentReader documentReader = new ITextDocumentReader(document, getPasswordBinary(pwd))) {
-			checkDocumentPermissions(documentReader);
-			checkNewSignatureIsPermitted(documentReader, parameters);
+	public DSSDocument addNewSignatureField(final DSSDocument document, final SignatureFieldParameters parameters,
+											final char[] pwd) {
+		try (DSSResourcesHandler resourcesHandler = instantiateResourcesHandler();
+			 OutputStream os = resourcesHandler.createOutputStream();
+			 ITextDocumentReader documentReader = new ITextDocumentReader(document, getPasswordBytes(pwd))) {
+			checkPdfPermissions(documentReader, parameters);
 
 			final PdfReader reader = documentReader.getPdfReader();
 			if (reader.getNumberOfPages() < parameters.getPage()) {
-				throw new IllegalArgumentException(String.format("The page number '%s' does not exist in the file!", parameters.getPage()));
+				throw new IllegalArgumentException(String.format("The page number '%s' does not exist in the file!",
+						parameters.getPage()));
 			}
 
-			PdfStamper stp = new PdfStamper(reader, baos, '\0', true);
+			PdfStamper stp = new PdfStamper(reader, os, '\0', true);
 			
 			AnnotationBox annotationBox = getVisibleSignatureFieldBoxPosition(new ITextDocumentReader(reader), parameters);
 			
@@ -530,8 +534,8 @@ public class ITextPDFSignatureService extends AbstractPDFSignatureService {
 
 			stp.close();
 
-			DSSDocument signature = new InMemoryDocument(baos.toByteArray());
-			signature.setMimeType(MimeType.PDF);
+			DSSDocument signature = resourcesHandler.writeToDSSDocument();
+			signature.setMimeType(MimeTypeEnum.PDF);
 			return signature;
 		} catch (IOException e) {
 			throw new DSSException("Unable to add a signature field", e);
@@ -539,42 +543,56 @@ public class ITextPDFSignatureService extends AbstractPDFSignatureService {
 	}
 
 	@Override
-	protected AnnotationBox toPdfPageCoordinates(AnnotationBox fieldAnnotationBox, AnnotationBox pageBox, int rotation) {
-		fieldAnnotationBox = super.toPdfPageCoordinates(fieldAnnotationBox, pageBox, rotation);
-		return ImageRotationUtils.rotateRelativelyWrappingBox(fieldAnnotationBox, pageBox, rotation);
+	protected AnnotationBox getVisibleSignatureFieldBoxPosition(SignatureDrawer signatureDrawer, PdfDocumentReader documentReader,
+																SignatureFieldParameters parameters) throws IOException {
+		AnnotationBox annotationBox =  super.getVisibleSignatureFieldBoxPosition(signatureDrawer, documentReader, parameters);
+		return alignRelativelyPageBox(documentReader, parameters, annotationBox);
 	}
 
 	@Override
-	protected void checkSignatureFieldAgainstPageDimensions(AnnotationBox signatureFieldBox, AnnotationBox pageBox, int pageRotation) {
-		if (ImageRotationUtils.isSwapOfDimensionsRequired(pageRotation)) {
-			pageBox = ImageRotationUtils.swapDimensions(pageBox);
-		}
-		super.checkSignatureFieldAgainstPageDimensions(signatureFieldBox, pageBox, pageRotation);
+	protected AnnotationBox getVisibleSignatureFieldBoxPosition(PdfDocumentReader reader, SignatureFieldParameters parameters) throws IOException {
+		AnnotationBox annotationBox = super.getVisibleSignatureFieldBoxPosition(reader, parameters);
+		return alignRelativelyPageBox(reader, parameters, annotationBox);
 	}
 
-	private byte[] getPasswordBinary(String currentPassword) {
-        byte[] password = null;
-        if (currentPassword != null) {
-            password = currentPassword.getBytes();
-        }
-        return password;
-    }
-
-	@Override
-	protected PdfDocumentReader loadPdfDocumentReader(DSSDocument dssDocument, String passwordProtection) throws IOException {
-		return new ITextDocumentReader(dssDocument, getPasswordBinary(passwordProtection));
+	private AnnotationBox alignRelativelyPageBox(PdfDocumentReader reader, SignatureFieldParameters parameters, AnnotationBox annotationBox) {
+		AnnotationBox pageBox = reader.getPageBox(parameters.getPage());
+		int pageRotation = reader.getPageRotation(parameters.getPage());
+		return ImageRotationUtils.rotateRelativelyWrappingBox(annotationBox, pageBox, pageRotation);
 	}
 
 	@Override
-	protected PdfDocumentReader loadPdfDocumentReader(byte[] binaries, String passwordProtection) throws IOException {
-		return new ITextDocumentReader(binaries, getPasswordBinary(passwordProtection));
+	public DSSDocument previewPageWithVisualSignature(final DSSDocument toSignDocument, final PAdESCommonParameters parameters) {
+		throw new UnsupportedOperationException("Screenshot feature is not supported by Open PDF");
+	}
+
+	@Override
+	public DSSDocument previewSignatureField(final DSSDocument toSignDocument, final PAdESCommonParameters parameters) {
+		throw new UnsupportedOperationException("Screenshot feature is not supported by Open PDF");
+	}
+
+	@Override
+	protected PdfDocumentReader loadPdfDocumentReader(DSSDocument dssDocument, char[] passwordProtection) throws IOException {
+		return new ITextDocumentReader(dssDocument, getPasswordBytes(passwordProtection));
 	}
 
 	@Override
 	protected List<PdfModification> getVisualDifferences(final PdfDocumentReader signedRevisionReader,
-			final PdfDocumentReader finalRevisionReader) throws IOException {
+														 final PdfDocumentReader finalRevisionReader) {
 		// not supported
 		return Collections.emptyList();
+	}
+
+	private byte[] getPasswordBytes(char[] passwordProtection) {
+		if (Utils.isArrayNotEmpty(passwordProtection)) {
+			// OpenPdf uses byte[] implementation of a password.
+			// The conversion translates the password without String usage.
+			final java.nio.ByteBuffer byteBuffer = StandardCharsets.UTF_8.encode(CharBuffer.wrap(passwordProtection));
+			final byte[] bytes = new byte[byteBuffer.limit()];
+			byteBuffer.get(bytes);
+			return bytes;
+		}
+		return null;
 	}
 
 }

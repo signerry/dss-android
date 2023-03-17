@@ -1,4 +1,56 @@
 
+This is the official repository for project DSS : https://ec.europa.eu/digital-building-blocks/wikis/display/DIGITAL/Digital+Signature+Service+-++DSS. 
+
+# Issue Tracker
+
+Please, use the new JIRA for project is on https://ec.europa.eu/digital-building-blocks/tracker/projects/DSS/issues. 
+
+# Requirements
+
+The latest version of DSS framework has the following minimal requirements:
+
+ * Java 11 and higher (tested up to Java 18) for the build is required. For usage Java 8 is a minimum requirement;
+ * Maven 3.6 and higher;
+ * Memory and Disk: see minimal requirements for the used JVM. In general the higher available is better;
+ * Operating system: no specific requirements (tested on Windows and Linux).
+
+# Maven repository
+
+The release is published on Maven Central repository : 
+
+https://central.sonatype.dev/namespace/eu.europa.ec.joinup.sd-dss
+
+<pre>
+&lt;!-- Add dss-bom for easy integration --&gt;
+&lt;dependencyManagement&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;eu.europa.ec.joinup.sd-dss&lt;/groupId&gt;
+            &lt;artifactId&gt;dss-bom&lt;/artifactId&gt;
+            &lt;version&gt;5.12.RC1&lt;/version&gt;
+            &lt;type&gt;pom&lt;/type&gt;
+            &lt;scope&gt;import&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;
+
+&lt;!-- Add required modules (example) --&gt;
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;eu.europa.ec.joinup.sd-dss&lt;/groupId&gt;
+        &lt;artifactId&gt;dss-utils-apache-commons&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;eu.europa.ec.joinup.sd-dss&lt;/groupId&gt;
+        &lt;artifactId&gt;dss-xades&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    ...
+&lt;/dependencies&gt;
+</pre>
+
+# Build and usage
+
+A simple build of the DSS Maven project can be done with the following command:
 
 ```
 javax.xml.bind.* -> jakar.xml.bind.*

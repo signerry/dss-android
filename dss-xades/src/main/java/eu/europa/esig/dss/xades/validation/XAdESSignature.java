@@ -346,7 +346,11 @@ public class XAdESSignature extends DefaultAdvancedSignature {
 	public SignatureAlgorithm getSignatureAlgorithm() {
 		final String xmlName = DomUtils.getElement(signatureElement, XMLDSigPaths.SIGNATURE_METHOD_PATH)
 				.getAttribute(XMLDSigAttribute.ALGORITHM.getAttributeName());
-		return SignatureAlgorithm.forXML(xmlName, null);
+		SignatureAlgorithm signatureAlgorithm =  SignatureAlgorithm.forXML(xmlName, null);
+		if (signatureAlgorithm == null) {
+			LOG.error("SignatureAlgorithm '{}' is not supported!", xmlName);
+		}
+		return signatureAlgorithm;
 	}
 
 	@Override
@@ -376,7 +380,7 @@ public class XAdESSignature extends DefaultAdvancedSignature {
 	@Override
 	public XAdESTimestampSource getTimestampSource() {
 		if (signatureTimestampSource == null) {
-			signatureTimestampSource = new XAdESTimestampSource(this, signatureElement, xadesPaths);
+			signatureTimestampSource = new XAdESTimestampSource(this);
 		}
 		return (XAdESTimestampSource) signatureTimestampSource;
 	}
@@ -408,12 +412,19 @@ public class XAdESSignature extends DefaultAdvancedSignature {
 			if (policyId != null) {
 				// Explicit policy
 				String policyUrlString = null;
+
 				String policyIdString = policyId.getTextContent();
-				policyIdString = DSSUtils.getObjectIdentifier(policyIdString);
-				if (!DSSUtils.isUrnOid(policyIdString)) {
+				if (Utils.isStringNotBlank(policyIdString) && !DSSUtils.isUrnOid(policyIdString) && !DSSUtils.isOidCode(policyIdString)) {
 					policyUrlString = policyIdString;
 				}
 
+				ObjectIdentifierQualifier qualifier = null;
+				String qualifierString = policyId.getAttribute(XAdES132Attribute.QUALIFIER.getAttributeName());
+				if (Utils.isStringNotBlank(qualifierString)) {
+					qualifier = ObjectIdentifierQualifier.fromValue(qualifierString);
+				}
+
+				policyIdString = DSSUtils.getObjectIdentifierValue(policyIdString, qualifier);
 				xadesSignaturePolicy = new XAdESSignaturePolicy(policyIdString);
 
 				final Digest digest = DSSXMLUtils.getDigestAndValue(DomUtils.getElement(policyIdentifier, xadesPaths.getCurrentSignaturePolicyDigestAlgAndValue()));
@@ -580,6 +591,15 @@ public class XAdESSignature extends DefaultAdvancedSignature {
 						sps.setSignaturePolicyContent(new InMemoryDocument(Utils.fromBase64(spDocB64)));
 					}
 				}
+
+				String currentSigPolDocLocalURI = xadesPaths.getCurrentSigPolDocLocalURI();
+				if (Utils.isStringNotEmpty(currentSigPolDocLocalURI)) {
+					String sigPolDocLocalURI = DomUtils.getValue(signaturePolicyStoreElement, currentSigPolDocLocalURI);
+					if (Utils.isStringNotEmpty(sigPolDocLocalURI)) {
+						sps.setSigPolDocLocalURI(sigPolDocLocalURI);
+					}
+				}
+
 				return sps;
 			}
 		}
@@ -592,16 +612,21 @@ public class XAdESSignature extends DefaultAdvancedSignature {
 		Element identifierElement = DomUtils.getElement(spDocSpecificationElement, xadesPaths.getCurrentIdentifier());
 		if (identifierElement != null) {
 			String spDocSpecId = identifierElement.getTextContent();
-			spDocSpec.setId(DSSUtils.getObjectIdentifier(spDocSpecId));
 
+			ObjectIdentifierQualifier qualifier = null;
 			String qualifierString = identifierElement.getAttribute(XAdES132Attribute.QUALIFIER.getAttributeName());
 			if (Utils.isStringNotBlank(qualifierString)) {
-				spDocSpec.setQualifier(ObjectIdentifierQualifier.fromValue(qualifierString));
+				qualifier = ObjectIdentifierQualifier.fromValue(qualifierString);
+				spDocSpec.setQualifier(qualifier);
 			}
+
+			spDocSpec.setId(DSSUtils.getObjectIdentifierValue(spDocSpecId, qualifier));
 		}
 
 		String description = DomUtils.getValue(spDocSpecificationElement, xadesPaths.getCurrentDescription());
-		spDocSpec.setDescription(description);
+		if (Utils.isStringNotBlank(description)) {
+			spDocSpec.setDescription(description);
+		}
 
 		String currentDocumentationReferenceElementsPath = xadesPaths.getCurrentDocumentationReferenceElements();
 		if (Utils.isStringNotEmpty(currentDocumentationReferenceElementsPath)) {
@@ -1247,7 +1272,7 @@ public class XAdESSignature extends DefaultAdvancedSignature {
 			}
 			return santuarioSignature;
 		} catch (XMLSecurityException e) {
-			throw new DSSException("Unable to initialize santuario XMLSignature", e);
+			throw new DSSException(String.format("Unable to initialize Santuario XMLSignature. Reason : %s", e.getMessage()), e);
 		}
 	}
 
@@ -1478,21 +1503,47 @@ public class XAdESSignature extends DefaultAdvancedSignature {
 			result = new ArrayList<>();
 			for (int ii = 0; ii < nodeList.getLength(); ii++) {
 				Node commitmentTypeIndicationNode = nodeList.item(ii);
-				String uri = DomUtils.getValue(commitmentTypeIndicationNode, xadesPaths.getCurrentCommitmentIdentifierPath());
+				Element identifier = DomUtils.getElement(commitmentTypeIndicationNode, xadesPaths.getCurrentCommitmentIdentifierPath());
+
+				String uri = identifier.getTextContent();
 				if (uri == null) {
 					LOG.warn("The Identifier for a CommitmentTypeIndication is not defined! The CommitmentType is skipped.");
 					continue;
 				}
-				CommitmentTypeIndication commitmentTypeIndication = new CommitmentTypeIndication(uri);
+
+				ObjectIdentifierQualifier qualifier = null;
+				String qualifierString = identifier.getAttribute(XAdES132Attribute.QUALIFIER.getAttributeName());
+				if (Utils.isStringNotBlank(qualifierString)) {
+					qualifier = ObjectIdentifierQualifier.fromValue(qualifierString);
+				}
+
+				uri = DSSUtils.getObjectIdentifierValue(uri, qualifier);
+
+				final CommitmentTypeIndication commitmentTypeIndication = new CommitmentTypeIndication(uri);
 				
-				Element descriptionNode = DomUtils.getElement(commitmentTypeIndicationNode, xadesPaths.getCurrentCommitmentDescriptionPath());
+				final Element descriptionNode = DomUtils.getElement(commitmentTypeIndicationNode,
+						xadesPaths.getCurrentCommitmentDescriptionPath());
 				if (descriptionNode != null) {
 					commitmentTypeIndication.setDescription(descriptionNode.getTextContent());
 				}
-				Element docRefsNode = DomUtils.getElement(commitmentTypeIndicationNode, xadesPaths.getCurrentCommitmentDocumentationReferencesPath());
+				final Element docRefsNode = DomUtils.getElement(commitmentTypeIndicationNode,
+						xadesPaths.getCurrentCommitmentDocumentationReferencesPath());
 				if (docRefsNode != null) {
 					commitmentTypeIndication.setDocumentReferences(getDocumentationReferences(docRefsNode));
 				}
+
+				final Element allSignedDataObjectsNode = DomUtils.getElement(commitmentTypeIndicationNode,
+						xadesPaths.getCurrentCommitmentAllSignedDataObjectsPath());
+				if (allSignedDataObjectsNode != null) {
+					commitmentTypeIndication.setAllDataSignedObjects(true);
+				} else {
+					final NodeList commitmentObjectReferencesNodeList = DomUtils.getNodeList(commitmentTypeIndicationNode,
+							xadesPaths.getCurrentCommitmentObjectReferencesPath());
+					if (commitmentObjectReferencesNodeList != null && commitmentObjectReferencesNodeList.getLength() > 0) {
+						commitmentTypeIndication.setObjectReferences(getObjectReferences(commitmentObjectReferencesNodeList));
+					}
+				}
+
 				result.add(commitmentTypeIndication);
 			}
 		}
@@ -1500,7 +1551,7 @@ public class XAdESSignature extends DefaultAdvancedSignature {
 	}
 	
 	private List<String> getDocumentationReferences(Element docRefsNode) {
-		NodeList docRefsChildNodes = DomUtils.getNodeList(docRefsNode, xadesPaths.getCurrentDocumentationReference());
+		final NodeList docRefsChildNodes = DomUtils.getNodeList(docRefsNode, xadesPaths.getCurrentDocumentationReference());
 		if (docRefsChildNodes.getLength() > 0) {
 			List<String> docRefs = new ArrayList<>();
 			for (int jj = 0; jj < docRefsChildNodes.getLength(); jj++) {
@@ -1510,6 +1561,14 @@ public class XAdESSignature extends DefaultAdvancedSignature {
 			return docRefs;
 		}
 		return null;
+	}
+
+	private List<String> getObjectReferences(NodeList commitmentObjectReferencesNodeList) {
+		List<String> signedDataObjects = new ArrayList<>();
+		for (int i = 0; i < commitmentObjectReferencesNodeList.getLength(); i++) {
+			signedDataObjects.add(DomUtils.getId(commitmentObjectReferencesNodeList.item(i).getTextContent()));
+		}
+		return signedDataObjects;
 	}
 
 	/**

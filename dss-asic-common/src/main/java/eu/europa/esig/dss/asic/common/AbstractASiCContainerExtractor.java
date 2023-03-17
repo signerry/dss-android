@@ -20,19 +20,15 @@
  */
 package eu.europa.esig.dss.asic.common;
 
-import net.lingala.zip4j.ZipFile;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.List;
-import java.util.UUID;
-
-import eu.europa.esig.dss.enumerations.ASiCContainerType;
 import eu.europa.esig.dss.exception.IllegalInputException;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.utils.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * This class is used to read an ASiC Container and to retrieve its content files
@@ -61,11 +57,9 @@ public abstract class AbstractASiCContainerExtractor {
 	 */
 	public ASiCContent extract() {
 		ASiCContent result = zipParsing(asicContainer);
-		result.setZipComment(getZipComment());
-		result.setContainerType(getContainerType(result));
-		if (Utils.isCollectionNotEmpty(result.getUnsupportedDocuments())) {
-			LOG.warn("Unsupported files : {}", result.getUnsupportedDocuments());
-		}
+		result.setZipComment(ASiCUtils.getZipComment(asicContainer));
+		result.setContainerType(ASiCUtils.getContainerType(result));
+		result.setContainerDocuments(getContainerDocuments(result));
 		return result;
 	}
 
@@ -103,42 +97,34 @@ public abstract class AbstractASiCContainerExtractor {
 					result.setMimeTypeDocument(currentDocument);
 				} else {
 					result.getSignedDocuments().add(currentDocument);
-					if (ASiCUtils.isASiCSArchive(currentDocument)) {
-						result.setContainerDocuments(ZipUtils.getInstance().extractContainerContent(currentDocument));
-					}
 				}
 
 			} else {
 				result.getFolders().add(currentDocument);
 			}
 		}
-		
+
+		if (Utils.isCollectionNotEmpty(result.getUnsupportedDocuments())) {
+			LOG.warn("Unsupported files : {}", result.getUnsupportedDocuments());
+		}
 		return result;
 	}
 
-	/**
-	 * Returns a zip comment {@code String} from the ASiC container
-	 *
-	 * @return {@link String} zip comment
-	 */
-	public String getZipComment() {
-		File tmpfile = null;
-
-		try {
-			tmpfile = File.createTempFile(UUID.randomUUID().toString(), ".tmp");
-			asicContainer.save(tmpfile.getAbsolutePath());
-			ZipFile zipFile = new ZipFile(tmpfile);
-
-			return zipFile.getComment();
-		} catch (Exception e) {
-			LOG.warn("Unable to extract the ZIP comment : {}", e.getMessage());
-		}
-		finally {
-			if(tmpfile != null) {
-				tmpfile.delete();
+	private List<DSSDocument> getContainerDocuments(ASiCContent asicContent) {
+		List<DSSDocument> containerDocuments = new ArrayList<>();
+		if (ASiCUtils.isASiCSContainer(asicContent)) {
+			for (DSSDocument signerDocument : asicContent.getRootLevelSignedDocuments()) {
+				if (Utils.isCollectionNotEmpty(containerDocuments)) {
+					LOG.warn("More than one ZIP archive found on a root level of the ASiC-S container! " +
+							"Extraction of embedded documents not possible.");
+					return Collections.emptyList();
+				}
+				if (ASiCUtils.isZip(signerDocument)) {
+					containerDocuments.addAll(ZipUtils.getInstance().extractContainerContent(signerDocument));
+				}
 			}
 		}
-		return null;
+		return containerDocuments;
 	}
 
 	private boolean isMetaInfFolder(String entryName) {
@@ -147,11 +133,6 @@ public abstract class AbstractASiCContainerExtractor {
 	
 	private boolean isFolder(String entryName) {
 		return entryName.endsWith("/");
-	}
-
-	private ASiCContainerType getContainerType(ASiCContent result) {
-		return ASiCUtils.getContainerType(asicContainer, result.getMimeTypeDocument(), result.getZipComment(),
-				result.getSignedDocuments());
 	}
 
 	/**

@@ -21,6 +21,8 @@
 package eu.europa.esig.dss.spi.x509;
 
 import eu.europa.esig.dss.model.x509.CertificateToken;
+import eu.europa.esig.dss.model.x509.extension.SubjectKeyIdentifier;
+import eu.europa.esig.dss.spi.CertificateExtensionsUtils;
 import eu.europa.esig.dss.spi.DSSASN1Utils;
 import eu.europa.esig.dss.utils.Utils;
 import org.bouncycastle.asn1.x500.X500Name;
@@ -52,6 +54,13 @@ public class SignerIdentifier implements Serializable {
 
 	/** the used CertificateIdentifier for a signature/timestamp */
 	private boolean current;
+
+	/**
+	 * Default constructor instantiating object with null values
+	 */
+	public SignerIdentifier() {
+		// empty
+	}
 
 	/**
 	 * Returns the name of the certificate issuer
@@ -152,7 +161,10 @@ public class SignerIdentifier implements Serializable {
 		SignerIdentifier id = new SignerIdentifier();
 		id.setIssuerName(certificateToken.getIssuerX500Principal());
 		id.setSerialNumber(certificateToken.getSerialNumber());
-		id.setSki(DSSASN1Utils.getSki(certificateToken));
+		SubjectKeyIdentifier certSki = CertificateExtensionsUtils.getSubjectKeyIdentifier(certificateToken);
+		if (certSki != null) {
+			id.setSki(certSki.getSki());
+		}
 		return isEquivalent(id);
 	}
 

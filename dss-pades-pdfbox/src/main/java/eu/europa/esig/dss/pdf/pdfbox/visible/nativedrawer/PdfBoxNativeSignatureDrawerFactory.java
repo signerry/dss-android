@@ -29,6 +29,13 @@ import eu.europa.esig.dss.pdf.pdfbox.visible.PdfBoxSignatureDrawerFactory;
  */
 public class PdfBoxNativeSignatureDrawerFactory implements PdfBoxSignatureDrawerFactory {
 
+	/**
+	 * Default constructor
+	 */
+	public PdfBoxNativeSignatureDrawerFactory() {
+		// empty
+	}
+
 	@Override
 	public PdfBoxSignatureDrawer getSignatureDrawer(SignatureImageParameters imageParameters) {
 		return new NativePdfBoxVisibleSignatureDrawer();

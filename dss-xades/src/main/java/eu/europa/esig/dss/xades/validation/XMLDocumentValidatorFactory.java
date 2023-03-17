@@ -29,6 +29,13 @@ import eu.europa.esig.dss.validation.DocumentValidatorFactory;
  */
 public class XMLDocumentValidatorFactory implements DocumentValidatorFactory {
 
+	/**
+	 * Default constructor
+	 */
+	public XMLDocumentValidatorFactory() {
+		// empty
+	}
+
 	@Override
 	public boolean isSupported(DSSDocument document) {
 		XMLDocumentValidator validator = new XMLDocumentValidator();

@@ -182,7 +182,7 @@ class PdfBoxDict implements PdfDict {
 	@Override
 	public Long getObjectNumber(String name) {
 		COSBase dictionaryObject = wrapped.getItem(name);
-		if (dictionaryObject != null && dictionaryObject instanceof COSObject) {
+		if (dictionaryObject instanceof COSObject) {
 			return ((COSObject) dictionaryObject).getObjectNumber();
 		}
 		return null;
@@ -196,6 +196,24 @@ class PdfBoxDict implements PdfDict {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public InputStream createRawInputStream() throws IOException {
+		if (wrapped instanceof COSStream) {
+			return ((COSStream) wrapped).createRawInputStream();
+		}
+		return null;
+	}
+
+	@Override
+	public long getRawStreamSize() throws IOException {
+		try (InputStream is = createRawInputStream()) {
+			if (is != null) {
+				return Utils.getInputStreamSize(is);
+			}
+		}
+		return -1;
 	}
 
 	@Override

@@ -37,10 +37,13 @@ import eu.europa.esig.dss.spi.x509.tsp.TSPSource;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.AdvancedSignature;
 import eu.europa.esig.dss.validation.CertificateVerifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Objects;
 
+import static eu.europa.esig.dss.enumerations.SignatureLevel.PAdES_BASELINE_LT;
 import static eu.europa.esig.dss.enumerations.SignatureLevel.PAdES_BASELINE_T;
 
 /**
@@ -48,6 +51,8 @@ import static eu.europa.esig.dss.enumerations.SignatureLevel.PAdES_BASELINE_T;
  *
  */
 class PAdESLevelBaselineT implements SignatureExtension<PAdESSignatureParameters> {
+
+	private static final Logger LOG = LoggerFactory.getLogger(PAdESLevelBaselineT.class);
 
 	/** The TSPSource to obtain a timestamp */
 	private final TSPSource tspSource;
@@ -111,10 +116,20 @@ class PAdESLevelBaselineT implements SignatureExtension<PAdESSignatureParameters
 
 		if (tLevelExtensionRequired) {
 			// Will add a DocumentTimeStamp. signature-timestamp (CMS) is impossible to add while extending
-			return timestampDocument(document, parameters.getSignatureTimestampParameters(), parameters.getPasswordProtection());
+			return timestampDocument(document, parameters.getSignatureTimestampParameters(),
+					parameters.getPasswordProtection(), getSignatureTimestampService());
 		} else {
 			return document;
 		}
+	}
+
+	/**
+	 * This method returns a {@code PDFSignatureService} to be used for a signature timestamp creation
+	 *
+	 * @return {@link PDFSignatureService}
+	 */
+	private PDFSignatureService getSignatureTimestampService() {
+		return pdfObjectFactory.newSignatureTimestampService();
 	}
 
 	/**
@@ -122,23 +137,16 @@ class PAdESLevelBaselineT implements SignatureExtension<PAdESSignatureParameters
 	 *
 	 * @param document {@link DSSDocument} to timestamp
 	 * @param timestampParameters {@link PAdESTimestampParameters}
-	 * @param pwd {@link String} password if required
+	 * @param pwd password if required
+	 * @param pdfSignatureService {@link PDFSignatureService} to be used
 	 * @return {@link DSSDocument} timestamped
 	 */
 	protected DSSDocument timestampDocument(final DSSDocument document,
-											final PAdESTimestampParameters timestampParameters, final String pwd) {
-		PAdESTimestampService padesTimestampService = new PAdESTimestampService(tspSource, newPdfSignatureService());
+											final PAdESTimestampParameters timestampParameters, final char[] pwd,
+											final PDFSignatureService pdfSignatureService) {
+		PAdESTimestampService padesTimestampService = new PAdESTimestampService(tspSource, pdfSignatureService);
 		timestampParameters.setPasswordProtection(pwd);
 		return padesTimestampService.timestampDocument(document, timestampParameters);
-	}
-
-	/**
-	 * Returns PDF signature service
-	 *
-	 * @return {@link PDFSignatureService}
-	 */
-	protected PDFSignatureService newPdfSignatureService() {
-		return pdfObjectFactory.newSignatureTimestampService();
 	}
 
 	/**
@@ -174,10 +182,22 @@ class PAdESLevelBaselineT implements SignatureExtension<PAdESSignatureParameters
 
 	private void assertExtendSignatureToTPossible(PAdESSignature signature, PAdESSignatureParameters parameters) {
 		final SignatureLevel signatureLevel = parameters.getSignatureLevel();
-		if (PAdES_BASELINE_T.equals(signatureLevel) && (signature.hasLTAProfile() ||
-				(signature.hasLTProfile() && !signature.areAllSelfSignedCertificates()) )) {
-			throw new IllegalInputException(String.format(
-					"Cannot extend signature to '%s'. The signature is already extended with LT level.", signatureLevel));
+		// ensure both levels are checked for optimization purposes
+		if (PAdES_BASELINE_T.equals(signatureLevel) || PAdES_BASELINE_LT.equals(signatureLevel)) {
+			if (signature.hasLTAProfile()) {
+				throw new IllegalInputException(String.format(
+						"Cannot extend signature to '%s'. The signature is already extended with LTA level.", signatureLevel));
+
+			} else if (signature.hasLTProfile() && !signature.areAllSelfSignedCertificates()) {
+				if (signature.hasTProfile()) {
+					throw new IllegalInputException(String.format(
+							"Cannot extend signature to '%s'. The signature is already extended with LT level.", signatureLevel));
+				}
+				// NOTE: Otherwise allow extension, as it may be required to provide a best-signature-time
+				// to ensure the best practice of fresh revocation data incorporation
+				LOG.info("Signature contains a DSS dictionary, but no associated timestamp. " +
+						"Extension may lead to LTA-level.");
+			}
 		}
 	}
 

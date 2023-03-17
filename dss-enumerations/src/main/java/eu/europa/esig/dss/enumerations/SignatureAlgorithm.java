@@ -555,6 +555,8 @@ public enum SignatureAlgorithm implements OidAndUriBasedEnum {
 		jsonWebAlgorithms.put("PS256", RSA_SSA_PSS_SHA256_MGF1);
 		jsonWebAlgorithms.put("PS384", RSA_SSA_PSS_SHA384_MGF1);
 		jsonWebAlgorithms.put("PS512", RSA_SSA_PSS_SHA512_MGF1);
+
+		jsonWebAlgorithms.put("EdDSA", ED25519);
 	
 		return jsonWebAlgorithms;
 	}
@@ -565,6 +567,7 @@ public enum SignatureAlgorithm implements OidAndUriBasedEnum {
 			jsonWebAlgorithms.put(entry.getValue(), entry.getKey());
 			ensurePlainECDSA(jsonWebAlgorithms, entry.getValue(), entry.getKey());
 		}
+		jsonWebAlgorithms.put(SignatureAlgorithm.ED448, "EdDSA");
 		return jsonWebAlgorithms;
 	}
 
@@ -641,13 +644,31 @@ public enum SignatureAlgorithm implements OidAndUriBasedEnum {
 	/**
 	 * Returns a corresponding {@code SignatureAlgorithm} by the JWA name
 	 *
-	 * @param jsonWebAlgorithm {@link String}
+	 * @param jsonWebAlgorithm
+	 *            {@link String} JWA algorithm Id
 	 * @return {@link SignatureAlgorithm}
 	 */
 	public static SignatureAlgorithm forJWA(String jsonWebAlgorithm) {
 		final SignatureAlgorithm algorithm = JWA_ALGORITHMS.get(jsonWebAlgorithm);
 		if (algorithm == null) {
 			throw new IllegalArgumentException(String.format(UNSUPPORTED_ALGO_MSG, jsonWebAlgorithm));
+		}
+		return algorithm;
+	}
+
+	/**
+	 * This method return the {@code SignatureAlgorithm} or the default value if the algorithm is unknown.
+	 *
+	 * @param jsonWebAlgorithm
+	 *            {@link String} JWA algorithm Id
+	 * @param defaultValue
+	 *            the default value to be returned if not found
+	 * @return {@code SignatureAlgorithm} or default value
+	 */
+	public static SignatureAlgorithm forJWA(String jsonWebAlgorithm, final SignatureAlgorithm defaultValue) {
+		final SignatureAlgorithm algorithm = JWA_ALGORITHMS.get(jsonWebAlgorithm);
+		if (algorithm == null) {
+			return defaultValue;
 		}
 		return algorithm;
 	}

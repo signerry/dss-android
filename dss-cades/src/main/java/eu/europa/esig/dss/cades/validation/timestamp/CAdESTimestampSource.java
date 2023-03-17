@@ -117,8 +117,13 @@ public class CAdESTimestampSource extends SignatureTimestampSource<CAdESSignatur
 	}
 
 	@Override
-	protected CAdESTimestampDataBuilder getTimestampDataBuilder() {
-		return new CAdESTimestampDataBuilder(signature, certificateSource);
+	protected CAdESTimestampMessageDigestBuilder getTimestampMessageImprintDigestBuilder(DigestAlgorithm digestAlgorithm) {
+		return new CAdESTimestampMessageDigestBuilder(signature, certificateSource, digestAlgorithm);
+	}
+
+	@Override
+	protected CAdESTimestampMessageDigestBuilder getTimestampMessageImprintDigestBuilder(TimestampToken timestampToken) {
+		return new CAdESTimestampMessageDigestBuilder(signature, certificateSource, timestampToken);
 	}
 
 	@Override
@@ -293,9 +298,11 @@ public class CAdESTimestampSource extends SignatureTimestampSource<CAdESSignatur
 				if (isDigestValuePresent(certificate.getDigest(digestAlgorithm), certsHashList)) {
 					addReference(references, certificate.getDSSId(), TimestampedObjectType.CERTIFICATE);
 				} else {
-					LOG.debug("The certificate with id [{}] was not included to the message imprint of timestamp "
-							+ "or was added to the CMS SignedData after this ArchiveTimestamp has been incorporated!",
-							certificate.getDSSIdAsString());
+					if (LOG.isDebugEnabled()) {
+						LOG.debug("The certificate with id [{}] was not included to the message imprint of timestamp "
+										+ "or was added to the CMS SignedData after this ArchiveTimestamp has been incorporated!",
+								certificate.getDSSIdAsString());
+					}
 				}
 			}
 		}
@@ -325,9 +332,11 @@ public class CAdESTimestampSource extends SignatureTimestampSource<CAdESSignatur
 				if (isDigestValuePresent(crlBinary.getDigestValue(digestAlgorithm), crlsHashList)) {
 					crlBinaries.add(crlBinary);
 				} else {
-					LOG.debug("The CRL Token with id [{}] was not included to the message imprint of timestamp "
-									+ "or was added to the CMS SignedData after this ArchiveTimestamp!",
-							crlBinary.asXmlId());
+					if (LOG.isDebugEnabled()) {
+						LOG.debug("The CRL Token with id [{}] was not included to the message imprint of timestamp "
+										+ "or was added to the CMS SignedData after this ArchiveTimestamp!",
+								crlBinary.asXmlId());
+					}
 				}
 			}
 		}

@@ -21,7 +21,7 @@
 package eu.europa.esig.dss.validation;
 
 import eu.europa.esig.dss.model.Digest;
-import eu.europa.esig.dss.model.MimeType;
+import eu.europa.esig.dss.enumerations.MimeType;
 
 import java.io.Serializable;
 
@@ -55,6 +55,13 @@ public class ManifestEntry implements Serializable {
 
 	/** Defines if it is the root file */
 	private boolean rootfile;
+
+	/**
+	 * Default constructor instantiating object with null values
+	 */
+	public ManifestEntry() {
+		// empty
+	}
 
 	/**
 	 * Gets the filename

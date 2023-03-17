@@ -38,6 +38,13 @@ public class RestDocumentValidationServiceImpl implements RestDocumentValidation
 	private RemoteDocumentValidationService validationService;
 
 	/**
+	 * Default construction instantiating object with null RemoteDocumentValidationService
+	 */
+	public RestDocumentValidationServiceImpl() {
+		// empty
+	}
+
+	/**
 	 * Default constructor
 	 *
 	 * @param validationService {@link RemoteDocumentValidationService}

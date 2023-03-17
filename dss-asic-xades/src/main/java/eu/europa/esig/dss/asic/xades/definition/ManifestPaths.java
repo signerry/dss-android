@@ -22,6 +22,7 @@ package eu.europa.esig.dss.asic.xades.definition;
 
 import eu.europa.esig.dss.definition.AbstractPaths;
 import eu.europa.esig.dss.definition.DSSNamespace;
+import eu.europa.esig.dss.utils.Utils;
 
 /**
  * Path expressions for a Manifest
@@ -34,13 +35,20 @@ public class ManifestPaths extends AbstractPaths {
 	public static final String FILE_ENTRY_PATH = fromCurrentPosition(ManifestElement.MANIFEST, ManifestElement.FILE_ENTRY);
 
 	/**
+	 * Default constructor
+	 */
+	public ManifestPaths() {
+		// empty
+	}
+
+	/**
 	 * Returns {@code "manifest:full-path"} with the given {@code manifestNamespace}'s prefix
 	 *
 	 * @param manifestNamespace {@link DSSNamespace}
 	 * @return {@link String}
 	 */
 	public static String getFullPathAttribute(DSSNamespace manifestNamespace) {
-		return manifestNamespace.getPrefix() + ':' + ManifestAttribute.FULL_PATH.getAttributeName();
+		return addPrefixIfNeeded(ManifestAttribute.FULL_PATH.getAttributeName(), manifestNamespace);
 	}
 
 	/**
@@ -50,7 +58,15 @@ public class ManifestPaths extends AbstractPaths {
 	 * @return {@link String}
 	 */
 	public static String getMediaTypeAttribute(DSSNamespace manifestNamespace) {
-		return manifestNamespace.getPrefix() + ':' + ManifestAttribute.MEDIA_TYPE.getAttributeName();
+		return addPrefixIfNeeded(ManifestAttribute.MEDIA_TYPE.getAttributeName(), manifestNamespace);
+	}
+
+	private static String addPrefixIfNeeded(String attributeName, DSSNamespace manifestNamespace) {
+		if (Utils.isStringEmpty(manifestNamespace.getPrefix())) {
+			return attributeName;
+		} else {
+			return manifestNamespace.getPrefix() + ':' + attributeName;
+		}
 	}
 
 }

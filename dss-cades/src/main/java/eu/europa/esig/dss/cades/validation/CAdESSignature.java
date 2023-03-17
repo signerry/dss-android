@@ -64,6 +64,7 @@ import eu.europa.esig.dss.validation.SignatureProductionPlace;
 import eu.europa.esig.dss.validation.SignerRole;
 import eu.europa.esig.dss.validation.timestamp.TimestampToken;
 import org.bouncycastle.asn1.ASN1Encodable;
+import org.bouncycastle.asn1.ASN1IA5String;
 import org.bouncycastle.asn1.ASN1Integer;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.ASN1OctetString;
@@ -262,12 +263,12 @@ public class CAdESSignature extends DefaultAdvancedSignature {
 						signaturePolicy.setDocSpecification(spDocSpecification);
 
 					} else {
-						LOG.error("Unknown signature policy qualifier id: {} with value: {}", policyQualifierInfoId,
+						LOG.warn("Unknown signature policy qualifier id: {} with value: {}", policyQualifierInfoId,
 								policyQualifierInfoValue);
 					}
 
 				} catch (Exception e) {
-					LOG.error("Unable to read SigPolicyQualifierInfo {} : {}", ii, e.getMessage());
+					LOG.warn("Unable to read SigPolicyQualifierInfo {} : {}", ii, e.getMessage());
 				}
 			}
 		}
@@ -314,18 +315,25 @@ public class CAdESSignature extends DefaultAdvancedSignature {
 			if (sequence.size() == 2) {
 				ASN1Encodable spDocSpec = sequence.getObjectAt(0);
 				spDocSpecification.setId(spDocSpec.toString());
-				
-				try {
-					ASN1OctetString spDocument = ASN1OctetString.getInstance(sequence.getObjectAt(1));
-					signaturePolicyStore.setSignaturePolicyContent(new InMemoryDocument(spDocument.getOctets()));
-				} catch (Exception e) {
-					LOG.warn("Unable to extract a SignaturePolicyStore content. 'sigPolicyEncoded OCTET STRING' is expected!");
+
+				ASN1Encodable spDocument = sequence.getObjectAt(1);
+				if (spDocument instanceof ASN1OctetString) {
+					ASN1OctetString sigPolicyEncoded = ASN1OctetString.getInstance(spDocument);
+					signaturePolicyStore.setSignaturePolicyContent(new InMemoryDocument(sigPolicyEncoded.getOctets()));
+
+				} else if (spDocument instanceof ASN1IA5String) {
+					ASN1String sigPolicyLocalURI = ASN1IA5String.getInstance(spDocument);
+					signaturePolicyStore.setSigPolDocLocalURI(sigPolicyLocalURI.getString());
+
+				} else {
+					LOG.warn("Unable to extract a signature-policy-store spDocument. " +
+							"One of 'sigPolicyEncoded' or 'sigPolicyLocalURI' is expected!");
 				}
-				
 				signaturePolicyStore.setSpDocSpecification(spDocSpecification);
 				return signaturePolicyStore;
+
 			} else {
-				LOG.warn("Unable to extract a SignaturePolicyStore. The element shall contain two attributes.");
+				LOG.warn("Unable to extract a signature-policy-store. The element shall contain two attributes.");
 			}
 		}
 		return null;
@@ -490,7 +498,7 @@ public class CAdESSignature extends DefaultAdvancedSignature {
 			}
 			return claimedRoles;
 		} catch (Exception e) {
-			LOG.error("Error when dealing with claimed signer roles : {}", signerAttrValues, e);
+			LOG.warn("Error when dealing with claimed signer roles : {}", signerAttrValues, e);
 			return Collections.emptyList();
 		}
 	}
@@ -531,7 +539,7 @@ public class CAdESSignature extends DefaultAdvancedSignature {
 			}
 			return roles;
 		} catch (Exception e) {
-			LOG.error("Error when dealing with certified signer roles : {}", signerAttrValues, e);
+			LOG.warn("Error when dealing with certified signer roles : {}", signerAttrValues, e);
 			return Collections.emptyList();
 		}
 	}
@@ -562,9 +570,9 @@ public class CAdESSignature extends DefaultAdvancedSignature {
 	}
 
 	private SignerAttribute getSignerAttributeV1() {
-		final Attribute id_aa_ets_signerAttr = CMSUtils.getSignedAttribute(signerInformation, PKCSObjectIdentifiers.id_aa_ets_signerAttr);
-		if (id_aa_ets_signerAttr != null) {
-			final ASN1Set attrValues = id_aa_ets_signerAttr.getAttrValues();
+		final Attribute idAaEtsSignerAttr = CMSUtils.getSignedAttribute(signerInformation, PKCSObjectIdentifiers.id_aa_ets_signerAttr);
+		if (idAaEtsSignerAttr != null) {
+			final ASN1Set attrValues = idAaEtsSignerAttr.getAttrValues();
 			final ASN1Encodable attrValue = attrValues.getObjectAt(0);
 			try {
 				return SignerAttribute.getInstance(attrValue);
@@ -581,9 +589,9 @@ public class CAdESSignature extends DefaultAdvancedSignature {
 	}
 
 	private SignerAttributeV2 getSignerAttributeV2() {
-		final Attribute id_aa_ets_signerAttrV2 = CMSUtils.getSignedAttribute(signerInformation, OID.id_aa_ets_signerAttrV2);
-		if (id_aa_ets_signerAttrV2 != null) {
-			final ASN1Set attrValues = id_aa_ets_signerAttrV2.getAttrValues();
+		final Attribute idAaEtsSignerAttrV2 = CMSUtils.getSignedAttribute(signerInformation, OID.id_aa_ets_signerAttrV2);
+		if (idAaEtsSignerAttrV2 != null) {
+			final ASN1Set attrValues = idAaEtsSignerAttrV2.getAttrValues();
 			final ASN1Encodable attrValue = attrValues.getObjectAt(0);
 			try {
 				return SignerAttributeV2.getInstance(attrValue);
@@ -604,9 +612,15 @@ public class CAdESSignature extends DefaultAdvancedSignature {
 			// purposely empty
 		}
 
-		// fallback to identify via signature algorithm
-		final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.forOID(oid);
-		return signatureAlgorithm.getEncryptionAlgorithm();
+		try {
+			// fallback to identify via signature algorithm
+			final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.forOID(oid);
+			return signatureAlgorithm.getEncryptionAlgorithm();
+		} catch (IllegalArgumentException e) {
+			LOG.error("Unable to identify encryption algorithm for OID '{}'. Reason : {}", oid, e.getMessage());
+		}
+
+		return null;
 	}
 
 	@Override
@@ -617,12 +631,13 @@ public class CAdESSignature extends DefaultAdvancedSignature {
 				return getPSSHashAlgorithm();
 			}
 			return signatureAlgorithm.getDigestAlgorithm();
+
 		} else {
+			final String digestAlgOID = signerInformation.getDigestAlgOID();
 			try {
-				final String digestAlgOID = signerInformation.getDigestAlgOID();
 				return DigestAlgorithm.forOID(digestAlgOID);
 			} catch (IllegalArgumentException e) {
-				LOG.warn(e.getMessage());
+				LOG.error("Unable to identify DigestAlgorithm for OID '{}'. Reason : {}", digestAlgOID, e.getMessage());
 				return null;
 			}
 		}

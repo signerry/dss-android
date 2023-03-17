@@ -53,7 +53,7 @@ public class PDFGenerationTest {
 		fopFactory = builder.build();
 
 		foUserAgent = fopFactory.newFOUserAgent();
-		foUserAgent.setCreator("DSS Webapp");
+		foUserAgent.setCreator("DSS");
 		foUserAgent.setAccessibility(true);
 	}
 
@@ -65,6 +65,11 @@ public class PDFGenerationTest {
 	@Test
 	public void generateSimpleReport2() throws Exception {
 		createAndValidate("sr2.xml");
+	}
+
+	@Test
+	public void generatePdfaSimpleReport() throws Exception {
+		createAndValidate("sr-pades.xml");
 	}
 
 	@Test

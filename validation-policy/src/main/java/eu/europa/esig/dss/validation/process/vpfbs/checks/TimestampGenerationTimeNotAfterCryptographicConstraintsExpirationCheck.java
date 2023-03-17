@@ -37,6 +37,7 @@ import eu.europa.esig.dss.validation.process.ValidationProcessUtils;
  * Checks if the generation time of a content timestamp is not after the expiration time
  * of cryptographic constraints concerned by the failure
  *
+ * @param <T> {@code XmlConstraintsConclusion} implementation of the block's conclusion
  */
 public class TimestampGenerationTimeNotAfterCryptographicConstraintsExpirationCheck<T extends XmlConstraintsConclusion>
         extends ChainItem<T> {
@@ -70,7 +71,7 @@ public class TimestampGenerationTimeNotAfterCryptographicConstraintsExpirationCh
 
     @Override
     protected boolean process() {
-        return contentTimestamp.getProductionTime() != null &&
+        return contentTimestamp.getProductionTime() != null && cryptographicValidation.getNotAfter() != null &&
                 !contentTimestamp.getProductionTime().after(cryptographicValidation.getNotAfter());
     }
 

@@ -23,6 +23,8 @@ package eu.europa.esig.dss.pades;
 import eu.europa.esig.dss.cades.signature.CAdESTimestampParameters;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.pdf.PAdESConstants;
+import eu.europa.esig.dss.pdf.PdfSignatureCache;
+import eu.europa.esig.dss.spi.DSSUtils;
 
 import java.util.Date;
 
@@ -32,6 +34,11 @@ import java.util.Date;
  */
 @SuppressWarnings("serial")
 public class PAdESTimestampParameters extends CAdESTimestampParameters implements PAdESCommonParameters {
+
+	/**
+	 * The internal signature processing variable
+	 */
+	protected PdfSignatureCache pdfSignatureCache;
 	
 	/**
 	 * Date of the timestamp
@@ -39,7 +46,7 @@ public class PAdESTimestampParameters extends CAdESTimestampParameters implement
 	protected Date timestampDate = new Date();
 	
 	/**
-	 * This attribute define a length of a reserved space for the timestamp inside a /Contents attribute
+	 * This attribute defines a length of a reserved space for the timestamp inside a /Contents attribute
 	 * 
 	 * Default value is 9472 (from PDFBox)
 	 */
@@ -60,6 +67,11 @@ public class PAdESTimestampParameters extends CAdESTimestampParameters implement
 	private String timestampSubFilter = PAdESConstants.TIMESTAMP_DEFAULT_SUBFILTER;
 
 	/**
+	 * The signing app name
+	 */
+	private String appName;
+
+	/**
 	 * This attribute is used to create a visible timestamp in PAdES form
 	 */
 	private SignatureImageParameters timestampImageParameters;
@@ -67,12 +79,13 @@ public class PAdESTimestampParameters extends CAdESTimestampParameters implement
 	/**
 	 * Password used to encrypt a PDF
 	 */
-	private String passwordProtection;
+	private char[] passwordProtection;
 
 	/**
 	 * Empty constructor
 	 */
 	public PAdESTimestampParameters() {
+		// empty
 	}
 
 	/**
@@ -122,6 +135,20 @@ public class PAdESTimestampParameters extends CAdESTimestampParameters implement
 	}
 
 	@Override
+	public String getAppName() {
+		return appName;
+	}
+
+	/**
+	 * Sets signing application name
+	 *
+	 * @param appName {@link String}
+	 */
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+
+	@Override
 	public SignatureImageParameters getImageParameters() {
 		if (timestampImageParameters == null) {
 			timestampImageParameters = new SignatureImageParameters();
@@ -144,7 +171,7 @@ public class PAdESTimestampParameters extends CAdESTimestampParameters implement
 	}
 
 	/**
-	 * This setter allows to reserve more than the default size for a timestamp
+	 * This setter allows reserving more than the default size for a timestamp
 	 *
 	 * Default : 9472 bytes
 	 *
@@ -159,18 +186,47 @@ public class PAdESTimestampParameters extends CAdESTimestampParameters implement
 		return timestampDate;
 	}
 
-	@Override
-	public String getPasswordProtection() {
-		return passwordProtection;
-	}
-
 	/**
 	 * Sets a password string
 	 * 
 	 * @param passwordProtection {@link String} password to set
+	 * @deprecated since DSS 5.12. Use {@code #setPasswordBinaries(passwordProtection.toCharArray())}
 	 */
+	@Deprecated
 	public void setPasswordProtection(String passwordProtection) {
+		this.passwordProtection = passwordProtection != null ? passwordProtection.toCharArray() : null;
+	}
+
+	@Override
+	public char[] getPasswordProtection() {
+		return passwordProtection;
+	}
+
+	/**
+	 * Sets password to the document
+	 *
+	 * @param passwordProtection char array representing a password of the document
+	 */
+	public void setPasswordProtection(char[] passwordProtection) {
 		this.passwordProtection = passwordProtection;
+	}
+
+	@Override
+	public String getDeterministicId() {
+		return DSSUtils.getDeterministicId(timestampDate, null);
+	}
+
+	@Override
+	public PdfSignatureCache getPdfSignatureCache() {
+		if (pdfSignatureCache == null) {
+			pdfSignatureCache = new PdfSignatureCache();
+		}
+		return pdfSignatureCache;
+	}
+
+	@Override
+	public void reinit() {
+		pdfSignatureCache = null;
 	}
 
 }

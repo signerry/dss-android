@@ -28,6 +28,7 @@ import eu.europa.esig.dss.policy.jaxb.IntValueConstraint;
 import eu.europa.esig.dss.policy.jaxb.LevelConstraint;
 import eu.europa.esig.dss.policy.jaxb.Model;
 import eu.europa.esig.dss.policy.jaxb.MultiValuesConstraint;
+import eu.europa.esig.dss.policy.jaxb.PDFAConstraints;
 import eu.europa.esig.dss.policy.jaxb.RevocationConstraints;
 import eu.europa.esig.dss.policy.jaxb.SignatureConstraints;
 import eu.europa.esig.dss.policy.jaxb.TimeConstraint;
@@ -164,6 +165,14 @@ public interface ValidationPolicy {
 	LevelConstraint getMessageDigestOrSignedPropertiesConstraint(Context context);
 
 	/**
+	 * This constraint checks whether a JWA signature has a valid elliptic curve key size
+	 *
+	 * @param context {@link Context}
+	 * @return {@code LevelConstraint} if EllipticCurveKeySize element is present in the constraint file, null otherwise.
+	 */
+	LevelConstraint getEllipticCurveKeySizeConstraint(Context context);
+
+	/**
 	 * Indicates if the signed property: commitment-type-indication should be checked. If CommitmentTypeIndication
 	 * element is absent within the constraint file
 	 * then null is returned, otherwise the list of identifiers is initialised.
@@ -264,6 +273,26 @@ public interface ValidationPolicy {
 	CryptographicConstraint getCertificateCryptographicConstraint(Context context, SubContext subContext);
 
 	/**
+	 * Returns certificate CA constraint
+	 *
+	 * @param context {@link Context}
+	 * @param subContext {@link SubContext}
+	 * @return {@code LevelConstraint} if CA for a given context element is present in the constraint file,
+	 *         null otherwise.
+	 */
+	LevelConstraint getCertificateCAConstraint(Context context, SubContext subContext);
+
+	/**
+	 * Returns certificate MaxPathLength constraint
+	 *
+	 * @param context {@link Context}
+	 * @param subContext {@link SubContext}
+	 * @return {@code LevelConstraint} if MaxPathLength for a given context element is present in the constraint file,
+	 *         null otherwise.
+	 */
+	LevelConstraint getCertificateMaxPathLengthConstraint(Context context, SubContext subContext);
+
+	/**
 	 * Returns certificate key usage constraint
 	 *
 	 * @param context {@link Context}
@@ -282,6 +311,46 @@ public interface ValidationPolicy {
 	 *                                 null otherwise.
 	 */
 	MultiValuesConstraint getCertificateExtendedKeyUsageConstraint(Context context, SubContext subContext);
+
+	/**
+	 * Returns certificate PolicyTree constraint
+	 *
+	 * @param context {@link Context}
+	 * @param subContext {@link SubContext}
+	 * @return {@code LevelConstraint} if PolicyTree for a given context element is present in the constraint file,
+	 *         null otherwise.
+	 */
+	LevelConstraint getCertificatePolicyTreeConstraint(Context context, SubContext subContext);
+
+	/**
+	 * Returns certificate NameConstraints constraint
+	 *
+	 * @param context {@link Context}
+	 * @param subContext {@link SubContext}
+	 * @return {@code LevelConstraint} if NameConstraints for a given context element is present in the constraint file,
+	 *         null otherwise.
+	 */
+	LevelConstraint getCertificateNameConstraintsConstraint(Context context, SubContext subContext);
+
+	/**
+	 * Returns certificate supported critical extensions constraint
+	 *
+	 * @param context {@link Context}
+	 * @param subContext {@link SubContext}
+	 * @return {@code LevelConstraint} if SupportedCriticalExtensions constraint for a given context element is present
+	 * 								   in the constraint file,null otherwise.
+	 */
+	MultiValuesConstraint getCertificateSupportedCriticalExtensionsConstraint(Context context, SubContext subContext);
+
+	/**
+	 * Returns certificate forbidden extensions constraint
+	 *
+	 * @param context {@link Context}
+	 * @param subContext {@link SubContext}
+	 * @return {@code LevelConstraint} if ForbiddenExtensions constraint for a given context element is present
+	 * 								   in the constraint file,null otherwise.
+	 */
+	MultiValuesConstraint getCertificateForbiddenExtensionsConstraint(Context context, SubContext subContext);
 
 	/**
 	 * Returns certificate's validity range constraint
@@ -318,6 +387,13 @@ public interface ValidationPolicy {
 	 * @return {@link LevelConstraint}
 	 */
 	LevelConstraint getUnknownStatusConstraint();
+
+	/**
+	 * The method returns OCSPResponderIdMatch constraint
+	 *
+	 * @return {@link LevelConstraint}
+	 */
+	LevelConstraint getOCSPResponseResponderIdMatchConstraint();
 
 	/**
 	 * The method returns OCSPCertHashPresent constraint
@@ -641,7 +717,7 @@ public interface ValidationPolicy {
 	MultiValuesConstraint getCertificatePS2DQcCompetentAuthorityIdConstraint(Context context, SubContext subContext);
 
 	/**
-	 * Indicates if the end user certificate used in validating the signature is issued to a natural person.
+	 * Indicates if signing-certificate has been identified.
 	 *
 	 * @param context {@link Context}
 	 * @return {@code LevelConstraint} if Recognition for a given context element is present in the constraint file,
@@ -767,6 +843,46 @@ public interface ValidationPolicy {
 	 *         the constraint file, null otherwise.
 	 */
 	LevelConstraint getSignerInformationStoreConstraint(Context context);
+
+	/**
+	 * This constraint checks if ByteRange dictionary is valid
+	 * NOTE: applicable only for PAdES
+	 *
+	 * @param context {@link Context}
+	 * @return {@code LevelConstraint} if ByteRange element for a given context element is present in
+	 *         the constraint file, null otherwise.
+	 */
+	LevelConstraint getByteRangeConstraint(Context context);
+
+	/**
+	 * This constraint checks if ByteRange does not collide with other signature byte ranges
+	 * NOTE: applicable only for PAdES
+	 *
+	 * @param context {@link Context}
+	 * @return {@code LevelConstraint} if ByteRangeCollision element for a given context element is present in
+	 *         the constraint file, null otherwise.
+	 */
+	LevelConstraint getByteRangeCollisionConstraint(Context context);
+
+	/**
+	 * This constraint checks if ByteRange is valid for all signatures and document timestamps within PDF
+	 * NOTE: applicable only for PAdES
+	 *
+	 * @param context {@link Context}
+	 * @return {@code LevelConstraint} if ByteRangeAllDocument element for a given context element is present in
+	 *         the constraint file, null otherwise.
+	 */
+	LevelConstraint getByteRangeAllDocumentConstraint(Context context);
+
+	/**
+	 * This constraint checks if signature dictionary is consistent across PDF revisions.
+	 * NOTE: applicable only for PAdES
+	 *
+	 * @param context {@link Context}
+	 * @return {@code LevelConstraint} if PdfSignatureDictionary element for a given context element is present in
+	 *         the constraint file, null otherwise.
+	 */
+	LevelConstraint getPdfSignatureDictionaryConstraint(Context context);
 	
 	/**
 	 * Indicates if a PDF page difference check should be proceeded. If PdfPageDifference element is absent within
@@ -1092,6 +1208,22 @@ public interface ValidationPolicy {
 	 */
 	LevelConstraint getFullScopeConstraint();
 
+	/**
+	 * Returns AcceptablePDFAProfiles constraint if present in the policy, null otherwise
+	 *
+	 * @return {@code LevelConstraint} if AcceptablePDFAProfiles element is present
+	 *                                 in the constraint file, null otherwise.
+	 */
+	MultiValuesConstraint getAcceptablePDFAProfilesConstraint();
+
+	/**
+	 * Returns PDFACompliant constraint if present in the policy, null otherwise
+	 *
+	 * @return {@code LevelConstraint} if PDFACompliant element is present
+	 *                                 in the constraint file, null otherwise.
+	 */
+	LevelConstraint getPDFACompliantConstraint();
+
 	/* Article 32 */
 
 	/**
@@ -1141,12 +1273,6 @@ public interface ValidationPolicy {
 	 */
 	Model getValidationModel();
 
-	/**
-	 * Returns the constraint used for ASiC Container validation
-	 *
-	 * @return {@code ContainerConstraints}
-	 */
-	ContainerConstraints getContainerConstraints();
 
 	/**
 	 * Returns the constraint used for Signature validation
@@ -1175,6 +1301,20 @@ public interface ValidationPolicy {
 	 * @return {@code RevocationConstraints}
 	 */
 	RevocationConstraints getRevocationConstraints();
+
+	/**
+	 * Returns the constraint used for ASiC Container validation
+	 *
+	 * @return {@code ContainerConstraints}
+	 */
+	ContainerConstraints getContainerConstraints();
+
+	/**
+	 * Returns the constraint used for ASiC Container validation
+	 *
+	 * @return {@code ContainerConstraints}
+	 */
+	PDFAConstraints getPDFAConstraints();
 
 	/**
 	 * Returns the constraint used for qualification validation

@@ -20,9 +20,10 @@
  */
 package eu.europa.esig.dss.pades.validation;
 
-import eu.europa.esig.dss.model.DSSException;
+import eu.europa.esig.dss.exception.IllegalInputException;
 import eu.europa.esig.dss.spi.DSSUtils;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
@@ -31,29 +32,34 @@ import java.util.List;
  * This class represents a ByteRange of a PDF Revision
  *
  */
-public class ByteRange {
+public class ByteRange implements Serializable {
+
+	private static final long serialVersionUID = 3577208788371349439L;
 
 	/** Represents a PDF signature byteRange */
-	private int[] byteRange;
+	private final int[] byteRangeArray;
+
+	/** Defined whether /ByteRange is valid (shall be defined by external process) */
+	private Boolean valid;
 	
 	/**
 	 * This constructor represents a ByteRange extracted from a Signature Dictionary of a signed/timestamped revision
 	 * 
-	 * @param byteRange 
+	 * @param byteRangeArray
 	 * 				byte range of a signature/timestamp
 	 */
-	public ByteRange(int[] byteRange) {
-		this.byteRange = byteRange;
+	public ByteRange(int[] byteRangeArray) {
+		this.byteRangeArray = byteRangeArray;
 	}
 	
 	/**
-	 * Returns a complete revision length
+	 * Returns a total revision length
 	 * 
 	 * @return length
 	 */
 	public int getLength() {
 		// (before signature value) + (signature value) + (after signature value)
-		return (byteRange[1] - byteRange[0]) + (byteRange[2] - byteRange[1]) + byteRange[3];
+		return (byteRangeArray[1] - byteRangeArray[0]) + (byteRangeArray[2] - byteRangeArray[1]) + byteRangeArray[3];
 	}
 	
 	/**
@@ -62,7 +68,7 @@ public class ByteRange {
 	 * @return first byte
 	 */
 	public int getFirstPartStart() {
-		return byteRange[0];
+		return byteRangeArray[0];
 	}
 	
 	/**
@@ -71,7 +77,7 @@ public class ByteRange {
 	 * @return first part end byte
 	 */
 	public int getFirstPartEnd() {
-		return byteRange[1];
+		return byteRangeArray[1];
 	}
 
 	/**
@@ -80,7 +86,7 @@ public class ByteRange {
 	 * @return second part start byte
 	 */
 	public int getSecondPartStart() {
-		return byteRange[2];
+		return byteRangeArray[2];
 	}
 
 	/**
@@ -89,7 +95,7 @@ public class ByteRange {
 	 * @return second part end byte
 	 */
 	public int getSecondPartEnd() {
-		return byteRange[3];
+		return byteRangeArray[3];
 	}
 
 	/**
@@ -97,46 +103,74 @@ public class ByteRange {
 	 * @return a list of {@link BigInteger}s
 	 */
 	public List<BigInteger> toBigIntegerList() {
-		return DSSUtils.toBigIntegerList(byteRange);
+		return DSSUtils.toBigIntegerList(byteRangeArray);
 	}
 	
 	/**
-	 * Checks a validity of the ByteRange according to PDF specifications
+	 * Returns if the /ByteRange is valid
+	 *
+	 * @return TRUE if the /ByteRange is valid, FALSE otherwise
+	 */
+	public boolean isValid() {
+		if (valid == null) {
+			throw new IllegalStateException("ByteRange validation has not been performed! " +
+					"Validate the ByteRange and use setValid(valid) method to provide the result.");
+		}
+		return valid;
+	}
+
+	/**
+	 * Sets whether /ByteRange has passed the verification against the PDF document
+	 *
+	 * @param valid if the /ByteRange is valid
+	 */
+	public void setValid(boolean valid) {
+		this.valid = valid;
+	}
+
+	/**
+	 * Checks a validity of the ByteRange according to PDF specifications.
+	 * This method verifies the array of integers representing the ByteRange itself
+	 * without taking into account the PDF document, nor the /Contents octets.
+	 *
+	 * NOTE : this method throws a {@code IllegalInputException} if an error is encountered and
+	 *        does not update the state of the object. Please use {@code setValid(valid)} method to define
+	 *        the validity of the ByteRange.
 	 */
 	public void validate() {
-		if (byteRange == null || byteRange.length != 4) {
-			throw new DSSException("Incorrect ByteRange size");
+		if (byteRangeArray == null || byteRangeArray.length != 4) {
+			throw new IllegalInputException("Incorrect ByteRange size");
 		}
 
-		final int a = byteRange[0];
-		final int b = byteRange[1];
-		final int c = byteRange[2];
-		final int d = byteRange[3];
+		final int a = byteRangeArray[0];
+		final int b = byteRangeArray[1];
+		final int c = byteRangeArray[2];
+		final int d = byteRangeArray[3];
 
 		if (a != 0) {
-			throw new DSSException("The ByteRange must cover start of file");
+			throw new IllegalInputException("The ByteRange must cover start of file");
 		}
-		if (b <= 0) {
-			throw new DSSException("The first hash part doesn't cover anything");
+		if (b < 0) {
+			throw new IllegalInputException("The first hash part doesn't cover anything");
 		}
-		if (c <= b) {
-			throw new DSSException("The second hash part must start after the first hash part");
+		if (c < a + b) {
+			throw new IllegalInputException("The second hash part must start after the first hash part");
 		}
-		if (d <= 0) {
-			throw new DSSException("The second hash part doesn't cover anything");
+		if (d < 0) {
+			throw new IllegalInputException("The second hash part doesn't cover anything");
 		}
 	}
 	
 	@Override
 	public String toString() {
-		return Arrays.toString(byteRange);
+		return Arrays.toString(byteRangeArray);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Arrays.hashCode(byteRange);
+		result = prime * result + Arrays.hashCode(byteRangeArray);
 		return result;
 	}
 
@@ -152,7 +186,7 @@ public class ByteRange {
 			return false;
 		}
 		ByteRange other = (ByteRange) obj;
-		if (!Arrays.equals(byteRange, other.byteRange)) {
+		if (!Arrays.equals(byteRangeArray, other.byteRangeArray)) {
 			return false;
 		}
 		return true;

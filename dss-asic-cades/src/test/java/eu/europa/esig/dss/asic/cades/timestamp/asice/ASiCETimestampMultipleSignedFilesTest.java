@@ -30,10 +30,10 @@ import eu.europa.esig.dss.diagnostic.SignerDataWrapper;
 import eu.europa.esig.dss.diagnostic.TimestampWrapper;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlSignatureScope;
 import eu.europa.esig.dss.enumerations.ASiCContainerType;
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
-import eu.europa.esig.dss.model.MimeType;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import eu.europa.esig.dss.validation.timestamp.TimestampToken;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,8 +58,8 @@ public class ASiCETimestampMultipleSignedFilesTest extends AbstractASiCEWithCAdE
         service = new ASiCWithCAdESService(getOfflineCertificateVerifier());
         service.setTspSource(getAlternateGoodTsa());
 
-        DSSDocument documentToSign = new InMemoryDocument("Hello World !".getBytes(), "test.text", MimeType.TEXT);
-        DSSDocument documentToSign2 = new InMemoryDocument("Bye World !".getBytes(), "test2.text", MimeType.TEXT);
+        DSSDocument documentToSign = new InMemoryDocument("Hello World !".getBytes(), "test.text", MimeTypeEnum.TEXT);
+        DSSDocument documentToSign2 = new InMemoryDocument("Bye World !".getBytes(), "test2.text", MimeTypeEnum.TEXT);
         documentsToSign = Arrays.asList(documentToSign, documentToSign2);
 
         signatureParameters = new ASiCWithCAdESSignatureParameters();
@@ -118,7 +118,7 @@ public class ASiCETimestampMultipleSignedFilesTest extends AbstractASiCEWithCAdE
                     signedDataIds.add(signatureScope.getSignerData().getId());
                 }
             }
-            if ("META-INF/ASiCManifest.xml".equals(signatureScope.getName())) {
+            if ("META-INF/ASiCManifest001.xml".equals(signatureScope.getName())) {
                 signedManifestId = signatureScope.getSignerData().getId();
             }
         }
@@ -137,7 +137,7 @@ public class ASiCETimestampMultipleSignedFilesTest extends AbstractASiCEWithCAdE
                     timestampedDataIds.add(signerDataWrapper.getId());
                 }
             }
-            if ("META-INF/ASiCManifest1.xml".equals(signerDataWrapper.getReferencedName())) {
+            if ("META-INF/ASiCManifest002.xml".equals(signerDataWrapper.getReferencedName())) {
                 timestampedManifestId = signerDataWrapper.getId();
             }
         }

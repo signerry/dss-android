@@ -64,6 +64,13 @@ public class POEExtraction {
 	private final Map<String, List<POE>> poeMap = new HashMap<>();
 
 	/**
+	 * Default constructor initializing an empty map
+	 */
+	public POEExtraction() {
+		// empty
+	}
+
+	/**
 	 * Instantiates a controlTime POE for all used tokens
 	 * 
 	 * @param diagnosticData {@link DiagnosticData} containing all tokens to initialize the POE for
@@ -76,7 +83,7 @@ public class POEExtraction {
 		for (SignatureWrapper signature : diagnosticData.getAllSignatures()) {
 			addPOE(signature.getId(), controlTimePoe);
 		}
-		for (TimestampWrapper timestamp : diagnosticData.getTimestampSet()) {
+		for (TimestampWrapper timestamp : diagnosticData.getTimestampList()) {
 			addPOE(timestamp.getId(), controlTimePoe);
 		}
 		for (CertificateWrapper certificate : diagnosticData.getUsedCertificates()) {

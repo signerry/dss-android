@@ -38,6 +38,13 @@ public class OfficialRegistrationIdentifierPredicate implements Predicate<String
 	private static final String PNO = "PNO";
 	private static final String TIN = "TIN";
 
+	/**
+	 * Default constructor
+	 */
+	public OfficialRegistrationIdentifierPredicate() {
+		// empty
+	}
+
 	@Override
 	public boolean test(String t) {
 		return t != null && (isLegalPerson(t) || isNaturalPerson(t));

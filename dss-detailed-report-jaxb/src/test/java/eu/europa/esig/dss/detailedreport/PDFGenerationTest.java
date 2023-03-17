@@ -53,7 +53,7 @@ public class PDFGenerationTest {
 		fopFactory = builder.build();
 
 		foUserAgent = fopFactory.newFOUserAgent();
-		foUserAgent.setCreator("DSS Webapp");
+		foUserAgent.setCreator("DSS");
 		foUserAgent.setAccessibility(true);
 	}
 

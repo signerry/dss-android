@@ -42,6 +42,13 @@ public class RemoteTimestampService {
 	private TSPSource tspSource;
 
 	/**
+	 * Default construction instantiating object with null TSPSource
+	 */
+	public RemoteTimestampService() {
+		// empty
+	}
+
+	/**
 	 * Sets the TSP Source
 	 *
 	 * @param tspSource {@link TSPSource}

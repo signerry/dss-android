@@ -30,10 +30,10 @@ import eu.europa.esig.dss.diagnostic.SignerDataWrapper;
 import eu.europa.esig.dss.diagnostic.TimestampWrapper;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlSignatureScope;
 import eu.europa.esig.dss.enumerations.ASiCContainerType;
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
-import eu.europa.esig.dss.model.MimeType;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import eu.europa.esig.dss.validation.timestamp.TimestampToken;
@@ -56,7 +56,7 @@ public class ASiCETimestampSignedContainerTest extends AbstractASiCECAdESTestSig
         service = new ASiCWithCAdESService(getOfflineCertificateVerifier());
         service.setTspSource(getAlternateGoodTsa());
 
-        documentToSign = new InMemoryDocument("Hello World !".getBytes(), "test.text", MimeType.TEXT);
+        documentToSign = new InMemoryDocument("Hello World !".getBytes(), "test.text", MimeTypeEnum.TEXT);
 
         signatureParameters = new ASiCWithCAdESSignatureParameters();
         signatureParameters.setSigningCertificate(getSigningCert());
@@ -104,7 +104,7 @@ public class ASiCETimestampSignedContainerTest extends AbstractASiCECAdESTestSig
         for (XmlSignatureScope signatureScope : signatureScopes) {
             if (documentToSign.getName().equals(signatureScope.getName())) {
                 signedDataId = signatureScope.getSignerData().getId();
-            } else if ("META-INF/ASiCManifest.xml".equals(signatureScope.getName())) {
+            } else if ("META-INF/ASiCManifest001.xml".equals(signatureScope.getName())) {
                 signedManifestId = signatureScope.getSignerData().getId();
             }
         }
@@ -120,7 +120,7 @@ public class ASiCETimestampSignedContainerTest extends AbstractASiCECAdESTestSig
         for (SignerDataWrapper signerDataWrapper : timestampWrapper.getTimestampedSignedData()) {
             if (documentToSign.getName().equals(signerDataWrapper.getReferencedName())) {
                 timestampedDataId = signerDataWrapper.getId();
-            } else if ("META-INF/ASiCManifest1.xml".equals(signerDataWrapper.getReferencedName())) {
+            } else if ("META-INF/ASiCManifest002.xml".equals(signerDataWrapper.getReferencedName())) {
                 timestampedManifestId = signerDataWrapper.getId();
             }
         }

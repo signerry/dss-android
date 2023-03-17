@@ -44,6 +44,13 @@ public abstract class RevocationRef<R extends Revocation> implements IdentifierB
 	private Identifier identifier;
 
 	/**
+	 * Default constructor instantiating object with null values
+	 */
+	protected RevocationRef() {
+		// empty
+	}
+
+	/**
 	 * Returns digests of the reference
 	 *
 	 * @return {@link Digest}

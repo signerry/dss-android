@@ -20,11 +20,11 @@
  */
 package eu.europa.esig.dss.pdf.pdfbox;
 
-import android.graphics.Bitmap;
-
-import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.enumerations.CertificationPermission;
-import eu.europa.esig.dss.pades.exception.ProtectedDocumentException;
+import eu.europa.esig.dss.model.DSSDocument;
+import eu.europa.esig.dss.model.InMemoryDocument;
+import eu.europa.esig.dss.pades.PAdESCommonParameters;
+import eu.europa.esig.dss.pades.SignatureFieldParameters;
 import eu.europa.esig.dss.pades.validation.ByteRange;
 import eu.europa.esig.dss.pades.validation.PdfSignatureDictionary;
 import eu.europa.esig.dss.pades.validation.PdfSignatureField;
@@ -34,9 +34,11 @@ import eu.europa.esig.dss.pdf.PdfAnnotation;
 import eu.europa.esig.dss.pdf.PdfDict;
 import eu.europa.esig.dss.pdf.PdfDocumentReader;
 import eu.europa.esig.dss.pdf.PdfDssDict;
+import eu.europa.esig.dss.pdf.PdfPermissionsChecker;
 import eu.europa.esig.dss.pdf.PdfSigDictWrapper;
 import eu.europa.esig.dss.pdf.SingleDssDict;
 import eu.europa.esig.dss.pdf.visible.ImageUtils;
+import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.utils.Utils;
 import com.tom_roush.pdfbox.cos.COSArray;
 import com.tom_roush.pdfbox.cos.COSBase;
@@ -71,11 +73,11 @@ public class PdfBoxDocumentReader implements PdfDocumentReader {
 
 	private static final Logger LOG = LoggerFactory.getLogger(PdfBoxDocumentReader.class);
 
-	/** The PDF document */
-	private DSSDocument dssDocument;
-
 	/** The PDFBox implementation of the document */
 	private final PDDocument pdDocument;
+
+	/** The PDF document */
+	private DSSDocument dssDocument;
 
 	/** The map of signature dictionaries and corresponding signature fields */
 	private Map<PdfSignatureDictionary, List<PdfSignatureField>> signatureDictionaryMap;
@@ -83,19 +85,10 @@ public class PdfBoxDocumentReader implements PdfDocumentReader {
 	/**
 	 * Default constructor of the PDFBox implementation of the Reader
 	 * 
-	 * @param dssDocument {@link DSSDocument} to read
-	 * @throws IOException                                                 if an
-	 *                                                                     exception
-	 *                                                                     occurs
-	 * @throws eu.europa.esig.dss.pades.exception.InvalidPasswordException if the
-	 *                                                                     password
-	 *                                                                     is not
-	 *                                                                     provided
-	 *                                                                     or
-	 *                                                                     invalid
-	 *                                                                     for a
-	 *                                                                     protected
-	 *                                                                     document
+	 * @param dssDocument               {@link DSSDocument} to read
+	 * @throws IOException              if an exception occurs
+	 * @throws eu.europa.esig.dss.pades.exception.InvalidPasswordException if the password is not provided or
+	 *                                  invalid for a protected document
 	 */
 	public PdfBoxDocumentReader(DSSDocument dssDocument)
 			throws IOException, eu.europa.esig.dss.pades.exception.InvalidPasswordException {
@@ -136,6 +129,7 @@ public class PdfBoxDocumentReader implements PdfDocumentReader {
 	public PdfBoxDocumentReader(byte[] binaries, String passwordProtection)
 			throws IOException, eu.europa.esig.dss.pades.exception.InvalidPasswordException {
 		Objects.requireNonNull(binaries, "The document binaries must be defined!");
+		this.dssDocument = new InMemoryDocument(binaries);
 		try {
 			this.pdDocument = PDDocument.load(binaries, passwordProtection);
 		} catch (InvalidPasswordException e) {
@@ -355,23 +349,37 @@ public class PdfBoxDocumentReader implements PdfDocumentReader {
 	}
 
 	@Override
+	@Deprecated
 	public void checkDocumentPermissions() {
-		AccessPermission accessPermission = pdDocument.getCurrentAccessPermission();
-		if (accessPermission.isReadOnly()) {
-			throw new ProtectedDocumentException("The document cannot be modified (read-only)");
-		}
+		PdfPermissionsChecker permissionsChecker = new PdfPermissionsChecker();
+		permissionsChecker.checkDocumentPermissions(this, new SignatureFieldParameters());
+	}
 
-		if (!accessPermission.canModify()) {
-			throw new ProtectedDocumentException("Cannot modify the document");
-		}
+	@Override
+	public boolean isEncrypted() {
+		return pdDocument.isEncrypted();
+	}
 
-		if (!accessPermission.canModifyAnnotations()) {
-			throw new ProtectedDocumentException("Cannot modify the annotation");
-		}
+	@Override
+	public boolean isOpenWithOwnerAccess() {
+		final AccessPermission accessPermission = getAccessPermission();
+		return accessPermission.isOwnerPermission();
+	}
 
-		if (!accessPermission.canFillInForm()) {
-			throw new ProtectedDocumentException("Cannot fill in form");
-		}
+	@Override
+	public boolean canFillSignatureForm() {
+		final AccessPermission accessPermission = getAccessPermission();
+		return accessPermission.canModifyAnnotations() || accessPermission.canFillInForm();
+	}
+
+	@Override
+	public boolean canCreateSignatureField() {
+		final AccessPermission accessPermission = getAccessPermission();
+		return accessPermission.canModify() && accessPermission.canModifyAnnotations();
+	}
+
+	private AccessPermission getAccessPermission() {
+		return pdDocument.getCurrentAccessPermission();
 	}
 
 	@Override
@@ -391,23 +399,30 @@ public class PdfBoxDocumentReader implements PdfDocumentReader {
 					if (base instanceof COSArray) {
 						COSArray refArray = (COSArray) base;
 						for (int i = 0; i < refArray.size(); i++) {
-							base = refArray.getObject(i);
-							if (base instanceof COSDictionary) {
-								COSDictionary sigRefDict = (COSDictionary) base;
-								if (COSName.DOCMDP.equals(sigRefDict.getDictionaryObject(COSName.TRANSFORM_METHOD))) {
-									base = sigRefDict.getDictionaryObject(COSName.TRANSFORM_PARAMS);
-									if (base instanceof COSDictionary) {
-										COSDictionary transformDict = (COSDictionary) base;
-										int accessPermissions = transformDict.getInt(COSName.P, 2);
-										if (accessPermissions < 1 || accessPermissions > 3) {
-											accessPermissions = 2;
-										}
-										return CertificationPermission.fromCode(accessPermissions);
-									}
-								}
+							CertificationPermission certificationPermission = getPermissionFromReference(refArray.getObject(i));
+							if (certificationPermission != null) {
+								return certificationPermission;
 							}
 						}
 					}
+				}
+			}
+		}
+		return null;
+	}
+
+	private CertificationPermission getPermissionFromReference(COSBase reference) {
+		if (reference instanceof COSDictionary) {
+			COSDictionary sigRefDict = (COSDictionary) reference;
+			if (COSName.DOCMDP.equals(sigRefDict.getDictionaryObject(COSName.TRANSFORM_METHOD))) {
+				COSBase transformParams = sigRefDict.getDictionaryObject(COSName.TRANSFORM_PARAMS);
+				if (transformParams instanceof COSDictionary) {
+					COSDictionary transformDict = (COSDictionary) transformParams;
+					int accessPermissions = transformDict.getInt(COSName.P, 2);
+					if (accessPermissions < 1 || accessPermissions > 3) {
+						accessPermissions = 2;
+					}
+					return CertificationPermission.fromCode(accessPermissions);
 				}
 			}
 		}
@@ -437,6 +452,29 @@ public class PdfBoxDocumentReader implements PdfDocumentReader {
 	@Override
 	public PdfDict getCatalogDictionary() {
 		return new PdfBoxDict(pdDocument.getDocumentCatalog().getCOSObject(), pdDocument);
+	}
+
+	/**
+	 * Computes a DocumentId in a deterministic way based on the given {@code parameters} and the document
+	 *
+	 * @param parameters {@link PAdESCommonParameters}
+	 * @return deterministic identifier
+	 */
+	public long generateDocumentId(PAdESCommonParameters parameters) {
+		/*
+		 * Computation is according to "14.4 File identifiers"
+		 */
+		String deterministicId = parameters.getDeterministicId();
+		if (dssDocument != null && dssDocument.getName() != null) {
+			deterministicId = deterministicId + "-" + dssDocument.getName();
+		}
+
+		long documentId = dssDocument != null ? DSSUtils.getFileByteSize(dssDocument) : 0;
+		// attach String to long value in a deterministic way
+		for (int i = 0; i < deterministicId.length(); i++) {
+			documentId += ((long) deterministicId.charAt(i) & 0xFF) << (8 * i);
+		}
+		return documentId;
 	}
 
 }

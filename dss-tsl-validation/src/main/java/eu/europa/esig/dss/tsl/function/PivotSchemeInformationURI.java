@@ -35,6 +35,13 @@ public final class PivotSchemeInformationURI implements Predicate<NonEmptyMultiL
 	 */
 	private static final String PIVOT_SUFFIX = ".xml";
 
+	/**
+	 * Default constructor
+	 */
+	public PivotSchemeInformationURI() {
+		// empty
+	}
+
 	@Override
 	public boolean test(NonEmptyMultiLangURIType t) {
 		if (t != null && t.getValue() != null) {

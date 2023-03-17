@@ -20,31 +20,26 @@
  */
 package eu.europa.esig.dss.tsl.parsing;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import com.signerry.dss.test.TestUtils;
-
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.spi.tsl.OtherTSLPointer;
 import eu.europa.esig.dss.tsl.function.OfficialJournalSchemeInformationURI;
-import eu.europa.esig.dss.tsl.function.SchemeTerritoryOtherTSLPointer;
+import eu.europa.esig.dss.tsl.function.TLPredicateFactory;
 import eu.europa.esig.dss.tsl.function.XMLOtherTSLPointer;
 import eu.europa.esig.dss.tsl.source.LOTLSource;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LOTLParsingTaskTest {
 
@@ -52,6 +47,8 @@ public class LOTLParsingTaskTest {
 	private static DSSDocument LOTL_NO_SIG;
 	private static DSSDocument LOTL_NOT_PARSEABLE;
 	private static DSSDocument LOTL_PIVOT;
+
+	private static DSSDocument LOTL_MRA;
 
 	private static DSSDocument TL;
 
@@ -62,7 +59,9 @@ public class LOTLParsingTaskTest {
 		LOTL_NOT_PARSEABLE = new FileDocument(TestUtils.getResourceAsFile("eu-lotl-not-parseable.xml"));
 		LOTL_PIVOT = new FileDocument(TestUtils.getResourceAsFile("eu-lotl-pivot.xml"));
 
-		TL = new FileDocument(TestUtils.getResourceAsFile("ie-tl.xml"));
+		LOTL_MRA = new FileDocument("src/test/resources/mra-lotl.xml");
+
+		TL = new FileDocument("src/test/resources/ie-tl.xml");
 	}
 
 	@Test
@@ -178,12 +177,7 @@ public class LOTLParsingTaskTest {
 	@Test
 	public void parseLOTLOnlyBEandPTPointers() {
 		LOTLSource lotlSource = new LOTLSource();
-
-		Set<String> countries = new HashSet<>();
-		countries.add("BE");
-		countries.add("PT");
-
-		lotlSource.setTlPredicate(new SchemeTerritoryOtherTSLPointer(countries).and(new XMLOtherTSLPointer()));
+		lotlSource.setTlPredicate(TLPredicateFactory.createEUTLCountryCodePredicate("BE", "PT"));
 
 		LOTLParsingTask task = new LOTLParsingTask(LOTL, lotlSource);
 
@@ -225,6 +219,22 @@ public class LOTLParsingTaskTest {
 		assertEquals(31, result.getTlPointers().size());
 		checkOtherPointers(result.getTlPointers());
 		assertEquals("EU", result.getTerritory());
+	}
+
+	@Test
+	public void parseLOTLMRA() {
+		LOTLSource lotlSource = new LOTLSource();
+		lotlSource.setMraSupport(true);
+		lotlSource.setTlPredicate(new XMLOtherTSLPointer());
+		LOTLParsingTask task = new LOTLParsingTask(LOTL_MRA, lotlSource);
+		LOTLParsingResult result = task.get();
+		assertNotNull(result);
+		assertNotNull(result.getIssueDate());
+		assertNotNull(result.getNextUpdateDate());
+		assertEquals(5, result.getVersion());
+		assertEquals(6, result.getSequenceNumber());
+		assertEquals(33, result.getTlPointers().size());
+		assertNotNull(result.getTlPointers().get(result.getTlPointers().size() - 1).getMra());
 	}
 
 	@Test

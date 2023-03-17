@@ -21,10 +21,12 @@
 package eu.europa.esig.trustedlist.mra;
 
 import eu.europa.esig.trustedlist.TrustedListFacade;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+
 import org.xml.sax.SAXException;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
+
 import javax.xml.validation.Schema;
 
 /**

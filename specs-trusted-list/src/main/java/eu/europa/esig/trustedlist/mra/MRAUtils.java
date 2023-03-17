@@ -23,9 +23,10 @@ package eu.europa.esig.trustedlist.mra;
 import eu.europa.esig.trustedlist.TrustedListUtils;
 import eu.europa.esig.trustedlist.jaxb.tsl.ObjectFactory;
 import eu.europa.esig.xmldsig.XSDAbstractUtils;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
+
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import java.util.List;

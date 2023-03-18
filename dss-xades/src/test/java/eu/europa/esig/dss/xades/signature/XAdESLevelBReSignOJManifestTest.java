@@ -34,6 +34,7 @@ import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.AdvancedSignature;
 import eu.europa.esig.dss.validation.DocumentValidator;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
 import eu.europa.esig.dss.xades.DSSObject;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
 import eu.europa.esig.dss.xades.XAdESTimestampParameters;
@@ -45,7 +46,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;

@@ -25,6 +25,7 @@ import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
+import eu.europa.esig.dss.xades.CanonicalizationMethod;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
 import eu.europa.esig.dss.xades.XAdESTimestampParameters;
 import eu.europa.esig.dss.xades.reference.CanonicalizationTransform;
@@ -33,7 +34,6 @@ import eu.europa.esig.dss.xades.reference.EnvelopedSignatureTransform;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;

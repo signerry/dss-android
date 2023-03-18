@@ -50,6 +50,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCEXAdESLevelBMultiArchivesParallelTest extends PKIFactoryAccess {
 
 	@Test

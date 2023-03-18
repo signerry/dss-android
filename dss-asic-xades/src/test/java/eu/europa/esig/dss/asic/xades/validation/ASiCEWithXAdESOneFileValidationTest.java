@@ -33,6 +33,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCEWithXAdESOneFileValidationTest extends AbstractASiCWithXAdESTestValidation {
 
 	private static final DSSDocument EXPECTED_ONEFILE = new InMemoryDocument("Hello World !".getBytes(), "test.text", MimeTypeEnum.TEXT);

@@ -40,22 +40,22 @@ public class PdfBoxDefaultObjectFactory extends AbstractPdfObjFactory {
 
 	@Override
 	public PDFSignatureService newPAdESSignatureService() {
-		return configure(new PdfBoxSignatureService(PDFServiceMode.SIGNATURE, new PdfBoxDefaultSignatureDrawerFactory()));
+		return configure(new PdfBoxSignatureService(PDFServiceMode.SIGNATURE, new PdfBoxNativeSignatureDrawerFactory()));
 	}
 
 	@Override
 	public PDFSignatureService newContentTimestampService() {
-		return configure(new PdfBoxSignatureService(PDFServiceMode.CONTENT_TIMESTAMP, new PdfBoxDefaultSignatureDrawerFactory()));
+		return configure(new PdfBoxSignatureService(PDFServiceMode.CONTENT_TIMESTAMP, new PdfBoxNativeSignatureDrawerFactory()));
 	}
 
 	@Override
 	public PDFSignatureService newSignatureTimestampService() {
-		return configure(new PdfBoxSignatureService(PDFServiceMode.SIGNATURE_TIMESTAMP, new PdfBoxDefaultSignatureDrawerFactory()));
+		return configure(new PdfBoxSignatureService(PDFServiceMode.SIGNATURE_TIMESTAMP, new PdfBoxNativeSignatureDrawerFactory()));
 	}
 
 	@Override
 	public PDFSignatureService newArchiveTimestampService() {
-		return configure(new PdfBoxSignatureService(PDFServiceMode.ARCHIVE_TIMESTAMP, new PdfBoxDefaultSignatureDrawerFactory()));
+		return configure(new PdfBoxSignatureService(PDFServiceMode.ARCHIVE_TIMESTAMP, new PdfBoxNativeSignatureDrawerFactory()));
 	}
 
 }

@@ -222,7 +222,8 @@ public abstract class PKIFactoryAccess {
 		cacheOCSPSource.setProxySource(onlineOcspSource());
 		JdbcCacheConnector jdbcCacheConnector = new JdbcCacheConnector(sqlConnection);
 		cacheOCSPSource.setJdbcCacheConnector(jdbcCacheConnector);
-		cacheOCSPSource.setDefaultNextUpdateDelay(3 * 60 * 60L); // 3 hours
+		cacheOCSPSource.setDefaultNextUpdateDelay(3 * 60L); // 3 minutes
+
 		try {
 			cacheOCSPSource.initTable();
 		} catch (SQLException e) {
@@ -254,12 +255,8 @@ public abstract class PKIFactoryAccess {
 	}
 
 	protected AbstractKeyStoreTokenConnection getToken() {
-		return new KeyStoreSignatureTokenConnection(getKeystoreContent(getKeystoreName()), KEYSTORE_TYPE,
+		return new KeyStoreSignatureTokenConnection(getKeystoreContent(getSigningAlias() + ".p12"), KEYSTORE_TYPE,
 				new PasswordProtection(PKI_FACTORY_KEYSTORE_PASSWORD.toCharArray()));
-	}
-
-	protected String getKeystoreName() {
-		return DSSUtils.encodeURI(getSigningAlias() + ".p12");
 	}
 
 	private byte[] getKeystoreContent(String keystoreName) {
@@ -381,17 +378,17 @@ public abstract class PKIFactoryAccess {
 	
 	protected CertificateToken getCertificate(String certificateId) {
 		DataLoader dataLoader = getFileCacheDataLoader();
-		String keystoreUrl = PKI_FACTORY_HOST + CERT_ROOT_PATH + getCertificateName(certificateId);
+		String keystoreUrl = PKI_FACTORY_HOST + CERT_ROOT_PATH + certificateId + CERT_EXTENSION;
 		return DSSUtils.loadCertificate(dataLoader.get(keystoreUrl));
 	}
 
 	protected String getCertificateName(String certificateId) {
 		return DSSUtils.encodeURI(certificateId + CERT_EXTENSION);
 	}
-	
+
 	protected CertificateToken getCertificateByPrimaryKey(String issuerName, long serialNumber) {
 		DataLoader dataLoader = getFileCacheDataLoader();
-		String keystoreUrl = PKI_FACTORY_HOST + CERT_ROOT_PATH + getCertificateNameByPrimaryKey(issuerName, serialNumber);
+		String keystoreUrl = PKI_ALTERNATIVE_PKI_FACTORY_HOST + CERT_ROOT_PATH + issuerName + "/" + serialNumber + CERT_EXTENSION;
 		return DSSUtils.loadCertificate(dataLoader.get(keystoreUrl));
 	}
 

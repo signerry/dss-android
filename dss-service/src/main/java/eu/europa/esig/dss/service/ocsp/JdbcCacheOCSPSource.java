@@ -157,7 +157,7 @@ public class JdbcCacheOCSPSource extends JdbcRevocationSource<OCSP> implements O
 			ocspToken.setSourceURL(ocspResponse.ocspUrl);
 			ocspToken.setExternalOrigin(RevocationOrigin.CACHED);
 			return ocspToken;
-		} catch (IOException | OCSPException | SQLException e) {
+		} catch (IOException | OCSPException e) {
 			throw new DSSExternalResourceException(String.format(
 					"An error occurred during an attempt to obtain a revocation token. Reason : %s", e.getMessage()), e);
 		}

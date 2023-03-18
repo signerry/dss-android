@@ -75,7 +75,7 @@ public class JdbcCacheConnector {
         Connection c = this.sqlConnection;
         PreparedStatement s = null;
         try {
-            c = dataSource.getConnection();
+            c = sqlConnection;
             c.setAutoCommit(false);
 
             s = c.prepareStatement(query.getQueryString());
@@ -118,7 +118,7 @@ public class JdbcCacheConnector {
         PreparedStatement s = null;
         ResultSet rs = null;
         try {
-            c = dataSource.getConnection();
+            c = sqlConnection;
             c.setAutoCommit(false);
 
             s = c.prepareStatement(selectQuery.getQueryString());
@@ -153,7 +153,7 @@ public class JdbcCacheConnector {
         Connection c = null;
         Statement s = null;
         try {
-            c = dataSource.getConnection();
+            c = sqlConnection;
             c.setAutoCommit(false);
 
             s = c.createStatement();
@@ -180,7 +180,7 @@ public class JdbcCacheConnector {
         Connection c = null;
         Statement s = null;
         try {
-            c = dataSource.getConnection();
+            c = sqlConnection;
             c.setAutoCommit(false);
 
             s = c.createStatement();

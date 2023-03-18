@@ -37,6 +37,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCENoMimeTypeContentTest extends AbstractASiCWithCAdESTestValidation {
 
 	@Override

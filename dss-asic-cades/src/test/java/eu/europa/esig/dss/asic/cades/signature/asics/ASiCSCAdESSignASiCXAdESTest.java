@@ -32,6 +32,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCSCAdESSignASiCXAdESTest extends PKIFactoryAccess {
 	
 	@Test

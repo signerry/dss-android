@@ -54,6 +54,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESExternalCMSSignatureServiceTest extends PKIFactoryAccess {
 
     @Test
@@ -64,7 +66,7 @@ public class PAdESExternalCMSSignatureServiceTest extends PKIFactoryAccess {
                 service.getMessageDigest(null, null));
         assertEquals("toSignDocument cannot be null!", exception.getMessage());
 
-        DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+        DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
         DigestDocument digestDocument = new DigestDocument(DigestAlgorithm.SHA256, documentToSign.getDigest(DigestAlgorithm.SHA256));
 
         exception = assertThrows(NullPointerException.class, () ->

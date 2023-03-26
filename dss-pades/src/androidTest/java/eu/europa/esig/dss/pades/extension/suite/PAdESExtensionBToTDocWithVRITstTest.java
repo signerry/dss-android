@@ -41,6 +41,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESExtensionBToTDocWithVRITstTest extends AbstractPAdESTestValidation {
 
     @Override
@@ -48,7 +50,7 @@ public class PAdESExtensionBToTDocWithVRITstTest extends AbstractPAdESTestValida
         PAdESService padesService = new PAdESService(getOfflineCertificateVerifier());
         padesService.setTspSource(getGoodTsa());
 
-        DSSDocument originalDocument = new InMemoryDocument(getClass().getResourceAsStream("/validation/pdf-with-vri-timestamp.pdf"));
+        DSSDocument originalDocument = new InMemoryDocument(TestUtils.getResourceAsStream("validation/pdf-with-vri-timestamp.pdf"));
 
         PAdESSignatureParameters signatureParameters = new PAdESSignatureParameters();
         signatureParameters.setSignatureLevel(SignatureLevel.PAdES_BASELINE_T);

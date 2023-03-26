@@ -44,6 +44,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESDoubleSignatureLTWithVRIAndLTTest extends AbstractPAdESTestSignature {
 
     private DSSDocument originalDocument;
@@ -59,7 +61,7 @@ public class PAdESDoubleSignatureLTWithVRIAndLTTest extends AbstractPAdESTestSig
         service = new PAdESService(getCompleteCertificateVerifier());
         service.setTspSource(getGoodTsa());
 
-        originalDocument = new InMemoryDocument(PAdESDoubleSignatureTest.class.getResourceAsStream("/sample.pdf"));
+        originalDocument = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"));
 
         signingTime = new Date();
     }

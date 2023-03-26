@@ -37,7 +37,6 @@ import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
-import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.DefaultHttpRequestRetryStrategy;
 import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
@@ -89,6 +88,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringTokenizer;
+
+import javax.net.ssl.HostnameVerifier;
+
+import eu.europa.esig.dss.model.DSSDocument;
+import eu.europa.esig.dss.service.http.proxy.ProxyConfig;
+import eu.europa.esig.dss.service.http.proxy.ProxyProperties;
+import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.spi.client.http.DataLoader;
+import eu.europa.esig.dss.spi.client.http.Protocol;
+import eu.europa.esig.dss.spi.exception.DSSDataLoaderMultipleException;
+import eu.europa.esig.dss.spi.exception.DSSExternalResourceException;
+import eu.europa.esig.dss.utils.Utils;
 
 /**
  * Implementation of DataLoader for any protocol.
@@ -1205,14 +1216,10 @@ public class CommonsDataLoader implements DataLoader {
 				.setSSLSocketFactory(getConnectionSocketFactoryHttps())
 				.setDefaultSocketConfig(getSocketConfig())
 				.setMaxConnTotal(getConnectionsMaxTotal())
-				.setMaxConnPerRoute(getConnectionsMaxPerRoute());
-
-		final ConnectionConfig.Builder connectionConfigBuilder = ConnectionConfig.custom()
-				.setConnectTimeout(timeoutConnection)
-				.setTimeToLive(connectionTimeToLive);
+				.setMaxConnPerRoute(getConnectionsMaxPerRoute())
+				.setConnectionTimeToLive(connectionTimeToLive);
 
 		final PoolingHttpClientConnectionManager connectionManager = builder.build();
-		connectionManager.setDefaultConnectionConfig(connectionConfigBuilder.build());
 
 		LOG.debug("PoolingHttpClientConnectionManager: max total: {}", connectionManager.getMaxTotal());
 		LOG.debug("PoolingHttpClientConnectionManager: max per route: {}", connectionManager.getDefaultMaxPerRoute());

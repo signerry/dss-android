@@ -23,21 +23,20 @@ package eu.europa.esig.dss.pdf.pdfbox;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+import com.tom_roush.pdfbox.pdmodel.PDDocument;
+import com.tom_roush.pdfbox.pdmodel.PDResources;
+import com.tom_roush.pdfbox.pdmodel.common.PDRectangle;
+import com.tom_roush.pdfbox.pdmodel.common.PDStream;
+import com.tom_roush.pdfbox.pdmodel.graphics.form.PDFormXObject;
+import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAppearanceDictionary;
+import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAppearanceStream;
+
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.pades.PAdESUtils;
 import eu.europa.esig.dss.pdf.visible.ImageUtils;
 import eu.europa.esig.dss.signature.resources.DSSResourcesHandler;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDResources;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.common.PDStream;
-import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject;
-import org.apache.pdfbox.pdmodel.interactive.annotation.PDAppearanceDictionary;
-import org.apache.pdfbox.pdmodel.interactive.annotation.PDAppearanceStream;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
@@ -98,8 +97,8 @@ public class PdfBoxUtils {
 	 */
 	public static DSSDocument generateScreenshot(DSSDocument pdfDocument, String passwordProtection, int page,
 												 DSSResourcesHandler dssResourcesHandler) {
-		BufferedImage bufferedImage = generateBufferedImageScreenshot(pdfDocument, passwordProtection, page);
-		return ImageUtils.toDSSDocument(bufferedImage, dssResourcesHandler);
+		Bitmap bitmap = generateBufferedImageScreenshot(pdfDocument, passwordProtection, page);
+		return ImageUtils.toDSSDocument(bitmap, dssResourcesHandler);
 	}
 
 	/**
@@ -114,7 +113,7 @@ public class PdfBoxUtils {
 	 */
 	public static DSSDocument generateScreenshot(DSSDocument pdfDocument, char[] passwordProtection, int page,
 												 DSSResourcesHandler dssResourcesHandler) {
-		BufferedImage bufferedImage = generateBufferedImageScreenshot(pdfDocument, passwordProtection, page);
+		Bitmap bufferedImage = generateBufferedImageScreenshot(pdfDocument, passwordProtection, page);
 		return ImageUtils.toDSSDocument(bufferedImage, dssResourcesHandler);
 	}
 
@@ -126,7 +125,7 @@ public class PdfBoxUtils {
 	 * @param page               a page number to be generates (starts from 1)
 	 * @return {@link Bitmap}
 	 */
-	public static BufferedImage generateBufferedImageScreenshot(DSSDocument pdfDocument, String passwordProtection,
+	public static Bitmap generateBufferedImageScreenshot(DSSDocument pdfDocument, String passwordProtection,
 			int page) {
 		return generateBufferedImageScreenshot(pdfDocument, passwordProtection != null ?
 				passwordProtection.toCharArray() : null, page);
@@ -140,7 +139,7 @@ public class PdfBoxUtils {
 	 * @param page               a page number to be generates (starts from 1)
 	 * @return {@link BufferedImage}
 	 */
-	public static BufferedImage generateBufferedImageScreenshot(DSSDocument pdfDocument, char[] passwordProtection,
+	public static Bitmap generateBufferedImageScreenshot(DSSDocument pdfDocument, char[] passwordProtection,
 																int page) {
 		Objects.requireNonNull(pdfDocument, "pdfDocument shall be defined!");
 		try (PdfBoxDocumentReader reader = new PdfBoxDocumentReader(
@@ -255,8 +254,8 @@ public class PdfBoxUtils {
 	public static DSSDocument generateSubtractionImage(DSSDocument document1, char[] passwordDocument1, int pageDocument1,
 													   DSSDocument document2, char[] passwordDocument2, int pageDocument2,
 													   DSSResourcesHandler dssResourcesHandler) {
-		BufferedImage screenshotDoc1 = generateBufferedImageScreenshot(document1, passwordDocument1, pageDocument1);
-		BufferedImage screenshotDoc2 = generateBufferedImageScreenshot(document2, passwordDocument2, pageDocument2);
+		Bitmap screenshotDoc1 = generateBufferedImageScreenshot(document1, passwordDocument1, pageDocument1);
+		Bitmap screenshotDoc2 = generateBufferedImageScreenshot(document2, passwordDocument2, pageDocument2);
 
 		int width = Math.max(screenshotDoc1.getWidth(), screenshotDoc2.getWidth());
 		int height = Math.max(screenshotDoc1.getHeight(), screenshotDoc2.getHeight());

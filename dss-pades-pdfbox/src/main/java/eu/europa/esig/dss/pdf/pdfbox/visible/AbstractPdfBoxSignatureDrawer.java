@@ -20,14 +20,8 @@
  */
 package eu.europa.esig.dss.pdf.pdfbox.visible;
 
-import eu.europa.esig.dss.pades.SignatureImageParameters;
-import eu.europa.esig.dss.pdf.AnnotationBox;
-import eu.europa.esig.dss.pdf.visible.DSSFontMetrics;
-import eu.europa.esig.dss.pdf.visible.ImageUtils;
-import eu.europa.esig.dss.pdf.visible.SignatureFieldBoxBuilder;
-import eu.europa.esig.dss.pdf.visible.SignatureFieldDimensionAndPosition;
-import eu.europa.esig.dss.pdf.visible.SignatureFieldDimensionAndPositionBuilder;
-import eu.europa.esig.dss.utils.Utils;
+import static eu.europa.esig.dss.pdf.visible.ImageUtils.OUTPUT_INTENT_SRGB_PROFILE;
+
 import com.tom_roush.pdfbox.cos.COSName;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.pdmodel.PDDocumentCatalog;
@@ -38,14 +32,23 @@ import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationWidget;
 import com.tom_roush.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions;
 import com.tom_roush.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import com.tom_roush.pdfbox.pdmodel.interactive.form.PDSignatureField;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
+
+import eu.europa.esig.dss.pades.SignatureImageParameters;
+import eu.europa.esig.dss.pdf.AnnotationBox;
+import eu.europa.esig.dss.pdf.visible.DSSFontMetrics;
+import eu.europa.esig.dss.pdf.visible.ImageUtils;
+import eu.europa.esig.dss.pdf.visible.SignatureFieldBoxBuilder;
+import eu.europa.esig.dss.pdf.visible.SignatureFieldDimensionAndPosition;
+import eu.europa.esig.dss.pdf.visible.SignatureFieldDimensionAndPositionBuilder;
+import eu.europa.esig.dss.utils.Utils;
 
 /**
  * The abstract implementation of PDFBox signature drawer
@@ -149,25 +152,20 @@ public abstract class AbstractPdfBoxSignatureDrawer implements PdfBoxSignatureDr
 	 * @param catalog {@link PDDocumentCatalog} from a PDF document to add a new color space into
 	 * @param colorSpaceName {@link String} a color space name to add
 	 */
-	protected void addColorSpace(PDDocumentCatalog catalog, String colorSpaceName) {
+	protected void addColorSpace(PDDocumentCatalog catalog, String colorSpaceName) throws IOException {
 		// sRGB supports both RGB and Grayscale color spaces
 		if (COSName.DEVICERGB.getName().equals(colorSpaceName) || COSName.DEVICEGRAY.getName().equals(colorSpaceName)) {
-			int colorSpace = ColorSpace.CS_sRGB;
-			String outputCondition = ImageUtils.OUTPUT_INTENT_SRGB_PROFILE;
 
-			ICC_Profile iccProfile = ICC_Profile.getInstance(colorSpace);
-			try (InputStream is = new ByteArrayInputStream(iccProfile.getData())) {
-				PDOutputIntent outputIntent = new PDOutputIntent(document, is);
-				outputIntent.setOutputCondition(outputCondition);
-				outputIntent.setOutputConditionIdentifier(outputCondition);
-				catalog.setOutputIntents(Collections.singletonList(outputIntent));
+			InputStream resourceAsStream = AbstractPdfBoxSignatureDrawer.class.getResourceAsStream("/sRGB.pf");
+			String outputCondition = OUTPUT_INTENT_SRGB_PROFILE;
 
-				LOG.info("No color profile is present in the provided document. " +
-						"A new color profile '{}' has been added.", outputCondition);
+			PDOutputIntent outputIntent = new PDOutputIntent(document, resourceAsStream);
+			outputIntent.setOutputCondition(outputCondition);
+			outputIntent.setOutputConditionIdentifier(outputCondition);
+			catalog.setOutputIntents(Collections.singletonList(outputIntent));
 
-			} catch (IOException e) {
-				LOG.warn("Unable to add a new color profile to PDF document : {}", e.getMessage(), e);
-			}
+			LOG.info("No color profile is present in the provided document. " +
+					"A new color profile '{}' has been added.", outputCondition);
 
 		} else {
 			LOG.warn("Color space '{}' is not supported. Be aware: the produced PDF may be not compatible with PDF/A.",

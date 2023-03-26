@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.signature.visible;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.VisualSignatureAlignmentHorizontal;

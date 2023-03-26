@@ -38,11 +38,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESEndEntityCertIssuedByNotCACertTest extends AbstractPAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new InMemoryDocument(getClass().getResourceAsStream("/validation/self-issued-qesig.pdf"));
+        return new InMemoryDocument(TestUtils.getResourceAsStream("validation/self-issued-qesig.pdf"));
     }
 
     @Override

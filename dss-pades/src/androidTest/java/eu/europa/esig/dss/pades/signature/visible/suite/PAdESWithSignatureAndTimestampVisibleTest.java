@@ -68,7 +68,7 @@ public class PAdESWithSignatureAndTimestampVisibleTest extends AbstractPAdESTest
 		signatureParameters.setSignatureLevel(SignatureLevel.PAdES_BASELINE_LTA);
 
 		SignatureImageParameters signatureImageParameters = new SignatureImageParameters();
-		signatureImageParameters.setImage(new InMemoryDocument(getClass().getResourceAsStream("/small-red.jpg"), "small-red.jpg", MimeTypeEnum.JPEG));
+		signatureImageParameters.setImage(new InMemoryDocument(TestUtils.getResourceAsStream("small-red.jpg"), "small-red.jpg", MimeTypeEnum.JPEG));
 		
 		SignatureFieldParameters fieldParameters = new SignatureFieldParameters();
 		fieldParameters.setOriginX(25);

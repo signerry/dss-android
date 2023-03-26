@@ -37,11 +37,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESWithVRITimeStampTest extends AbstractPAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new InMemoryDocument(getClass().getResourceAsStream("/validation/pdf-with-vri-timestamp.pdf"));
+        return new InMemoryDocument(TestUtils.getResourceAsStream("validation/pdf-with-vri-timestamp.pdf"));
     }
 
     @Override

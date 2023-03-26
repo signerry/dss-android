@@ -44,13 +44,15 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESTimestampWithAppNameTest extends AbstractPkiFactoryTestValidation<PAdESSignatureParameters, PAdESTimestampParameters> {
 
     private static final String DSS_APP_NAME = "DSS";
 
     @Test
     public void test() throws Exception {
-        DSSDocument documentToTimestamp = new InMemoryDocument(PAdESLevelBTest.class.getResourceAsStream("/sample.pdf"));
+        DSSDocument documentToTimestamp = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 
         PAdESService service = new PAdESService(getOfflineCertificateVerifier());
         service.setTspSource(getGoodTsa());
@@ -61,7 +63,7 @@ public class PAdESTimestampWithAppNameTest extends AbstractPkiFactoryTestValidat
         DSSDocument timestampedDoc = service.timestamp(documentToTimestamp, timestampParameters);
         assertNotNull(timestampedDoc);
 
-        String pathString = "target/timestamped.pdf";
+        String pathString = TestUtils.getTmpFile("timestamped.pdf").getAbsolutePath();
         timestampedDoc.save(pathString);
 
         File file = new File(pathString);

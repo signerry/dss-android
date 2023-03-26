@@ -31,11 +31,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESWithSpoofingAttackTest extends AbstractPAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new InMemoryDocument(getClass().getResourceAsStream("/validation/pdf-spoofing-attack.pdf"));
+        return new InMemoryDocument(TestUtils.getResourceAsStream("validation/pdf-spoofing-attack.pdf"));
     }
 
     @Override

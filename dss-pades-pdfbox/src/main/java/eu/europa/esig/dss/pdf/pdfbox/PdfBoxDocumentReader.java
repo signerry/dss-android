@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pdf.pdfbox;
 
+import android.graphics.Bitmap;
+
 import eu.europa.esig.dss.enumerations.CertificationPermission;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;

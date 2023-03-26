@@ -56,7 +56,7 @@ public class GetOriginalDocumentTest extends PKIFactoryAccess {
 
 	@Test
 	public final void getOriginalDocument() throws Exception {
-		DSSDocument document = new InMemoryDocument(GetOriginalDocumentTest.class.getResourceAsStream("/sample.pdf"), "sample.pdf", MimeTypeEnum.PDF);
+		DSSDocument document = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"), "sample.pdf", MimeTypeEnum.PDF);
 
 		PAdESSignatureParameters signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.bLevel().setSigningDate(new Date());

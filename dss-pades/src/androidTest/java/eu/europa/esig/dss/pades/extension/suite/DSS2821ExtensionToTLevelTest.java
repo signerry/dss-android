@@ -35,11 +35,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DSS2821ExtensionToTLevelTest extends AbstractPAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        DSSDocument dssDocument = new InMemoryDocument(getClass().getResourceAsStream("/validation/DSS-2821.pdf"));
+        DSSDocument dssDocument = new InMemoryDocument(TestUtils.getResourceAsStream("validation/DSS-2821.pdf"));
 
         PAdESService service = new PAdESService(getOfflineCertificateVerifier());
         service.setTspSource(getSelfSignedTsa());

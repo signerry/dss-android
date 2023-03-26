@@ -51,6 +51,8 @@ import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 // See DSS-2761
 public class PAdESDoubleSignatureLTAndTTest extends AbstractPAdESTestSignature {
 
@@ -68,7 +70,7 @@ public class PAdESDoubleSignatureLTAndTTest extends AbstractPAdESTestSignature {
         firstTSATime.add(Calendar.HOUR, -1);
         service.setTspSource(getGoodTsaByTime(firstTSATime.getTime()));
 
-        originalDocument = new InMemoryDocument(PAdESDoubleSignatureTest.class.getResourceAsStream("/sample.pdf"));
+        originalDocument = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
     }
 
     @Override

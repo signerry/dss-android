@@ -46,6 +46,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PAdESExternalCMSSignatureLTALevelTest extends AbstractPAdESTestSignature {
 
     private PAdESSignatureParameters signatureParameters;
@@ -55,7 +57,7 @@ public class PAdESExternalCMSSignatureLTALevelTest extends AbstractPAdESTestSign
     @BeforeEach
     public void init() throws Exception {
         signingTime = new Date();
-        documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+        documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
     }
 
     @Override

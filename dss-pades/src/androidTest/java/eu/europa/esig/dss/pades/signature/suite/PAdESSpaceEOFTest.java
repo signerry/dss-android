@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.signature.suite;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -39,7 +41,7 @@ public class PAdESSpaceEOFTest extends AbstractPAdESTestSignature {
 	@BeforeEach
 	public void init() {
 
-		documentToSign = new InMemoryDocument(PAdESLevelBTest.class.getResourceAsStream("/sample_end_space.pdf"), null, MimeTypeEnum.PDF);
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample_end_space.pdf"), null, MimeTypeEnum.PDF);
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

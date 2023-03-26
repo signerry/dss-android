@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.signature.suite;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
@@ -38,7 +40,7 @@ public class PAdESSignDocumentWithEmptySignatureTest extends AbstractPAdESTestSi
     @BeforeEach
     public void init() throws Exception {
 
-        documentToSign = new InMemoryDocument(PAdESLevelBTest.class.getResourceAsStream("/validation/pdf-with-empty-sig.pdf"));
+        documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("validation/pdf-with-empty-sig.pdf"));
 
         signatureParameters = new PAdESSignatureParameters();
         signatureParameters.setSigningCertificate(getSigningCert());

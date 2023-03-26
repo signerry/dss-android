@@ -58,7 +58,7 @@ public class PDFSignWithPermissionsTest extends AbstractPAdESTestSignature {
     @Test
     public void test() {
         // /DocMDP /P=1
-        documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/validation/dss-2554/certified-no-change-permitted.pdf"));
+        documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-2554/certified-no-change-permitted.pdf"));
         Exception exception = assertThrows(ProtectedDocumentException.class, () -> sign());
         assertEquals("The creation of new signatures is not permitted in the current document. " +
                 "Reason : DocMDP dictionary does not permit a new signature creation!", exception.getMessage());
@@ -74,7 +74,7 @@ public class PDFSignWithPermissionsTest extends AbstractPAdESTestSignature {
         assertNotNull(signedDoc);
 
         // /FieldMDP /All
-        documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/validation/AD-RB.pdf"));
+        documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("validation/AD-RB.pdf"));
         exception = assertThrows(ProtectedDocumentException.class, () -> sign());
         assertEquals("The creation of new signatures is not permitted in the current document. " +
                 "Reason : FieldMDP dictionary does not permit a new signature creation!", exception.getMessage());
@@ -90,7 +90,7 @@ public class PDFSignWithPermissionsTest extends AbstractPAdESTestSignature {
         assertNotNull(signedDoc);
 
         // FieldMDP /Exclude signed (no permission defined)
-        documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/validation/dss-2554/fieldmdp-exclude-signed.pdf"));
+        documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-2554/fieldmdp-exclude-signed.pdf"));
         signedDoc = sign();
         assertNotNull(signedDoc);
 

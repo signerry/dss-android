@@ -48,10 +48,10 @@ import com.signerry.dss.test.TestUtils;
 public class PAdESVisibleZoomRotationTest extends AbstractPAdESTestSignature {
 
 	private final DSSDocument RED_CROSS_IMAGE = new InMemoryDocument(
-			getClass().getResourceAsStream("/small-red.jpg"), "small-red.jpg", MimeTypeEnum.JPEG);
+			TestUtils.getResourceAsStream("small-red.jpg"), "small-red.jpg", MimeTypeEnum.JPEG);
 
 	private final DSSDocument PNG_IMAGE = new InMemoryDocument(
-			getClass().getResourceAsStream("/signature-image.png"), "signature-image.png", MimeTypeEnum.PNG);
+			TestUtils.getResourceAsStream("signature-image.png"), "signature-image.png", MimeTypeEnum.PNG);
 
 	private DocumentSignatureService<PAdESSignatureParameters, PAdESTimestampParameters> service;
 	private PAdESSignatureParameters signatureParameters;

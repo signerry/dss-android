@@ -72,7 +72,7 @@ public class PAdESMultipleVisibleSignaturesTest extends AbstractPAdESTestValidat
 		service = new PAdESService(getCompleteCertificateVerifier());
 		service.setTspSource(getGoodTsa());
 		
-		image = new InMemoryDocument(getClass().getResourceAsStream("/small-red.jpg"), "small-red.jpg", MimeTypeEnum.JPEG);
+		image = new InMemoryDocument(TestUtils.getResourceAsStream("small-red.jpg"), "small-red.jpg", MimeTypeEnum.JPEG);
 	}
 	
 	@Test

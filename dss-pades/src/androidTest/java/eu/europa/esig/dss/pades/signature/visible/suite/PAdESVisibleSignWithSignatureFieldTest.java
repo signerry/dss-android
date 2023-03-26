@@ -44,6 +44,8 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 
 public class PAdESVisibleSignWithSignatureFieldTest extends PKIFactoryAccess {
 
@@ -68,7 +70,7 @@ public class PAdESVisibleSignWithSignatureFieldTest extends PKIFactoryAccess {
 	@Test
 	public void testImageSign() throws IOException {
 		SignatureImageParameters imageParameters = signatureParameters.getImageParameters();
-		imageParameters.setImage(new InMemoryDocument(getClass().getResourceAsStream("/signature-image.png"), "signature-image.png", MimeTypeEnum.PNG));
+		imageParameters.setImage(new InMemoryDocument(TestUtils.getResourceAsStream("signature-image.png"), "signature-image.png", MimeTypeEnum.PNG));
 		signAndValidate();
 	}
 

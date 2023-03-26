@@ -44,7 +44,7 @@ import java.util.Date;
 public class PAdESVisibleImageScalingTest extends AbstractPAdESTestSignature {
 
     private final DSSDocument RED_CROSS_IMAGE = new InMemoryDocument(
-            getClass().getResourceAsStream("/small-red.jpg"), "small-red.jpg", MimeTypeEnum.JPEG);
+            TestUtils.getResourceAsStream("small-red.jpg"), "small-red.jpg", MimeTypeEnum.JPEG);
 
     private DocumentSignatureService<PAdESSignatureParameters, PAdESTimestampParameters> service;
     private PAdESSignatureParameters signatureParameters;

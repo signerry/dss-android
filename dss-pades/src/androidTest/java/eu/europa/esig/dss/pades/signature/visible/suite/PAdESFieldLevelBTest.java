@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.signature.visible.suite;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -41,7 +43,7 @@ public class PAdESFieldLevelBTest extends AbstractPAdESTestSignature {
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/doc.pdf"), "doc.pdf", MimeTypeEnum.PDF);
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"), "doc.pdf", MimeTypeEnum.PDF);
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());
@@ -52,7 +54,7 @@ public class PAdESFieldLevelBTest extends AbstractPAdESTestSignature {
 		signatureParameters.setContactInfo("Jira");
 
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
-		imageParameters.setImage(new InMemoryDocument(getClass().getResourceAsStream("/signature-image.png"), "signature-image.png", MimeTypeEnum.PNG));
+		imageParameters.setImage(new InMemoryDocument(TestUtils.getResourceAsStream("signature-image.png"), "signature-image.png", MimeTypeEnum.PNG));
 		signatureParameters.setImageParameters(imageParameters);
 		SignatureFieldParameters fieldParameters = new SignatureFieldParameters();
 		imageParameters.setFieldParameters(fieldParameters);

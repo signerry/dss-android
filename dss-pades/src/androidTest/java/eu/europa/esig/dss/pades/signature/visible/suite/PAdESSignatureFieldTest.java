@@ -746,7 +746,7 @@ public class PAdESSignatureFieldTest extends PKIFactoryAccess {
 		pdfObjFactory.setResourcesHandlerBuilder(new TempFileResourcesHandlerBuilder());
 		service.setPdfObjFactory(pdfObjFactory);
 
-		DSSDocument documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/EmptyPage.pdf"));
+		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("EmptyPage.pdf"));
 
 		// Add a signature field first
 		SignatureFieldParameters parameters = new SignatureFieldParameters();

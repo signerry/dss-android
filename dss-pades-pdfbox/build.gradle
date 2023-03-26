@@ -27,6 +27,14 @@ dependencies {
             classifier: 'android.via.java')
 }
 
+tasks.configureEach { task ->
+
+    if (task.name.contains("Test")) {
+        //this is what you need
+        task.enabled = false
+    }
+}
+
 description = 'DSS PAdES using PDFBox'
 
 

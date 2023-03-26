@@ -41,7 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.signerry.dss.test.TestUtils;
+import android.graphics.Bitmap;
 
 public class PdfBoxUtilsTest {
 
@@ -137,10 +137,12 @@ public class PdfBoxUtilsTest {
 	}
 
 	private void assertVisuallyEqual(DSSDocument documentOne, DSSDocument documentTwo) throws IOException {
-		BufferedImage bufferedImageOnw = ImageUtils.toBufferedImage(documentOne);
-		BufferedImage bufferedImageTwo = ImageUtils.toBufferedImage(documentTwo);
-		assertEquals(0, ImageUtils.drawSubtractionImage(bufferedImageOnw, bufferedImageTwo,
-				new BufferedImage(bufferedImageOnw.getWidth(), bufferedImageOnw.getHeight(), BufferedImage.TYPE_INT_RGB)));
+		Bitmap bufferedImageOnw = ImageUtils.toBitmap(documentOne);
+		Bitmap bufferedImageTwo = ImageUtils.toBitmap(documentTwo);
+
+		Bitmap outImg = Bitmap.createBitmap(bufferedImageOnw.getWidth(), bufferedImageOnw.getHeight(), Bitmap.Config.RGB_565);
+
+		assertEquals(0, ImageUtils.drawSubtractionImage(bufferedImageOnw, bufferedImageTwo, outImg));
 	}
 
 }

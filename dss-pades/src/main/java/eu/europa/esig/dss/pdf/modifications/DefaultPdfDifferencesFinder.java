@@ -20,20 +20,22 @@
  */
 package eu.europa.esig.dss.pdf.modifications;
 
-import eu.europa.esig.dss.pdf.AnnotationBox;
-import eu.europa.esig.dss.pdf.PdfAnnotation;
-import eu.europa.esig.dss.pdf.PdfDocumentReader;
-import eu.europa.esig.dss.pdf.visible.ImageUtils;
-import eu.europa.esig.dss.utils.Utils;
+import android.graphics.Bitmap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
+import eu.europa.esig.dss.pdf.AnnotationBox;
+import eu.europa.esig.dss.pdf.PdfAnnotation;
+import eu.europa.esig.dss.pdf.PdfDocumentReader;
+import eu.europa.esig.dss.pdf.visible.ImageUtils;
+import eu.europa.esig.dss.utils.Utils;
 
 /**
  * Default implementation used to find differences in pages between two PDF revisions.
@@ -155,13 +157,13 @@ public class DefaultPdfDifferencesFinder implements PdfDifferencesFinder {
         for (int pageNumber = 1; pageNumber <= signedRevisionReader.getNumberOfPages()
                 && pageNumber <= finalRevisionReader.getNumberOfPages(); pageNumber++) {
             try {
-                BufferedImage signedScreenshot = signedRevisionReader.generateImageScreenshot(pageNumber);
+                Bitmap signedScreenshot = signedRevisionReader.generateImageScreenshot(pageNumber);
 
                 List<PdfAnnotation> signedAnnotations = signedRevisionReader.getPdfAnnotations(pageNumber);
                 List<PdfAnnotation> finalAnnotations = finalRevisionReader.getPdfAnnotations(pageNumber);
 
                 List<PdfAnnotation> addedAnnotations = getUpdatedAnnotations(signedAnnotations, finalAnnotations);
-                BufferedImage finalScreenshot = finalRevisionReader.generateImageScreenshotWithoutAnnotations(pageNumber,
+                Bitmap finalScreenshot = finalRevisionReader.generateImageScreenshotWithoutAnnotations(pageNumber,
                         addedAnnotations);
 
                 if (!ImageUtils.imagesEqual(signedScreenshot, finalScreenshot)) {

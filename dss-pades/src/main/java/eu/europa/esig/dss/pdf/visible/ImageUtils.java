@@ -20,36 +20,39 @@
  */
 package eu.europa.esig.dss.pdf.visible;
 
-import eu.europa.esig.dss.enumerations.MimeType;
-import eu.europa.esig.dss.enumerations.MimeTypeEnum;
-import eu.europa.esig.dss.exception.IllegalInputException;
-import eu.europa.esig.dss.model.DSSDocument;
-import eu.europa.esig.dss.model.DSSException;
-import eu.europa.esig.dss.pades.PAdESUtils;
-import eu.europa.esig.dss.pades.SignatureImageParameters;
-import eu.europa.esig.dss.pdf.AnnotationBox;
-import eu.europa.esig.dss.signature.resources.DSSResourcesHandler;
-import eu.europa.esig.dss.utils.Utils;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.ColorSpace;
+import android.util.Half;
+
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.MetadataException;
+import com.drew.metadata.jfif.JfifDirectory;
+import com.drew.metadata.png.PngDirectory;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.stream.ImageInputStream;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Iterator;
+
+import eu.europa.esig.dss.DSSColor;
+import eu.europa.esig.dss.enumerations.MimeType;
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
+import eu.europa.esig.dss.exception.IllegalInputException;
+import eu.europa.esig.dss.model.DSSDocument;
+import eu.europa.esig.dss.model.DSSException;
+import eu.europa.esig.dss.pades.SignatureImageParameters;
+import eu.europa.esig.dss.pdf.AnnotationBox;
+import eu.europa.esig.dss.signature.resources.DSSResourcesHandler;
+import eu.europa.esig.dss.utils.Utils;
 
 /**
  * Static utilities for image creation and processing
@@ -63,10 +66,6 @@ public class ImageUtils {
 	/** The default name for a screenshot document */
 	private static final String SCREENSHOT_PNG_NAME = "screenshot.png";
 
-	/**
-	 * Contains supported transparent color spaces
-	 */
-	private static final int[] IMAGE_TRANSPARENT_TYPES;
 
 	/**
 	 * Defines the default value for a non-transparent alpha layer
@@ -255,15 +254,6 @@ public class ImageUtils {
 		return zoom / 100f;
 	}
 
-	/**
-	 * Transforms a {@code BufferedImage} to {@code DSSDocument} using in memory processing
-	 *
-	 * @param bitmap {@link BufferedImage} to convert
-	 * @return {@link DSSDocument}
-	 */
-	public static DSSDocument toDSSDocument(BufferedImage bufferedImage) {
-		return toDSSDocument(bufferedImage, PAdESUtils.initializeDSSResourcesHandler());
-	}
 
 	/**
 	 * Transforms a {@code BufferedImage} to {@code DSSDocument}, using a provided {@code DSSResourcesHandler}
@@ -272,11 +262,11 @@ public class ImageUtils {
 	 * @param dssResourcesHandler {@link DSSResourcesHandler}
 	 * @return {@link DSSDocument}
 	 */
-	public static DSSDocument toDSSDocument(BufferedImage bufferedImage,
+	public static DSSDocument toDSSDocument(Bitmap bitmap,
 											DSSResourcesHandler dssResourcesHandler) {
 		try (DSSResourcesHandler resourcesHandler = dssResourcesHandler;
 			 OutputStream os = resourcesHandler.createOutputStream()) {
-			ImageIO.write(bufferedImage, "png", os);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
 			DSSDocument dssDocument = resourcesHandler.writeToDSSDocument();
 			dssDocument.setName(SCREENSHOT_PNG_NAME);
 			dssDocument.setMimeType(MimeTypeEnum.PNG);
@@ -289,15 +279,15 @@ public class ImageUtils {
 	}
 
 	/**
-	 * Reads the image document and returns a {@code BufferedImage}
+	 * Reads the image document and returns a {@code Bitmap}
 	 *
 	 * @param imageDocument {@link DSSDocument} image document to read
 	 * @return {@link Bitmap}
 	 * @throws IOException - in case of InputStream reading error
 	 */
-	public static Bitmap toBufferedImage(DSSDocument imageDocument) throws IOException {
+	public static Bitmap toBitmap(DSSDocument imageDocument) throws IOException {
 		try (InputStream is = imageDocument.openStream()) {
-			return toBufferedImage(is);
+			return toBitmap(is);
 		}
 	}
 
@@ -306,10 +296,10 @@ public class ImageUtils {
 	 * needed
 	 * 
 	 * @param is {@link InputStream} to read the image from
-	 * @return {@link BufferedImage}
+	 * @return {@link Bitmap}
 	 * @throws IOException - in case of InputStream reading error
 	 */
-	public static Bitmap toBufferedImage(InputStream is) throws IOException {
+	public static Bitmap toBitmap(InputStream is) throws IOException {
 		Bitmap bitmap = BitmapFactory.decodeStream(is);
 
 		if (isCMYKType(bitmap)) {
@@ -343,7 +333,7 @@ public class ImageUtils {
 	/**
 	 * Checks if the image has a transparent layer
 	 *
-	 * @param bitmap {@link BufferedImage}
+	 * @param bitmap {@link Bitmap}
 	 * @return TRUE if the image has a transparent layer, FALSE otherwise
 	 */
 	public static boolean isTransparent(Bitmap bitmap) {
@@ -353,13 +343,15 @@ public class ImageUtils {
 	/**
 	 * Checks if the two given images are equal
 	 * 
-	 * @param img1 {@link BufferedImage}
-	 * @param img2 {@link BufferedImage}
+	 * @param img1 {@link Bitmap}
+	 * @param img2 {@link Bitmap}
 	 * @return TRUE if the two images are equal, FALSE otherwise
 	 */
 	public static boolean imagesEqual(Bitmap img1, Bitmap img2) {
 		if (imageDimensionsEqual(img1, img2)) {
+
 			int diffAmount = drawSubtractionImage(img1, img2, null);
+			System.out.println("diffAmount: " + diffAmount);
 			return diffAmount == 0;
 		}
 		return false;
@@ -368,8 +360,8 @@ public class ImageUtils {
 	/**
 	 * Checks if the dimensions of the provided images is equal
 	 * 
-	 * @param img1 {@link BufferedImage}
-	 * @param img2 {@link BufferedImage}
+	 * @param img1 {@link Bitmap}
+	 * @param img2 {@link Bitmap}
 	 * @return TRUE if the size dimensions of both images is equal, FALSE otherwise
 	 */
 	public static boolean imageDimensionsEqual(Bitmap img1, Bitmap img2) {
@@ -440,7 +432,7 @@ public class ImageUtils {
 	 * @param color {@link Color} to check
 	 * @return TRUE if the color is a grayscale, FALSE otherwise
 	 */
-	public static boolean isGrayscale(Color color) {
+	public static boolean isGrayscale(DSSColor color) {
 		return color != null && color.getAlpha() == OPAQUE_VALUE &&
 				color.getRed() == color.getGreen() && color.getRed() == color.getBlue();
 	}

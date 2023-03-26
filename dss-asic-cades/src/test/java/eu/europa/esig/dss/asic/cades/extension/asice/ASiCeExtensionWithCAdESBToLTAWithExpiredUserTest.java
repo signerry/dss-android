@@ -46,6 +46,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCeExtensionWithCAdESBToLTAWithExpiredUserTest extends AbstractASiCWithCAdESTestExtension {
 
     private ASiCWithCAdESService service;
@@ -99,7 +101,7 @@ public class ASiCeExtensionWithCAdESBToLTAWithExpiredUserTest extends AbstractAS
         extendedDocument = super.extendSignature(extendedDocument);
         assertNotNull(extendedDocument);
 
-        File file = new File("target/" + extendedDocument.getName());
+        File file = TestUtils.getTmpFile( extendedDocument.getName());
         extendedDocument.save(file.getPath());
 
         assertTrue(file.exists());

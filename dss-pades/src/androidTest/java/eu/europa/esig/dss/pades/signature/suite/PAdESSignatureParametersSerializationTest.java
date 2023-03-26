@@ -75,7 +75,7 @@ public class PAdESSignatureParametersSerializationTest extends AbstractPAdESTest
 	public void testSerialization() throws IOException, ClassNotFoundException {
 		
 		SignatureImageParameters imageParameters = new SignatureImageParameters();
-		imageParameters.setImage(new InMemoryDocument(getClass().getResourceAsStream("/signature-image.png"), "signature-image.png", MimeTypeEnum.PNG));
+		imageParameters.setImage(new InMemoryDocument(TestUtils.getResourceAsStream("signature-image.png"), "signature-image.png", MimeTypeEnum.PNG));
 		SignatureImageTextParameters imageTextParameters = new SignatureImageTextParameters();
 		imageTextParameters.setText("test");
 		imageParameters.setTextParameters(imageTextParameters);

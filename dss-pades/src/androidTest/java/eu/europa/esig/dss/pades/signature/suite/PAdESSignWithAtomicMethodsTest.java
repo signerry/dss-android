@@ -45,6 +45,8 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 @Tag("slow")
 public class PAdESSignWithAtomicMethodsTest extends AbstractPAdESTestSignature {
 
@@ -66,8 +68,8 @@ public class PAdESSignWithAtomicMethodsTest extends AbstractPAdESTestSignature {
                 SignatureLevel.PAdES_BASELINE_LT, SignatureLevel.PAdES_BASELINE_LTA };
         SignaturePackaging[] packagings = { SignaturePackaging.ENVELOPING };
         String[] signers = { GOOD_USER, RSA_SHA3_USER };
-        DSSDocument[] documents = { new InMemoryDocument(PAdESSignDocumentsConsequentlyTest.class.getResourceAsStream("/doc.pdf"), "doc.pdf", MimeTypeEnum.PDF),
-                new InMemoryDocument(PAdESSignDocumentsConsequentlyTest.class.getResourceAsStream("/sample.pdf"), "sample.pdf", MimeTypeEnum.PDF) };
+        DSSDocument[] documents = { new InMemoryDocument(TestUtils.getResourceAsStream("doc.pdf"), "doc.pdf", MimeTypeEnum.PDF),
+                new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"), "sample.pdf", MimeTypeEnum.PDF) };
         return random(levels, packagings, signers, documents);
     }
 

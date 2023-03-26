@@ -49,27 +49,29 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ProtectedDocumentsSignatureTest extends AbstractPAdESTestValidation {
 
 	private final char[] correctProtectionPhrase = new char[]{ ' ' };
 	private final char[] wrongProtectionPhrase = new char[]{ 'A', 'A', 'A', 'A'};
 
 	private final DSSDocument openProtected = new InMemoryDocument(
-			getClass().getResourceAsStream("/protected/open_protected.pdf"), "sample.pdf", MimeTypeEnum.PDF);
+			TestUtils.getResourceAsStream("protected/open_protected.pdf"), "sample.pdf", MimeTypeEnum.PDF);
 
 	private final DSSDocument editionProtectedNone = new InMemoryDocument(
-			getClass().getResourceAsStream("/protected/edition_protected_none.pdf"), "sample.pdf", MimeTypeEnum.PDF);
+			TestUtils.getResourceAsStream("protected/edition_protected_none.pdf"), "sample.pdf", MimeTypeEnum.PDF);
 
 	private final DSSDocument editionProtectedSigningAllowedNoField = new InMemoryDocument(
-			getClass().getResourceAsStream("/protected/edition_protected_signing_allowed_no_field.pdf"), "sample.pdf",
+			TestUtils.getResourceAsStream("protected/edition_protected_signing_allowed_no_field.pdf"), "doc.pdf",
 			MimeTypeEnum.PDF);
 
 	private final DSSDocument editionProtectedSigningAllowedWithField = new InMemoryDocument(
-			getClass().getResourceAsStream("/protected/edition_protected_signing_allowed_with_field.pdf"), "sample.pdf",
+			TestUtils.getResourceAsStream("protected/edition_protected_signing_allowed_with_field.pdf"), "doc.pdf",
 			MimeTypeEnum.PDF);
 
 	private final DSSDocument protectedWithEmptyFields = new InMemoryDocument(
-			getClass().getResourceAsStream("/protected/protected_two_empty_fields.pdf"), "sample.pdf",
+			TestUtils.getResourceAsStream("protected/protected_two_empty_fields.pdf"), "sample.pdf",
 			MimeTypeEnum.PDF);
 
 	@Test

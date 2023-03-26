@@ -64,7 +64,7 @@ public class PAdESServiceTest extends PKIFactoryAccess {
 	
 	@BeforeEach
 	public void init() {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"), "sample.pdf", MimeTypeEnum.PDF);
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"), "sample.pdf", MimeTypeEnum.PDF);
         service = new PAdESService(getCompleteCertificateVerifier());
         service.setTspSource(getGoodTsa());
 	}

@@ -20,6 +20,7 @@
  */
 package eu.europa.esig.dss.pades.signature.visible.suite;
 
+import eu.europa.esig.dss.DSSColor;
 import eu.europa.esig.dss.cades.signature.CMSSignedDocument;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -69,7 +70,7 @@ public class PAdESExternalCMSSignatureBLevelVisibleTest extends AbstractPAdESTes
         SignatureImageParameters imageParameters = new SignatureImageParameters();
         SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
         textParameters.setText("My signature");
-        textParameters.setTextColor(Color.GREEN);
+        textParameters.setTextColor(DSSColor.GREEN);
         imageParameters.setTextParameters(textParameters);
         signatureParameters.setImageParameters(imageParameters);
 

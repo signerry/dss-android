@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.xades.signature.opendocument;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.asic.xades.ASiCWithXAdESSignatureParameters;
 import eu.europa.esig.dss.asic.xades.signature.ASiCWithXAdESService;
 import eu.europa.esig.dss.enumerations.ASiCContainerType;
@@ -69,8 +71,7 @@ public class OpenDocumentSignConsequentlyTest extends AbstractOpenDocumentTestSi
         SignatureLevel[] levels = { SignatureLevel.XAdES_BASELINE_B, SignatureLevel.XAdES_BASELINE_T,
                 SignatureLevel.XAdES_BASELINE_LT, SignatureLevel.XAdES_BASELINE_LTA };
         String[] signers = { GOOD_USER, RSA_SHA3_USER };
-        File folder = new File("src/test/resources/opendocument");
-        Collection<File> listFiles = Utils.listFiles(folder,
+        Collection<File> listFiles = TestUtils.listFiles("opendocument",
                 new String[] { "odt", "ods", "odp", "odg" }, true);
         DSSDocument[] documents= listFiles.stream().map(FileDocument::new).collect(Collectors.toList()).toArray(new DSSDocument[]{});
         return random(levels, signers, documents);

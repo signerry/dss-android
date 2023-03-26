@@ -59,6 +59,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class SecureContainerHandlerTest {
 
 	private static DSSDocument smallerDocument;
@@ -66,8 +68,8 @@ public class SecureContainerHandlerTest {
 
 	@BeforeAll
 	public static void init() {
-		smallerDocument = new FileDocument("src/test/resources/validation/dss-2245-2400.asice");
-		biggerDocument = new FileDocument("src/test/resources/validation/dss-2245-2500.asice");
+		smallerDocument = new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-2245-2400.asice"));
+		biggerDocument = new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-2245-2500.asice"));
 	}
 
 	@AfterEach
@@ -216,7 +218,7 @@ public class SecureContainerHandlerTest {
 				Arrays.asList(mimetypeDocument, documentOne, documentTwo), creationTime, ASiCUtils.getZipComment(mimeType));
 		assertNotNull(zipArchive);
 
-		String zipArchiveFilePath = "target/zipArchive.asice";
+		String zipArchiveFilePath = TestUtils.getTmpFile("zipArchive.asice").getAbsolutePath();
 		zipArchive.save(zipArchiveFilePath);
 
 		File zipArchiveFile = new File(zipArchiveFilePath);
@@ -297,7 +299,7 @@ public class SecureContainerHandlerTest {
 		assertNotNull(extractedZipEntry);
 		assertNull(extractedZipEntry.getComment());
 
-		String zipArchiveFilePath = "target/archive.zip";
+		String zipArchiveFilePath = TestUtils.getTmpFile("archive.zip").getAbsolutePath();
 		zipArchive.save(zipArchiveFilePath);
 
 		File zipArchiveFile = new File(zipArchiveFilePath);

@@ -54,6 +54,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCSXAdESLevelBMultiFilesParallelTest extends PKIFactoryAccess {
 
 	@Test
@@ -87,7 +89,7 @@ public class ASiCSXAdESLevelBMultiFilesParallelTest extends PKIFactoryAccess {
 		signatureValue = getToken().sign(dataToSign, signatureParameters.getDigestAlgorithm(), getPrivateKeyEntry());
 		DSSDocument resignedDocument = service.signDocument(signedDocument, signatureParameters, signatureValue);
 
-		File file = new File("target/resigned.asics");
+		File file = TestUtils.getTmpFile("resigned.asics");
 		try (FileOutputStream fos = new FileOutputStream(file)) {
 			resignedDocument.writeTo(fos);
 		}

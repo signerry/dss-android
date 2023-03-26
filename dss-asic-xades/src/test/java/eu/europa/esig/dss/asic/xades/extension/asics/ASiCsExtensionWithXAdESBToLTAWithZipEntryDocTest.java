@@ -52,6 +52,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCsExtensionWithXAdESBToLTAWithZipEntryDocTest extends AbstractASiCSWithXAdESMultipleDocumentsTestSignature {
 
     private ContainerEntryDocument documentOne;
@@ -105,7 +107,7 @@ public class ASiCsExtensionWithXAdESBToLTAWithZipEntryDocTest extends AbstractAS
         try {
             DSSDocument signedDocument = super.sign();
 
-            File file = new File("target/" + signedDocument.getName());
+            File file = TestUtils.getTmpFile( signedDocument.getName());
             signedDocument.save(file.getPath());
             assertTrue(file.exists());
 
@@ -145,7 +147,7 @@ public class ASiCsExtensionWithXAdESBToLTAWithZipEntryDocTest extends AbstractAS
             if ("package.zip".equals(entry.getName())) {
                 assertEquals(ZipEntry.DEFLATED, entry.getCompressionMethod());
 
-                File file = new File("target/" + document.getName());
+                File file = TestUtils.getTmpFile( document.getName());
                 document.save(file.getPath());
                 assertTrue(file.exists());
 

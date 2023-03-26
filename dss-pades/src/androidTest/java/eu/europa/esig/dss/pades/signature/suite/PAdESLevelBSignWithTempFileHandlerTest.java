@@ -50,6 +50,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.signerry.dss.test.TestUtils;
+
 /**
  * This unit test evaluates the memory consumption when using a {@code TempFileResourcesFactory} implementation.
  *
@@ -64,8 +66,8 @@ public class PAdESLevelBSignWithTempFileHandlerTest extends AbstractPAdESTestSig
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new InMemoryDocument(PAdESLevelBSignWithTempFileHandlerTest.class
-                .getResourceAsStream("/big_file.pdf"), "big_file.pdf", MimeTypeEnum.PDF);
+        documentToSign = new InMemoryDocument(TestUtils
+                .getResourceAsStream("big_file.pdf"), "big_file.pdf", MimeTypeEnum.PDF);
 
         signatureParameters = new PAdESSignatureParameters();
         signatureParameters.setSigningCertificate(getSigningCert());
@@ -83,7 +85,7 @@ public class PAdESLevelBSignWithTempFileHandlerTest extends AbstractPAdESTestSig
         PAdESService service = getService();
 
         TempFileResourcesHandlerBuilder tempFileResourcesHandlerBuilder = new TempFileResourcesHandlerBuilder();
-        tempFileResourcesHandlerBuilder.setTempFileDirectory(new File("target"));
+        tempFileResourcesHandlerBuilder.setTempFileDirectory(TestUtils.getTmpDirectory());
 
         IPdfObjFactory pdfObjFactory = new ServiceLoaderPdfObjFactory();
         pdfObjFactory.setResourcesHandlerBuilder(tempFileResourcesHandlerBuilder);

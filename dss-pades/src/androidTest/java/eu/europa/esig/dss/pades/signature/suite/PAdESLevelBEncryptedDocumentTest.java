@@ -33,6 +33,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 // NOTE: encryption type is not supported in OpenPdf. See: {@link https://github.com/LibrePDF/OpenPDF/issues/375}
 public class PAdESLevelBEncryptedDocumentTest extends AbstractPAdESTestSignature {
 
@@ -42,7 +44,7 @@ public class PAdESLevelBEncryptedDocumentTest extends AbstractPAdESTestSignature
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new InMemoryDocument(PAdESLevelBTest.class.getResourceAsStream("/protected/restricted_fields.pdf"));
+        documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("protected/restricted_fields.pdf"));
 
         signatureParameters = new PAdESSignatureParameters();
         signatureParameters.setSigningCertificate(getSigningCert());

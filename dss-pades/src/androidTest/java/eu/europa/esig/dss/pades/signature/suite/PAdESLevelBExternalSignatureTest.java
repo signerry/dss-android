@@ -48,6 +48,8 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 /**
  * NOTE: This test is kept for retro-compatibility.
  * For creation of PAdES with external CMS see {@code PAdESExternalCMSSignatureBLevelTest}.

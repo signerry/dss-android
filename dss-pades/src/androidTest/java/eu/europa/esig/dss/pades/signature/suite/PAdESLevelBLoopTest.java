@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.pades.signature.suite;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -51,7 +53,7 @@ public class PAdESLevelBLoopTest extends AbstractPAdESTestSignature {
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(TestUtils.getResourceAsStream(listFiles)))) {
 			String filepath;
 			while ((filepath = br.readLine()) != null) {
-				args.add(Arguments.of(new InMemoryDocument(PAdESLevelBLoopTest.class.getResourceAsStream(filepath), filepath, MimeTypeEnum.PDF)));
+				args.add(Arguments.of(new InMemoryDocument(TestUtils.getResourceAsStream(filepath), filepath, MimeTypeEnum.PDF)));
 			}
 
 		}

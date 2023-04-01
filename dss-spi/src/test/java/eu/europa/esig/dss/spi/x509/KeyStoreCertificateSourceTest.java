@@ -28,6 +28,7 @@ import eu.europa.esig.dss.utils.Utils;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -113,7 +114,7 @@ public class KeyStoreCertificateSourceTest {
 		CertificateToken token = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("citizen_ca.cer"));
 		kscs.addCertificateToKeyStore(token);
 
-		kscs.store(Files.newOutputStream(Paths.get("target/new_keystore.jks")));
+		File tmpFile = TestUtils.getTmpFile("new_keystore.jks");
 
 		kscs.store(new FileOutputStream(tmpFile));
 
@@ -123,7 +124,7 @@ public class KeyStoreCertificateSourceTest {
 
 	@Test
 	public void wrongPassword() {
-		File ksFile = new File(KEYSTORE_FILEPATH);
+		File ksFile = TestUtils.getResourceAsFile(KEYSTORE_FILEPATH);
 		assertThrows(DSSException.class, () -> new KeyStoreCertificateSource(ksFile, KEYSTORE_TYPE, "wrong password"));
 	}
 
@@ -136,8 +137,11 @@ public class KeyStoreCertificateSourceTest {
 
 	@Test
 	void clearAllCertificates() throws IOException {
-		String tempJKS = "target/temp.jks";
-		Utils.copy(Files.newInputStream(Paths.get(KEYSTORE_FILEPATH)), Files.newOutputStream(Paths.get(tempJKS)));
+		String tempJKS = "temp.jks";
+
+		File tmpFile = TestUtils.getTmpFile(tempJKS);
+
+		Utils.copy(TestUtils.getResourceAsStream(KEYSTORE_FILEPATH), Files.newOutputStream(tmpFile.toPath()));
 
 		File ksFile = new File(tempJKS);
 		KeyStoreCertificateSource kscs = new KeyStoreCertificateSource(ksFile, KEYSTORE_TYPE, KEYSTORE_PASSWORD);
@@ -160,9 +164,9 @@ public class KeyStoreCertificateSourceTest {
 
 	@Test
 	void addCertificateTest() throws IOException {
-		KeyStoreCertificateSource kscs = new KeyStoreCertificateSource(new File(KEYSTORE_FILEPATH), KEYSTORE_TYPE, KEYSTORE_PASSWORD);
+		KeyStoreCertificateSource kscs = new KeyStoreCertificateSource(TestUtils.getResourceAsStream(KEYSTORE_FILEPATH), KEYSTORE_TYPE, KEYSTORE_PASSWORD);
 		assertNotNull(kscs);
-		CertificateToken token = DSSUtils.loadCertificate(new File("src/test/resources/citizen_ca.cer"));
+		CertificateToken token = DSSUtils.loadCertificate(TestUtils.getResourceAsStream("citizen_ca.cer"));
 
 		Exception exception = assertThrows(UnsupportedOperationException.class, () -> kscs.addCertificate(token));
 		assertEquals("Use addCertificateToKeyStore(CertificateToken) method to add a certificate to keyStore!", exception.getMessage());

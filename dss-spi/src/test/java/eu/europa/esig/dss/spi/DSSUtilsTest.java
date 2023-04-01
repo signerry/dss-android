@@ -67,6 +67,8 @@ import eu.europa.esig.dss.enumerations.SignatureAlgorithm;
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.x509.CertificateToken;
+
+import com.signerry.android.CryptoProvider;
 import com.signerry.dss.test.TestUtils;
 import eu.europa.esig.dss.utils.Utils;
 

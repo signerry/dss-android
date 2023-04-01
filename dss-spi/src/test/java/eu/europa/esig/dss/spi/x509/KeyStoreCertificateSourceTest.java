@@ -139,11 +139,10 @@ public class KeyStoreCertificateSourceTest {
 	void clearAllCertificates() throws IOException {
 		String tempJKS = "temp.jks";
 
-		File tmpFile = TestUtils.getTmpFile(tempJKS);
+		File ksFile = TestUtils.getTmpFile(tempJKS);
 
-		Utils.copy(TestUtils.getResourceAsStream(KEYSTORE_FILEPATH), Files.newOutputStream(tmpFile.toPath()));
+		Utils.copy(TestUtils.getResourceAsStream(KEYSTORE_FILEPATH), Files.newOutputStream(ksFile.toPath()));
 
-		File ksFile = new File(tempJKS);
 		KeyStoreCertificateSource kscs = new KeyStoreCertificateSource(ksFile, KEYSTORE_TYPE, KEYSTORE_PASSWORD);
 		List<CertificateToken> originalCertificates = kscs.getCertificates();
 		assertTrue(Utils.isCollectionNotEmpty(originalCertificates));

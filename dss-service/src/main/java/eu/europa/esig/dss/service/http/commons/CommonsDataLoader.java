@@ -20,7 +20,6 @@
  */
 package eu.europa.esig.dss.service.http.commons;
 
-import com.signerry.android.CryptoProvider;
 import com.unboundid.ldap.sdk.Attribute;
 import com.unboundid.ldap.sdk.LDAPConnection;
 import com.unboundid.ldap.sdk.LDAPException;
@@ -28,6 +27,16 @@ import com.unboundid.ldap.sdk.LDAPURL;
 import com.unboundid.ldap.sdk.SearchRequest;
 import com.unboundid.ldap.sdk.SearchResult;
 import com.unboundid.ldap.sdk.SearchScope;
+
+import eu.europa.esig.dss.model.DSSDocument;
+import eu.europa.esig.dss.service.http.proxy.ProxyConfig;
+import eu.europa.esig.dss.service.http.proxy.ProxyProperties;
+import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.spi.client.http.DataLoader;
+import eu.europa.esig.dss.spi.client.http.Protocol;
+import eu.europa.esig.dss.spi.exception.DSSDataLoaderMultipleException;
+import eu.europa.esig.dss.spi.exception.DSSExternalResourceException;
+import eu.europa.esig.dss.utils.Utils;
 
 import org.apache.hc.client5.http.HttpRequestRetryStrategy;
 import org.apache.hc.client5.http.auth.AuthScope;
@@ -37,6 +46,7 @@ import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.DefaultHttpRequestRetryStrategy;
 import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
@@ -69,10 +79,11 @@ import org.apache.hc.core5.ssl.SSLContextBuilder;
 import org.apache.hc.core5.ssl.TrustStrategy;
 import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+import javax.net.ssl.HostnameVerifier;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -84,22 +95,11 @@ import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringTokenizer;
-
-import javax.net.ssl.HostnameVerifier;
-
-import eu.europa.esig.dss.model.DSSDocument;
-import eu.europa.esig.dss.service.http.proxy.ProxyConfig;
-import eu.europa.esig.dss.service.http.proxy.ProxyProperties;
-import eu.europa.esig.dss.spi.DSSUtils;
-import eu.europa.esig.dss.spi.client.http.DataLoader;
-import eu.europa.esig.dss.spi.client.http.Protocol;
-import eu.europa.esig.dss.spi.exception.DSSDataLoaderMultipleException;
-import eu.europa.esig.dss.spi.exception.DSSExternalResourceException;
-import eu.europa.esig.dss.utils.Utils;
 
 /**
  * Implementation of DataLoader for any protocol.
@@ -1216,10 +1216,14 @@ public class CommonsDataLoader implements DataLoader {
 				.setSSLSocketFactory(getConnectionSocketFactoryHttps())
 				.setDefaultSocketConfig(getSocketConfig())
 				.setMaxConnTotal(getConnectionsMaxTotal())
-				.setMaxConnPerRoute(getConnectionsMaxPerRoute())
-				.setConnectionTimeToLive(connectionTimeToLive);
+				.setMaxConnPerRoute(getConnectionsMaxPerRoute());
+
+		final ConnectionConfig.Builder connectionConfigBuilder = ConnectionConfig.custom()
+				.setConnectTimeout(timeoutConnection)
+				.setTimeToLive(connectionTimeToLive);
 
 		final PoolingHttpClientConnectionManager connectionManager = builder.build();
+		connectionManager.setDefaultConnectionConfig(connectionConfigBuilder.build());
 
 		LOG.debug("PoolingHttpClientConnectionManager: max total: {}", connectionManager.getMaxTotal());
 		LOG.debug("PoolingHttpClientConnectionManager: max per route: {}", connectionManager.getDefaultMaxPerRoute());
@@ -1247,7 +1251,6 @@ public class CommonsDataLoader implements DataLoader {
 			final KeyStore sslTrustStore = getSSLTrustStore();
 			if (sslTrustStore != null) {
 				LOG.debug("Set the SSL trust store as trust materials");
-
 				sslContextBuilder.loadTrustMaterial(sslTrustStore, trustStrategy);
 			}
 

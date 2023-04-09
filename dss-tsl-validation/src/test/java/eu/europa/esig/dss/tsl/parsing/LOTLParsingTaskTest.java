@@ -41,6 +41,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class LOTLParsingTaskTest {
 
 	private static DSSDocument LOTL;
@@ -59,9 +61,9 @@ public class LOTLParsingTaskTest {
 		LOTL_NOT_PARSEABLE = new FileDocument(TestUtils.getResourceAsFile("eu-lotl-not-parseable.xml"));
 		LOTL_PIVOT = new FileDocument(TestUtils.getResourceAsFile("eu-lotl-pivot.xml"));
 
-		LOTL_MRA = new FileDocument("src/test/resources/mra-lotl.xml");
+		LOTL_MRA = new FileDocument(TestUtils.getResourceAsFile("mra-lotl.xml"));
 
-		TL = new FileDocument("src/test/resources/ie-tl.xml");
+		TL = new FileDocument(TestUtils.getResourceAsFile("ie-tl.xml"));
 	}
 
 	@Test

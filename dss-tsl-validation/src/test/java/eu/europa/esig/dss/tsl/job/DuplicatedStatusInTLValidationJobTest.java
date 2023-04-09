@@ -51,6 +51,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DuplicatedStatusInTLValidationJobTest {
 
 	private static final String URL = "URL_TO_DL";

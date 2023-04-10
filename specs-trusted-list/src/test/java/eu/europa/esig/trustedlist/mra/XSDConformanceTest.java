@@ -42,6 +42,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.signerry.dss.test.TestUtils;
+
 
 public class XSDConformanceTest {
 
@@ -53,8 +55,10 @@ public class XSDConformanceTest {
 		try {
 			SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			sf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-			sf.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-			sf.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "all");
+
+// Unsupported
+//			sf.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+//			sf.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "all");
 			List<Source> xsdSources = new ArrayList<Source>();
             xsdSources.addAll(XmlDSigUtils.getInstance().getXSDSources());
             xsdSources.addAll(XAdESUtils.getInstance().getXSDSources());
@@ -66,7 +70,7 @@ public class XSDConformanceTest {
 			
 			Validator validator = schema.newValidator();
 		
-			validator.validate(new StreamSource(Files.newInputStream(new File("src/test/resources/mra/mra-lotl.xml").toPath())));
+			validator.validate(new StreamSource(TestUtils.getResourceAsStream("mra/mra-lotl.xml")));
 			LOG.info("XML validated");
 
 		} catch (SAXException | IOException e) {

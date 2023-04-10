@@ -378,6 +378,8 @@ public abstract class PKIFactoryAccess {
 	
 	protected CertificateToken getCertificate(String certificateId) {
 		DataLoader dataLoader = getFileCacheDataLoader();
+
+		certificateId = certificateId.replace(" ", "%20");
 		String keystoreUrl = PKI_FACTORY_HOST + CERT_ROOT_PATH + certificateId + CERT_EXTENSION;
 		return DSSUtils.loadCertificate(dataLoader.get(keystoreUrl));
 	}

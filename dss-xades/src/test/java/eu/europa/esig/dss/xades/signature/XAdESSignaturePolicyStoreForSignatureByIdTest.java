@@ -53,6 +53,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class XAdESSignaturePolicyStoreForSignatureByIdTest extends AbstractXAdESTestSignature {
 
     private static final String HTTP_SPURI_TEST = "http://spuri.test";
@@ -64,7 +66,7 @@ public class XAdESSignaturePolicyStoreForSignatureByIdTest extends AbstractXAdES
     private XAdESSignatureParameters signatureParameters;
     private DSSDocument documentToSign;
 
-    private static final DSSDocument ORIGINAL_DOCUMENT = new FileDocument(new File("src/test/resources/sample.xml"));
+    private static final DSSDocument ORIGINAL_DOCUMENT = new FileDocument(TestUtils.getResourceAsFile("sample.xml"));
 
     @BeforeEach
     public void init() throws Exception {

@@ -44,6 +44,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class XAdESLevelBCommitmentTypeQualifierTest extends AbstractXAdESTestSignature {
 
     private DocumentSignatureService<XAdESSignatureParameters, XAdESTimestampParameters> service;
@@ -60,7 +62,7 @@ public class XAdESLevelBCommitmentTypeQualifierTest extends AbstractXAdESTestSig
         service = new XAdESService(getOfflineCertificateVerifier());
         service.setTspSource(getGoodTsa());
 
-        documentToSign = new FileDocument(new File("src/test/resources/sample.xml"));
+        documentToSign = new FileDocument(TestUtils.getResourceAsFile("sample.xml"));
 
         signatureParameters = new XAdESSignatureParameters();
         signatureParameters.setSigningCertificate(getSigningCert());
@@ -75,12 +77,12 @@ public class XAdESLevelBCommitmentTypeQualifierTest extends AbstractXAdESTestSig
         commitmentTypeIndication.setDocumentationReferences("http://nowina.lu/approved.pdf", "https://uri.etsi.org/01903/v1.2.2/ts_101903v010202p.pdf");
         commitmentTypeIndication.setSignedDataObjects("r-" + signatureParameters.getDeterministicId() + "-1");
 
-        xmlDocument = new FileDocument("src/test/resources/ns-prefixes-sample.xml");
+        xmlDocument = new FileDocument(TestUtils.getResourceAsFile("ns-prefixes-sample.xml"));
 
         CommitmentQualifier xmlCommitmentQualifier = new CommitmentQualifier();
         xmlCommitmentQualifier.setContent(xmlDocument);
 
-        DSSDocument image = new FileDocument("src/test/resources/sample.png");
+        DSSDocument image = new FileDocument(TestUtils.getResourceAsFile("sample.png"));
         String base64EncodedImage = Utils.toBase64(DSSUtils.toByteArray(image));
         base64Document = new InMemoryDocument(base64EncodedImage.getBytes());
 

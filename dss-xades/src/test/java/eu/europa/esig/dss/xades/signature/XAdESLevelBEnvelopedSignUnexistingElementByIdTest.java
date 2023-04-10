@@ -41,6 +41,8 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 // See DSS-2920
 public class XAdESLevelBEnvelopedSignUnexistingElementByIdTest extends AbstractXAdESTestSignature {
 
@@ -50,7 +52,7 @@ public class XAdESLevelBEnvelopedSignUnexistingElementByIdTest extends AbstractX
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new FileDocument("src/test/resources/sample-xml-stylesheet-with-id.xml");
+        documentToSign = new FileDocument(TestUtils.getResourceAsFile("sample-xml-stylesheet-with-id.xml"));
 
         signatureParameters = new XAdESSignatureParameters();
         signatureParameters.bLevel().setSigningDate(new Date());

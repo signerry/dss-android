@@ -50,6 +50,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class XAdESLevelLTWithSHA1OcspResponseTest extends AbstractXAdESTestSignature {
 
     private DocumentSignatureService<XAdESSignatureParameters, XAdESTimestampParameters> service;
@@ -60,7 +62,7 @@ public class XAdESLevelLTWithSHA1OcspResponseTest extends AbstractXAdESTestSigna
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new FileDocument(new File("src/test/resources/sample.xml"));
+        documentToSign = new FileDocument(TestUtils.getResourceAsFile("sample.xml"));
 
         signatureParameters = new XAdESSignatureParameters();
         signatureParameters.setSigningCertificate(getSigningCert());

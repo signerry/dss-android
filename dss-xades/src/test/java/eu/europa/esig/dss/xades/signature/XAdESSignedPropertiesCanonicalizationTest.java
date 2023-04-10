@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.xades.signature;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
@@ -71,7 +73,7 @@ public class XAdESSignedPropertiesCanonicalizationTest extends AbstractXAdESTest
     @ParameterizedTest(name = "Canonicalization {index} : {0} - {1}")
     @MethodSource("data")
     public void test(String canonicalization, SignaturePackaging packaging) {
-        documentToSign = new FileDocument(new File("src/test/resources/sample-c14n.xml"));
+        documentToSign = new FileDocument(TestUtils.getResourceAsFile("sample-c14n.xml"));
 
         signatureParameters = new XAdESSignatureParameters();
         signatureParameters.setSigningCertificate(getSigningCert());
@@ -84,7 +86,7 @@ public class XAdESSignedPropertiesCanonicalizationTest extends AbstractXAdESTest
         CommonCommitmentType commitmentTypeIndication = new CommonCommitmentType();
         commitmentTypeIndication.setUri("http://nowina.lu/approved");
         CommitmentQualifier commitmentQualifier = new CommitmentQualifier();
-        commitmentQualifier.setContent(new FileDocument("src/test/resources/ns-prefixes-sample.xml"));
+        commitmentQualifier.setContent(new FileDocument(TestUtils.getResourceAsFile("ns-prefixes-sample.xml")));
         commitmentTypeIndication.setCommitmentTypeQualifiers(commitmentQualifier);
         signatureParameters.bLevel().setCommitmentTypeIndications(Collections.singletonList(commitmentTypeIndication));
 

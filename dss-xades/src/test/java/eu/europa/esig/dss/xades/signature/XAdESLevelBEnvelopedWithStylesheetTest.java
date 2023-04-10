@@ -48,6 +48,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class XAdESLevelBEnvelopedWithStylesheetTest extends AbstractXAdESTestSignature {
 
     private DocumentSignatureService<XAdESSignatureParameters, XAdESTimestampParameters> service;
@@ -56,7 +58,7 @@ public class XAdESLevelBEnvelopedWithStylesheetTest extends AbstractXAdESTestSig
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new FileDocument("src/test/resources/sample-xml-stylesheet-with-id.xml");
+        documentToSign = new FileDocument(TestUtils.getResourceAsFile("sample-xml-stylesheet-with-id.xml"));
 
         signatureParameters = new XAdESSignatureParameters();
         signatureParameters.bLevel().setSigningDate(new Date());

@@ -47,6 +47,8 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 @Tag("slow")
 public class XAdESSignWithAtomicMethodsTest extends AbstractXAdESTestSignature {
 
@@ -70,8 +72,8 @@ public class XAdESSignWithAtomicMethodsTest extends AbstractXAdESTestSignature {
         SignaturePackaging[] packagings = { SignaturePackaging.ENVELOPING, SignaturePackaging.ENVELOPED,
                 SignaturePackaging.DETACHED, SignaturePackaging.INTERNALLY_DETACHED };
         String[] signers = { GOOD_USER, RSA_SHA3_USER };
-        DSSDocument[] documents = { new FileDocument("src/test/resources/sample-with-id.xml"),
-                new FileDocument("src/test/resources/sample-with-different-id.xml") };
+        DSSDocument[] documents = { new FileDocument(TestUtils.getResourceAsFile("sample-with-id.xml")),
+                new FileDocument(TestUtils.getResourceAsFile("sample-with-different-id.xml")) };
         return random(levels, packagings, signers, documents);
     }
 

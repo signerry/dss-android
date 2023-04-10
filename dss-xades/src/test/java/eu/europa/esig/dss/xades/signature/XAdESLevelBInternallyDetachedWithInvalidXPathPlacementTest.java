@@ -44,9 +44,11 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class XAdESLevelBInternallyDetachedWithInvalidXPathPlacementTest extends AbstractXAdESTestSignature {
 
-    private static final DSSDocument DOC = new FileDocument(new File("src/test/resources/sample-with-id.xml"));
+    private static final DSSDocument DOC = new FileDocument(TestUtils.getResourceAsFile("sample-with-id.xml"));
 
     private static final String CONTAINER_NODE_NAME = "signature-container";
 

@@ -50,6 +50,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class XAdESLevelBNestedCounterSignedWithUserFriendlyIdentifierProviderTest extends AbstractXAdESCounterSignatureTest {
 
     private XAdESService service;
@@ -61,7 +63,7 @@ public class XAdESLevelBNestedCounterSignedWithUserFriendlyIdentifierProviderTes
     public void init() throws Exception {
         service = new XAdESService(getCompleteCertificateVerifier());
         service.setTspSource(getGoodTsa());
-        documentToSign = new FileDocument(new File("src/test/resources/sample.xml"));
+        documentToSign = new FileDocument(TestUtils.getResourceAsFile("sample.xml"));
         signingDate = new Date();
     }
 

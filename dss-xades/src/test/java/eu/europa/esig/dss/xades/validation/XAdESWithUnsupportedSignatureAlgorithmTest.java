@@ -28,11 +28,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class XAdESWithUnsupportedSignatureAlgorithmTest extends AbstractXAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/validation/xades-unsupported-signature-algorithm.xml");
+        return new FileDocument(TestUtils.getResourceAsFile("validation/xades-unsupported-signature-algorithm.xml"));
     }
 
     @Test

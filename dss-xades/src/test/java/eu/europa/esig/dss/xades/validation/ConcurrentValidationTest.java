@@ -54,6 +54,8 @@ import java.util.concurrent.Future;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.signerry.dss.test.TestUtils;
+
 /**
  * Test DSS with multi threads
  * 
@@ -111,7 +113,7 @@ public class ConcurrentValidationTest extends PKIFactoryAccess {
 
 	@Test
 	public void onlineValidationTest() {
-		final DSSDocument documentToSign = new FileDocument("src/test/resources/sample.xml");
+		final DSSDocument documentToSign = new FileDocument(TestUtils.getResourceAsFile("sample.xml"));
 		final XAdESService service = new XAdESService(getCompleteCertificateVerifier());
 		service.setTspSource(getAlternateGoodTsa());
 

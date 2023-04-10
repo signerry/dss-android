@@ -38,6 +38,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class XAdESLevelBWithCommonCommitmentTypeOidAsUriTest extends AbstractXAdESTestSignature {
 
     private DocumentSignatureService<XAdESSignatureParameters, XAdESTimestampParameters> service;
@@ -51,7 +53,7 @@ public class XAdESLevelBWithCommonCommitmentTypeOidAsUriTest extends AbstractXAd
         service = new XAdESService(getOfflineCertificateVerifier());
         service.setTspSource(getGoodTsa());
 
-        documentToSign = new FileDocument(new File("src/test/resources/sample.xml"));
+        documentToSign = new FileDocument(TestUtils.getResourceAsFile("sample.xml"));
 
         signatureParameters = new XAdESSignatureParameters();
         signatureParameters.setSigningCertificate(getSigningCert());

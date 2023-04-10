@@ -37,6 +37,8 @@ import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class XmlNotAdESLevelLTWithoutCertificatesTest extends AbstractXAdESTestSignature {
 
     private DocumentSignatureService<XAdESSignatureParameters, XAdESTimestampParameters> service;
@@ -45,7 +47,7 @@ public class XmlNotAdESLevelLTWithoutCertificatesTest extends AbstractXAdESTestS
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new FileDocument(new File("src/test/resources/sample.xml"));
+        documentToSign = new FileDocument(TestUtils.getResourceAsFile("sample.xml"));
 
         signatureParameters = new XAdESSignatureParameters();
         signatureParameters.setSignaturePackaging(SignaturePackaging.ENVELOPING);

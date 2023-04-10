@@ -51,6 +51,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class XAdESWithSigPolDocLocalURITest extends AbstractXAdESTestSignature {
 
     private static final String HTTP_SPURI_TEST = "http://spuri.test";
@@ -66,7 +68,7 @@ public class XAdESWithSigPolDocLocalURITest extends AbstractXAdESTestSignature {
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new FileDocument(new File("src/test/resources/sample.xml"));
+        documentToSign = new FileDocument(TestUtils.getResourceAsFile("sample.xml"));
 
         Policy signaturePolicy = new Policy();
         signaturePolicy.setId("urn:oid:" + SIGNATURE_POLICY_ID);

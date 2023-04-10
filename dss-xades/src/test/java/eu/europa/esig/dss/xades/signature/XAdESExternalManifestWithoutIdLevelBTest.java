@@ -36,6 +36,8 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class XAdESExternalManifestWithoutIdLevelBTest extends AbstractXAdESTestSignature {
 
     private DocumentSignatureService<XAdESSignatureParameters, XAdESTimestampParameters> service;
@@ -44,7 +46,7 @@ public class XAdESExternalManifestWithoutIdLevelBTest extends AbstractXAdESTestS
 
     @BeforeEach
     public void init() throws Exception {
-        documentToSign = new FileDocument("src/test/resources/manifest-no-id.xml");
+        documentToSign = new FileDocument(TestUtils.getResourceAsFile("manifest-no-id.xml"));
 
         signatureParameters = new XAdESSignatureParameters();
         signatureParameters.bLevel().setSigningDate(new Date());

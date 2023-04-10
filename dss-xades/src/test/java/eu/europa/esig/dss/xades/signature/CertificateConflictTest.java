@@ -50,13 +50,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public class CertificateConflictTest {
 
 	private final PasswordProtection passwordProtection = new PasswordProtection("1qaz@WSX".toCharArray());
 
 	@Test
 	public void testXadesCaDuplicate() throws IOException {
-		DSSDocument signedDocument = xadesSign(new FileDocument("src/test/resources/sample.xml"));
+		DSSDocument signedDocument = xadesSign(new FileDocument(TestUtils.getResourceAsFile("sample.xml")));
 		assertEquals(MimeTypeEnum.XML, signedDocument.getMimeType());
 		xadesVerifyPreviousKeystore(signedDocument);
 		xadesVerifyCurrentKeystore(signedDocument);

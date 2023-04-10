@@ -45,6 +45,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DSS2049CertQualTest extends AbstractTestValidationExecutor {
 	
 	@Test
@@ -84,7 +86,7 @@ public class DSS2049CertQualTest extends AbstractTestValidationExecutor {
 	
 	private XmlDiagnosticData getDiagnosticData(boolean isLOTLWellSigned, boolean isTLWellSigned) throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				new File("src/test/resources/DSS-2049/dss2049-cert-diag-data.xml"));
+				TestUtils.getResourceAsFile("DSS-2049/dss2049-cert-diag-data.xml"));
 		assertNotNull(diagnosticData);
 		
 		List<XmlTrustedList> trustedLists = diagnosticData.getTrustedLists();

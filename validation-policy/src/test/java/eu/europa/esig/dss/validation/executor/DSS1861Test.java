@@ -49,13 +49,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DSS1861Test extends AbstractTestValidationExecutor {
 	
 	private EtsiValidationPolicy etsiValidationPolicy;
 	
 	@BeforeEach
 	public void init() throws Exception {
-		File validationPolicyFile = new File("src/test/resources/policy/default-only-constraint-policy.xml");
+		File validationPolicyFile = TestUtils.getResourceAsFile("policy/default-only-constraint-policy.xml");
 		ConstraintsParameters constraintsParameters = getConstraintsParameters(validationPolicyFile);
 		
 		TimestampConstraints timestamp = constraintsParameters.getTimestamp();
@@ -68,7 +70,7 @@ public class DSS1861Test extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void test() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/DSS-1861/pades-timestamp-order-check.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("DSS-1861/pades-timestamp-order-check.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -100,7 +102,7 @@ public class DSS1861Test extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void wrongTimestampOrderTest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/DSS-1861/pades-wrong-timestamp-order.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("DSS-1861/pades-wrong-timestamp-order.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();

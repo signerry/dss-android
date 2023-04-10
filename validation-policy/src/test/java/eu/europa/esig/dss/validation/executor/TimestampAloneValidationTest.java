@@ -23,6 +23,8 @@ package eu.europa.esig.dss.validation.executor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.File;
 
 import org.junit.jupiter.api.Test;
@@ -42,7 +44,7 @@ public class TimestampAloneValidationTest extends AbstractTestValidationExecutor
 
 	@Test
 	public void qtsa() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/timestamp-validation/qtsa.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("timestamp-validation/qtsa.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -58,7 +60,7 @@ public class TimestampAloneValidationTest extends AbstractTestValidationExecutor
 
 	@Test
 	public void tsa() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/timestamp-validation/tsa.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("timestamp-validation/tsa.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -75,7 +77,7 @@ public class TimestampAloneValidationTest extends AbstractTestValidationExecutor
 
 	@Test
 	public void expiredTsa() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/timestamp-validation/expired-tsa.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("timestamp-validation/expired-tsa.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -96,7 +98,7 @@ public class TimestampAloneValidationTest extends AbstractTestValidationExecutor
 	@Test
 	public void expiredTsaAndHashFailure() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(new File("src/test/resources/timestamp-validation/expired-tsa-and-hash-failure.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("timestamp-validation/expired-tsa-and-hash-failure.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -116,7 +118,7 @@ public class TimestampAloneValidationTest extends AbstractTestValidationExecutor
 
 	@Test
 	public void na() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/timestamp-validation/na.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("timestamp-validation/na.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -137,7 +139,7 @@ public class TimestampAloneValidationTest extends AbstractTestValidationExecutor
 
 	@Test
 	public void sigAndTst() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/timestamp-validation/sig-and-tst.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("timestamp-validation/sig-and-tst.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -160,7 +162,7 @@ public class TimestampAloneValidationTest extends AbstractTestValidationExecutor
 
 	@Test
 	public void sigAndTst2() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/timestamp-validation/sig-and-tst2.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("timestamp-validation/sig-and-tst2.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();

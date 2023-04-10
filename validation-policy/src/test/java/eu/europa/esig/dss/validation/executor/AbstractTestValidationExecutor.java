@@ -31,6 +31,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.module.JakartaJaxbAnnotationIntrospector;
+import com.signerry.dss.test.TestUtils;
 
 import eu.europa.esig.dss.detailedreport.DetailedReportFacade;
 import eu.europa.esig.dss.detailedreport.jaxb.XmlDetailedReport;
@@ -71,7 +72,7 @@ public abstract class AbstractTestValidationExecutor {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractTestValidationExecutor.class);
 	
 	protected ValidationPolicy loadPolicy(String policyConstraintFile) throws Exception {
-		return ValidationPolicyFacade.newFacade().getValidationPolicy(new File(policyConstraintFile));
+		return ValidationPolicyFacade.newFacade().getValidationPolicy(TestUtils.getResourceAsStream(policyConstraintFile));
 	}
 
 	protected ValidationPolicy loadDefaultPolicy() throws Exception {

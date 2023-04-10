@@ -39,11 +39,13 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 
 public class ExecuteDifferentPoliciesTest {
 
 	public static Stream<Arguments> data() throws Exception {
-		File folderPolicy = new File("src/test/resources/policy");
+		File folderPolicy = TestUtils.getResourceAsFile("policy");
 		File[] policyFiles = folderPolicy.listFiles();
 		File folderDiagnosticData = new File("src/test/resources");
 		File[] diagDataFiles = folderDiagnosticData.listFiles();

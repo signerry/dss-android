@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.module.JakartaJaxbAnnotationIntrospector;
+import com.signerry.dss.test.TestUtils;
 
 import eu.europa.esig.dss.detailedreport.DetailedReport;
 import eu.europa.esig.dss.detailedreport.DetailedReportFacade;
@@ -94,7 +95,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 
 	@Test
 	public void deRevoked() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/cert-validation/de_revoked.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-validation/de_revoked.xml"));
 		assertNotNull(diagnosticData);
 
 		String certificateId = "C-0E9B5C373AFEC1CED5723FCD9231F793BB330FFBF2B94BB8698301C90405B9BF";
@@ -156,7 +157,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 
 	@Test
 	public void beTSA() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/cert-validation/be_tsa.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-validation/be_tsa.xml"));
 		assertNotNull(diagnosticData);
 
 		String certificateId = "C-D74AF393CF3B506DA33B46BC52B49CD6FAC12B2BDAA9CE1FBA25C0C1E4EBBE19";
@@ -197,7 +198,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 
 	@Test
 	public void dkNoChain() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/cert-validation/dk_no_chain.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-validation/dk_no_chain.xml"));
 		assertNotNull(diagnosticData);
 
 		String certificateId = "C-3ECBC4648AA3BCB671976F53D7516F774DB1C886FAB81FE5469462181187DB8D";
@@ -233,7 +234,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 
 	@Test
 	public void inconsistentTrustService() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/cert-validation/inconsistent-state.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-validation/inconsistent-state.xml"));
 		assertNotNull(diagnosticData);
 
 		String certificateId = "C-A1E2D4CA9C521332369FA3224F0B7282AD2596E8A7416CBC0DF087E05D8F5502";
@@ -261,7 +262,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 
 	@Test
 	public void invalidTLWithWarnLevel() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/cert-validation/invalid-tl.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-validation/invalid-tl.xml"));
 		assertNotNull(diagnosticData);
 
 		String certificateId = "C-86CA5DDDDCB6CA73C77511DFF3C94961BD675CA15111810103942CA7D96DCE1B";
@@ -289,7 +290,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 
 	@Test
 	public void invalidTLWithFailLevel() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/cert-validation/invalid-tl.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-validation/invalid-tl.xml"));
 		assertNotNull(diagnosticData);
 
 		String certificateId = "C-86CA5DDDDCB6CA73C77511DFF3C94961BD675CA15111810103942CA7D96DCE1B";
@@ -324,7 +325,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 
 	@Test
 	public void expiredTL() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/cert-validation/expired-tl.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-validation/expired-tl.xml"));
 		assertNotNull(diagnosticData);
 
 		String certificateId = "C-86CA5DDDDCB6CA73C77511DFF3C94961BD675CA15111810103942CA7D96DCE1B";
@@ -346,7 +347,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 
 	@Test
 	public void wsaQC() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/cert-validation/cert_WSAQC.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-validation/cert_WSAQC.xml"));
 		assertNotNull(diagnosticData);
 
 		String certificateId = "C-24A830ADC0D077255FD14A607513D398CDB278A53A3DBAB79AC4ADE6A66EEAA6";
@@ -387,7 +388,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 
 	@Test
 	public void overruleNotQualified() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/cert-validation/overrule-NotQualified-tl.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-validation/overrule-NotQualified-tl.xml"));
 		assertNotNull(diagnosticData);
 
 		String certificateId = "C-86CA5DDDDCB6CA73C77511DFF3C94961BD675CA15111810103942CA7D96DCE1B";
@@ -408,7 +409,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 
 	@Test
 	public void overruleNoQSCD() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/cert-validation/overrule-NoQSCD-tl.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-validation/overrule-NoQSCD-tl.xml"));
 		assertNotNull(diagnosticData);
 
 		String certificateId = "C-86CA5DDDDCB6CA73C77511DFF3C94961BD675CA15111810103942CA7D96DCE1B";
@@ -429,7 +430,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 
 	@Test
 	public void overruleQSCD() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/cert-validation/overrule-QSCD-tl.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-validation/overrule-QSCD-tl.xml"));
 		assertNotNull(diagnosticData);
 
 		String certificateId = "C-86CA5DDDDCB6CA73C77511DFF3C94961BD675CA15111810103942CA7D96DCE1B";
@@ -451,7 +452,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 
 	@Test
 	public void overruleQualified() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/cert-validation/overrule-Qualified-tl.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-validation/overrule-Qualified-tl.xml"));
 		assertNotNull(diagnosticData);
 
 		String certificateId = "C-86CA5DDDDCB6CA73C77511DFF3C94961BD675CA15111810103942CA7D96DCE1B";
@@ -473,7 +474,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 
 	@Test
 	public void multipleSDI() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/cert-validation/multiple-sdi.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-validation/multiple-sdi.xml"));
 		assertNotNull(diagnosticData);
 
 		String certificateId = "C-C011F11E98AEFF48798AD5874A7A7F0C8192ADD1AB6D37825FE42C2F9F5847EB";
@@ -494,7 +495,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 
 	@Test
 	public void multipleSDIMultipleASi() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/cert-validation/multiple-sdi-different-asi.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-validation/multiple-sdi-different-asi.xml"));
 		assertNotNull(diagnosticData);
 
 		String certificateId = "C-484C30774593119D17D59F32D6AC0B06A82AB8003FF9AA1B98555D92B3FB790E";
@@ -522,7 +523,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 
 	@Test
 	public void withdrawn() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/cert-validation/withdrawn.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-validation/withdrawn.xml"));
 		assertNotNull(diagnosticData);
 
 		String certificateId = "C-18D60FFCE5904ED1E2B3DE04A7BA48BF7F904A34D6988962B964843649A33456";
@@ -543,7 +544,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 
 	@Test
 	public void twoSDIdiffentResults() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/cert-validation/2-sdi-different-results.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-validation/2-sdi-different-results.xml"));
 		assertNotNull(diagnosticData);
 
 		String certificateId = "C-E4A94773CF7B28C2BDF25015BE6716E501E73AB82BF0A9788D0DF8AD14D6876D";
@@ -567,7 +568,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 
 	@Test
 	public void trustAnchor() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File("src/test/resources/cert-validation/trust-anchor.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-validation/trust-anchor.xml"));
 		assertNotNull(diagnosticData);
 
 		String certificateId = "C-702DD5C1A093CF0A9D71FADD9BF9A7C5857D89FB73B716E867228B3C2BEB968F";
@@ -589,7 +590,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 	@Test
 	public void certificateIdIsMissingTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(new File("src/test/resources/cert-validation/trust-anchor.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("cert-validation/trust-anchor.xml"));
 		assertNotNull(diagnosticData);
 		DefaultCertificateProcessExecutor executor = new DefaultCertificateProcessExecutor();
 		executor.setDiagnosticData(diagnosticData);
@@ -608,7 +609,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 	@Test
 	public void keyUsageCertTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(new File("src/test/resources/cert-validation/cert_with_qcCClegislation.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("cert-validation/cert_with_qcCClegislation.xml"));
 		assertNotNull(diagnosticData);
 
 		String certId = "C-2D118BBC9E0B98D6AD07BB9D44CFC424467B8E2D83A2E04661E9A620DAA062FC";
@@ -665,7 +666,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 	@Test
 	public void extendedKeyUsageCertTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(new File("src/test/resources/cert-validation/cert_with_qcCClegislation.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("cert-validation/cert_with_qcCClegislation.xml"));
 		assertNotNull(diagnosticData);
 
 		String certId = "C-2D118BBC9E0B98D6AD07BB9D44CFC424467B8E2D83A2E04661E9A620DAA062FC";
@@ -728,7 +729,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 	@Test
 	public void certificateWithQcCClegislationTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(new File("src/test/resources/cert-validation/cert_with_qcCClegislation.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("cert-validation/cert_with_qcCClegislation.xml"));
 		assertNotNull(diagnosticData);
 
 		String certId = "C-2D118BBC9E0B98D6AD07BB9D44CFC424467B8E2D83A2E04661E9A620DAA062FC";
@@ -761,7 +762,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 	@Test
 	public void certificateWithQcCClegislationFailPolicyTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(new File("src/test/resources/cert-validation/cert_with_qcCClegislation.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("cert-validation/cert_with_qcCClegislation.xml"));
 		assertNotNull(diagnosticData);
 
 		String certId = "C-2D118BBC9E0B98D6AD07BB9D44CFC424467B8E2D83A2E04661E9A620DAA062FC";
@@ -811,7 +812,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 	@Test
 	public void certificateWithQcCClegislationCustomPolicyTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(new File("src/test/resources/cert-validation/cert_with_qcCClegislation.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("cert-validation/cert_with_qcCClegislation.xml"));
 		assertNotNull(diagnosticData);
 
 		String certId = "C-2D118BBC9E0B98D6AD07BB9D44CFC424467B8E2D83A2E04661E9A620DAA062FC";
@@ -843,7 +844,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 	@Test
 	public void certificateWithQcCClegislationCustomPolicyFailTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(new File("src/test/resources/cert-validation/cert_with_qcCClegislation.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("cert-validation/cert_with_qcCClegislation.xml"));
 		assertNotNull(diagnosticData);
 
 		String certId = "C-2D118BBC9E0B98D6AD07BB9D44CFC424467B8E2D83A2E04661E9A620DAA062FC";
@@ -894,7 +895,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 	@Test
 	public void qcComplianceOverruleTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(new File("src/test/resources/cert-validation/qcCompliance-tl-overrule.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("cert-validation/qcCompliance-tl-overrule.xml"));
 		assertNotNull(diagnosticData);
 
 		String certId = "C-7DA9241EC8BBAE3FAB9A29AE06C7B185B62C6FDE319DD985E5AA2E6F780C4EAA";

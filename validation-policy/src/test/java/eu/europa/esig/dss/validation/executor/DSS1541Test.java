@@ -36,13 +36,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DSS1541Test extends AbstractCryptographicConstraintsTest {
 	
 	@Test
 	public void signingCertificateWrongCryptographicConstrainsTest() throws Exception {
 		
-		initializeExecutor("src/test/resources/universign.xml");
-		validationPolicyFile = new File("src/test/resources/policy/all-constraint-specified-policy.xml");
+		initializeExecutor("universign.xml");
+		validationPolicyFile = TestUtils.getResourceAsFile("policy/all-constraint-specified-policy.xml");
 		
 		ConstraintsParameters constraintsParameters = loadConstraintsParameters();
 		setValidationPolicy(constraintsParameters);
@@ -66,8 +68,8 @@ public class DSS1541Test extends AbstractCryptographicConstraintsTest {
 	@Test
 	public void caCertificateWrongCryptographicConstrainsTest() throws Exception {
 		
-		initializeExecutor("src/test/resources/universign.xml");
-		validationPolicyFile = new File("src/test/resources/policy/all-constraint-specified-policy.xml");
+		initializeExecutor("universign.xml");
+		validationPolicyFile = TestUtils.getResourceAsFile("policy/all-constraint-specified-policy.xml");
 		
 		ConstraintsParameters constraintsParameters = loadConstraintsParameters();
 		setValidationPolicy(constraintsParameters);
@@ -87,8 +89,8 @@ public class DSS1541Test extends AbstractCryptographicConstraintsTest {
 	@Test
 	public void timestampConstraintsTest() throws Exception {
 		
-		initializeExecutor("src/test/resources/passed_out_of_bounds_with_timestamps.xml");
-		validationPolicyFile = new File("src/test/resources/policy/all-constraint-specified-policy.xml");
+		initializeExecutor("passed_out_of_bounds_with_timestamps.xml");
+		validationPolicyFile = TestUtils.getResourceAsFile("policy/all-constraint-specified-policy.xml");
 		
 		ConstraintsParameters constraintsParameters = loadConstraintsParameters();
 		setValidationPolicy(constraintsParameters);

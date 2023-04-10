@@ -45,9 +45,11 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 public class SKCertificateTest {
 
-    private static final DSSDocument TL_DOC = new FileDocument(new File("src/test/resources/sk-tl-sn-95.xml"));
+    private static final DSSDocument TL_DOC = new FileDocument(TestUtils.getResourceAsFile("sk-tl-sn-95.xml"));
 
     private static final String SK_TL_URL = "sk-tl.xml";
 
@@ -75,6 +77,7 @@ public class SKCertificateTest {
 
         FileCacheDataLoader fileCacheDataLoader = new FileCacheDataLoader();
         fileCacheDataLoader.setDataLoader(memoryDataLoader);
+        fileCacheDataLoader.setResourceLoader(TestUtils.getResourceLoader());
         tlValidationJob.setOfflineDataLoader(fileCacheDataLoader);
 
         TrustedListsCertificateSource trustedCertificateSource = new TrustedListsCertificateSource();

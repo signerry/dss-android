@@ -1126,16 +1126,16 @@ public class TLValidationJobTest {
 	@Test
 	public void dss2911Test() {
 		Map<String, DSSDocument> map = new HashMap<>();
-		map.put(LOTL_URL, new FileDocument("src/test/resources/lotlCache/tl_pivot_247_mp.xml"));
+		map.put(LOTL_URL, new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_247_mp.xml")));
 
 		map.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-247-mp.xml",
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_247_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_247_mp.xml")));
 		map.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-226-mp.xml",
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_226_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_226_mp.xml")));
 		map.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-191-mp.xml",
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_191_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_191_mp.xml")));
 		map.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-172-mp.xml",
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_172_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_172_mp.xml")));
 
 		CommonTrustedCertificateSource trustedCertificateSource = new CommonTrustedCertificateSource();
 		trustedCertificateSource.addCertificate(pivotSigningCertificate);
@@ -1163,7 +1163,7 @@ public class TLValidationJobTest {
 		summary = tlValidationJob.getSummary();
 		assertTrue(summary.getLOTLInfos().get(0).getValidationCacheInfo().isValid());
 
-		map.put(LOTL_URL, new FileDocument("src/test/resources/lotlCache/tl_pivot_247_mp.xml"));
+		map.put(LOTL_URL, new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_247_mp.xml")));
 		map.remove("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-247-mp.xml");
 		map.remove("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-226-mp.xml");
 		map.remove("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-191-mp.xml");
@@ -1175,13 +1175,13 @@ public class TLValidationJobTest {
 		assertFalse(summary.getLOTLInfos().get(0).getValidationCacheInfo().isValid());
 
 		map.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-247-mp.xml",
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_247_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_247_mp.xml")));
 		map.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-226-mp.xml",
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_226_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_226_mp.xml")));
 		map.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-191-mp.xml",
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_191_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_191_mp.xml")));
 		map.put("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-pivot-172-mp.xml",
-				new FileDocument("src/test/resources/lotlCache/tl_pivot_172_mp.xml"));
+				new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_172_mp.xml")));
 		fileCacheDataLoader.setDataLoader(new MockDataLoader(map));
 		tlValidationJob.onlineRefresh();
 
@@ -1192,7 +1192,7 @@ public class TLValidationJobTest {
 	@Test
 	public void dss2968Test() {
 		Map<String, DSSDocument> map = new HashMap<>();
-		map.put(LOTL_URL,new FileDocument("src/test/resources/lotlCache/tl_pivot_172_mp.xml"));
+		map.put(LOTL_URL,new FileDocument(TestUtils.getResourceAsFile("lotlCache/tl_pivot_172_mp.xml")));
 
 		lotlSource.setPivotSupport(false);
 
@@ -1219,7 +1219,7 @@ public class TLValidationJobTest {
 		assertEquals(31, summary.getLOTLInfos().get(0).getTLInfos().size());
 
 		map.clear();
-		map.put(LOTL_URL, new FileDocument("src/test/resources/lotlCache/eu-lotl_original.xml"));
+		map.put(LOTL_URL, new FileDocument(TestUtils.getResourceAsFile("lotlCache/eu-lotl_original.xml")));
 
 		fileCacheDataLoader.setDataLoader(new MockDataLoader(map));
 		tlValidationJob.onlineRefresh();

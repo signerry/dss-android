@@ -87,6 +87,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.signerry.dss.test.TestUtils;
+
 public abstract class AbstractMRALOTLTest extends PKIFactoryAccess {
 
     protected static final String LOTL_LOCATION = "https://esignature.ec.europa.eu/efda/intl-pilot/api/v1/intl-pilot/mra_lotl.xml";
@@ -96,8 +98,8 @@ public abstract class AbstractMRALOTLTest extends PKIFactoryAccess {
     protected static final String SIGNER_ZZ_TL_NAME = "ZZ-TL-signer";
     private static final String TRUSTED_ROOT_CA_NAME = "Test-QTSP-1-RootCA-from-ZZ";
 
-    private static final DSSDocument ORIGINAL_LOTL = new FileDocument("src/test/resources/mra-lotl.xml");
-    private static final DSSDocument ORIGINAL_TL = new FileDocument("src/test/resources/mra-zz-tl.xml");
+    private static final DSSDocument ORIGINAL_LOTL = new FileDocument(TestUtils.getResourceAsFile("mra-lotl.xml"));
+    private static final DSSDocument ORIGINAL_TL = new FileDocument(TestUtils.getResourceAsFile("mra-zz-tl.xml"));
 
     private static final DSSNamespace TL_NAMESPACE = new DSSNamespace("http://uri.etsi.org/02231/v2#", "tl");
     private static final DSSNamespace MRA_NAMESPACE = new DSSNamespace("http://ec.europa.eu/tools/lotl/mra/schema/v2#", "mra");

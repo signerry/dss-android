@@ -439,7 +439,7 @@ public abstract class AbstractUtilsTest {
 
 	@Test
 	public void toByteArray() throws  IOException {
-		File newFile = new File("target/sample.txt");
+		File newFile = TestUtils.getTmpFile("sample.txt");
 		String newFileContent = "Hello world!";
 
 		FileOutputStream fos = new FileOutputStream(newFile);
@@ -473,7 +473,7 @@ public abstract class AbstractUtilsTest {
 	@Test
 	public void closeQuietly() throws IOException {
 		Utils.closeQuietly(null);
-		File newFile = new File("target/sample2.txt");
+		File newFile = TestUtils.getTmpFile("sample2.txt");
 		String newFileContent = "Hello world!";
 
 		FileOutputStream fos = new FileOutputStream(newFile);
@@ -486,7 +486,7 @@ public abstract class AbstractUtilsTest {
 		assertTrue(newFile.delete(), "Cannot delete the file");
 		assertFalse(newFile.exists());
 		
-		FileOutputStream sampleFos = new FileOutputStream("target/sample3.txt");
+		FileOutputStream sampleFos = new FileOutputStream(TestUtils.getTmpFile("sample3.txt"));
 		Utils.closeQuietly(sampleFos);
 		Utils.closeQuietly(sampleFos); // must handle closed
 
@@ -521,7 +521,7 @@ public abstract class AbstractUtilsTest {
 			assertEquals(0, Utils.getInputStreamSize(emptyIs));
 		}
 
-		File newFile = new File("target/sample.txt");
+		File newFile = TestUtils.getTmpFile("sample.txt");
 		String newFileContent = "Hello world!\r\n";
 		
 		try (FileOutputStream fos = new FileOutputStream(newFile)) {
@@ -584,8 +584,8 @@ public abstract class AbstractUtilsTest {
 			assertFalse(Utils.compareInputStreams(is2, is1));
 		}
 
-		File newFileOne = new File("target/sample.txt");
-		File newFileTwo = new File("target/sampleTwo.txt");
+		File newFileOne = TestUtils.getTmpFile("sample.txt");
+		File newFileTwo = TestUtils.getTmpFile("sampleTwo.txt");
 
 		try (FileOutputStream fos = new FileOutputStream(newFileOne)) {
 			fos.write(content.getBytes(StandardCharsets.UTF_8));

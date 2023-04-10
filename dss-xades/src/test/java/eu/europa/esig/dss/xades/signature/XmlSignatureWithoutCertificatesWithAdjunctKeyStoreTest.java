@@ -63,7 +63,7 @@ public class XmlSignatureWithoutCertificatesWithAdjunctKeyStoreTest extends Abst
 
         service = new XAdESService(getOfflineCertificateVerifier());
 
-        keyStoreCertificateSource = new KeyStoreCertificateSource("JKS", "");
+        keyStoreCertificateSource = new KeyStoreCertificateSource("BKS", "");
         for (CertificateToken certificateToken : getCertificateChain()) {
             keyStoreCertificateSource.addCertificateToKeyStore(certificateToken);
         }

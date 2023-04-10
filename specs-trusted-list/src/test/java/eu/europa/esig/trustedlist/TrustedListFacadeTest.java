@@ -41,16 +41,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public class TrustedListFacadeTest {
 
 	@Test
 	public void testTL() throws JAXBException, XMLStreamException, IOException, SAXException {
-		marshallUnmarshall(new File("src/test/resources/tl.xml"));
+		marshallUnmarshall(TestUtils.getResourceAsFile("tl.xml"));
 	}
 
 	@Test
 	public void testLOTL() throws JAXBException, XMLStreamException, IOException, SAXException {
-		marshallUnmarshall(new File("src/test/resources/lotl.xml"));
+		marshallUnmarshall(TestUtils.getResourceAsFile("lotl.xml"));
 	}
 
 	private void marshallUnmarshall(File file) throws JAXBException, XMLStreamException, IOException, SAXException {
@@ -69,7 +71,7 @@ public class TrustedListFacadeTest {
 		TrustedListFacade facade = TrustedListFacade.newFacade();
 
 		TrustStatusListType trustStatusListType = facade
-				.unmarshall(new File("src/test/resources/mra/mra-lotl.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("mra/mra-lotl.xml"));
 		assertNotNull(trustStatusListType);
 
 		OtherTSLPointersType pointersToOtherTSL = trustStatusListType.getSchemeInformation().getPointersToOtherTSL();

@@ -41,26 +41,28 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public class MRAFacadeTest {
 
     @Test
     public void testLOTL() throws JAXBException, XMLStreamException, IOException, SAXException {
-        marshallUnmarshall(new File("src/test/resources/lotl.xml"));
+        marshallUnmarshall(TestUtils.getResourceAsFile("lotl.xml"));
     }
 
     @Test
     public void testMRA_LOTL() throws JAXBException, XMLStreamException, IOException, SAXException {
-        marshallUnmarshall(new File("src/test/resources/mra/mra-lotl.xml"));
+        marshallUnmarshall(TestUtils.getResourceAsFile("mra/mra-lotl.xml"));
     }
 
     @Test
     public void testMRA_BE() throws JAXBException, XMLStreamException, IOException, SAXException {
-        marshallUnmarshall(new File("src/test/resources/mra/be-tl.xml"));
+        marshallUnmarshall(TestUtils.getResourceAsFile("mra/be-tl.xml"));
     }
 
     @Test
     public void testMRA_TC() throws JAXBException, XMLStreamException, IOException, SAXException {
-        marshallUnmarshall(new File("src/test/resources/mra/tc-tl.xml"));
+        marshallUnmarshall(TestUtils.getResourceAsFile("mra/tc-tl.xml"));
     }
 
     private void marshallUnmarshall(File file) throws JAXBException, XMLStreamException, IOException, SAXException {
@@ -79,7 +81,7 @@ public class MRAFacadeTest {
         TrustedListFacade facade = MRAFacade.newFacade();
 
         TrustStatusListType trustStatusListType = facade
-                .unmarshall(new File("src/test/resources/mra/mra-lotl.xml"));
+                .unmarshall(TestUtils.getResourceAsFile("mra/mra-lotl.xml"));
         assertNotNull(trustStatusListType);
 
         OtherTSLPointersType pointersToOtherTSL = trustStatusListType.getSchemeInformation().getPointersToOtherTSL();

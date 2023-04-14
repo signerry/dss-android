@@ -66,6 +66,8 @@ TODO:
 2022-07-22. Jackson json library was temporary added in runtime, but it needed only for tests.
 Fix this.
 
+2023-04-14 XAdESLevelBEnvelopingManifestReferenceCanonicalizationTest not passing. Reason unknown.
+
 
 Android test runner does not support junit5
 

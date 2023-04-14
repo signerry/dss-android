@@ -142,7 +142,8 @@ public class XAdESLevelBReSignOJManifestTest extends AbstractXAdESTestSignature 
         assertTrue(xmlContent.contains("<ext:InitialPublicationDate xmlns:ext=\"http://some-server.eu/oj-initial-publication-date\">2016-10-28T05:28:12Z</ext:InitialPublicationDate>"));
 
         assertTrue(xmlContent.contains("<ds:Object MimeType=\"http://www.w3.org/2000/09/xmldsig#Manifest\">"));
-        assertTrue(xmlContent.contains("<ds:Manifest Id=\"manifest\">"));
+
+        assertTrue(xmlContent.contains("<ds:Manifest Id=\"manifest\" xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">"));
         
         assertTrue(xmlContent.contains("<ds:Object Id=\"" + "o-" +  signatureParameters.getDeterministicId() + "-1" + "\">"));
         assertTrue(xmlContent.contains(Utils.toBase64(DSSUtils.toByteArray(signedOJ))));

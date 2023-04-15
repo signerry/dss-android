@@ -67,7 +67,7 @@ public class CAdESWithSigPolDocLocalURITest extends AbstractCAdESTestSignature {
 
     private static final String LOCAL_URI = "/local/path/policy.der";
 
-    private static final DSSDocument POLICY_CONTENT = new FileDocument("src/test/resources/validation/signature-policy.der");
+    private static final DSSDocument POLICY_CONTENT = new FileDocument(TestUtils.getResourceAsFile("validation/signature-policy.der"));
 
     private CAdESService service;
     private CAdESSignatureParameters signatureParameters;

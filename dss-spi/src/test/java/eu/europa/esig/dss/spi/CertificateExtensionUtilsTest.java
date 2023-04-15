@@ -49,6 +49,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class CertificateExtensionUtilsTest {
 
     private static CertificateToken certificateWithAIA;
@@ -57,7 +59,7 @@ public class CertificateExtensionUtilsTest {
 
     @BeforeAll
     public static void init() {
-        certificateWithAIA = DSSUtils.loadCertificate(new File("src/test/resources/TSP_Certificate_2014.crt"));
+        certificateWithAIA = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("TSP_Certificate_2014.crt"));
         assertNotNull(certificateWithAIA);
 
         certificateOCSP = DSSUtils.loadCertificateFromBase64EncodedString(
@@ -133,7 +135,7 @@ public class CertificateExtensionUtilsTest {
 
     @Test
     public void getAccessLocation() {
-        CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/ec.europa.eu.crt"));
+        CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("ec.europa.eu.crt"));
         AuthorityInformationAccess aia = CertificateExtensionsUtils.getAuthorityInformationAccess(certificate);
         assertNotNull(aia);
         List<String> ocspAccessLocations = aia.getOcsp();
@@ -144,7 +146,7 @@ public class CertificateExtensionUtilsTest {
 
     @Test
     public void getCAAccessLocations() {
-        CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/ec.europa.eu.crt"));
+        CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("ec.europa.eu.crt"));
         AuthorityInformationAccess aia = CertificateExtensionsUtils.getAuthorityInformationAccess(certificate);
         assertNotNull(aia);
         List<String> caLocations = aia.getCaIssuers();
@@ -155,7 +157,7 @@ public class CertificateExtensionUtilsTest {
 
     @Test
     public void getCrlUrls() {
-        CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/ec.europa.eu.crt"));
+        CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("ec.europa.eu.crt"));
         CRLDistributionPoints crlDistributionPoints = CertificateExtensionsUtils.getCRLDistributionPoints(certificate);
         assertNotNull(crlDistributionPoints);
         List<String> crlUrls = crlDistributionPoints.getCrlUrls();
@@ -213,7 +215,7 @@ public class CertificateExtensionUtilsTest {
         assertNotNull(subjectAlternativeNames);
         assertEquals(1, Utils.collectionSize(subjectAlternativeNames));
 
-        CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/ec.europa.eu.crt"));
+        CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("ec.europa.eu.crt"));
         subjectAlternativeNamesExtension = CertificateExtensionsUtils.getSubjectAlternativeNames(certificate);
         assertNotNull(subjectAlternativeNamesExtension);
         subjectAlternativeNames = subjectAlternativeNamesExtension.getNames();
@@ -223,7 +225,7 @@ public class CertificateExtensionUtilsTest {
 
     @Test
     public void getPolicyConstraints() {
-        CertificateToken certificate = DSSUtils.loadCertificate(new File("src/test/resources/sk_ca.cer"));
+        CertificateToken certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("sk_ca.cer"));
         PolicyConstraints policyConstraints = CertificateExtensionsUtils.getPolicyConstraints(certificate);
         assertNotNull(policyConstraints);
         assertEquals(0, policyConstraints.getRequireExplicitPolicy());

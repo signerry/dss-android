@@ -634,8 +634,8 @@ public class DSSUtilsTest {
 		assertTrue(DSSUtils.isEmpty(new DigestDocument()));
 		assertTrue(DSSUtils.isEmpty(new DigestDocument(DigestAlgorithm.SHA1, DSSUtils.getSHA1Digest("Hello World!"))));
 		assertFalse(DSSUtils.isEmpty(new InMemoryDocument(new byte[] { 'a' })));
-		assertFalse(DSSUtils.isEmpty(new InMemoryDocument(getClass().getResourceAsStream("/good-user.crt"))));
-		assertFalse(DSSUtils.isEmpty(new FileDocument("src/test/resources/good-user.crt")));
+		assertFalse(DSSUtils.isEmpty(new InMemoryDocument(TestUtils.getResourceAsStream("good-user.crt"))));
+		assertFalse(DSSUtils.isEmpty(new FileDocument(TestUtils.getResourceAsFile("good-user.crt"))));
 	}
 
 }

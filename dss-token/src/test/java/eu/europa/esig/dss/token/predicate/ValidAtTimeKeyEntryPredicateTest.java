@@ -32,11 +32,13 @@ import java.util.TimeZone;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ValidAtTimeKeyEntryPredicateTest {
 
     @Test
     public void rsaTest() throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/user_a_rsa.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("user_a_rsa.p12"),
                 new KeyStore.PasswordProtection("password".toCharArray()))) {
 
             signatureToken.setKeyEntryPredicate(new ValidAtTimeKeyEntryPredicate());
@@ -79,7 +81,7 @@ public class ValidAtTimeKeyEntryPredicateTest {
 
     @Test
     public void dsaTest() throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/good-dsa-user.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("good-dsa-user.p12"),
                 new KeyStore.PasswordProtection("ks-password".toCharArray()))) {
 
             signatureToken.setKeyEntryPredicate(new ValidAtTimeKeyEntryPredicate());
@@ -98,7 +100,7 @@ public class ValidAtTimeKeyEntryPredicateTest {
 
     @Test
     public void ecdsaTest() throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/good-ecdsa-user.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("good-ecdsa-user.p12"),
                 new KeyStore.PasswordProtection("ks-password".toCharArray()))) {
 
             signatureToken.setKeyEntryPredicate(new ValidAtTimeKeyEntryPredicate());
@@ -117,7 +119,7 @@ public class ValidAtTimeKeyEntryPredicateTest {
 
     @Test
     public void ed25519Test() throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/Ed25519-good-user.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("Ed25519-good-user.p12"),
                 new KeyStore.PasswordProtection("ks-password".toCharArray()))) {
 
             signatureToken.setKeyEntryPredicate(new ValidAtTimeKeyEntryPredicate());
@@ -136,7 +138,7 @@ public class ValidAtTimeKeyEntryPredicateTest {
 
     @Test
     public void combinedTest() throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/combined.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("combined.p12"),
                 new KeyStore.PasswordProtection("password".toCharArray()))) {
 
             signatureToken.setKeyEntryPredicate(new ValidAtTimeKeyEntryPredicate(DSSUtils.getUtcDate(2017, 0, 1)));

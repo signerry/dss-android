@@ -31,11 +31,13 @@ import java.security.KeyStore;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 public class MixedPredicateTest {
 
     @Test
     public void rsaTest() throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/user_a_rsa.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("user_a_rsa.p12"),
                 new KeyStore.PasswordProtection("password".toCharArray()))) {
 
             signatureToken.setKeyEntryPredicate(new KeyUsageKeyEntryPredicate(KeyUsageBit.NON_REPUDIATION).and(
@@ -66,7 +68,7 @@ public class MixedPredicateTest {
 
     @Test
     public void combinedTest() throws IOException {
-        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken("src/test/resources/combined.p12",
+        try (Pkcs12SignatureToken signatureToken = new Pkcs12SignatureToken(TestUtils.getResourceAsFile("combined.p12"),
                 new KeyStore.PasswordProtection("password".toCharArray()))) {
 
             signatureToken.setKeyEntryPredicate(new KeyUsageKeyEntryPredicate(KeyUsageBit.DIGITAL_SIGNATURE).and(

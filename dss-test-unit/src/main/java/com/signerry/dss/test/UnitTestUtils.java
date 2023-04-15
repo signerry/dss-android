@@ -20,7 +20,7 @@ import eu.europa.esig.dss.service.http.commons.ResourceLoader;
 public class UnitTestUtils implements ITestUtils {
     @Override
     public Collection<File> listFiles(String folder, String[] extensions, boolean recursive) {
-       return FileUtils.listFiles(TestUtils.getResourceAsFile(folder), extensions, true);
+       return FileUtils.listFiles(TestUtils.getResourceAsFile(folder), extensions, recursive);
     }
 
     @Override

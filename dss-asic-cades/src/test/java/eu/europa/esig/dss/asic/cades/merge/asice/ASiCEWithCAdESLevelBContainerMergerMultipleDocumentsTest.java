@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.cades.merge.asice;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESSignatureParameters;
 import eu.europa.esig.dss.asic.cades.ASiCWithCAdESTimestampParameters;
 import eu.europa.esig.dss.asic.cades.merge.AbstractWithCAdESTestMerge;
@@ -48,7 +50,7 @@ public class ASiCEWithCAdESLevelBContainerMergerMultipleDocumentsTest extends Ab
 
     @BeforeEach
     public void init() {
-        documentsToSign = Arrays.asList(new FileDocument("src/test/resources/signable/test.txt"),
+        documentsToSign = Arrays.asList(new FileDocument(TestUtils.getResourceAsFile("signable/test.txt")),
                 new InMemoryDocument("Hello World!".getBytes(), "hello.txt", MimeTypeEnum.TEXT));
 
         service = new ASiCWithCAdESService(getCompleteCertificateVerifier());

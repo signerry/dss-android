@@ -40,6 +40,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCEWithCAdESLevelBContainerMergerDifferentMultipleFilesContentTest extends AbstractWithCAdESTestMerge {
 
     private List<DSSDocument> documentsToSignOne;
@@ -52,10 +54,10 @@ public class ASiCEWithCAdESLevelBContainerMergerDifferentMultipleFilesContentTes
 
     @BeforeEach
     public void init() {
-        documentsToSignOne = Arrays.asList(new FileDocument("src/test/resources/signable/test.txt"),
+        documentsToSignOne = Arrays.asList(new FileDocument(TestUtils.getResourceAsFile("signable/test.txt")),
                 new InMemoryDocument("Hello World!".getBytes(), "hello.txt", MimeTypeEnum.TEXT));
 
-        documentsToSignTwo = Arrays.asList(new FileDocument("src/test/resources/signable/test.txt"),
+        documentsToSignTwo = Arrays.asList(new FileDocument(TestUtils.getResourceAsFile("signable/test.txt")),
                 new InMemoryDocument("Bye World!".getBytes(), "hello.txt", MimeTypeEnum.TEXT));
 
         service = new ASiCWithCAdESService(getCompleteCertificateVerifier());

@@ -162,7 +162,7 @@ public class SecureContainerHandlerTest {
 	@Test
 	public void extractContainerContentInMemoryDocumentTest() {
 		DSSDocument document = new InMemoryDocument(
-				DSSUtils.toByteArray(new File("src/test/resources/validation/multifiles-ok.asice")));
+				DSSUtils.toByteArray(TestUtils.getResourceAsStream("validation/multifiles-ok.asice")));
 
 		SecureContainerHandler secureContainerHandler = new SecureContainerHandler();
 		List<DSSDocument> entries = secureContainerHandler.extractContainerContent(document);

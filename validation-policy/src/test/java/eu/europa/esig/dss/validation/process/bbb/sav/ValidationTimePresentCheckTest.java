@@ -29,8 +29,6 @@ import eu.europa.esig.dss.validation.executor.signature.DefaultSignatureProcessE
 import eu.europa.esig.dss.validation.reports.Reports;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.signerry.dss.test.TestUtils;
@@ -39,7 +37,7 @@ public class ValidationTimePresentCheckTest extends AbstractTestValidationExecut
 	
 	@Test
 	public void test() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("universign.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/universign.xml"));
 		assertNotNull(diagnosticData);
 		
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();

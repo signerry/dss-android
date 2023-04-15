@@ -31,7 +31,6 @@ import eu.europa.esig.dss.policy.jaxb.TimestampConstraints;
 import eu.europa.esig.dss.simplereport.SimpleReport;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,7 +42,7 @@ public class DSS1541Test extends AbstractCryptographicConstraintsTest {
 	@Test
 	public void signingCertificateWrongCryptographicConstrainsTest() throws Exception {
 		
-		initializeExecutor("universign.xml");
+		initializeExecutor("diagnostic/universign.xml");
 		validationPolicyFile = TestUtils.getResourceAsFile("policy/all-constraint-specified-policy.xml");
 		
 		ConstraintsParameters constraintsParameters = loadConstraintsParameters();
@@ -68,7 +67,7 @@ public class DSS1541Test extends AbstractCryptographicConstraintsTest {
 	@Test
 	public void caCertificateWrongCryptographicConstrainsTest() throws Exception {
 		
-		initializeExecutor("universign.xml");
+		initializeExecutor("diagnostic/universign.xml");
 		validationPolicyFile = TestUtils.getResourceAsFile("policy/all-constraint-specified-policy.xml");
 		
 		ConstraintsParameters constraintsParameters = loadConstraintsParameters();
@@ -89,7 +88,7 @@ public class DSS1541Test extends AbstractCryptographicConstraintsTest {
 	@Test
 	public void timestampConstraintsTest() throws Exception {
 		
-		initializeExecutor("passed_out_of_bounds_with_timestamps.xml");
+		initializeExecutor("diagnostic/passed_out_of_bounds_with_timestamps.xml");
 		validationPolicyFile = TestUtils.getResourceAsFile("policy/all-constraint-specified-policy.xml");
 		
 		ConstraintsParameters constraintsParameters = loadConstraintsParameters();

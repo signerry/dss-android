@@ -29,7 +29,11 @@ public class InstrumentedTestUtils implements ITestUtils {
     public Collection<File> listFiles(String folder, String[] extensions, boolean recursive) {
         List<File> fileList = new ArrayList<>();
 
-        List<String> allowedExtensions = Arrays.asList(extensions);
+        List<String> allowedExtensions = new ArrayList<>();
+        if(extensions != null) {
+            allowedExtensions = Arrays.asList(extensions);
+        }
+
         try {
             String[] list = getCtx().getAssets().list(folder);
             for(String filename: list) {

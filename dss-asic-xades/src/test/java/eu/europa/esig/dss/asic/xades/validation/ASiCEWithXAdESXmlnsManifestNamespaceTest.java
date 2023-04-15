@@ -47,11 +47,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCEWithXAdESXmlnsManifestNamespaceTest extends AbstractASiCWithXAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/validation/container-with-xmlns-manifest-namespace.asice");
+        return new FileDocument(TestUtils.getResourceAsFile("validation/container-with-xmlns-manifest-namespace.asice"));
     }
 
     @Test
@@ -60,7 +62,7 @@ public class ASiCEWithXAdESXmlnsManifestNamespaceTest extends AbstractASiCWithXA
         super.validate();
 
         // create ENVELOPED XAdES after validation (see DSS-2947)
-        DSSDocument documentToSign = new FileDocument("src/test/resources/manifest-sample.xml");
+        DSSDocument documentToSign = new FileDocument(TestUtils.getResourceAsFile("manifest-sample.xml"));
 
         XAdESService xadesService = new XAdESService(getOfflineCertificateVerifier());
 

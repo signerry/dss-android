@@ -41,6 +41,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCEWithXAdESLevelBContainerMergerWithCustomSignatureDocumentNameTest extends AbstractWithXAdESTestMerge {
 
     private List<DSSDocument> documentsToSignOne;
@@ -53,10 +55,10 @@ public class ASiCEWithXAdESLevelBContainerMergerWithCustomSignatureDocumentNameT
 
     @BeforeEach
     public void init() {
-        documentsToSignOne = Arrays.asList(new FileDocument("src/test/resources/signable/test.txt"),
+        documentsToSignOne = Arrays.asList(new FileDocument(TestUtils.getResourceAsFile("signable/test.txt")),
                 new InMemoryDocument("Hello World!".getBytes(), "hello.txt", MimeTypeEnum.TEXT));
 
-        documentsToSignTwo = Arrays.asList(new FileDocument("src/test/resources/manifest-sample.xml"),
+        documentsToSignTwo = Arrays.asList(new FileDocument(TestUtils.getResourceAsFile("manifest-sample.xml")),
                 new InMemoryDocument("Bye World!".getBytes(), "bye.txt", MimeTypeEnum.TEXT));
 
         service = new ASiCWithXAdESService(getCompleteCertificateVerifier());

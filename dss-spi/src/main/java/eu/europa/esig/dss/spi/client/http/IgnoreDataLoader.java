@@ -37,6 +37,13 @@ public class IgnoreDataLoader implements DataLoader {
 	/** Default error message */
 	private static final String URL_IS_IGNORED = "Url '{}' is ignored";
 
+	/**
+	 * Default constructor
+	 */
+	public IgnoreDataLoader() {
+		// empty
+	}
+
 	@Override
 	public byte[] get(String url) {
 		LOG.debug(URL_IS_IGNORED, url);
@@ -50,6 +57,7 @@ public class IgnoreDataLoader implements DataLoader {
 	}
 
 	@Override
+	@Deprecated
 	public byte[] get(String url, boolean refresh) {
 		LOG.debug(URL_IS_IGNORED, url);
 		return null;

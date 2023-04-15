@@ -22,16 +22,15 @@ package eu.europa.esig.dss.pades.signature.suite;
 
 import com.signerry.dss.test.TestUtils;
 
-import org.junit.jupiter.api.BeforeEach;
-
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
-import eu.europa.esig.dss.model.MimeType;
 import eu.europa.esig.dss.pades.PAdESSignatureParameters;
 import eu.europa.esig.dss.pades.PAdESTimestampParameters;
 import eu.europa.esig.dss.pades.signature.PAdESService;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
+import org.junit.jupiter.api.BeforeEach;
 
 public class PAdESSpaceEOFTest extends AbstractPAdESTestSignature {
 
@@ -42,7 +41,7 @@ public class PAdESSpaceEOFTest extends AbstractPAdESTestSignature {
 	@BeforeEach
 	public void init() {
 
-		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample_end_space.pdf"), null, MimeType.PDF);
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample_end_space.pdf"), null, MimeTypeEnum.PDF);
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

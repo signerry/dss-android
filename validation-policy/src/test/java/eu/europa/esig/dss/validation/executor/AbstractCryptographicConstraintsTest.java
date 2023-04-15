@@ -44,6 +44,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public abstract class AbstractCryptographicConstraintsTest extends AbstractTestValidationExecutor {
 
 	protected ConstraintsParameters constraintsParameters = null;
@@ -58,7 +60,7 @@ public abstract class AbstractCryptographicConstraintsTest extends AbstractTestV
 	protected File validationPolicyFile = null;
 	
 	protected XmlDiagnosticData initializeExecutor(String diagnosticDataFile) throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File(diagnosticDataFile));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsStream(diagnosticDataFile));
 		assertNotNull(diagnosticData);
 
 		executor = new DefaultSignatureProcessExecutor();

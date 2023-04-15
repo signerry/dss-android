@@ -27,7 +27,11 @@ import eu.europa.esig.trustedlist.enums.Assert;
  */
 public final class AssertParser {
 
+	/**
+	 * Default constructor
+	 */
 	private AssertParser() {
+		// empty
 	}
 
 	/**

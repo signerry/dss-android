@@ -61,6 +61,11 @@ public final class PAdESConstants {
 	/** 'CRL' */
 	public static final String CRL_ARRAY_NAME_VRI = "CRL";
 
+	/** 'TU' */
+	public static final String TU_DICTIONARY_NAME_VRI = "TU";
+	/** 'TS' */
+	public static final String TS_DICTIONARY_NAME_VRI = "TS";
+
 	/* Field names */
 
 	/** 'AcroForm' */
@@ -129,6 +134,8 @@ public final class PAdESConstants {
 	public static final String REASON_NAME = "Reason";
 	/** 'Reference' */
 	public static final String REFERENCE_NAME = "Reference";
+	/** 'Root' */
+	public static final String ROOT_NAME = "Root";
 	/** 'M' (Signing date) */
 	public static final String SIGNING_DATE_NAME = "M";
 	/** 'SigFieldLock' */
@@ -154,7 +161,13 @@ public final class PAdESConstants {
 	/** 'Version' */
 	public static final String VERSION_NAME = "Version";
 
-	/* Field values */
+	/* Build properties dictionary */
+
+	/** 'App' (Application software) */
+	public static final String APP = "App";
+
+	/** 'Prop_Build' (Build properties) */
+	public static final String PROP_BUILD = "Prop_Build";
 
 	/** 'V=1.2' */
 	public static final String VERSION_DEFAULT = "1.2";
@@ -163,6 +176,7 @@ public final class PAdESConstants {
 	 * Utils class
 	 */
 	private PAdESConstants() {
+		// empty
 	}
 
 }

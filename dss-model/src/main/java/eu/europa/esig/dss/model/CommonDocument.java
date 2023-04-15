@@ -21,6 +21,7 @@
 package eu.europa.esig.dss.model;
 
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
+import eu.europa.esig.dss.enumerations.MimeType;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -54,6 +55,13 @@ public abstract class CommonDocument implements DSSDocument {
 	 * The document name
 	 */
 	protected String name;
+
+	/**
+	 * Default constructor instantiating object with null values and empty digest map
+	 */
+	protected CommonDocument() {
+		// empty
+	}
 
 	@Override
 	public void save(final String path) throws IOException {

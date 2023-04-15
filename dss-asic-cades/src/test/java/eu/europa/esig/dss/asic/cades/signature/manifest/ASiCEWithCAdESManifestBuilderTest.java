@@ -23,10 +23,11 @@ package eu.europa.esig.dss.asic.cades.signature.manifest;
 import eu.europa.esig.asic.manifest.ASiCManifestUtils;
 import eu.europa.esig.dss.DomUtils;
 import eu.europa.esig.dss.asic.common.ASiCContent;
+import eu.europa.esig.dss.enumerations.ASiCContainerType;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
-import eu.europa.esig.dss.model.MimeType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
@@ -52,10 +53,11 @@ public class ASiCEWithCAdESManifestBuilderTest {
 	public void testManifestAgainstXSD() throws SAXException, IOException {
 		List<DSSDocument> documents = new ArrayList<>();
 		documents.add(new InMemoryDocument(new byte[] { 1, 2, 3 }, "test.bin"));
-		documents.add(new InMemoryDocument(new byte[] { 1, 2, 3 }, "test", MimeType.BINARY));
+		documents.add(new InMemoryDocument(new byte[] { 1, 2, 3 }, "test", MimeTypeEnum.BINARY));
 
 		ASiCContent asicContent = new ASiCContent();
 		asicContent.setSignedDocuments(documents);
+		asicContent.setContainerType(ASiCContainerType.ASiC_E);
 
 		ASiCEWithCAdESManifestBuilder builder = new ASiCWithCAdESSignatureManifestBuilder(
 				asicContent, DigestAlgorithm.SHA256, "signature.p7s");
@@ -73,14 +75,14 @@ public class ASiCEWithCAdESManifestBuilderTest {
 	@Test
 	public void testArchiveManifestAgainstXSD() throws SAXException, IOException {
 		List<DSSDocument> signatures = new ArrayList<>();
-		signatures.add(new InMemoryDocument(new byte[] { 1, 2, 3 }, "test.p7s", MimeType.PKCS7));
+		signatures.add(new InMemoryDocument(new byte[] { 1, 2, 3 }, "test.p7s", MimeTypeEnum.PKCS7));
 		List<DSSDocument> timestamps = new ArrayList<>();
-		signatures.add(new InMemoryDocument(new byte[] { 1, 2, 3 }, "test.tst", MimeType.TST));
+		signatures.add(new InMemoryDocument(new byte[] { 1, 2, 3 }, "test.tst", MimeTypeEnum.TST));
 		List<DSSDocument> documents = new ArrayList<>();
 		documents.add(new InMemoryDocument(new byte[] { 1, 2, 3 }, "test.bin"));
-		documents.add(new InMemoryDocument(new byte[] { 1, 2, 3 }, "test", MimeType.BINARY));
+		documents.add(new InMemoryDocument(new byte[] { 1, 2, 3 }, "test", MimeTypeEnum.BINARY));
 		List<DSSDocument> manifests = new ArrayList<>();
-		documents.add(new InMemoryDocument(new byte[] { 1, 2, 3 }, "test.xml", MimeType.XML));
+		documents.add(new InMemoryDocument(new byte[] { 1, 2, 3 }, "test.xml", MimeTypeEnum.XML));
 
 		ASiCContent asicContent = new ASiCContent();
 		asicContent.setSignatureDocuments(signatures);

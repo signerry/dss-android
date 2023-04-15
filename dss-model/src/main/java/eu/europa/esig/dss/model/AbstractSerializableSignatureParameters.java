@@ -31,6 +31,8 @@ import java.util.Objects;
 
 /**
  * Parameters for a Signature creation/extension
+ *
+ * @param <TP> implementation of {@code SerializableTimestampParameters}
  */
 @SuppressWarnings("serial")
 public abstract class AbstractSerializableSignatureParameters<TP extends SerializableTimestampParameters> implements SerializableSignatureParameters {
@@ -118,6 +120,13 @@ public abstract class AbstractSerializableSignatureParameters<TP extends Seriali
 	 * The object representing the parameters related to the archive timestamp (Baseline-LTA)
 	 */
 	protected TP archiveTimestampParameters;
+
+	/**
+	 * Default constructor instantiating object with default values
+	 */
+	protected AbstractSerializableSignatureParameters() {
+		// empty
+	}
 
 	@Override
 	public boolean isSignWithExpiredCertificate() {

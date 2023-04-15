@@ -37,6 +37,13 @@ import java.util.Arrays;
  */
 public class CRLTokenRefMatcher implements RevocationTokenRefMatcher<CRL> {
 
+	/**
+	 * Default constructor
+	 */
+	public CRLTokenRefMatcher() {
+		// empty
+	}
+
 	@Override
 	public boolean match(RevocationToken<CRL> token, RevocationRef<CRL> reference) {
 		final CRLToken crlToken = (CRLToken) token;

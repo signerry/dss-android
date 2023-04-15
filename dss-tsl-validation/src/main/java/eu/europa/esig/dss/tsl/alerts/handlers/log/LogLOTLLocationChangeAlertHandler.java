@@ -36,6 +36,13 @@ public class LogLOTLLocationChangeAlertHandler implements AlertHandler<LOTLInfo>
 
 	private static final Logger LOG = LoggerFactory.getLogger(LogLOTLLocationChangeAlertHandler.class);
 
+	/**
+	 * Default constructor
+	 */
+	public LogLOTLLocationChangeAlertHandler() {
+		// empty
+	}
+
 	@Override
 	public void process(LOTLInfo currentInfo) {
 		List<PivotInfo> pivotInfos = currentInfo.getPivotInfos();

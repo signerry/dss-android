@@ -23,11 +23,11 @@ package eu.europa.esig.dss;
 import eu.europa.esig.dss.definition.DSSAttribute;
 import eu.europa.esig.dss.definition.DSSElement;
 import eu.europa.esig.dss.definition.DSSNamespace;
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.jaxb.common.XmlDefinerUtils;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.InMemoryDocument;
-import eu.europa.esig.dss.model.MimeType;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.utils.Utils;
 import org.slf4j.Logger;
@@ -84,6 +84,12 @@ public final class DomUtils {
 	/** The default value of the used Transformer */
 	private static final String TRANSFORMER_METHOD_VALUE = "xml";
 
+	/** The hash '#' character */
+	private static final String HASH = "#";
+
+	/** The default namespace prefix */
+	private static final String XMLNS = "xmlns";
+
 	/** The 'xmlns' opener */
 	private static final String XNS_OPEN = "xmlns(";
 
@@ -103,6 +109,7 @@ public final class DomUtils {
 	private static final byte[] xmlWithBomPreample = new byte[] { -17, -69, -65, '<' }; // UTF-8 with BOM
 
 	private DomUtils() {
+		// empty
 	}
 
 	/** The used XPathFactory */
@@ -123,7 +130,15 @@ public final class DomUtils {
 	 * @return true if this map did not already contain the specified element
 	 */
 	public static boolean registerNamespace(final DSSNamespace namespace) {
-		return namespacePrefixMapper.registerNamespace(namespace.getPrefix(), namespace.getUri());
+		final String prefix = namespace.getPrefix();
+		final String uri = namespace.getUri();
+		if (Utils.isStringEmpty(prefix)) {
+			throw new UnsupportedOperationException("The empty namespace cannot be registered!");
+		}
+		if (XMLNS.equals(prefix)) {
+			throw new UnsupportedOperationException(String.format("The default namespace '%s' cannot be registered!", XMLNS));
+		}
+		return namespacePrefixMapper.registerNamespace(prefix, uri);
 	}
 
 	/**
@@ -267,25 +282,6 @@ public final class DomUtils {
 			return startsWithXmlPreamble(bytes) && buildDOM(bytes) != null;
 		} catch (DSSException e) {
 			// NOT DOM
-			return false;
-		}
-	}
-
-	/**
-	 * This method returns true if the provided {@code InputStream} is a valid
-	 * {@link org.w3c.dom.Document}
-	 * 
-	 * @param inputStream {@link InputStream} to be tested
-	 * @return true if the document is an XML
-	 * @deprecated since 5.10. Use {@code isDOM(DSSDocument dssDocument)} or {@code isDOM(byte[] bytes)}
-	 *                         for a fast failure in case of invalid XML document (this does not verify XML preamble).
-	 */
-	@Deprecated
-	public static boolean isDOM(final InputStream inputStream) {
-		try {
-			final Document dom = buildDOM(inputStream);
-			return dom != null;
-		} catch (Exception e) {
 			return false;
 		}
 	}
@@ -474,7 +470,8 @@ public final class DomUtils {
 	 *            element text node value
 	 * @return added element
 	 */
-	public static Element addTextElement(final Document document, final Element parentDom, final DSSNamespace namespace, final DSSElement element, final String value) {
+	public static Element addTextElement(final Document document, final Element parentDom, final DSSNamespace namespace,
+										 final DSSElement element, final String value) {
 		final Element dom = createElementNS(document, namespace, element);
 		parentDom.appendChild(dom);
 		final Text valueNode = document.createTextNode(value);
@@ -587,13 +584,13 @@ public final class DomUtils {
 	 * @param document
 	 *            the {@link org.w3c.dom.Document} to store
 	 * @param name
-	 *            the ouput filename
+	 *            the output filename
 	 * @return a new instance of InMemoryDocument with the XML and the given filename
 	 */
 	public static DSSDocument createDssDocumentFromDomDocument(Document document, String name) {
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 			DomUtils.writeDocumentTo(document, baos);
-			return new InMemoryDocument(baos.toByteArray(), name, MimeType.XML);
+			return new InMemoryDocument(baos.toByteArray(), name, MimeTypeEnum.XML);
 		} catch (IOException e) {
 			throw new DSSException(String.format("Unable to create a DSSDocument from DOM document : %s", e.getMessage()), e);
 		}
@@ -684,7 +681,7 @@ public final class DomUtils {
 	 * @return TRUE if {@code uri} is starts from "#", FALSE otherwise
 	 */
 	public static boolean startsFromHash(String uri) {
-		return Utils.isStringNotBlank(uri) && uri.startsWith("#");
+		return Utils.isStringNotBlank(uri) && uri.startsWith(HASH);
 	}
 	
 	/**
@@ -695,6 +692,23 @@ public final class DomUtils {
 	 */
 	public static boolean isElementReference(String uri) {
 		return startsFromHash(uri) && !isXPointerQuery(uri);
+	}
+
+	/**
+	 * This method translates the given {@code String} to a local element reference with the given URI.
+	 *
+	 * Ex.: "r-123-id" to "#r-123-id"
+	 *      "sample.xml" to "#sample.xml"
+	 *      "#r-xades-enveloped" to "#r-xades-enveloped"
+	 *
+	 * @param uri {@link String}
+	 * @return {@link String}
+	 */
+	public static String toElementReference(String uri) {
+		if (!startsFromHash(uri)) {
+			uri = HASH + uri;
+		}
+		return uri;
 	}
 
 	/**

@@ -64,6 +64,7 @@ public class DSS2058Test extends AbstractXAdESTestValidation {
 		
 		CertificateVerifier completeCertificateVerifier = getCompleteCertificateVerifier();
 		completeCertificateVerifier.setCheckRevocationForUntrustedChains(true);
+		completeCertificateVerifier.setExtractPOEFromUntrustedChains(true);
 		completeCertificateVerifier.setAlertOnMissingRevocationData(new LogOnStatusAlert(Level.WARN));
 		completeCertificateVerifier.setAlertOnRevokedCertificate(new LogOnStatusAlert(Level.ERROR));
 		

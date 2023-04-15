@@ -21,7 +21,7 @@
 package eu.europa.esig.dss.spi.x509.aia;
 
 import eu.europa.esig.dss.model.x509.CertificateToken;
-import eu.europa.esig.dss.spi.DSSASN1Utils;
+import eu.europa.esig.dss.spi.CertificateExtensionsUtils;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.utils.Utils;
 import org.slf4j.Logger;
@@ -52,6 +52,13 @@ public abstract class RepositoryAIASource implements AIASource {
     protected OnlineAIASource proxiedSource;
 
     /**
+     * Default constructor instantiating object with null proxied source
+     */
+    protected RepositoryAIASource() {
+        // empty
+    }
+
+    /**
      * Sets a source to access an AIA in case the requested certificates are not present in the repository
      *
      * @param proxiedSource {@link OnlineAIASource}
@@ -76,8 +83,7 @@ public abstract class RepositoryAIASource implements AIASource {
      */
     public Set<CertificateToken> getCertificatesByAIA(CertificateToken certificateToken, boolean forceRefresh) {
         Objects.requireNonNull(certificateToken, "CertificateToken shall be provided!");
-
-        List<String> urls = DSSASN1Utils.getCAAccessLocations(certificateToken);
+        List<String> urls = CertificateExtensionsUtils.getCAIssuersAccessUrls(certificateToken);
         if (Utils.isCollectionEmpty(urls)) {
             LOG.info("There is no AIA extension for certificate download.");
             return Collections.emptySet();
@@ -90,6 +96,7 @@ public abstract class RepositoryAIASource implements AIASource {
         } else {
             Set<CertificateToken> aiaCertificates = extractAIAFromCacheSource(aiaKeys);
             if (Utils.isCollectionNotEmpty(aiaCertificates)) {
+                LOG.info("Certificate tokens with AIA '{}' have been loaded from the cache", urls);
                 return aiaCertificates;
             }
         }

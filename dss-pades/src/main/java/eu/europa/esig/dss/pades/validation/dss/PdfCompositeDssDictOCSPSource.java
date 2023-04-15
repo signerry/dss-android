@@ -24,7 +24,7 @@ import eu.europa.esig.dss.enumerations.RevocationOrigin;
 import eu.europa.esig.dss.model.identifier.EncapsulatedRevocationTokenIdentifier;
 import eu.europa.esig.dss.model.x509.revocation.ocsp.OCSP;
 import eu.europa.esig.dss.pdf.PdfDssDict;
-import eu.europa.esig.dss.pdf.PdfVRIDict;
+import eu.europa.esig.dss.pdf.PdfVriDict;
 import eu.europa.esig.dss.spi.x509.revocation.RevocationToken;
 import eu.europa.esig.dss.spi.x509.revocation.ocsp.OCSPResponseBinary;
 import eu.europa.esig.dss.spi.x509.revocation.ocsp.OfflineOCSPSource;
@@ -50,6 +50,13 @@ public class PdfCompositeDssDictOCSPSource extends OfflineOCSPSource {
 
     /** Cached map of created OCSPTokens and corresponding PDF object ids */
     private final Map<RevocationToken<OCSP>, Set<Long>> ocspTokenMap = new HashMap<>();
+
+    /**
+     * Default constructor instantiation an object with empty mpa of OCSP token objects
+     */
+    public PdfCompositeDssDictOCSPSource() {
+        // empty
+    }
 
     /**
      * This method allows adding OCSP tokens extracted from a /DSS revision
@@ -81,8 +88,8 @@ public class PdfCompositeDssDictOCSPSource extends OfflineOCSPSource {
      */
     protected void extractVRIOCSPs(PdfDssDict dssDictionary) {
         if (dssDictionary != null) {
-            List<PdfVRIDict> vriDictList = dssDictionary.getVRIs();
-            for (PdfVRIDict vriDict : vriDictList) {
+            List<PdfVriDict> vriDictList = dssDictionary.getVRIs();
+            for (PdfVriDict vriDict : vriDictList) {
                 populateObjectsMap(vriDict.getOCSPs());
                 extractVRIOCSPs(vriDict);
             }
@@ -119,7 +126,7 @@ public class PdfCompositeDssDictOCSPSource extends OfflineOCSPSource {
      *
      * @param vriDictionary {@link PdfDssDict}
      */
-    protected void extractVRIOCSPs(PdfVRIDict vriDictionary) {
+    protected void extractVRIOCSPs(PdfVriDict vriDictionary) {
         if (vriDictionary != null) {
             for (Map.Entry<Long, OCSPResponseBinary> OCSPEntry : vriDictionary.getOCSPs().entrySet()) {
                 addBinary(OCSPEntry.getValue(), RevocationOrigin.VRI_DICTIONARY);

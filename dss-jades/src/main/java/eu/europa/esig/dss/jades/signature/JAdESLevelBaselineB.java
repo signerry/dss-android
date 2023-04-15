@@ -22,6 +22,8 @@ package eu.europa.esig.dss.jades.signature;
 
 import eu.europa.esig.dss.enumerations.CommitmentType;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
+import eu.europa.esig.dss.enumerations.MimeType;
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.enumerations.SigDMechanism;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.exception.IllegalInputException;
@@ -30,10 +32,11 @@ import eu.europa.esig.dss.jades.HTTPHeader;
 import eu.europa.esig.dss.jades.JAdESHeaderParameterNames;
 import eu.europa.esig.dss.jades.JAdESSignatureParameters;
 import eu.europa.esig.dss.jades.JsonObject;
+import eu.europa.esig.dss.model.CommitmentQualifier;
+import eu.europa.esig.dss.model.CommonCommitmentType;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.DigestDocument;
-import eu.europa.esig.dss.model.MimeType;
 import eu.europa.esig.dss.model.Policy;
 import eu.europa.esig.dss.model.SignerLocation;
 import eu.europa.esig.dss.model.SpDocSpecification;
@@ -45,9 +48,13 @@ import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.CertificateVerifier;
 import eu.europa.esig.dss.validation.timestamp.TimestampToken;
+import org.jose4j.json.JsonUtil;
 import org.jose4j.json.internal.json_simple.JSONArray;
 import org.jose4j.jwx.HeaderParameterNames;
 import org.jose4j.keys.X509Util;
+import org.jose4j.lang.JoseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -63,6 +70,8 @@ import java.util.Objects;
  *
  */
 public class JAdESLevelBaselineB {
+
+	private static final Logger LOG = LoggerFactory.getLogger(JAdESLevelBaselineB.class);
 
 	/** The CertificateVerifier to use */
 	private final CertificateVerifier certificateVerifier;
@@ -131,7 +140,7 @@ public class JAdESLevelBaselineB {
 	/**
 	 * Incorporates 5.1.2 The alg (X.509 URL) header parameter
 	 */
-	private void incorporateSignatureAlgorithm() {
+	protected void incorporateSignatureAlgorithm() {
 		String id = parameters.getSignatureAlgorithm().getJWAId();
 		if (Utils.isStringNotEmpty(id)) {
 			addHeader(HeaderParameterNames.ALGORITHM, id);
@@ -144,7 +153,7 @@ public class JAdESLevelBaselineB {
 	/**
 	 * Incorporates 5.1.3 The cty (content type) header parameter
 	 */
-	private void incorporateContentType() {
+	protected void incorporateContentType() {
 		if (SignaturePackaging.DETACHED.equals(parameters.getSignaturePackaging())) {
 			// not applicable for detached signatures (see EN 119-182 ch.5.1.3)
 			return;
@@ -239,7 +248,7 @@ public class JAdESLevelBaselineB {
 	/**
 	 * Incorporates 5.1.9 The crit (critical) header parameter
 	 */
-	private void incorporateCritical() {
+	protected void incorporateCritical() {
 		/*
 		 * RFC 7515 : "4.1.11.  "crit" (Critical) Header Parameter"
 		 * 
@@ -263,7 +272,7 @@ public class JAdESLevelBaselineB {
 	/**
 	 * Incorporates RFC 7515 : 4.1.9. "typ" (Type) Header Parameter
 	 */
-	private void incorporateType() {
+	protected void incorporateType() {
 		if (parameters.isIncludeSignatureType()) {
 			
 			/*
@@ -279,11 +288,11 @@ public class JAdESLevelBaselineB {
 			MimeType signatureMimeType;
 			switch (parameters.getJwsSerializationType()) {
 				case COMPACT_SERIALIZATION:
-					signatureMimeType = MimeType.JOSE;
+					signatureMimeType = MimeTypeEnum.JOSE;
 					break;
 				case JSON_SERIALIZATION:
 				case FLATTENED_JSON_SERIALIZATION:
-					signatureMimeType = MimeType.JOSE_JSON;
+					signatureMimeType = MimeTypeEnum.JOSE_JSON;
 					break;
 				default:
 					throw new DSSException(String.format("The given JWS serialization type '%s' is not supported!", 
@@ -383,13 +392,20 @@ public class JAdESLevelBaselineB {
 		List<JsonObject> srCms = new ArrayList<>();
 		
 		for (CommitmentType commitmentType : parameters.bLevel().getCommitmentTypeIndications()) {
-			JsonObject oidObject = DSSJsonUtils.getOidObject(commitmentType); // Only simple Oid form is supported
+			if (Utils.isStringEmpty(commitmentType.getUri()) && Utils.isStringEmpty(commitmentType.getOid())) {
+				throw new IllegalArgumentException(
+						"Either URI or OID shall be defined for CommitmentType signed attribute in JAdES!");
+			}
 
 			Map<String, Object> srCmParams = new LinkedHashMap<>();
+
+			JsonObject oidObject = DSSJsonUtils.getOidObject(commitmentType); // Only simple Oid form is supported
 			srCmParams.put(JAdESHeaderParameterNames.COMM_ID, oidObject);
 
-			// Qualifiers are not supported
-			// srCmParams.put(JAdESHeaderParameterNames.COMM_QUALS, quals);
+			List<JsonObject> commQuals = getCommitmentQualifiers(commitmentType);
+			if (Utils.isCollectionNotEmpty(commQuals)) {
+				srCmParams.put(JAdESHeaderParameterNames.COMM_QUALS, commQuals);
+			}
 
 			srCms.add(new JsonObject(srCmParams));
 		}
@@ -397,10 +413,46 @@ public class JAdESLevelBaselineB {
 		addHeader(JAdESHeaderParameterNames.SR_CMS, new JSONArray(srCms));
 	}
 
+	private List<JsonObject> getCommitmentQualifiers(CommitmentType commitmentType) {
+		List<JsonObject> commQuals = new ArrayList<>();
+		if (commitmentType instanceof CommonCommitmentType) {
+			CommitmentQualifier[] commitmentQualifiers = ((CommonCommitmentType) commitmentType).getCommitmentTypeQualifiers();
+			if (Utils.isArrayNotEmpty(commitmentQualifiers)) {
+				for (CommitmentQualifier commitmentQualifier : commitmentQualifiers) {
+					Objects.requireNonNull(commitmentQualifier, "CommitmentTypeQualifier cannot be null!");
+					DSSDocument content = commitmentQualifier.getContent();
+					if (content == null) {
+						throw new IllegalArgumentException("CommitmentTypeQualifier content cannot be null!");
+					}
+
+					if (DSSJsonUtils.isJsonDocument(content)) {
+						try {
+							String jsonDocument = new String(DSSUtils.toByteArray(content));
+							Map<String, Object> object = JsonUtil.parseJson(jsonDocument);
+							commQuals.add(new JsonObject(object));
+
+						} catch (JoseException e) {
+							throw new IllegalArgumentException(String.format(
+									"Unable to parse JSON Commitment Type Qualifier : %s", e.getMessage()), e);
+						}
+
+					} else {
+						LOG.info("None JSON encoded CommitmentTypeQualifier has been provided. Incorporate as JSONObject.");
+						JsonObject jsonObject = new JsonObject();
+						jsonObject.put(JAdESHeaderParameterNames.VAL, new String(DSSUtils.toByteArray(content)));
+						commQuals.add(jsonObject);
+					}
+
+				}
+			}
+		}
+		return commQuals;
+	}
+
 	/**
 	 * Incorporates 5.2.4 The sigPl (signature production place) header parameter
 	 */
-	private void incorporateSignatureProductionPlace() {
+	protected void incorporateSignatureProductionPlace() {
 		SignerLocation signerProductionPlace = parameters.bLevel().getSignerLocation();
 		if (signerProductionPlace != null && !signerProductionPlace.isEmpty()) {
 			
@@ -439,7 +491,7 @@ public class JAdESLevelBaselineB {
 	/**
 	 * Incorporates 5.2.5 The srAts (signer attributes) header parameter
 	 */
-	private void incorporateSignerRoles() {
+	protected void incorporateSignerRoles() {
 		Map<String, Object> srAtsParams = new LinkedHashMap<>();
 
 		// TODO : certified are not supported
@@ -488,7 +540,7 @@ public class JAdESLevelBaselineB {
 		 * instructions, interpretation directives, or content markup should be
 		 * necessary for proper display.
 		 */
-		qArrayMap.put(JAdESHeaderParameterNames.MEDIA_TYPE, MimeType.TEXT.getMimeTypeString());
+		qArrayMap.put(JAdESHeaderParameterNames.MEDIA_TYPE, MimeTypeEnum.TEXT.getMimeTypeString());
 
 		/*
 		 * b) The encoding member, which shall contain a string identifying the encoding
@@ -521,7 +573,7 @@ public class JAdESLevelBaselineB {
 	/**
 	 * Incorporates 5.2.6 The adoTst (signed data time-stamp) header parameter
 	 */
-	private void incorporateContentTimestamps() {
+	protected void incorporateContentTimestamps() {
 		if (Utils.isCollectionEmpty(parameters.getContentTimestamps())) {
 			return;
 		}
@@ -547,7 +599,7 @@ public class JAdESLevelBaselineB {
 	/**
 	 * Incorporates 5.2.7 The sigPId (signature policy identifier) header parameter
 	 */
-	private void incorporateSignaturePolicy() {
+	protected void incorporateSignaturePolicy() {
 		Policy signaturePolicy = parameters.bLevel().getSignaturePolicy();
 		if (signaturePolicy != null && !signaturePolicy.isEmpty()) {
 			assertSignaturePolicyValid(signaturePolicy);
@@ -649,7 +701,7 @@ public class JAdESLevelBaselineB {
 	/**
 	 * Incorporates 5.2.8 The sigD header parameter
 	 */
-	private void incorporateDetachedContents() {
+	protected void incorporateDetachedContents() {
 		if (SignaturePackaging.DETACHED.equals(parameters.getSignaturePackaging())) {
 			assertDetachedContentValid();
 			
@@ -680,15 +732,28 @@ public class JAdESLevelBaselineB {
 	}
 
 	private void assertDetachedContentValid() {
-		if (parameters.getSigDMechanism() == null) {
+		SigDMechanism sigDMechanism = parameters.getSigDMechanism();
+		if (sigDMechanism == null) {
 			throw new IllegalArgumentException("The SigDMechanism is not defined for a detached signature! "
 					+ "Please use JAdESSignatureParameters.setSigDMechanism(sigDMechanism) method.");
 		}
-		if (!SigDMechanism.NO_SIG_D.equals(parameters.getSigDMechanism())) {
+		if (SigDMechanism.NO_SIG_D.equals(sigDMechanism)) {
+			if (Utils.collectionSize(documentsToSign) > 1) {
+				throw new IllegalArgumentException(String.format(
+						"Only one detached document is allowed with '%s' mechanism!", SigDMechanism.NO_SIG_D.name()));
+			}
+			
+		} else {
+			List<String> documentNames = new ArrayList<>();
 			for (DSSDocument document : documentsToSign) {
 				if (Utils.isStringEmpty(document.getName())) {
-					throw new IllegalArgumentException("The signed document must have names for a detached signature!");
+					throw new IllegalArgumentException("The signed document must have names for a detached JAdES signature!");
 				}
+				if (!SigDMechanism.HTTP_HEADERS.equals(sigDMechanism) && documentNames.contains(document.getName())) {
+					throw new IllegalArgumentException(String.format("The documents to be signed shall have different names! "
+							+ "The name '%s' appears multiple times.", document.getName()));
+				}
+				documentNames.add(document.getName());
 			}
 		}
 	}
@@ -796,7 +861,7 @@ public class JAdESLevelBaselineB {
 		for (DSSDocument document : detachedContents) {
 			MimeType mimeType = document.getMimeType();
 			if (mimeType == null) {
-				mimeType = MimeType.BINARY;
+				mimeType = MimeTypeEnum.BINARY;
 			}
 			String rfc7515MimeType = getRFC7515ConformantMimeTypeString(mimeType);
 			mimeTypes.add(rfc7515MimeType);

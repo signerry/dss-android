@@ -20,14 +20,8 @@
  */
 package eu.europa.esig.dss.pdf.pdfbox.visible;
 
-import eu.europa.esig.dss.pades.SignatureImageParameters;
-import eu.europa.esig.dss.pdf.AnnotationBox;
-import eu.europa.esig.dss.pdf.visible.DSSFontMetrics;
-import eu.europa.esig.dss.pdf.visible.ImageUtils;
-import eu.europa.esig.dss.pdf.visible.SignatureFieldBoxBuilder;
-import eu.europa.esig.dss.pdf.visible.SignatureFieldDimensionAndPosition;
-import eu.europa.esig.dss.pdf.visible.SignatureFieldDimensionAndPositionBuilder;
-import eu.europa.esig.dss.utils.Utils;
+import static eu.europa.esig.dss.pdf.visible.ImageUtils.OUTPUT_INTENT_SRGB_PROFILE;
+
 import com.tom_roush.pdfbox.cos.COSName;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.pdmodel.PDDocumentCatalog;
@@ -38,14 +32,23 @@ import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationWidget;
 import com.tom_roush.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions;
 import com.tom_roush.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import com.tom_roush.pdfbox.pdmodel.interactive.form.PDSignatureField;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
+
+import eu.europa.esig.dss.pades.SignatureImageParameters;
+import eu.europa.esig.dss.pdf.AnnotationBox;
+import eu.europa.esig.dss.pdf.visible.DSSFontMetrics;
+import eu.europa.esig.dss.pdf.visible.ImageUtils;
+import eu.europa.esig.dss.pdf.visible.SignatureFieldBoxBuilder;
+import eu.europa.esig.dss.pdf.visible.SignatureFieldDimensionAndPosition;
+import eu.europa.esig.dss.pdf.visible.SignatureFieldDimensionAndPositionBuilder;
+import eu.europa.esig.dss.utils.Utils;
 
 /**
  * The abstract implementation of PDFBox signature drawer
@@ -55,15 +58,6 @@ public abstract class AbstractPdfBoxSignatureDrawer implements PdfBoxSignatureDr
 
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractPdfBoxSignatureDrawer.class);
 
-	/** The CMYK color profile */
-	private static final String CMYK_PROFILE_NAME = "cmyk";
-
-	/** The RGB color profile */
-	private static final String RGB_PROFILE_NAME = "rgb";
-
-	/** Defines the sRGB ICC profile name used in OutputIntent */
-	private static final String OUTPUT_INTENT_SRGB_PROFILE = "sRGB";
-
 	/** Visual signature parameters */
 	protected SignatureImageParameters parameters;
 
@@ -72,6 +66,12 @@ public abstract class AbstractPdfBoxSignatureDrawer implements PdfBoxSignatureDr
 
 	/** Contains options of the visual signature */
 	protected SignatureOptions signatureOptions;
+
+	/**
+	 * Default constructor instantiating object with null values
+	 */
+	protected AbstractPdfBoxSignatureDrawer() {
+	}
 
 	@Override
 	public void init(SignatureImageParameters parameters, PDDocument document, SignatureOptions signatureOptions) throws IOException {
@@ -127,9 +127,9 @@ public abstract class AbstractPdfBoxSignatureDrawer implements PdfBoxSignatureDr
 				LOG.warn("PDF contains multiple color spaces. Be aware: not compatible with PDF/A.");
 
 			} else {
-				if (COSName.DEVICECMYK.getName().equals(colorSpaceName) && !isProfilePresent(profiles, CMYK_PROFILE_NAME)) {
+				if (COSName.DEVICECMYK.getName().equals(colorSpaceName) && !isProfilePresent(profiles, ImageUtils.CMYK_PROFILE_NAME)) {
 					LOG.warn("PDF does not contain a CMYK profile! Be aware: not compatible with PDF/A.");
-				} else if (COSName.DEVICERGB.getName().equals(colorSpaceName) && !isProfilePresent(profiles, RGB_PROFILE_NAME)) {
+				} else if (COSName.DEVICERGB.getName().equals(colorSpaceName) && !isProfilePresent(profiles, ImageUtils.RGB_PROFILE_NAME)) {
 					LOG.warn("PDF does not contain an RGB profile! Be aware: not compatible with PDF/A.");
 				}
 				// GRAY profile is supported by RGB and CMYK
@@ -151,7 +151,6 @@ public abstract class AbstractPdfBoxSignatureDrawer implements PdfBoxSignatureDr
 	 *
 	 * @param catalog {@link PDDocumentCatalog} from a PDF document to add a new color space into
 	 * @param colorSpaceName {@link String} a color space name to add
-	 * @throws IOException if an exception occurs
 	 */
 	protected void addColorSpace(PDDocumentCatalog catalog, String colorSpaceName) throws IOException {
 		// sRGB supports both RGB and Grayscale color spaces

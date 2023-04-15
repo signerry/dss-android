@@ -31,7 +31,7 @@ import java.util.Locale;
  * Container for a Digest and his algorithm
  */
 @SuppressWarnings("serial")
-public final class Digest implements Serializable {
+public class Digest implements Serializable {
 
 	/** The used DigestAlgorithm */
 	private DigestAlgorithm algorithm;
@@ -43,6 +43,7 @@ public final class Digest implements Serializable {
 	 * Empty constructor
 	 */
 	public Digest() {
+		// empty
 	}
 
 	/**
@@ -139,7 +140,7 @@ public final class Digest implements Serializable {
 	
 	@Override
 	public String toString() {
-		return ((algorithm == null) ? "?" : algorithm.getName()) + ":" + ((value == null) ? "?" : getHexValue());
+		return ((algorithm == null) ? "?" : algorithm.getName()) + ":" + ((value == null) ? "?" : "#" + getHexValue());
 	}
 	
 }

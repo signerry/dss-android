@@ -25,9 +25,16 @@ import eu.europa.esig.trustedlist.jaxb.tsl.TSPServicesListType;
 import eu.europa.esig.trustedlist.jaxb.tsl.TSPType;
 
 /**
- * Filters non empty TrustServices
+ * Filters non-empty TrustServices
  */
 public class NonEmptyTrustService implements TrustServiceProviderPredicate {
+
+	/**
+	 * Default constructor
+	 */
+	public NonEmptyTrustService() {
+		// empty
+	}
 
 	@Override
 	public boolean test(TSPType t) {

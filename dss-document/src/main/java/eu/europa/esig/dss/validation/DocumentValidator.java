@@ -76,9 +76,9 @@ public interface DocumentValidator extends ProcessExecutorProvider<DocumentProce
 	/**
 	 * Sets the TokenIdentifierProvider
 	 *
-	 * @param identifierProvider {@link TokenIdentifierProvider}
+	 * @param tokenIdentifierProvider {@link TokenIdentifierProvider}
 	 */
-	void setTokenIdentifierProvider(TokenIdentifierProvider identifierProvider);
+	void setTokenIdentifierProvider(TokenIdentifierProvider tokenIdentifierProvider);
 	
 	/**
 	 * This method allows to enable/disable the semantics inclusion in the reports
@@ -189,6 +189,16 @@ public interface DocumentValidator extends ProcessExecutorProvider<DocumentProce
 	 * @return {@code Reports}: diagnostic data, detailed report and simple report
 	 */
 	Reports validateDocument(final File policyFile);
+
+	/**
+	 * Validates the document and all its signatures. The policyDataStream contains the constraint file. If null or
+	 * empty the default file is used.
+	 *
+	 * @param policyDocument
+	 *            contains the validation policy (xml) as {@code DSSDocument}
+	 * @return {@code Reports}: diagnostic data, detailed report and simple report
+	 */
+	Reports validateDocument(final DSSDocument policyDocument);
 
 	/**
 	 * Validates the document and all its signatures. The policyDataStream contains the constraint file. If null or

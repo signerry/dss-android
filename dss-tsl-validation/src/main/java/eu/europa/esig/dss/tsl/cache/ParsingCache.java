@@ -28,6 +28,13 @@ import eu.europa.esig.dss.tsl.parsing.AbstractParsingResult;
  */
 public class ParsingCache extends AbstractCache<AbstractParsingResult> {
 	
+	/**
+	 * Default constructor
+	 */
+	public ParsingCache() {
+		// empty
+	}
+
 	@Override
 	protected CacheType getCacheType() {
 		return CacheType.PARSING;

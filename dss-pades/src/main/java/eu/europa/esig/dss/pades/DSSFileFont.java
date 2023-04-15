@@ -26,7 +26,8 @@ import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.utils.Utils;
 
-import java.awt.*;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -52,6 +53,16 @@ public class DSSFileFont extends AbstractDSSFont {
 
 	/** Java implementation of the font */
 	private Font javaFont;
+
+	/**
+	 * Defines whether only a subset of used glyphs should be embedded to a PDF,
+	 * when a font file is used with a text information defined within a signature field.
+	 *
+	 * DEFAULT : FALSE (all glyphs from a font file are embedded to a PDF document)
+	 *
+	 * NOTE : this parameter will not take effect for {@code DefaultPdfBoxVisibleSignatureDrawer}
+	 */
+	private boolean embedFontSubset = false;
 
 	/**
 	 * Initializes the default {@code DSSFileFont}
@@ -131,6 +142,31 @@ public class DSSFileFont extends AbstractDSSFont {
 	 */
 	public String getName() {
 		return fileFont.getName();
+	}
+
+	/**
+	 * Sets whether only a subset of used glyphs should be embedded to a PDF, when a {@code DSSFileFont} is used.
+	 *
+	 * When set to TRUE, only the used glyphs will be embedded to a font.
+	 * When set to FALSE, all glyphs from a font will be embedded to a PDF.
+	 *
+	 * DEFAULT : FALSE (the whole font file is embedded to a PDF)
+	 *
+	 * NOTE : this parameter will not take effect for {@code DefaultPdfBoxVisibleSignatureDrawer}
+	 *
+	 * @param embedFontSubset whether only a subset of used glyphs should be embedded to a PDF
+	 */
+	public void setEmbedFontSubset(boolean embedFontSubset) {
+		this.embedFontSubset = embedFontSubset;
+	}
+
+	/**
+	 * This method returns whether only a font subset should be included into a PDF
+	 *
+	 * @return TRUE if a font subset should be included to a PDF, FALSE if the whole font file
+	 */
+	public boolean isEmbedFontSubset() {
+		return embedFontSubset;
 	}
 
 }

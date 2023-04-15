@@ -33,6 +33,13 @@ public class LogTLSignatureErrorAlertHandler implements AlertHandler<TLInfo> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(LogTLSignatureErrorAlertHandler.class);
 
+	/**
+	 * Default constructor
+	 */
+	public LogTLSignatureErrorAlertHandler() {
+		// empty
+	}
+
 	@Override
 	public void process(TLInfo currentInfo) {
 		LOG.warn("There is a problem in the TL signature : {}", currentInfo.getUrl());

@@ -20,10 +20,9 @@
  */
 package eu.europa.esig.dss.ws.signature.soap.client;
 
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * This class is an adapter for java.util.Date in SOAP WS
@@ -31,6 +30,13 @@ import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 public class DateAdapter extends XmlAdapter<String, Date> {
 
 	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+	/**
+	 * Default constructor
+	 */
+	public DateAdapter() {
+		// empty
+	}
 
 	@Override
 	public Date unmarshal(String v) throws Exception {

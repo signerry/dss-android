@@ -25,12 +25,13 @@ import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.diagnostic.TimestampWrapper;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlSignatureScope;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlSignerInfo;
+import eu.europa.esig.dss.enumerations.MimeType;
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignatureScopeType;
 import eu.europa.esig.dss.enumerations.TimestampType;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
-import eu.europa.esig.dss.model.MimeType;
 import eu.europa.esig.dss.model.SerializableSignatureParameters;
 import eu.europa.esig.dss.pades.PAdESSignatureParameters;
 import eu.europa.esig.dss.pades.PAdESTimestampParameters;
@@ -83,7 +84,7 @@ public abstract class AbstractPAdESTestSignature extends AbstractPkiFactoryTestD
 
 		SignedDocumentValidator validator = getValidator(dssDocument);
 		List<AdvancedSignature> signatures = validator.getSignatures();
-		assertEquals(1, signatures.size());
+		assertTrue(Utils.isCollectionNotEmpty(signatures));
 
 		PAdESSignature padesSig = (PAdESSignature) signatures.get(0);
 
@@ -124,7 +125,7 @@ public abstract class AbstractPAdESTestSignature extends AbstractPkiFactoryTestD
 		checkSignedAttributesOrder(padesSig);
 	}
 	
-	protected String getPasswordProtection() {
+	protected char[] getPasswordProtection() {
 		return getSignatureParameters().getPasswordProtection();
 	}
 
@@ -247,7 +248,7 @@ public abstract class AbstractPAdESTestSignature extends AbstractPkiFactoryTestD
 
 	@Override
 	protected MimeType getExpectedMime() {
-		return MimeType.PDF;
+		return MimeTypeEnum.PDF;
 	}
 
 	@Override

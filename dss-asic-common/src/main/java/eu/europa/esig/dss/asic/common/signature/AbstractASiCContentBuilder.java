@@ -43,6 +43,13 @@ public abstract class AbstractASiCContentBuilder {
     private static final String ZIP_ENTRY_DETACHED_FILE = "detached-file";
 
     /**
+     * Default constructor
+     */
+    protected AbstractASiCContentBuilder() {
+        // empty
+    }
+
+    /**
      * Builds the {@code ASiCContent} from the
      *
      * @param documents representing an ASiC Container or a list of documents to be signed
@@ -96,7 +103,7 @@ public abstract class AbstractASiCContentBuilder {
     private void assertContainerTypeValid(ASiCContent result, ASiCContainerType asicContainerType) {
         if (ASiCUtils.filesContainSignatures(DSSUtils.getDocumentNames(result.getAllDocuments()))
                 && Utils.isCollectionEmpty(result.getSignatureDocuments())) {
-            throw new UnsupportedOperationException("Container type doesn't match");
+            throw new UnsupportedOperationException("Container type doesn't match! The same container type shall be chosen.");
         }
         if (asicContainerType != result.getContainerType()) {
             throw new IllegalInputException(String.format(

@@ -37,21 +37,21 @@ public class ImageUtilsTest {
 	@Test
 	public void pngAlpha() throws IOException {
 		try (FileInputStream fis = new FileInputStream(TestUtils.getResourceAsFile("signature-pen.png"))) {
-			assertTrue(ImageUtils.isTransparent(ImageUtils.toBufferedImage(fis)));
+			assertTrue(ImageUtils.isTransparent(ImageUtils.toBitmap(fis)));
 		}
 	}
 
 	@Test
 	public void pngNoAlpha() throws IOException {
 		try (FileInputStream fis = new FileInputStream(TestUtils.getResourceAsFile("signature-pen-no-alpha.png"))) {
-			assertFalse(ImageUtils.isTransparent(ImageUtils.toBufferedImage(fis)));
+			assertFalse(ImageUtils.isTransparent(ImageUtils.toBitmap(fis)));
 		}
 	}
 
 	@Test
 	public void jpg() throws IOException {
 		try (FileInputStream fis = new FileInputStream(TestUtils.getResourceAsFile("small-red.jpg"))) {
-			assertFalse(ImageUtils.isTransparent(ImageUtils.toBufferedImage(fis)));
+			assertFalse(ImageUtils.isTransparent(ImageUtils.toBitmap(fis)));
 		}
 	}
 

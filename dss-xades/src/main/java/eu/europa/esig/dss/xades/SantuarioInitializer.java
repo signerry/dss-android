@@ -59,6 +59,7 @@ public class SantuarioInitializer {
 	 * Empty constructor
 	 */
 	private SantuarioInitializer() {
+		// empty
 	}
 
 	/**

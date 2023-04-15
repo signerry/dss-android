@@ -21,6 +21,7 @@
 package eu.europa.esig.dss.model;
 
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -56,8 +57,8 @@ public class FileDocumentTest {
 		FileDocument doc = new FileDocument(getResourceAsFile("AdobeCA.p7c"));
 		assertNotNull(doc);
 		assertTrue(doc.exists());
-		//assertEquals("AdobeCA.p7c", doc.getName());
-		assertEquals(MimeType.BINARY, doc.getMimeType());
+		assertEquals("AdobeCA.p7c", doc.getName());
+		assertEquals(MimeTypeEnum.BINARY, doc.getMimeType());
 		assertEquals("xF8SpcLlrd4Bhl1moh4Ciz+Rq/PImaChEl/tyGTZyPM=", doc.getDigest(DigestAlgorithm.SHA256));
 		assertEquals("xF8SpcLlrd4Bhl1moh4Ciz+Rq/PImaChEl/tyGTZyPM=", doc.getDigest(DigestAlgorithm.SHA256)); // uses map
 

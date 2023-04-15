@@ -20,17 +20,37 @@
  */
 package eu.europa.esig.dss.diagnostic;
 
+import eu.europa.esig.dss.diagnostic.jaxb.XmlAuthorityInformationAccess;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlBasicConstraints;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlBasicSignature;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlCRLDistributionPoints;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlCertificate;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlCertificateExtension;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlCertificatePolicies;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlCertificatePolicy;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlCertificateRevocation;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlChainItem;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlDigestAlgoAndValue;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlExtendedKeyUsages;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlGeneralSubtree;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlIdPkixOcspNoCheck;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlInhibitAnyPolicy;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlKeyUsages;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlLangAndValue;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlMRATrustServiceMapping;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlNameConstraints;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlOID;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlOriginalThirdCountryQcStatementsMapping;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlOriginalThirdCountryTrustedServiceMapping;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlPolicyConstraints;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlQcStatements;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlSigningCertificate;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlSubjectAlternativeNames;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlSubjectKeyIdentifier;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlTrustedService;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlTrustedServiceProvider;
+import eu.europa.esig.dss.diagnostic.jaxb.XmlValAssuredShortTermCertificate;
+import eu.europa.esig.dss.enumerations.CertificateExtensionEnum;
 import eu.europa.esig.dss.enumerations.CertificateSourceType;
 import eu.europa.esig.dss.enumerations.ExtendedKeyUsage;
 import eu.europa.esig.dss.enumerations.KeyUsageBit;
@@ -103,16 +123,150 @@ public class CertificateWrapper extends AbstractTokenProxy {
 	}
 
 	/**
+	 * Returns a list of all certificate extensions
+	 *
+	 * @return a list of {@link XmlCertificateExtension}
+	 */
+	public List<XmlCertificateExtension> getCertificateExtensions() {
+		return new ArrayList<>(certificate.getCertificateExtensions());
+	}
+
+	/**
+	 * Returns a certificate extension with the given {@code oid} when present
+	 *
+	 * @param oid {@link String} OID of the certificate extension
+	 * @return {@link XmlCertificateExtension} when present, NULL otherwise
+	 */
+	public <T extends XmlCertificateExtension> T getCertificateExtensionForOid(String oid, Class<T> targetClass) {
+		for (XmlCertificateExtension certificateExtension : getCertificateExtensions()) {
+			if (oid.equals(certificateExtension.getOID())) {
+				if (targetClass.isInstance(certificateExtension)) {
+					return (T) certificateExtension;
+				} else {
+					throw new UnsupportedOperationException(String.format("A certificate extension with " +
+							"OID '%s' shall be in instance of '%s' class!", oid, targetClass.getName()));
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns subject alternative names
+	 *
+	 * @return a list of {@link String}s
+	 */
+	public List<String> getSubjectAlternativeNames() {
+		XmlSubjectAlternativeNames subjectAlternativeNames = getXmlSubjectAlternativeNames();
+		return subjectAlternativeNames != null ? subjectAlternativeNames.getSubjectAlternativeName() : Collections.emptyList();
+	}
+
+	private XmlSubjectAlternativeNames getXmlSubjectAlternativeNames() {
+		return getCertificateExtensionForOid(CertificateExtensionEnum.SUBJECT_ALTERNATIVE_NAME.getOid(), XmlSubjectAlternativeNames.class);
+	}
+
+	/**
+	 * Returns whether the certificate defines BasicConstraints.cA extension set to TRUE
+	 *
+	 * @return TRUE if the BasicConstraints.cA extension is defined and set to true, FALSE otherwise
+	 */
+	public boolean isCA() {
+		XmlBasicConstraints basicConstraints = getXmlBasicConstraints();
+		return basicConstraints != null && basicConstraints.isCA();
+	}
+
+	/**
+	 * Returns value of BasicConstraints.PathLenConstraint if present and BasicConstraints.cA is set to true
+	 *
+	 * @return integer value of BasicConstraints.PathLenConstraint if applicable, -1 otherwise
+	 */
+	public int getPathLenConstraint() {
+		XmlBasicConstraints basicConstraints = getXmlBasicConstraints();
+		return basicConstraints != null && basicConstraints.isCA() && basicConstraints.getPathLenConstraint() != null
+				? basicConstraints.getPathLenConstraint() : -1;
+	}
+
+	private XmlBasicConstraints getXmlBasicConstraints() {
+		return getCertificateExtensionForOid(CertificateExtensionEnum.BASIC_CONSTRAINTS.getOid(), XmlBasicConstraints.class);
+	}
+
+	/**
+	 * Returns value of the requireExplicitPolicy field of policyConstraints certificate extension
+	 *
+	 * @return requireExplicitPolicy value if present, -1 otherwise
+	 */
+	public int getRequireExplicitPolicy() {
+		XmlPolicyConstraints policyConstraints = getXmlPolicyConstraints();
+		return policyConstraints != null && policyConstraints.getRequireExplicitPolicy() != null ?
+				policyConstraints.getRequireExplicitPolicy() : -1;
+	}
+
+	/**
+	 * Returns value of the inhibitPolicyMapping field of policyConstraints certificate extension
+	 *
+	 * @return inhibitPolicyMapping value if present, -1 otherwise
+	 */
+	public int getInhibitPolicyMapping() {
+		XmlPolicyConstraints policyConstraints = getXmlPolicyConstraints();
+		return policyConstraints != null && policyConstraints.getInhibitPolicyMapping() != null ?
+				policyConstraints.getInhibitPolicyMapping() : -1;
+	}
+
+	private XmlPolicyConstraints getXmlPolicyConstraints() {
+		return getCertificateExtensionForOid(CertificateExtensionEnum.POLICY_CONSTRAINTS.getOid(), XmlPolicyConstraints.class);
+	}
+
+	/**
+	 * Returns value of the inhibitAnyPolicy certificate extension's value
+	 *
+	 * @return inhibitAnyPolicy certificate extension's value if present, -1 otherwise
+	 */
+	public int getInhibitAnyPolicy() {
+		XmlInhibitAnyPolicy inhibitAnyPolicy = getXmlInhibitAnyPolicy();
+		return inhibitAnyPolicy != null && inhibitAnyPolicy.getValue() != null ?
+				inhibitAnyPolicy.getValue() : -1;
+	}
+
+	private XmlInhibitAnyPolicy getXmlInhibitAnyPolicy() {
+		return getCertificateExtensionForOid(CertificateExtensionEnum.INHIBIT_ANY_POLICY.getOid(), XmlInhibitAnyPolicy.class);
+	}
+
+	/**
+	 * Returns value of the permittedSubtrees field of nameConstraints certificate extension, when present
+	 *
+	 * @return list of {@link XmlGeneralSubtree} if field is present, empty list otherwise
+	 */
+	public List<XmlGeneralSubtree> getPermittedSubtrees() {
+		XmlNameConstraints nameConstraints = getXmlNameConstraints();
+		return nameConstraints != null ? nameConstraints.getPermittedSubtrees() : Collections.emptyList();
+	}
+
+	/**
+	 * Returns value of the excludedSubtrees field of nameConstraints certificate extension, when present
+	 *
+	 * @return list of {@link XmlGeneralSubtree} if field is present, empty list otherwise
+	 */
+	public List<XmlGeneralSubtree> getExcludedSubtrees() {
+		XmlNameConstraints nameConstraints = getXmlNameConstraints();
+		return nameConstraints != null ? nameConstraints.getExcludedSubtrees() : Collections.emptyList();
+	}
+
+	private XmlNameConstraints getXmlNameConstraints() {
+		return getCertificateExtensionForOid(CertificateExtensionEnum.NAME_CONSTRAINTS.getOid(), XmlNameConstraints.class);
+	}
+
+	/**
 	 * Returns the defined key-usages for the certificate
 	 *
 	 * @return a list of {@link KeyUsageBit}s
 	 */
 	public List<KeyUsageBit> getKeyUsages() {
-		List<KeyUsageBit> keyUsageBits = certificate.getKeyUsageBits();
-		if (keyUsageBits != null) {
-			return keyUsageBits;
-		}
-		return Collections.emptyList();
+		XmlKeyUsages keyUsage = getXmlKeyUsage();
+		return keyUsage != null ? keyUsage.getKeyUsageBit() : Collections.emptyList();
+	}
+
+	private XmlKeyUsages getXmlKeyUsage() {
+		return getCertificateExtensionForOid(CertificateExtensionEnum.KEY_USAGE.getOid(), XmlKeyUsages.class);
 	}
 
 	/**
@@ -168,7 +322,12 @@ public class CertificateWrapper extends AbstractTokenProxy {
 	 * @return TRUE if the certificate has id-pkix-ocsp-no-check attribute, FALSE otherwise
 	 */
 	public boolean isIdPkixOcspNoCheck() {
-		return certificate.isIdPkixOcspNoCheck() != null && certificate.isIdPkixOcspNoCheck();
+		XmlIdPkixOcspNoCheck ocspNoCheck = getXmlIdPkixOcspNoCheck();
+		return ocspNoCheck != null && ocspNoCheck.isPresent();
+	}
+
+	private XmlIdPkixOcspNoCheck getXmlIdPkixOcspNoCheck() {
+		return getCertificateExtensionForOid(CertificateExtensionEnum.OCSP_NOCHECK.getOid(), XmlIdPkixOcspNoCheck.class);
 	}
 
 	/**
@@ -177,15 +336,43 @@ public class CertificateWrapper extends AbstractTokenProxy {
 	 * @return TRUE if the certificate has extended-key-usage "ocspSigning", FALSE otherwise
 	 */
 	public boolean isIdKpOCSPSigning() {
-		List<XmlOID> extendedKeyUsages = certificate.getExtendedKeyUsages();
-		if (extendedKeyUsages != null) {
-			for (XmlOID xmlOID : extendedKeyUsages) {
+		XmlExtendedKeyUsages extendedKeyUsage = getXmlExtendedKeyUsages();
+		if (extendedKeyUsage != null) {
+			for (XmlOID xmlOID : extendedKeyUsage.getExtendedKeyUsagesOid()) {
 				if (ExtendedKeyUsage.OCSP_SIGNING.getOid().equals(xmlOID.getValue())) {
 					return true;
 				}
 			}
 		}
 		return false;
+	}
+	/**
+	 * Returns if the certificate contains id-etsi-ext-valassured-ST-certs extension,
+	 * as defined in ETSI EN 319 412-1 "5.2 Certificate Extensions regarding Validity Assured Certificate"
+	 *
+	 * @return TRUE if the certificate is a validity assured short-term certificate, FALSE otherwise
+	 */
+	public boolean isValAssuredShortTermCertificate() {
+		XmlValAssuredShortTermCertificate valAssuredShortTermCertificate = getXmlValAssuredShortTermCertificate();
+		return valAssuredShortTermCertificate != null && valAssuredShortTermCertificate.isPresent();
+	}
+
+	private XmlValAssuredShortTermCertificate getXmlValAssuredShortTermCertificate() {
+		return getCertificateExtensionForOid(CertificateExtensionEnum.VALIDITY_ASSURED_SHORT_TERM.getOid(), XmlValAssuredShortTermCertificate.class);
+	}
+
+	/**
+	 * Returns a list of extended-key-usages
+	 *
+	 * @return a list of {@link XmlOID}s
+	 */
+	public List<XmlOID> getExtendedKeyUsages() {
+		XmlExtendedKeyUsages extendedKeyUsage = getXmlExtendedKeyUsages();
+		return extendedKeyUsage != null ? extendedKeyUsage.getExtendedKeyUsagesOid() : Collections.emptyList();
+	}
+
+	private XmlExtendedKeyUsages getXmlExtendedKeyUsages() {
+		return getCertificateExtensionForOid(CertificateExtensionEnum.EXTENDED_KEY_USAGE.getOid(), XmlExtendedKeyUsages.class);
 	}
 
 	/**
@@ -418,6 +605,21 @@ public class CertificateWrapper extends AbstractTokenProxy {
 						wrapper.setEndDate(trustedService.getEndDate());
 						wrapper.setCapturedQualifiers(new ArrayList<>(trustedService.getCapturedQualifiers()));
 						wrapper.setAdditionalServiceInfos(new ArrayList<>(trustedService.getAdditionalServiceInfoUris()));
+						wrapper.setEnactedMRA(trustedService.isEnactedMRA());
+
+						XmlMRATrustServiceMapping mraTrustServiceMapping = trustedService.getMRATrustServiceMapping();
+						if (mraTrustServiceMapping != null) {
+							wrapper.setMraTrustServiceLegalIdentifier(mraTrustServiceMapping.getTrustServiceLegalIdentifier());
+							wrapper.setMraTrustServiceEquivalenceStatusStartingTime(mraTrustServiceMapping.getEquivalenceStatusStartingTime());
+							XmlOriginalThirdCountryTrustedServiceMapping originalThirdCountryMapping = mraTrustServiceMapping.getOriginalThirdCountryMapping();
+							if (originalThirdCountryMapping != null) {
+								wrapper.setOriginalTCType(originalThirdCountryMapping.getServiceType());
+								wrapper.setOriginalTCStatus(originalThirdCountryMapping.getStatus());
+								wrapper.setOriginalCapturedQualifiers(originalThirdCountryMapping.getCapturedQualifiers());
+								wrapper.setOriginalTCAdditionalServiceInfos(originalThirdCountryMapping.getAdditionalServiceInfoUris());
+							}
+						}
+
 						result.add(wrapper);
 					}
 				}
@@ -453,21 +655,44 @@ public class CertificateWrapper extends AbstractTokenProxy {
 	}
 
 	/**
-	 * Returns the Authority Information Access URLs
-	 *
-	 * @return a list of {@link String}s
-	 */
-	public List<String> getAuthorityInformationAccessUrls() {
-		return certificate.getAuthorityInformationAccessUrls();
-	}
-
-	/**
 	 * Returns the CRL Distribution Points URLs
 	 *
 	 * @return a list of {@link String}s
 	 */
 	public List<String> getCRLDistributionPoints() {
-		return certificate.getCRLDistributionPoints();
+		XmlCRLDistributionPoints crlDistributionPoints = getXmlCRLDistributionPoints();
+		if (crlDistributionPoints != null) {
+			return crlDistributionPoints.getCrlUrl();
+		}
+		return Collections.emptyList();
+	}
+
+	private XmlCRLDistributionPoints getXmlCRLDistributionPoints() {
+		return getCertificateExtensionForOid(CertificateExtensionEnum.CRL_DISTRIBUTION_POINTS.getOid(), XmlCRLDistributionPoints.class);
+	}
+
+	/**
+	 * Returns the Authority Information Access URLs
+	 *
+	 * @return a list of {@link String}s
+	 * @deprecated since DSS 5.12. Use {@code #getCAIssuersAccessUrls} method instead.
+	 */
+	@Deprecated
+	public List<String> getAuthorityInformationAccessUrls() {
+		return getCAIssuersAccessUrls();
+	}
+
+	/**
+	 * Returns the Authority Information Access URLs
+	 *
+	 * @return a list of {@link String}s
+	 */
+	public List<String> getCAIssuersAccessUrls() {
+		XmlAuthorityInformationAccess authorityInformationAccess = getXmlAuthorityInformationAccess();
+		if (authorityInformationAccess != null) {
+			return authorityInformationAccess.getCaIssuersUrls();
+		}
+		return Collections.emptyList();
 	}
 
 	/**
@@ -476,7 +701,32 @@ public class CertificateWrapper extends AbstractTokenProxy {
 	 * @return a list of {@link String}s
 	 */
 	public List<String> getOCSPAccessUrls() {
-		return certificate.getOCSPAccessUrls();
+		XmlAuthorityInformationAccess authorityInformationAccess = getXmlAuthorityInformationAccess();
+		if (authorityInformationAccess != null) {
+			return authorityInformationAccess.getOcspUrls();
+		}
+		return Collections.emptyList();
+	}
+
+	private XmlAuthorityInformationAccess getXmlAuthorityInformationAccess() {
+		return getCertificateExtensionForOid(CertificateExtensionEnum.AUTHORITY_INFORMATION_ACCESS.getOid(), XmlAuthorityInformationAccess.class);
+	}
+
+	/**
+	 * Returns the Subject Key Identifier certificate extension's value, when present
+	 *
+	 * @return byte array representing the Subject Key Identifier
+	 */
+	public byte[] getSubjectKeyIdentifier() {
+		XmlSubjectKeyIdentifier xmlSubjectKeyIdentifier = getXmlSubjectKeyIdentifier();
+		if (xmlSubjectKeyIdentifier != null) {
+			return xmlSubjectKeyIdentifier.getSki();
+		}
+		return null;
+	}
+
+	private XmlSubjectKeyIdentifier getXmlSubjectKeyIdentifier() {
+		return getCertificateExtensionForOid(CertificateExtensionEnum.SUBJECT_KEY_IDENTIFIER.getOid(), XmlSubjectKeyIdentifier.class);
 	}
 
 	/**
@@ -486,9 +736,9 @@ public class CertificateWrapper extends AbstractTokenProxy {
 	 */
 	public List<String> getCpsUrls() {
 		List<String> result = new ArrayList<>();
-		List<XmlCertificatePolicy> certificatePolicyIds = certificate.getCertificatePolicies();
-		if (certificatePolicyIds != null) {
-			for (XmlCertificatePolicy xmlCertificatePolicy : certificatePolicyIds) {
+		XmlCertificatePolicies xmlCertificatePolicies = getXmlCertificatePolicies();
+		if (xmlCertificatePolicies != null) {
+			for (XmlCertificatePolicy xmlCertificatePolicy : xmlCertificatePolicies.getCertificatePolicy()) {
 				String cpsUrl = xmlCertificatePolicy.getCpsUrl();
 				if (cpsUrl != null) {
 					result.add(cpsUrl);
@@ -504,18 +754,29 @@ public class CertificateWrapper extends AbstractTokenProxy {
 	 * @return a list of {@link String}s
 	 */
 	public List<String> getPolicyIds() {
-		List<XmlCertificatePolicy> certificatePolicyIds = certificate.getCertificatePolicies();
-		return getOidValues(certificatePolicyIds);
+		XmlCertificatePolicies xmlCertificatePolicies = getXmlCertificatePolicies();
+		if (xmlCertificatePolicies != null) {
+			List<XmlCertificatePolicy> certificatePolicyIds = xmlCertificatePolicies.getCertificatePolicy();
+			return getOidValues(certificatePolicyIds);
+		}
+		return Collections.emptyList();
 	}
 
 	/**
-	 * Returns if the certificate is supported by QSCD (has id-etsi-qcs-QcSSCD extension)
+	 * Returns the certificate policies Ids
 	 *
-	 * @return TRUE if the certificate is supported by QSCD, FALSE otherwise
+	 * @return a list of {@link String}s
 	 */
-	public boolean isSupportedByQSCD() {
-		return certificate.getQcStatements() != null && certificate.getQcStatements().getQcSSCD() != null
-				&& certificate.getQcStatements().getQcSSCD().isPresent();
+	public List<XmlCertificatePolicy> getCertificatePolicies() {
+		XmlCertificatePolicies xmlCertificatePolicies = getXmlCertificatePolicies();
+		if (xmlCertificatePolicies != null) {
+			return xmlCertificatePolicies.getCertificatePolicy();
+		}
+		return Collections.emptyList();
+	}
+
+	private XmlCertificatePolicies getXmlCertificatePolicies() {
+		return getCertificateExtensionForOid(CertificateExtensionEnum.CERTIFICATE_POLICIES.getOid(), XmlCertificatePolicies.class);
 	}
 
 	/**
@@ -524,8 +785,20 @@ public class CertificateWrapper extends AbstractTokenProxy {
 	 * @return TRUE if the certificate is QC compliant, FALSE otherwise
 	 */
 	public boolean isQcCompliance() {
-		return certificate.getQcStatements() != null && certificate.getQcStatements().getQcCompliance() != null
-				&& certificate.getQcStatements().getQcCompliance().isPresent();
+		XmlQcStatements xmlQcStatements = getXmlQcStatements();
+		return xmlQcStatements != null && xmlQcStatements.getQcCompliance() != null
+				&& xmlQcStatements.getQcCompliance().isPresent();
+	}
+
+	/**
+	 * Returns if the certificate is supported by QSCD (has id-etsi-qcs-QcSSCD extension)
+	 *
+	 * @return TRUE if the certificate is supported by QSCD, FALSE otherwise
+	 */
+	public boolean isSupportedByQSCD() {
+		XmlQcStatements xmlQcStatements = getXmlQcStatements();
+		return xmlQcStatements != null && xmlQcStatements.getQcSSCD() != null
+				&& xmlQcStatements.getQcSSCD().isPresent();
 	}
 
 	/**
@@ -533,10 +806,11 @@ public class CertificateWrapper extends AbstractTokenProxy {
 	 *
 	 * @return a list of {@link QCType}s
 	 */
-	public List<QCType> getQCTypes() {
+	public List<QCType> getQcTypes() {
 		List<QCType> result = new ArrayList<>();
-		if (certificate.getQcStatements() != null && certificate.getQcStatements().getQcTypes() != null) {
-			for (XmlOID oid : certificate.getQcStatements().getQcTypes()) {
+		XmlQcStatements xmlQcStatements = getXmlQcStatements();
+		if (xmlQcStatements != null && xmlQcStatements.getQcTypes() != null) {
+			for (XmlOID oid : xmlQcStatements.getQcTypes()) {
 				result.add(QCType.fromOid(oid.getValue()));
 			}
 		}
@@ -549,10 +823,118 @@ public class CertificateWrapper extends AbstractTokenProxy {
 	 * @return a list of {@link String}s
 	 */
 	public List<String> getQcLegislationCountryCodes() {
-		if (certificate.getQcStatements() != null && certificate.getQcStatements().getQcCClegislation() != null) {
-			return certificate.getQcStatements().getQcCClegislation();
+		XmlQcStatements xmlQcStatements = getXmlQcStatements();
+		if (xmlQcStatements != null && xmlQcStatements.getQcCClegislation() != null) {
+			return xmlQcStatements.getQcCClegislation();
 		}
 		return Collections.emptyList();
+	}
+
+	/**
+	 * Returns the PSD2 QCStatement (id-etsi-psd2-qcStatement extension, ETSI TS 119 495)
+	 *
+	 * @return {@link PSD2InfoWrapper}
+	 */
+	public PSD2InfoWrapper getPSD2Info() {
+		XmlQcStatements xmlQcStatements = getXmlQcStatements();
+		if (xmlQcStatements != null && xmlQcStatements.getPSD2QcInfo() != null) {
+			return new PSD2InfoWrapper(xmlQcStatements.getPSD2QcInfo());
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the QCEuLimitValue
+	 *
+	 * @return {@link QCLimitValueWrapper}
+	 */
+	public QCLimitValueWrapper getQCLimitValue() {
+		XmlQcStatements xmlQcStatements = getXmlQcStatements();
+		if (xmlQcStatements != null && xmlQcStatements.getQcEuLimitValue() !=null) {
+			return new QCLimitValueWrapper(xmlQcStatements.getQcEuLimitValue());
+		}
+		return null;
+	}
+
+	/**
+	 * Returns QcEuRetentionPeriod
+	 *
+	 * @return {@link Integer} retention period
+	 */
+	public Integer getQCEuRetentionPeriod() {
+		XmlQcStatements xmlQcStatements = getXmlQcStatements();
+		if (xmlQcStatements != null ) {
+			return xmlQcStatements.getQcEuRetentionPeriod();
+		}
+		return null;
+	}
+
+	/**
+	 * Returns QcEuPDS Locations
+	 *
+	 * @return a list of {@link XmlLangAndValue}s
+	 */
+	public List<XmlLangAndValue> getQCPDSLocations() {
+		XmlQcStatements xmlQcStatements = getXmlQcStatements();
+		if (xmlQcStatements != null) {
+			return xmlQcStatements.getQcEuPDS();
+		}
+		return Collections.emptyList();
+	}
+
+	/**
+	 * Returns the semantics identifier
+	 *
+	 * @return {@link SemanticsIdentifier}
+	 */
+	public SemanticsIdentifier getSemanticsIdentifier() {
+		XmlQcStatements xmlQcStatements = getXmlQcStatements();
+		if (xmlQcStatements != null && xmlQcStatements.getSemanticsIdentifier() != null) {
+			XmlOID xmlOID = xmlQcStatements.getSemanticsIdentifier();
+			if (xmlOID != null) {
+				return SemanticsIdentifier.fromOid(xmlOID.getValue());
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns a list of QcStatements OIDs not supported by the implementation
+	 *
+	 * @return a list of {@link String}s
+	 */
+	public List<String> getOtherQcStatements() {
+		XmlQcStatements xmlQcStatements = getXmlQcStatements();
+		if (xmlQcStatements != null && xmlQcStatements.getOtherOIDs() != null) {
+			return getOidValues(xmlQcStatements.getOtherOIDs());
+		}
+		return Collections.emptyList();
+	}
+
+	/**
+	 * This method returns a name of a Trusted Service used to apply translation for the certificate QcStatements
+	 * based on the defined Mutual Recognition Agreement scheme
+	 *
+	 * @return {@link String}
+	 */
+	public String getMRAEnactedTrustServiceLegalIdentifier() {
+		XmlQcStatements xmlQcStatements = getXmlQcStatements();
+		if (xmlQcStatements != null && xmlQcStatements.getMRACertificateMapping() != null) {
+			return xmlQcStatements.getMRACertificateMapping().getEnactedTrustServiceLegalIdentifier();
+		}
+		return null;
+	}
+
+	private XmlOriginalThirdCountryQcStatementsMapping getOriginalThirdCountryMapping() {
+		XmlQcStatements xmlQcStatements = getXmlQcStatements();
+		if (xmlQcStatements != null && xmlQcStatements.getMRACertificateMapping() != null) {
+			return xmlQcStatements.getMRACertificateMapping().getOriginalThirdCountryMapping();
+		}
+		return null;
+	}
+
+	private XmlQcStatements getXmlQcStatements() {
+		return getCertificateExtensionForOid(CertificateExtensionEnum.QC_STATEMENTS.getOid(), XmlQcStatements.class);
 	}
 
 	private List<String> getOidValues(List<? extends XmlOID> xmlOids) {
@@ -565,101 +947,76 @@ public class CertificateWrapper extends AbstractTokenProxy {
 		return result;
 	}
 
-	@Override
-	public byte[] getBinaries() {
-		return certificate.getBase64Encoded();
+	/**
+	 * Returns if the certificate has been defined as QC compliant in a third-country Trusted List before MRA mapping
+	 *
+	 * @return TRUE if the certificate is QC compliant, FALSE otherwise
+	 */
+	public boolean isOriginalThirdCountryQcCompliance() {
+		XmlOriginalThirdCountryQcStatementsMapping originalThirdCountryMapping = getOriginalThirdCountryMapping();
+		return originalThirdCountryMapping != null && originalThirdCountryMapping.getQcCompliance() != null
+				&& originalThirdCountryMapping.getQcCompliance().isPresent();
 	}
 
 	/**
-	 * Returns a list of extended-key-usages
+	 * Returns if the certificate has been defined as supported by QSCD in a third-country Trusted List before MRA mapping
 	 *
-	 * @return a list of {@link XmlOID}s
+	 * @return TRUE if the certificate is supported by QSCD, FALSE otherwise
 	 */
-	public List<XmlOID> getExtendedKeyUsages() {
-		return certificate.getExtendedKeyUsages();
+	public boolean isOriginalThirdCountrySupportedByQSCD() {
+		XmlOriginalThirdCountryQcStatementsMapping originalThirdCountryMapping = getOriginalThirdCountryMapping();
+		return originalThirdCountryMapping != null && originalThirdCountryMapping.getQcSSCD() != null
+				&& originalThirdCountryMapping.getQcSSCD().isPresent();
 	}
 
 	/**
-	 * Returns the PSD2 QCStatement (id-etsi-psd2-qcStatement extension, ETSI TS 119 495)
+	 * Returns a list of QCTypes defined in a third-country Trusted List before MRA mapping
 	 *
-	 * @return {@link PSD2InfoWrapper}
+	 * @return a list of {@link QCType}s
 	 */
-	public PSD2InfoWrapper getPSD2Info() {
-		if (certificate.getQcStatements() !=null && certificate.getQcStatements().getPSD2QcInfo() != null) {
-			return new PSD2InfoWrapper(certificate.getQcStatements().getPSD2QcInfo());
+	public List<QCType> getOriginalThirdCountryQCTypes() {
+		List<QCType> result = new ArrayList<>();
+		XmlOriginalThirdCountryQcStatementsMapping originalThirdCountryMapping = getOriginalThirdCountryMapping();
+		if (originalThirdCountryMapping != null && originalThirdCountryMapping.getQcTypes() != null) {
+			for (XmlOID oid : originalThirdCountryMapping.getQcTypes()) {
+				result.add(QCType.fromOid(oid.getValue()));
+			}
 		}
-		return null;
+		return result;
 	}
 
 	/**
-	 * Returns the QCEuLimitValue
+	 * Returns a list of QCLegislation Country Codes defined in a third-country Trusted List before MRA mapping
 	 *
-	 * @return {@link QCLimitValueWrapper}
+	 * @return a list of {@link String}s
 	 */
-	public QCLimitValueWrapper getQCLimitValue() {
-		if (certificate.getQcStatements() !=null && certificate.getQcStatements().getQcEuLimitValue() !=null) {
-			return new QCLimitValueWrapper(certificate.getQcStatements().getQcEuLimitValue());
-		}
-		return null;
-	}
-
-	/**
-	 * Returns QcEuRetentionPeriod
-	 *
-	 * @return {@link Integer} retention period
-	 */
-	public Integer getQCEuRetentionPeriod() {
-		if (certificate.getQcStatements() !=null ) {
-			return certificate.getQcStatements().getQcEuRetentionPeriod();
-		}
-		return null;
-	}
-
-	/**
-	 * Returns QcEuPDS Locations
-	 *
-	 * @return a list of {@link XmlLangAndValue}s
-	 */
-	public List<XmlLangAndValue> getQCPDSLocations() {
-		if (certificate.getQcStatements() !=null) {
-			return certificate.getQcStatements().getQcEuPDS();
+	public List<String> getOriginalThirdCountryQcLegislationCountryCodes() {
+		XmlOriginalThirdCountryQcStatementsMapping originalThirdCountryMapping = getOriginalThirdCountryMapping();
+		if (originalThirdCountryMapping != null && originalThirdCountryMapping.getQcCClegislation() != null) {
+			return originalThirdCountryMapping.getQcCClegislation();
 		}
 		return Collections.emptyList();
 	}
 
 	/**
-	 * Returns the semantics identifier
-	 *
-	 * @return {@link SemanticsIdentifier}
-	 */
-	public SemanticsIdentifier getSemanticsIdentifier() {
-		if (certificate.getQcStatements() != null && certificate.getQcStatements().getSemanticsIdentifier() != null) {
-			XmlOID xmlOID = certificate.getQcStatements().getSemanticsIdentifier();
-			if (xmlOID != null) {
-				return SemanticsIdentifier.fromOid(xmlOID.getValue());
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Returns if the certificate contains id-etsi-ext-valassured-ST-certs extension,
-	 * as defined in ETSI EN 319 412-1 "5.2 Certificate Extensions regarding Validity Assured Certificate"
-	 *
-	 * @return TRUE if the certificate is a validity assured short-term certificate, FALSE otherwise
-	 */
-	public boolean isValAssuredShortTermCertificate() {
-		return certificate.isValAssuredShortTermCertificate() != null && certificate.isValAssuredShortTermCertificate();
-	}
-
-	/**
-	 * Returns subject alternative names
+	 * Returns a list of QcStatements OIDs not supported by the implementation
+	 * defined in a third-country Trusted List before MRA mapping
 	 *
 	 * @return a list of {@link String}s
 	 */
-	public List<String> getSubjectAlternativeNames() {
-		return certificate.getSubjectAlternativeNames();
+	public List<String> getOriginalThirdCountryOtherQcStatements() {
+		XmlOriginalThirdCountryQcStatementsMapping originalThirdCountryMapping = getOriginalThirdCountryMapping();
+		if (originalThirdCountryMapping != null && originalThirdCountryMapping.getOtherOIDs() != null) {
+			return getOidValues(originalThirdCountryMapping.getOtherOIDs());
+		}
+		return Collections.emptyList();
 	}
+
+	@Override
+	public byte[] getBinaries() {
+		return certificate.getBase64Encoded();
+	}
+
 
 	/**
 	 * Returns human-readable certificate name
@@ -686,6 +1043,29 @@ public class CertificateWrapper extends AbstractTokenProxy {
 			return certificate.getOrganizationalUnit();
 		}
 		return "?";
+	}
+
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof CertificateWrapper))
+			return false;
+		AbstractTokenProxy other = (AbstractTokenProxy) obj;
+		if (getId() == null) {
+			if (other.getId() != null) {
+				return false;
+			}
+		} else if (!getId().equals(other.getId())) {
+			return false;
+		}
+		return true;
 	}
 
 }

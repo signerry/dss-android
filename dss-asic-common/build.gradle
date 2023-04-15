@@ -10,6 +10,7 @@ dependencies {
     api project(':dss-utils')
     api project(':specs-asic-manifest')
     testFixturesImplementation testFixtures(project(':dss-test'))
+    testFixturesImplementation testFixtures(project(':dss-token'))
 
 }
 

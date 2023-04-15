@@ -47,6 +47,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public class DSS2049DoubleTLTest extends AbstractTestValidationExecutor {
 	
 	private static final String czId = "TL-57FCA8BD35213403F3B984949365A5B03DB909F620AFE49D66A1470F964C551F";
@@ -117,7 +119,7 @@ public class DSS2049DoubleTLTest extends AbstractTestValidationExecutor {
 	
 	private XmlDiagnosticData getDiagnosticData(boolean isLOTLWellSigned, boolean czTLWellSigned, boolean skTLWellSigned) throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				new File("src/test/resources/DSS-2049/dss2049-doubleTL.xml"));
+				TestUtils.getResourceAsFile("DSS-2049/dss2049-doubleTL.xml"));
 		assertNotNull(diagnosticData);
 		
 		List<XmlTrustedList> trustedLists = diagnosticData.getTrustedLists();

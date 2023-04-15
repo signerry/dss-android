@@ -23,7 +23,7 @@ package eu.europa.esig.dss.pades.validation.dss;
 import eu.europa.esig.dss.enumerations.CertificateOrigin;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.pdf.PdfDssDict;
-import eu.europa.esig.dss.pdf.PdfVRIDict;
+import eu.europa.esig.dss.pdf.PdfVriDict;
 import eu.europa.esig.dss.spi.x509.TokenCertificateSource;
 
 import java.util.ArrayList;
@@ -43,6 +43,13 @@ public class PdfCompositeDssDictCertificateSource extends TokenCertificateSource
 
     /** Composite map of certificate tokens extracted from different /DSS revisions */
     private final Map<Long, Set<CertificateToken>> certMap = new HashMap<>();
+
+    /**
+     * Default constructor instantiation an object with empty mpa of certificate token objects
+     */
+    public PdfCompositeDssDictCertificateSource() {
+        // empty
+    }
 
     /**
      * This method allows adding certificates extracted from a /DSS revision
@@ -82,9 +89,9 @@ public class PdfCompositeDssDictCertificateSource extends TokenCertificateSource
     private List<CertificateToken> getVRIDictionaryCertValues(PdfDssDict dssDictionary) {
         if (dssDictionary != null) {
             Map<Long, CertificateToken> vriCerts = new HashMap<>();
-            List<PdfVRIDict> vris = dssDictionary.getVRIs();
+            List<PdfVriDict> vris = dssDictionary.getVRIs();
             if (vris != null) {
-                for (PdfVRIDict vri : vris) {
+                for (PdfVriDict vri : vris) {
                     vriCerts.putAll(vri.getCERTs());
                 }
             }

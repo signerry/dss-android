@@ -51,6 +51,13 @@ public class CRLUtilsStreamImpl extends AbstractCRLUtils implements ICRLUtils {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CRLUtilsStreamImpl.class);
 
+	/**
+	 * Default constructor
+	 */
+	public CRLUtilsStreamImpl() {
+		// empty
+	}
+
 	@Override
 	public CRLValidity buildCRLValidity(CRLBinary crlBinary, CertificateToken issuerToken) throws IOException {
 		
@@ -79,13 +86,13 @@ public class CRLUtilsStreamImpl extends AbstractCRLUtils implements ICRLUtils {
 		return crlValidity;
 	}
 
-	private ByteArrayOutputStream getSignedData(CRLValidity crlValidity) throws IOException {
-		try (InputStream is = crlValidity.toCRLInputStream()) {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			BinaryFilteringInputStream bfis = new BinaryFilteringInputStream(is, baos);
+	private byte[] getSignedData(CRLValidity crlValidity) throws IOException {
+		try (InputStream is = crlValidity.toCRLInputStream();
+			 ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			 BinaryFilteringInputStream bfis = new BinaryFilteringInputStream(is, baos)) {
 			CRLParser parser = new CRLParser();
 			parser.getSignedData(bfis);
-			return baos;
+			return baos.toByteArray();
 		}
 	}
 
@@ -101,13 +108,12 @@ public class CRLUtilsStreamImpl extends AbstractCRLUtils implements ICRLUtils {
 		return crlEntry;
 	}
 
-	private void checkSignatureValue(CRLValidity crlValidity, byte[] signatureValue, SignatureAlgorithm signatureAlgorithm, ByteArrayOutputStream baos,
-			CertificateToken signer) {
+	private void checkSignatureValue(CRLValidity crlValidity, byte[] signatureValue, SignatureAlgorithm signatureAlgorithm,
+									 byte[] signedData, CertificateToken signer) {
 		try {
 			Signature signature = Signature.getInstance(signatureAlgorithm.getJCEId(), CryptoProvider.BCProvider);
 			signature.initVerify(signer.getPublicKey());
-			signature.update(baos.toByteArray());
-
+			signature.update(signedData);
 			if (signature.verify(signatureValue)) {
 				crlValidity.setSignatureIntact(true);
 				crlValidity.setIssuerToken(signer);
@@ -115,6 +121,7 @@ public class CRLUtilsStreamImpl extends AbstractCRLUtils implements ICRLUtils {
 			} else {
 				crlValidity.setSignatureInvalidityReason("Signature value not correct");
 			}
+
 		} catch (GeneralSecurityException e) {
 			String msg = String.format("CRL Signature cannot be validated : %s", e.getMessage());
 			if (LOG.isTraceEnabled()) {

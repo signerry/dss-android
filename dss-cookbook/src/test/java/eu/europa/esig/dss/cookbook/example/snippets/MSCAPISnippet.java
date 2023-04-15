@@ -20,8 +20,6 @@
  */
 package eu.europa.esig.dss.cookbook.example.snippets;
 
-import java.util.List;
-
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
@@ -29,11 +27,20 @@ import eu.europa.esig.dss.token.DSSPrivateKeyEntry;
 import eu.europa.esig.dss.token.MSCAPISignatureToken;
 import eu.europa.esig.dss.utils.Utils;
 
+import java.util.List;
+
 public class MSCAPISnippet {
 
 	public static void main(String[] args) {
 
 		// tag::demo[]
+		// import eu.europa.esig.dss.enumerations.DigestAlgorithm;
+		// import eu.europa.esig.dss.model.SignatureValue;
+		// import eu.europa.esig.dss.model.ToBeSigned;
+		// import eu.europa.esig.dss.token.DSSPrivateKeyEntry;
+		// import eu.europa.esig.dss.token.MSCAPISignatureToken;
+		// import eu.europa.esig.dss.utils.Utils;
+		// import java.util.List;
 
 		try (MSCAPISignatureToken token = new MSCAPISignatureToken()) {
 
@@ -42,7 +49,7 @@ public class MSCAPISnippet {
 				System.out.println(entry.getCertificate().getCertificate());
 			}
 
-			ToBeSigned toBeSigned = new ToBeSigned("Hello world".getBytes());
+			ToBeSigned toBeSigned = new eu.europa.esig.dss.model.ToBeSigned("Hello world".getBytes());
 			SignatureValue signatureValue = token.sign(toBeSigned, DigestAlgorithm.SHA256, keys.get(0));
 
 			System.out.println("Signature value : " + Utils.toBase64(signatureValue.getValue()));

@@ -20,20 +20,19 @@
  */
 package eu.europa.esig.dss.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import eu.europa.esig.dss.enumerations.DigestAlgorithm;
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
+import org.junit.jupiter.api.Test;
 
 import static com.signerry.dss.test.TestUtils.getResourceAsStream;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.jupiter.api.Test;
-
-import eu.europa.esig.dss.enumerations.DigestAlgorithm;
-import com.signerry.dss.test.TestUtils;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class InMemoryDocumentTest {
 
@@ -55,12 +54,12 @@ public class InMemoryDocumentTest {
 		assertNull(doc.getName());
 		assertNull(doc.getBytes());
 		NullPointerException exception = assertThrows(NullPointerException.class, () -> doc.getDigest(DigestAlgorithm.SHA256));
-		assertEquals("Bytes are null", exception.getMessage());
+		assertEquals("Byte array is not defined!", exception.getMessage());
 
 		byte[] bytes = new byte[] { 1, 2, 3 };
 		doc.setBytes(bytes);
 		doc.setName("doc.txt");
-		doc.setMimeType(MimeType.TEXT);
+		doc.setMimeType(MimeTypeEnum.TEXT);
 		assertNotNull(doc.getMimeType());
 		assertNotNull(doc.getName());
 		assertNotNull(doc.getBytes());
@@ -71,7 +70,7 @@ public class InMemoryDocumentTest {
 	public void testWithName() {
 		InMemoryDocument doc = new InMemoryDocument(getResourceAsStream("AdobeCA.p7c"), "AdobeCA.p7c");
 		assertNotNull(doc);
-		assertEquals(MimeType.BINARY, doc.getMimeType());
+		assertEquals(MimeTypeEnum.BINARY, doc.getMimeType());
 		assertNotNull(doc.getName());
 		assertNotNull(doc.getBytes());
 		assertNotNull(doc.getDigest(DigestAlgorithm.SHA256));
@@ -83,10 +82,18 @@ public class InMemoryDocumentTest {
 
 		InMemoryDocument doc = new InMemoryDocument(bytes, "doc.txt");
 		assertNotNull(doc);
-		assertEquals(MimeType.TEXT, doc.getMimeType());
+		assertEquals(MimeTypeEnum.TEXT, doc.getMimeType());
 		assertNotNull(doc.getName());
 		assertNotNull(doc.getBytes());
 		assertNotNull(doc.getDigest(DigestAlgorithm.SHA256));
+	}
+
+	@Test
+	public void createEmptyDocTest() {
+		InMemoryDocument emptyDocument = InMemoryDocument.createEmptyDocument();
+		assertNotNull(emptyDocument);
+		assertNotNull(emptyDocument.getBytes());
+		assertEquals(0, emptyDocument.getBytes().length);
 	}
 
 	@Test

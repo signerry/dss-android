@@ -25,6 +25,8 @@ import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
 import eu.europa.esig.dss.policy.jaxb.Algo;
 import eu.europa.esig.dss.policy.jaxb.AlgoExpirationDate;
 import eu.europa.esig.dss.policy.jaxb.CryptographicConstraint;
+import eu.europa.esig.dss.policy.jaxb.Level;
+import eu.europa.esig.dss.policy.jaxb.LevelConstraint;
 import eu.europa.esig.dss.policy.jaxb.ListAlgo;
 import eu.europa.esig.dss.utils.Utils;
 import org.slf4j.Logger;
@@ -32,9 +34,14 @@ import org.slf4j.LoggerFactory;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 /**
  * The wrapper for cryptographic information retrieved from a validation policy
@@ -108,6 +115,17 @@ public class CryptographicConstraintWrapper {
 	 */
 	public boolean isEncryptionAlgorithmWithKeySizeReliable(EncryptionAlgorithm encryptionAlgorithm, String keyLength) {
 		int keySize = parseKeySize(keyLength);
+		return isEncryptionAlgorithmWithKeySizeReliable(encryptionAlgorithm, keySize);
+	}
+
+	/**
+	 * Checks if the {code keyLength} for {@link EncryptionAlgorithm} is reliable (acceptable)
+	 *
+	 * @param encryptionAlgorithm {@link EncryptionAlgorithm} to check key length for
+	 * @param keySize {@link Integer} the key length to be checked
+	 * @return TRUE if the key length for the algorithm is reliable, FALSE otherwise
+	 */
+	public boolean isEncryptionAlgorithmWithKeySizeReliable(EncryptionAlgorithm encryptionAlgorithm, Integer keySize) {
 		if (encryptionAlgorithm != null && keySize != 0 && constraint != null) {
 			Integer size = getAlgoKeySizeFromConstraint(encryptionAlgorithm);
 			if (size != null && size <= keySize) {
@@ -118,11 +136,13 @@ public class CryptographicConstraintWrapper {
 	}
 
 	private Integer getAlgoKeySizeFromConstraint(EncryptionAlgorithm encryptionAlgorithm) {
-		ListAlgo miniPublicKeySize = constraint.getMiniPublicKeySize();
-		if (miniPublicKeySize != null) {
-			for (Algo algo : miniPublicKeySize.getAlgos()) {
-				if (algo.getValue().equals(encryptionAlgorithm.getName())) {
-					return algo.getSize();
+		if (constraint != null) {
+			ListAlgo miniPublicKeySize = constraint.getMiniPublicKeySize();
+			if (miniPublicKeySize != null) {
+				for (Algo algo : miniPublicKeySize.getAlgos()) {
+					if (algo.getValue().equals(encryptionAlgorithm.getName())) {
+						return algo.getSize();
+					}
 				}
 			}
 		}
@@ -138,6 +158,19 @@ public class CryptographicConstraintWrapper {
 	 * @return {@link Date}
 	 */
 	public Date getExpirationDate(EncryptionAlgorithm encryptionAlgorithm, String keyLength) {
+		int keySize = parseKeySize(keyLength);
+		return getExpirationDate(encryptionAlgorithm, keySize);
+	}
+
+	/**
+	 * Gets an expiration date for the encryption algorithm with name {@code algoToSearch} and {@code keyLength}.
+	 * Returns null if the expiration date is not defined for the algorithm.
+	 *
+	 * @param encryptionAlgorithm {@link EncryptionAlgorithm} to get expiration date for
+	 * @param keySize {@link Integer} key length used to sign the token
+	 * @return {@link Date}
+	 */
+	public Date getExpirationDate(EncryptionAlgorithm encryptionAlgorithm, Integer keySize) {
 		TreeMap<Integer, Date> dates = new TreeMap<>();
 		AlgoExpirationDate algoExpirationDates = getAlgoExpirationDates();
 		if (algoExpirationDates != null && encryptionAlgorithm != null) {
@@ -150,7 +183,6 @@ public class CryptographicConstraintWrapper {
 			}
 		}
 
-		int keySize = parseKeySize(keyLength);
 		Entry<Integer, Date> floorEntry = dates.floorEntry(keySize);
 		if (floorEntry == null) {
 			return null;
@@ -197,15 +229,238 @@ public class CryptographicConstraintWrapper {
 	}
 
 	private Date getDate(Algo algo, SimpleDateFormat format) {
-		String date = algo.getDate();
-		if (date != null) {
+		if (algo != null) {
+			return getDate(algo.getDate(), format);
+		}
+		return null;
+	}
+
+	private Date getDate(String dateString, SimpleDateFormat format) {
+		if (dateString != null) {
 			try {
-				return format.parse(date);
+				return format.parse(dateString);
 			} catch (ParseException e) {
-				LOG.warn("Unable to parse '{}' with format '{}'", date, format);
+				LOG.warn("Unable to parse '{}' with format '{}'", dateString, format);
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * This method returns a list of reliable {@code DigestAlgorithm} according to the current validation policy
+	 *
+	 * @return a list of {@link DigestAlgorithm}s
+	 */
+	public List<DigestAlgorithm> getReliableDigestAlgorithms() {
+		List<DigestAlgorithm> reliableDigestAlgorithms = new ArrayList<>();
+		if (constraint != null) {
+			ListAlgo acceptableDigestAlgo = constraint.getAcceptableDigestAlgo();
+			for (Algo algo : acceptableDigestAlgo.getAlgos()) {
+				try {
+					final DigestAlgorithm digestAlgorithm = DigestAlgorithm.forName(algo.getValue());
+					reliableDigestAlgorithms.add(digestAlgorithm);
+				} catch (IllegalArgumentException e) {
+					LOG.warn("Unable to parse a DigestAlgorithm with name '{}'! Reason : {}", algo.getValue(), e.getMessage(), e);
+				}
+			}
+		}
+		return reliableDigestAlgorithms;
+	}
+
+	/**
+	 * This method returns a list of reliable {@code DigestAlgorithm} according to the current validation policy
+	 * at the given validation time
+	 *
+	 * @param validationTime {@link Date} to verify against
+	 * @return a list of {@link DigestAlgorithm}s
+	 */
+	public List<DigestAlgorithm> getReliableDigestAlgorithmsAtTime(Date validationTime) {
+		List<DigestAlgorithm> reliableDigestAlgorithms = new ArrayList<>();
+		if (constraint != null) {
+			ListAlgo acceptableDigestAlgo = constraint.getAcceptableDigestAlgo();
+			if (acceptableDigestAlgo != null) {
+				List<String> reliableDigestAlgorithmNames = acceptableDigestAlgo.getAlgos().stream()
+						.map(Algo::getValue).collect(Collectors.toList());
+				AlgoExpirationDate algoExpirationDate = constraint.getAlgoExpirationDate();
+				if (algoExpirationDate != null) {
+					for (Algo algo : algoExpirationDate.getAlgos()) {
+						if (reliableDigestAlgorithmNames.contains(algo.getValue())) {
+							try {
+								final DigestAlgorithm digestAlgorithm = DigestAlgorithm.forName(algo.getValue());
+								if (digestAlgorithm != null && !getExpirationDate(digestAlgorithm).before(validationTime)) {
+									reliableDigestAlgorithms.add(digestAlgorithm);
+								}
+							} catch (IllegalArgumentException e) {
+								LOG.warn("Unable to parse a DigestAlgorithm with name '{}'! Reason : {}", algo.getValue(), e.getMessage(), e);
+							}
+						}
+					}
+				}
+			}
+		}
+		return reliableDigestAlgorithms;
+	}
+
+	/**
+	 * This method returns a list of reliable {@code EncryptionAlgorithm} according to the current validation policy
+	 *
+	 * @return a list of {@link EncryptionAlgorithm}s
+	 */
+	public List<EncryptionAlgorithm> getReliableEncryptionAlgorithms() {
+		List<EncryptionAlgorithm> reliableEncryptionAlgorithms = new ArrayList<>();
+		if (constraint != null) {
+			ListAlgo acceptableEncryptionAlgo = constraint.getAcceptableEncryptionAlgo();
+			for (Algo algo : acceptableEncryptionAlgo.getAlgos()) {
+				try {
+					final EncryptionAlgorithm encryptionAlgorithm = EncryptionAlgorithm.forName(algo.getValue());
+					if (encryptionAlgorithm != null) {
+						reliableEncryptionAlgorithms.add(encryptionAlgorithm);
+					}
+				} catch (IllegalArgumentException e) {
+					LOG.warn("Unable to parse a EncryptionAlgorithm with name '{}'! Reason : {}", algo.getValue(), e.getMessage(), e);
+				}
+			}
+		}
+		return reliableEncryptionAlgorithms;
+	}
+
+	/**
+	 * This method returns a map between reliable {@code EncryptionAlgorithm} according to the current validation policy
+	 * and their minimal accepted key length at the given time.
+	 *
+	 * @param validationTime {@link Date} to verify against
+	 * @return a map of {@link EncryptionAlgorithm}s or their minimal accepted key length
+	 */
+	public Map<EncryptionAlgorithm, Integer> getReliableEncryptionAlgorithmsWithMinimalKeyLengthAtTime(Date validationTime) {
+		Map<EncryptionAlgorithm, Integer> reliableEncryptionAlgorithms = new EnumMap<>(EncryptionAlgorithm.class);
+		if (constraint != null) {
+			ListAlgo acceptableEncryptionAlgo = constraint.getAcceptableEncryptionAlgo();
+			if (acceptableEncryptionAlgo != null) {
+				List<String> reliableEncryptionAlgorithmNames = acceptableEncryptionAlgo.getAlgos().stream()
+						.map(Algo::getValue).collect(Collectors.toList());
+				AlgoExpirationDate algoExpirationDate = constraint.getAlgoExpirationDate();
+				if (algoExpirationDate != null) {
+					for (Algo algo : algoExpirationDate.getAlgos()) {
+						if (reliableEncryptionAlgorithmNames.contains(algo.getValue())) {
+							try {
+								final EncryptionAlgorithm encryptionAlgorithm = EncryptionAlgorithm.forName(algo.getValue());
+								if (encryptionAlgorithm != null && isEncryptionAlgorithmWithKeySizeReliable(encryptionAlgorithm, algo.getSize())
+										&& !getExpirationDate(encryptionAlgorithm, algo.getSize()).before(validationTime)) {
+									Integer minimalAcceptedKeySize = reliableEncryptionAlgorithms.get(encryptionAlgorithm);
+									if (minimalAcceptedKeySize == null || algo.getSize() < minimalAcceptedKeySize) {
+										reliableEncryptionAlgorithms.put(encryptionAlgorithm, algo.getSize());
+									}
+								}
+							} catch (IllegalArgumentException e) {
+								LOG.warn("Unable to parse a EncryptionAlgorithm with name '{}'! Reason : {}", algo.getValue(), e.getMessage(), e);
+							}
+						}
+					}
+				}
+			}
+		}
+		return reliableEncryptionAlgorithms;
+	}
+
+	/**
+	 * Returns the global validation level of the cryptographic constraints for the current token
+	 *
+	 * @return {@link Level}
+	 */
+	public Level getLevel() {
+		if (constraint != null) {
+			return constraint.getLevel();
+		}
+		return null;
+	}
+
+	/**
+	 * Returns a level constraint for AcceptableEncryptionAlgo constraint if present,
+	 * the global {@code getLevel} otherwise.
+	 *
+	 * @return {@link LevelConstraint}
+	 */
+	public LevelConstraint getAcceptableEncryptionAlgoLevel() {
+		if (constraint != null) {
+			return getCryptographicLevelConstraint(constraint.getAcceptableEncryptionAlgo());
+		}
+		return null;
+	}
+
+	/**
+	 * Returns a level constraint for MiniPublicKeySize constraint if present,
+	 * the global {@code getLevel} otherwise.
+	 *
+	 * @return {@link LevelConstraint}
+	 */
+	public LevelConstraint getMiniPublicKeySizeLevel() {
+		if (constraint != null) {
+			return getCryptographicLevelConstraint(constraint.getMiniPublicKeySize());
+		}
+		return null;
+	}
+
+	/**
+	 * Returns a level constraint for AcceptableDigestAlgo constraint if present,
+	 * the global {@code getLevel} otherwise.
+	 *
+	 * @return {@link LevelConstraint}
+	 */
+	public LevelConstraint getAcceptableDigestAlgoLevel() {
+		if (constraint != null) {
+			return getCryptographicLevelConstraint(constraint.getAcceptableDigestAlgo());
+		}
+		return null;
+	}
+
+	/**
+	 * Returns a level constraint for AlgoExpirationDate constraint if present,
+	 * the global {@code getLevel} otherwise.
+	 *
+	 * @return {@link LevelConstraint}
+	 */
+	public LevelConstraint getAlgoExpirationDateLevel() {
+		if (constraint != null) {
+			return getCryptographicLevelConstraint(constraint.getAlgoExpirationDate());
+		}
+		return null;
+	}
+
+	private LevelConstraint getCryptographicLevelConstraint(LevelConstraint cryptoConstraint) {
+		if (cryptoConstraint != null && cryptoConstraint.getLevel() != null) {
+			return cryptoConstraint;
+		}
+		// return global LevelConstraint if target level is not present
+		return constraint;
+	}
+
+	/**
+	 * Returns a date of the update of the cryptographic suites within the validation policy
+	 *
+	 * @return {@link Date}
+	 */
+	public Date getCryptographicSuiteUpdateDate() {
+		AlgoExpirationDate algoExpirationDates = getAlgoExpirationDates();
+		if (algoExpirationDates != null) {
+			final SimpleDateFormat dateFormat = getUsedDateFormat(algoExpirationDates);
+			return getDate(algoExpirationDates.getUpdateDate(), dateFormat);
+		}
+		return null;
+	}
+
+	/**
+	 * Returns a level constraint for AlgoExpirationDate constraint if present,
+	 * the global {@code getLevel} otherwise.
+	 *
+	 * @return {@link Level}
+	 */
+	public Level getAlgoExpirationDateAfterUpdateLevel() {
+		AlgoExpirationDate algoExpirationDate = constraint.getAlgoExpirationDate();
+		if (algoExpirationDate != null && algoExpirationDate.getLevelAfterUpdate() != null) {
+			return algoExpirationDate.getLevelAfterUpdate();
+		}
+		LevelConstraint levelConstraint = getCryptographicLevelConstraint(algoExpirationDate);
+		return levelConstraint != null ? levelConstraint.getLevel() : null;
 	}
 
 	/**

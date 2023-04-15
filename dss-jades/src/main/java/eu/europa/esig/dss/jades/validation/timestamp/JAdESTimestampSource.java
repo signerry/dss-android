@@ -23,6 +23,7 @@ package eu.europa.esig.dss.jades.validation.timestamp;
 import eu.europa.esig.dss.crl.CRLBinary;
 import eu.europa.esig.dss.crl.CRLUtils;
 import eu.europa.esig.dss.enumerations.ArchiveTimestampType;
+import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.PKIEncoding;
 import eu.europa.esig.dss.enumerations.TimestampType;
 import eu.europa.esig.dss.jades.DSSJsonUtils;
@@ -33,6 +34,7 @@ import eu.europa.esig.dss.jades.validation.JAdESCertificateRefExtractionUtils;
 import eu.europa.esig.dss.jades.validation.JAdESRevocationRefExtractionUtils;
 import eu.europa.esig.dss.jades.validation.JAdESSignature;
 import eu.europa.esig.dss.jades.validation.JAdESSignedProperties;
+import eu.europa.esig.dss.model.DSSMessageDigest;
 import eu.europa.esig.dss.model.identifier.Identifier;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.spi.DSSRevocationUtils;
@@ -249,7 +251,6 @@ public class JAdESTimestampSource extends SignatureTimestampSource<JAdESSignatur
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	protected List<Identifier> getEncapsulatedCertificateIdentifiers(JAdESAttribute unsignedAttribute) {
 		List<?> xVals = null;
 		if (isTimeStampValidationData(unsignedAttribute)) {
@@ -264,32 +265,38 @@ public class JAdESTimestampSource extends SignatureTimestampSource<JAdESSignatur
 		if (Utils.isCollectionNotEmpty(xVals)) {
 			List<Identifier> certificateIdentifiers = new ArrayList<>();
 			for (Object encapsulatedCert : xVals) {
-				try {
-					Map<?, ?> map = DSSJsonUtils.toMap(encapsulatedCert);
-					if (Utils.isMapNotEmpty(map)) {
-						Map<?, ?> x509Cert = DSSJsonUtils.getAsMap(map, JAdESHeaderParameterNames.X509_CERT);
-						Map<?, ?> otherCert = DSSJsonUtils.getAsMap(map, JAdESHeaderParameterNames.OTHER_CERT);
-						if (Utils.isMapNotEmpty(x509Cert)) {
-							String base64Cert = DSSJsonUtils.getAsString(x509Cert, JAdESHeaderParameterNames.VAL);
-							if (Utils.isStringNotBlank(base64Cert)) {
-								byte[] binaries = Utils.fromBase64(base64Cert);
-								CertificateToken certificateToken = DSSUtils.loadCertificate(binaries);
-								certificateIdentifiers.add(certificateToken.getDSSId());
-							}
-
-						} else if (Utils.isMapNotEmpty(otherCert)) {
-							LOG.warn("The header '{}' is not supported! The entry is skipped.",
-									JAdESHeaderParameterNames.OTHER_CERT);
-						}
-					}
-				} catch (Exception e) {
-					LOG.warn("An error occurred during parsing a certificate. Reason : {}", e.getMessage(), e);
+				CertificateToken certificateToken = toCertificateToken(encapsulatedCert);
+				if (certificateToken != null) {
+					certificateIdentifiers.add(certificateToken.getDSSId());
 				}
 			}
-			
 			return certificateIdentifiers;
 		}
 		return Collections.emptyList();
+	}
+
+	private CertificateToken toCertificateToken(Object encapsulatedCert) {
+		try {
+			Map<?, ?> map = DSSJsonUtils.toMap(encapsulatedCert);
+			if (Utils.isMapNotEmpty(map)) {
+				Map<?, ?> x509Cert = DSSJsonUtils.getAsMap(map, JAdESHeaderParameterNames.X509_CERT);
+				Map<?, ?> otherCert = DSSJsonUtils.getAsMap(map, JAdESHeaderParameterNames.OTHER_CERT);
+				if (Utils.isMapNotEmpty(x509Cert)) {
+					String base64Cert = DSSJsonUtils.getAsString(x509Cert, JAdESHeaderParameterNames.VAL);
+					if (Utils.isStringNotBlank(base64Cert)) {
+						byte[] binaries = Utils.fromBase64(base64Cert);
+						return DSSUtils.loadCertificate(binaries);
+					}
+
+				} else if (Utils.isMapNotEmpty(otherCert)) {
+					LOG.warn("The header '{}' is not supported! The entry is skipped.",
+							JAdESHeaderParameterNames.OTHER_CERT);
+				}
+			}
+		} catch (Exception e) {
+			LOG.warn("An error occurred during parsing a certificate. Reason : {}", e.getMessage(), e);
+		}
+		return null;
 	}
 
 	@Override
@@ -315,18 +322,9 @@ public class JAdESTimestampSource extends SignatureTimestampSource<JAdESSignatur
 			List<?> crlVals = DSSJsonUtils.getAsList(rVals, JAdESHeaderParameterNames.CRL_VALS);
 			if (Utils.isCollectionNotEmpty(crlVals)) {
 				for (Object item : crlVals) {
-					try {
-						Map<?, ?> encapsulatedCrl = DSSJsonUtils.toMap(item);
-						if (Utils.isMapNotEmpty(encapsulatedCrl)) {
-							String base64Crl = DSSJsonUtils.getAsString(encapsulatedCrl, JAdESHeaderParameterNames.VAL);
-							if (Utils.isStringNotBlank(base64Crl)) {
-								byte[] binaries = Utils.fromBase64(base64Crl);
-								crlIdentifiers.add(CRLUtils.buildCRLBinary(binaries));
-							}
-						}
-
-					} catch (Exception e) {
-						LOG.warn("An error occurred during parsing a CRL. Reason : {}", e.getMessage(), e);
+					CRLBinary crlBinary = toCRLBinary(item);
+					if (crlBinary != null) {
+						crlIdentifiers.add(crlBinary);
 					}
 				}
 			}
@@ -334,6 +332,23 @@ public class JAdESTimestampSource extends SignatureTimestampSource<JAdESSignatur
 			return crlIdentifiers;
 		}
 		return Collections.emptyList();
+	}
+
+	private CRLBinary toCRLBinary(Object crlVal) {
+		try {
+			Map<?, ?> encapsulatedCrl = DSSJsonUtils.toMap(crlVal);
+			if (Utils.isMapNotEmpty(encapsulatedCrl)) {
+				String base64Crl = DSSJsonUtils.getAsString(encapsulatedCrl, JAdESHeaderParameterNames.VAL);
+				if (Utils.isStringNotBlank(base64Crl)) {
+					byte[] binaries = Utils.fromBase64(base64Crl);
+					return CRLUtils.buildCRLBinary(binaries);
+				}
+			}
+
+		} catch (Exception e) {
+			LOG.warn("An error occurred during parsing a CRL. Reason : {}", e.getMessage(), e);
+		}
+		return null;
 	}
 
 	@Override
@@ -353,19 +368,9 @@ public class JAdESTimestampSource extends SignatureTimestampSource<JAdESSignatur
 			List<?> ocspVals = DSSJsonUtils.getAsList(rVals, JAdESHeaderParameterNames.OCSP_VALS);
 			if (Utils.isCollectionNotEmpty(ocspVals)) {
 				for (Object item : ocspVals) {
-					try {
-						Map<?, ?> encapsulatedOcsp = DSSJsonUtils.toMap(item);
-						if (Utils.isMapNotEmpty(encapsulatedOcsp)) {
-							String base64Ocps = DSSJsonUtils.getAsString(encapsulatedOcsp, JAdESHeaderParameterNames.VAL);
-							if (Utils.isStringNotBlank(base64Ocps)) {
-								byte[] binaries = Utils.fromBase64(base64Ocps);
-								BasicOCSPResp basicOCSPResp = DSSRevocationUtils.loadOCSPFromBinaries(binaries);
-								ocspIdentifiers.add(OCSPResponseBinary.build(basicOCSPResp));
-							}
-						}
-
-					} catch (Exception e) {
-						LOG.warn("An error occurred during parsing a CRL. Reason : {}", e.getMessage(), e);
+					OCSPResponseBinary ocspResponseBinary = toOCSPResponseBinary(item);
+					if (ocspResponseBinary != null) {
+						ocspIdentifiers.add(ocspResponseBinary);
 					}
 				}
 			}
@@ -375,9 +380,32 @@ public class JAdESTimestampSource extends SignatureTimestampSource<JAdESSignatur
 		return Collections.emptyList();
 	}
 
+	private OCSPResponseBinary toOCSPResponseBinary(Object ocspVal) {
+		try {
+			Map<?, ?> encapsulatedOcsp = DSSJsonUtils.toMap(ocspVal);
+			if (Utils.isMapNotEmpty(encapsulatedOcsp)) {
+				String base64Ocps = DSSJsonUtils.getAsString(encapsulatedOcsp, JAdESHeaderParameterNames.VAL);
+				if (Utils.isStringNotBlank(base64Ocps)) {
+					byte[] binaries = Utils.fromBase64(base64Ocps);
+					BasicOCSPResp basicOCSPResp = DSSRevocationUtils.loadOCSPFromBinaries(binaries);
+					return OCSPResponseBinary.build(basicOCSPResp);
+				}
+			}
+
+		} catch (Exception e) {
+			LOG.warn("An error occurred during parsing a CRL. Reason : {}", e.getMessage(), e);
+		}
+		return null;
+	}
+
 	@Override
-	protected JAdESTimestampDataBuilder getTimestampDataBuilder() {
-		return new JAdESTimestampDataBuilder(signature);
+	protected JAdESTimestampMessageDigestBuilder getTimestampMessageImprintDigestBuilder(TimestampToken timestampToken) {
+		return new JAdESTimestampMessageDigestBuilder(signature, timestampToken);
+	}
+
+	@Override
+	protected JAdESTimestampMessageDigestBuilder getTimestampMessageImprintDigestBuilder(DigestAlgorithm digestAlgorithm) {
+		return new JAdESTimestampMessageDigestBuilder(signature, digestAlgorithm);
 	}
 	
 	@Override
@@ -393,22 +421,27 @@ public class JAdESTimestampSource extends SignatureTimestampSource<JAdESSignatur
 	}
 
 	/**
-	 * Returns the message-imprint data for a SignatureTimestamp (BASE64URL(JWS Signature Value))
+	 * Returns the message-imprint digest for a SignatureTimestamp (BASE64URL(JWS Signature Value))
 	 *
-	 * @return byte array representing a message-imprint
+	 * @param digestAlgorithm {@link DigestAlgorithm} to compute digest with
+	 * @return {@link DSSMessageDigest} representing a message-imprint digest
 	 */
-	public byte[] getSignatureTimestampData() {
-		return getTimestampDataBuilder().getSignatureTimestampData();
+	public DSSMessageDigest getSignatureTimestampData(DigestAlgorithm digestAlgorithm) {
+		JAdESTimestampMessageDigestBuilder builder = getTimestampMessageImprintDigestBuilder(digestAlgorithm);
+		return builder.getSignatureTimestampMessageDigest();
 	}
 	
 	/**
-	 * Returns concatenated data for an ArchiveTimestamp
+	 * Returns message-imprint digest for an ArchiveTimestamp
 	 * 
+	 * @param digestAlgorithm {@link DigestAlgorithm} to compute digest with
 	 * @param canonicalizationMethod {@link String} canonicalization method to use
-	 * @return byte array
+	 * @return {@link DSSMessageDigest} representing a message-imprint digest
 	 */
-	public byte[] getArchiveTimestampData(String canonicalizationMethod) {
-		return getTimestampDataBuilder().getArchiveTimestampData(canonicalizationMethod);
+	public DSSMessageDigest getArchiveTimestampData(DigestAlgorithm digestAlgorithm, String canonicalizationMethod) {
+		JAdESTimestampMessageDigestBuilder builder = getTimestampMessageImprintDigestBuilder(digestAlgorithm);
+		builder.setCanonicalizationAlgorithm(canonicalizationMethod);
+		return builder.getArchiveTimestampMessageDigest();
 	}
 
 	@Override
@@ -430,32 +463,14 @@ public class JAdESTimestampSource extends SignatureTimestampSource<JAdESSignatur
 
 	private List<TimestampToken> extractTimestampTokens(JAdESAttribute signatureAttribute, Map<?, ?> tstContainer,
 														TimestampType timestampType, List<TimestampedReference> references) {
-		List<TimestampToken> result = new LinkedList<>();
-
+		final List<TimestampToken> result = new LinkedList<>();
 		if (Utils.isMapNotEmpty(tstContainer)) {
 			List<?> tstTokens = DSSJsonUtils.getAsList(tstContainer, JAdESHeaderParameterNames.TST_TOKENS);
 			if (Utils.isCollectionNotEmpty(tstTokens)) {
 				for (Object item : tstTokens) {
-					Map<?, ?> tstToken = DSSJsonUtils.toMap(item);
-					if (Utils.isMapNotEmpty(tstToken)) {
-						String encoding = DSSJsonUtils.getAsString(tstToken, JAdESHeaderParameterNames.ENCODING);
-						if (Utils.isStringEmpty(encoding) || Utils.areStringsEqual(PKIEncoding.DER.getUri(), encoding)) {
-							String tstBase64 = DSSJsonUtils.getAsString(tstToken, JAdESHeaderParameterNames.VAL);
-							if (Utils.isStringNotEmpty(tstBase64)) {
-								try {
-									TimestampToken timestampToken = new TimestampToken(
-											Utils.fromBase64(tstBase64), timestampType, references);
-									timestampToken.setTimestampAttribute(signatureAttribute);
-									result.add(timestampToken);
-
-								} catch (Exception e) {
-									LOG.error("Unable to parse timestamp '{}'", tstBase64, e);
-								}
-							}
-
-						} else {
-							LOG.warn("Unsupported encoding {}", encoding);
-						}
+					TimestampToken timestampToken = toTimestampToken(item, signatureAttribute, timestampType, references);
+					if (timestampToken != null) {
+						result.add(timestampToken);
 					}
 				}
 
@@ -467,7 +482,32 @@ public class JAdESTimestampSource extends SignatureTimestampSource<JAdESSignatur
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
+	private TimestampToken toTimestampToken(Object tstToken, JAdESAttribute signatureAttribute,
+											TimestampType timestampType, List<TimestampedReference> references) {
+		Map<?, ?> tstTokenMap = DSSJsonUtils.toMap(tstToken);
+		if (Utils.isMapNotEmpty(tstTokenMap)) {
+			String encoding = DSSJsonUtils.getAsString(tstTokenMap, JAdESHeaderParameterNames.ENCODING);
+			if (Utils.isStringEmpty(encoding) || Utils.areStringsEqual(PKIEncoding.DER.getUri(), encoding)) {
+				String tstBase64 = DSSJsonUtils.getAsString(tstTokenMap, JAdESHeaderParameterNames.VAL);
+				if (Utils.isStringNotEmpty(tstBase64)) {
+					try {
+						TimestampToken timestampToken = new TimestampToken(
+								Utils.fromBase64(tstBase64), timestampType, references);
+						timestampToken.setTimestampAttribute(signatureAttribute);
+						return timestampToken;
+
+					} catch (Exception e) {
+						LOG.warn("Unable to parse timestamp '{}'", tstBase64, e);
+					}
+				}
+
+			} else {
+				LOG.warn("Unsupported encoding {}", encoding);
+			}
+		}
+		return null;
+	}
+
 	private List<TimestampToken> extractArchiveTimestampTokens(JAdESAttribute signatureAttribute,
 															   List<TimestampedReference> references) {
 		Map<?, ?> arcTst = DSSJsonUtils.toMap(signatureAttribute.getValue(), JAdESHeaderParameterNames.ARC_TST);

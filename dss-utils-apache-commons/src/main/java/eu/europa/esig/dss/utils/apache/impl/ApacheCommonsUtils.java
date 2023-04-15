@@ -27,6 +27,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -50,6 +51,13 @@ import java.util.Objects;
  * Apache Commons implementation of Utils
  */
 public class ApacheCommonsUtils implements IUtils {
+
+	/**
+	 * Default constructor
+	 */
+	public ApacheCommonsUtils() {
+		// empty
+	}
 
 	@Override
 	public boolean isStringEmpty(String text) {
@@ -107,6 +115,11 @@ public class ApacheCommonsUtils implements IUtils {
 	}
 
 	@Override
+	public String getFileNameExtension(String filename) {
+		return FilenameUtils.getExtension(filename);
+	}
+
+	@Override
 	public String lowerCase(String text) {
 		return StringUtils.lowerCase(text);
 	}
@@ -127,13 +140,23 @@ public class ApacheCommonsUtils implements IUtils {
 	}
 
 	@Override
+	public boolean isArrayEmpty(byte[] array) {
+		return ArrayUtils.isEmpty(array);
+	}
+
+	@Override
 	public boolean isArrayNotEmpty(byte[] array) {
 		return ArrayUtils.isNotEmpty(array);
 	}
 
 	@Override
-	public boolean isArrayEmpty(byte[] array) {
+	public boolean isArrayEmpty(char[] array) {
 		return ArrayUtils.isEmpty(array);
+	}
+
+	@Override
+	public boolean isArrayNotEmpty(char[] array) {
+		return ArrayUtils.isNotEmpty(array);
 	}
 
 	@Override
@@ -251,6 +274,11 @@ public class ApacheCommonsUtils implements IUtils {
 	    	byteCounter += nRead;
 	    }
 		return byteCounter;
+	}
+
+	@Override
+	public boolean compareInputStreams(InputStream stream1, InputStream stream2) throws IOException {
+		return IOUtils.contentEquals(stream1, stream2);
 	}
 
 	@Override

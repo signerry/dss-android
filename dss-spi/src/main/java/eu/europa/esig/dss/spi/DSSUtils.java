@@ -24,11 +24,13 @@ import com.signerry.android.CryptoProvider;
 
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
+import eu.europa.esig.dss.enumerations.ObjectIdentifierQualifier;
 import eu.europa.esig.dss.enumerations.SignatureAlgorithm;
 import eu.europa.esig.dss.enumerations.X520Attributes;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.Digest;
+import eu.europa.esig.dss.model.DigestDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.UserNotice;
@@ -121,10 +123,14 @@ public final class DSSUtils {
 	/** This array contains character bytes, representing a line break (new line, carriage return) */
 	private static final byte[] LINE_BREAK_CHARS = { CARRIAGE_RETURN, LINE_FEED };
 
+	/** The URN OID prefix (RFC 3061) */
+	public static final String OID_NAMESPACE_PREFIX = "urn:oid:";
+
 	/**
-	 * This class is an utility class and cannot be instantiated.
+	 * This class is a utility class and cannot be instantiated.
 	 */
 	private DSSUtils() {
+		// empty
 	}
 
 	/**
@@ -451,6 +457,27 @@ public final class DSSUtils {
 	}
 
 	/**
+	 * Creates a {@code DigestDocument} with the provided {@code Digest}
+	 *
+	 * @param digest {@link Digest} to use to create a {@link DigestDocument}
+	 * @return {@link DigestDocument} containing {@link Digest}
+	 */
+	public static DigestDocument toDigestDocument(Digest digest) {
+		return toDigestDocument(digest.getAlgorithm(), digest.getValue());
+	}
+
+	/**
+	 * Creates a {@code DigestDocument} with the provided {@code DigestAlgorithm} and {@code digestValue}
+	 *
+	 * @param digestAlgorithm {@link DigestAlgorithm}
+	 * @param digestValue byte array containing digest value
+	 * @return {@link DigestDocument} containing the given digest value with the defined algorithm
+	 */
+	public static DigestDocument toDigestDocument(DigestAlgorithm digestAlgorithm, byte[] digestValue) {
+		return new DigestDocument(digestAlgorithm, Utils.toBase64(digestValue));
+	}
+
+	/**
 	 * This method wraps the digest value in a DigestInfo (combination of digest
 	 * algorithm and value). This encapsulation is required to operate NONEwithRSA
 	 * signatures.
@@ -513,7 +540,7 @@ public final class DSSUtils {
 	 * Computes the digest on the data concatenation
 	 *
 	 * @param digestAlgorithm {@link DigestAlgorithm} to use
-	 * @param data an sequence of byte arrays to compute digest on
+	 * @param data a sequence of byte arrays to compute digest on
 	 * @return digest value
 	 */
 	public static byte[] digest(DigestAlgorithm digestAlgorithm, byte[]... data) {
@@ -569,7 +596,7 @@ public final class DSSUtils {
 			return toByteArray(is);
 		} catch (Exception e) {
 			throw new DSSException(String.format("Unable to read content of file '%s'. Reason : %s",
-					file.toString(), e.getMessage()), e);
+					file, e.getMessage()), e);
 		}
 	}
 
@@ -680,7 +707,38 @@ public final class DSSUtils {
 		} catch (IOException | CMSException e) {
 			throw new DSSException("Not a valid CAdES file", e);
 		}
-	}	
+	}
+
+	/**
+	 * Creates {@code CMSSignedData} from the DER-encoded binaries representing CMS
+	 *
+	 * @param encoded byte array representing CMSSignedData
+	 * @return {@link CMSSignedData}
+	 */
+	public static CMSSignedData toCMSSignedData(final byte[] encoded) {
+		try {
+			return new CMSSignedData(encoded);
+		} catch (CMSException e) {
+			throw new DSSException("Not a valid CMS", e);
+		}
+	}
+
+	/**
+	 * This method verifies if the document is empty (does not have body)
+	 *
+	 * @param document {@link DSSDocument} to check
+	 * @return TRUE if the document is empty, FALSE otherwise
+	 */
+	public static boolean isEmpty(DSSDocument document) {
+		if (document instanceof DigestDocument) {
+			return true;
+		}
+		try (InputStream is = document.openStream()) {
+			return is.read() == -1;
+		} catch (IOException e) {
+			throw new DSSException(String.format("Unable to check if document has a content: %s", e.getMessage()), e);
+		}
+	}
 	
 	/**
 	 * Checks if the document contains a TimeStampToken
@@ -780,7 +838,7 @@ public final class DSSUtils {
 	 * @param id
 	 *            the token identifier
 	 * @param masterSignatureId
-	 *            id of a signature to be counter signed
+	 *            id of a signature to be counter-signed
 	 * @return a unique string
 	 */
 	public static String getCounterSignatureDeterministicId(final Date signingTime, TokenIdentifier id, String masterSignatureId) {
@@ -970,7 +1028,7 @@ public final class DSSUtils {
 			uri = uri.replace("+", "%2B"); // preserve '+' characters
 			return URLDecoder.decode(uri, UTF8_ENCODING);
 		} catch (UnsupportedEncodingException e) {
-			LOG.error("Unable to decode '{}' : {}", uri, e.getMessage(), e);
+			LOG.warn("Unable to decode '{}' : {}", uri, e.getMessage(), e);
 		}
 		return uri;
 	}
@@ -1155,13 +1213,12 @@ public final class DSSUtils {
 	 * Checks if the given id is a URN representation of OID according to IETF RFC 3061
 	 * 
 	 * @param id {@link String} to check
-	 * @return TRUE if the provided id is aURN representation of OID, FALSE otherwise
+	 * @return TRUE if the provided id is a URN representation of OID, FALSE otherwise
 	 */
 	public static boolean isUrnOid(String id) {
 		return id != null && id.matches("^(?i)urn:oid:.*$");
 	}
 
-	
 	/**
 	 * Checks if the given {@code oid} is a valid OID
 	 * Ex.: 1.3.6.1.4.1.343 = valid
@@ -1189,9 +1246,23 @@ public final class DSSUtils {
 		}
 		return urnOid.substring(urnOid.lastIndexOf(':') + 1);
 	}
+
+	/**
+	 * Returns a URN URI generated from the given OID:
+	 *
+	 * Ex.: OID = 1.2.4.5.6.8 becomes URI = urn:oid:1.2.4.5.6.8
+	 *
+	 * Note: see RFC 3061 "A URN Namespace of Object Identifiers"
+	 *
+	 * @param oid {@link String} to be converted to URN URI
+	 * @return URI based on the algorithm's OID
+	 */
+	public static String toUrnOid(String oid) {
+		return OID_NAMESPACE_PREFIX + oid;
+	}
 	
 	/**
-	 * Normalizes and retrieves a {@code String} identifier
+	 * Normalizes and retrieves a {@code String} identifier (to be used for non-XAdES processing).
 	 * Examples:
 	 *      "http://website.com" = "http://website.com"
 	 *      "urn:oid:1.2.3" = "1.2.3"
@@ -1200,17 +1271,50 @@ public final class DSSUtils {
 	 * @param oidOrUriString {@link String} identifier
 	 * @return {@link String}
 	 */
-	public static String getObjectIdentifier(String oidOrUriString) {
-		String policyIdString = oidOrUriString;
+	public static String getObjectIdentifierValue(String oidOrUriString) {
+		return getObjectIdentifierValue(oidOrUriString, null, false);
+	}
+
+	/**
+	 * This method returns a URI value of the {@code oidOrUriString} taking into account
+	 * the defined {@code ObjectIdentifierQualifier} (to be used for XAdES processing).
+	 * Examples:
+	 *     "http://nowina.lu/policy" = "http://nowina.lu/policy"
+	 *     "1.2.3.4.5" = "1.2.3.4.5"
+	 *     "urn:oid:1.2.3.4.5" = "1.2.3.4.5"
+	 *
+	 * @param oidOrUriString {@link String} identifier value
+	 * @param qualifier {@link ObjectIdentifierQualifier} when present
+	 * @return {@link String} URI
+	 */
+	public static String getObjectIdentifierValue(String oidOrUriString, ObjectIdentifierQualifier qualifier) {
+		return getObjectIdentifierValue(oidOrUriString, qualifier, true);
+	}
+
+	private static String getObjectIdentifierValue(String oidOrUriString, ObjectIdentifierQualifier qualifier, boolean xades) {
+		String value = oidOrUriString;
 		if (Utils.isStringNotEmpty(oidOrUriString)) {
-			policyIdString = policyIdString.replace("\n", "");
-			policyIdString = Utils.trim(policyIdString);
-			if (isUrnOid(policyIdString)) {
-				// urn:oid:1.2.3 --> 1.2.3
-				policyIdString = getOidCode(policyIdString);
+			value = value.replace("\n", "");
+			value = Utils.trim(value);
+			if (DSSUtils.isUrnOid(value)) {
+				if (xades && !ObjectIdentifierQualifier.OID_AS_URN.equals(qualifier)) {
+					LOG.debug("When OID is encoded as URN, a Qualifier=\"OIDAsURN\" shall be used!");
+				}
+				value = DSSUtils.getOidCode(value);
+
+			} else if (DSSUtils.isOidCode(value)) {
+				if (xades && ObjectIdentifierQualifier.OID_AS_URN.equals(qualifier)) {
+					LOG.debug("When OID is encoded as URI, a Qualifier=\"OIDAsURN\" shall not be used!");
+				}
+
+			} else {
+				// OIDAsURN or OIDAsURI
+				if (xades && qualifier != null) {
+					LOG.debug("When URI is used, a Qualifier attribute shall not be present!");
+				}
 			}
 		}
-		return policyIdString;
+		return value;
 	}
 	
 	/**
@@ -1318,6 +1422,30 @@ public final class DSSUtils {
 		}
 		newSignatureValue.setValue(signatureValueBinaries);
 		return newSignatureValue;
+	}
+
+	/**
+	 * This method returns a {@code SignatureAlgorithm} used to create the {@code signatureValue}
+	 * NOTE: Only EdDSA algorithm is being returned by this method. For non-EdDSA or unsupported format, NULL will be returned
+	 *
+	 * @param signatureValue byte array representing the signature value
+	 * @return {@link SignatureAlgorithm}
+	 */
+	public static SignatureAlgorithm getEdDSASignatureAlgorithm(byte[] signatureValue) {
+		/*
+		 * See RFC 8032 "Edwards-Curve Digital Signature Algorithm (EdDSA)"
+		 * ...
+		 * 4.  EdDSA uses small public keys (32 or 57 bytes) and
+		 *     signatures (64 or 114 bytes) for Ed25519 and Ed448, respectively;
+		 */
+		if (signatureValue.length == 64) {
+			return SignatureAlgorithm.ED25519;
+		} else if (signatureValue.length == 114) {
+			return SignatureAlgorithm.ED448;
+		} else {
+			LOG.error("Unable to identify EdDSA Signature Algorithm!");
+			return null;
+		}
 	}
 
 	/**

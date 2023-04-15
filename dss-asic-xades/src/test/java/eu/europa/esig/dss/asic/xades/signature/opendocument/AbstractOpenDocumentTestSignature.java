@@ -33,7 +33,7 @@ import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.FileDocument;
-import eu.europa.esig.dss.model.MimeType;
+import eu.europa.esig.dss.enumerations.MimeType;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -115,6 +115,7 @@ public abstract class AbstractOpenDocumentTestSignature extends AbstractASiCEXAd
 	protected void checkExtractedContent(ASiCContent asicContent) {
 		assertNotNull(asicContent);
 		assertTrue(Utils.isCollectionNotEmpty(asicContent.getSignedDocuments()));
+		assertTrue(Utils.isCollectionNotEmpty(asicContent.getRootLevelSignedDocuments()));
 		assertTrue(Utils.isCollectionNotEmpty(asicContent.getSignatureDocuments()));
 		assertNotNull(asicContent.getMimeTypeDocument());
 
@@ -124,6 +125,7 @@ public abstract class AbstractOpenDocumentTestSignature extends AbstractASiCEXAd
 
 		assertNotNull(asicContent.getMimeTypeDocument());
 		assertTrue(Utils.isCollectionNotEmpty(asicContent.getSignedDocuments()));
+		assertTrue(Utils.isCollectionNotEmpty(asicContent.getRootLevelSignedDocuments()));
 
 		assertEquals(1, asicContent.getManifestDocuments().size());
 		assertEquals("META-INF/manifest.xml", asicContent.getManifestDocuments().get(0).getName());

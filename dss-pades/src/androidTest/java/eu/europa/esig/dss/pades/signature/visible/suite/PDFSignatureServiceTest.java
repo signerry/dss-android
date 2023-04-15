@@ -29,6 +29,8 @@ import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.pades.SignatureFieldParameters;
 import eu.europa.esig.dss.pdf.AbstractPDFSignatureService;
 import eu.europa.esig.dss.pdf.IPdfObjFactory;
+import eu.europa.esig.dss.pdf.PdfPermissionsChecker;
+import eu.europa.esig.dss.pdf.PdfSignatureFieldPositionChecker;
 import eu.europa.esig.dss.pdf.ServiceLoaderPdfObjFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,8 +76,11 @@ public class PDFSignatureServiceTest {
 		parametersTwo.setFieldId("signature2");
 		Exception exception = assertThrows(AlertException.class, () -> service.addNewSignatureField(withFirstField, parametersTwo));
 		assertEquals("The new signature field position overlaps with an existing annotation!", exception.getMessage());
-	
-		service.setAlertOnSignatureFieldOverlap(new LogOnStatusAlert());
+
+		PdfSignatureFieldPositionChecker pdfSignatureFieldPositionChecker = new PdfSignatureFieldPositionChecker();
+		pdfSignatureFieldPositionChecker.setAlertOnSignatureFieldOverlap(new LogOnStatusAlert());
+		service.setPdfSignatureFieldPositionChecker(pdfSignatureFieldPositionChecker);
+
 		DSSDocument withSecondField = service.addNewSignatureField(withFirstField, parametersTwo);
 		assertNotNull(withSecondField);
 		
@@ -86,7 +91,9 @@ public class PDFSignatureServiceTest {
 	public void alertOnSignatureFieldOutsidePageDimensions() throws IOException {
 		DSSDocument documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("EmptyPage.pdf"));
 
-		service.setAlertOnSignatureFieldOutsidePageDimensions(new ExceptionOnStatusAlert());
+		PdfSignatureFieldPositionChecker pdfSignatureFieldPositionChecker = new PdfSignatureFieldPositionChecker();
+		pdfSignatureFieldPositionChecker.setAlertOnSignatureFieldOutsidePageDimensions(new ExceptionOnStatusAlert());
+		service.setPdfSignatureFieldPositionChecker(pdfSignatureFieldPositionChecker);
 
 		SignatureFieldParameters parameters = new SignatureFieldParameters();
 		parameters.setFieldId("signature1");
@@ -118,11 +125,11 @@ public class PDFSignatureServiceTest {
 		Exception exception = assertThrows(AlertException.class, () -> service.addNewSignatureField(documentToSign, parameters));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
-		service.setAlertOnSignatureFieldOutsidePageDimensions(new LogOnStatusAlert());
+		pdfSignatureFieldPositionChecker.setAlertOnSignatureFieldOutsidePageDimensions(new LogOnStatusAlert());
 		signedDoc = service.addNewSignatureField(documentToSign, parameters);
 		assertNotNull(signedDoc);
 
-		service.setAlertOnSignatureFieldOutsidePageDimensions(new ExceptionOnStatusAlert());
+		pdfSignatureFieldPositionChecker.setAlertOnSignatureFieldOutsidePageDimensions(new ExceptionOnStatusAlert());
 		parameters.setOriginX(0);
 		parameters.setOriginY(-1);
 		parameters.setHeight(100);
@@ -130,11 +137,11 @@ public class PDFSignatureServiceTest {
 		exception = assertThrows(AlertException.class, () -> service.addNewSignatureField(documentToSign, parameters));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
-		service.setAlertOnSignatureFieldOutsidePageDimensions(new LogOnStatusAlert());
+		pdfSignatureFieldPositionChecker.setAlertOnSignatureFieldOutsidePageDimensions(new LogOnStatusAlert());
 		signedDoc = service.addNewSignatureField(documentToSign, parameters);
 		assertNotNull(signedDoc);
 
-		service.setAlertOnSignatureFieldOutsidePageDimensions(new ExceptionOnStatusAlert());
+		pdfSignatureFieldPositionChecker.setAlertOnSignatureFieldOutsidePageDimensions(new ExceptionOnStatusAlert());
 		parameters.setOriginX(0);
 		parameters.setOriginY(0);
 		parameters.setHeight(100);
@@ -163,11 +170,11 @@ public class PDFSignatureServiceTest {
 		exception = assertThrows(AlertException.class, () -> service.addNewSignatureField(documentToSign, parameters));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
-		service.setAlertOnSignatureFieldOutsidePageDimensions(new LogOnStatusAlert());
+		pdfSignatureFieldPositionChecker.setAlertOnSignatureFieldOutsidePageDimensions(new LogOnStatusAlert());
 		signedDoc = service.addNewSignatureField(documentToSign, parameters);
 		assertNotNull(signedDoc);
 
-		service.setAlertOnSignatureFieldOutsidePageDimensions(new ExceptionOnStatusAlert());
+		pdfSignatureFieldPositionChecker.setAlertOnSignatureFieldOutsidePageDimensions(new ExceptionOnStatusAlert());
 		parameters.setOriginX(512);
 		parameters.setOriginY(692);
 		parameters.setHeight(101);
@@ -175,11 +182,11 @@ public class PDFSignatureServiceTest {
 		exception = assertThrows(AlertException.class, () -> service.addNewSignatureField(documentToSign, parameters));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
-		service.setAlertOnSignatureFieldOutsidePageDimensions(new LogOnStatusAlert());
+		pdfSignatureFieldPositionChecker.setAlertOnSignatureFieldOutsidePageDimensions(new LogOnStatusAlert());
 		signedDoc = service.addNewSignatureField(documentToSign, parameters);
 		assertNotNull(signedDoc);
 
-		service.setAlertOnSignatureFieldOutsidePageDimensions(new ExceptionOnStatusAlert());
+		pdfSignatureFieldPositionChecker.setAlertOnSignatureFieldOutsidePageDimensions(new ExceptionOnStatusAlert());
 		parameters.setOriginX(512);
 		parameters.setOriginY(693);
 		parameters.setHeight(100);
@@ -187,11 +194,11 @@ public class PDFSignatureServiceTest {
 		exception = assertThrows(AlertException.class, () -> service.addNewSignatureField(documentToSign, parameters));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
-		service.setAlertOnSignatureFieldOutsidePageDimensions(new LogOnStatusAlert());
+		pdfSignatureFieldPositionChecker.setAlertOnSignatureFieldOutsidePageDimensions(new LogOnStatusAlert());
 		signedDoc = service.addNewSignatureField(documentToSign, parameters);
 		assertNotNull(signedDoc);
 
-		service.setAlertOnSignatureFieldOutsidePageDimensions(new ExceptionOnStatusAlert());
+		pdfSignatureFieldPositionChecker.setAlertOnSignatureFieldOutsidePageDimensions(new ExceptionOnStatusAlert());
 		parameters.setOriginX(512);
 		parameters.setOriginY(692);
 		parameters.setHeight(100);
@@ -199,7 +206,7 @@ public class PDFSignatureServiceTest {
 		exception = assertThrows(AlertException.class, () -> service.addNewSignatureField(documentToSign, parameters));
 		assertTrue(exception.getMessage().contains("The new signature field position is outside the page dimensions!"));
 
-		service.setAlertOnSignatureFieldOutsidePageDimensions(new LogOnStatusAlert());
+		pdfSignatureFieldPositionChecker.setAlertOnSignatureFieldOutsidePageDimensions(new LogOnStatusAlert());
 		signedDoc = service.addNewSignatureField(documentToSign, parameters);
 		assertNotNull(signedDoc);
 	}
@@ -215,11 +222,15 @@ public class PDFSignatureServiceTest {
 		SignatureFieldParameters parameters = new SignatureFieldParameters();
 		parameters.setFieldId("Signature1");
 
-		service.setAlertOnForbiddenSignatureCreation(new ExceptionOnStatusAlert());
-		Exception exception = assertThrows(AlertException.class, () -> service.addNewSignatureField(documentToSign, parameters));
-		assertEquals("The creation of new signatures is not permitted in the current document.", exception.getMessage());
+		PdfPermissionsChecker pdfPermissionsChecker = new PdfPermissionsChecker();
+		pdfPermissionsChecker.setAlertOnForbiddenSignatureCreation(new ExceptionOnStatusAlert());
+		service.setPdfPermissionsChecker(pdfPermissionsChecker);
 
-		service.setAlertOnForbiddenSignatureCreation(new SilentOnStatusAlert());
+		Exception exception = assertThrows(AlertException.class, () -> service.addNewSignatureField(documentToSign, parameters));
+		assertEquals("The creation of new signatures is not permitted in the current document. " +
+				"Reason : DocMDP dictionary does not permit a new signature creation!", exception.getMessage());
+
+		pdfPermissionsChecker.setAlertOnForbiddenSignatureCreation(new SilentOnStatusAlert());
 		DSSDocument dssDocumentWithAddedField = service.addNewSignatureField(documentToSign, parameters);
 
 		availableSignatureFields = service.getAvailableSignatureFields(dssDocumentWithAddedField);

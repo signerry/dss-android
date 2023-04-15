@@ -22,6 +22,7 @@ package eu.europa.esig.dss.xades.reference;
 
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.model.DSSDocument;
+import eu.europa.esig.dss.xades.DSSObject;
 
 import java.io.Serializable;
 import java.util.List;
@@ -43,13 +44,16 @@ public class DSSReference implements Serializable {
 	private String type;
 
 	/** The DigestAlgorithm of the reference to compute digest value */
-	private DigestAlgorithm digestMethod;
+	private DigestAlgorithm digestMethod = DigestAlgorithm.SHA256;
 
 	/** The referenced data */
 	private DSSDocument contents;
 
 	/** List of transforms to be performed */
 	private List<DSSTransform> transforms;
+
+	/** When set, defines the ds:Object element to be incorporated within the signature */
+	private DSSObject object;
 
 	/**
 	 * The default constructor
@@ -122,6 +126,7 @@ public class DSSReference implements Serializable {
 
 	/**
 	 * Sets DigestAlgorithm to use for digest value computation
+	 * Default : DigestAlgorithm.SHA256
 	 *
 	 * @param digestMethod {@link DigestAlgorithm}
 	 */
@@ -165,10 +170,31 @@ public class DSSReference implements Serializable {
 		this.contents = contents;
 	}
 
+	/**
+	 * Gets ds:Object element's structure to be incorporated within the signature
+	 *
+	 * @return {@link DSSObject}
+	 */
+	public DSSObject getObject() {
+		return object;
+	}
+
+	/**
+	 * Sets the pre-defined ds:Object element to be incorporated within the signature.
+	 *
+	 * NOTE : if not set, the basic ds:Object creation will be proceeded, when required
+	 *
+	 * @param object {@link DSSObject}
+	 */
+	public void setObject(DSSObject object) {
+		this.object = object;
+	}
+
 	@Override
 	public String toString() {
-		return "DSSReference{" + "id='" + id + '\'' + ", uri='" + uri + '\'' + ", type='" + type + '\'' + ", digestMethod='"
-				+ (digestMethod != null ? digestMethod.getName() : digestMethod) + '\'' + ", contents=" + (contents != null ? contents.toString() : contents)
-				+ ", transforms=" + transforms + '}';
+		return "DSSReference{" + "id='" + id + '\'' + ", uri='" + uri + '\'' + ", type='" + type + '\'' +
+				", digestMethod=" + digestMethod + ", contents=" + contents + ", transforms=" + transforms +
+				", object=" + object + '}';
 	}
+
 }

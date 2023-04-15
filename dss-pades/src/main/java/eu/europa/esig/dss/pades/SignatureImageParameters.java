@@ -96,6 +96,13 @@ public class SignatureImageParameters implements Serializable {
 	private SignatureImageTextParameters textParameters;
 
 	/**
+	 * Default constructor instantiating object with default parameters
+	 */
+	public SignatureImageParameters() {
+		// empty
+	}
+
+	/**
 	 * Returns a {@code DSSDocument} image defined for displaying on the signature field
 	 * @return {@link DSSDocument} image
 	 */
@@ -293,4 +300,40 @@ public class SignatureImageParameters implements Serializable {
 				+ ", fieldParameters=" + getFieldParameters() + ", textParameters=" + getTextParameters() + "]";
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof SignatureImageParameters)) return false;
+
+		SignatureImageParameters that = (SignatureImageParameters) o;
+
+		if (zoom != that.zoom) return false;
+		if (!Objects.equals(image, that.image)) return false;
+		if (!Objects.equals(fieldParameters, that.fieldParameters))
+			return false;
+		if (!Objects.equals(backgroundColor, that.backgroundColor))
+			return false;
+		if (!Objects.equals(dpi, that.dpi)) return false;
+		if (rotation != that.rotation) return false;
+		if (alignmentHorizontal != that.alignmentHorizontal) return false;
+		if (alignmentVertical != that.alignmentVertical) return false;
+		if (imageScaling != that.imageScaling) return false;
+		return Objects.equals(textParameters, that.textParameters);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = image != null ? image.hashCode() : 0;
+		result = 31 * result + (fieldParameters != null ? fieldParameters.hashCode() : 0);
+		result = 31 * result + zoom;
+		result = 31 * result + (backgroundColor != null ? backgroundColor.hashCode() : 0);
+		result = 31 * result + (dpi != null ? dpi.hashCode() : 0);
+		result = 31 * result + (rotation != null ? rotation.hashCode() : 0);
+		result = 31 * result + (alignmentHorizontal != null ? alignmentHorizontal.hashCode() : 0);
+		result = 31 * result + (alignmentVertical != null ? alignmentVertical.hashCode() : 0);
+		result = 31 * result + (imageScaling != null ? imageScaling.hashCode() : 0);
+		result = 31 * result + (textParameters != null ? textParameters.hashCode() : 0);
+		return result;
+	}
+
 }

@@ -24,6 +24,13 @@ import eu.europa.esig.dss.enumerations.SignatureLevel;
 
 public class JAdESExtensionBToLTATest extends AbstractJAdESTestExtension {
 
+	/**
+	 * Default constructor
+	 */
+	public PdfBoxDefaultSignatureDrawerFactory() {
+		// empty
+	}
+
 	@Override
 	protected SignatureLevel getOriginalSignatureLevel() {
 		return SignatureLevel.JAdES_BASELINE_B;

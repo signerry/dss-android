@@ -21,7 +21,7 @@
 package eu.europa.esig.dss.xades;
 
 import eu.europa.esig.dss.model.DSSDocument;
-import eu.europa.esig.dss.model.MimeType;
+import eu.europa.esig.dss.enumerations.MimeType;
 
 import java.io.Serializable;
 
@@ -46,7 +46,7 @@ public class DSSObject implements Serializable {
     /**
      * Represents a value for the "MimeType" attribute
      */
-    private MimeType mimeType;
+    private String mimeType;
 
     /**
      * Represents a value for the "Encoding" attribute
@@ -57,6 +57,7 @@ public class DSSObject implements Serializable {
      * Default constructor
      */
     public DSSObject() {
+        // empty
     }
 
     /**
@@ -99,9 +100,9 @@ public class DSSObject implements Serializable {
     /**
      * Gets the MimeType
      *
-     * @return {@link MimeType}
+     * @return {@link String}
      */
-    public MimeType getMimeType() {
+    public String getMimeType() {
         return mimeType;
     }
 
@@ -109,8 +110,19 @@ public class DSSObject implements Serializable {
      * Sets the value for the "MimeType" attribute
      *
      * @param mimeType {@link MimeType}
+     * @deprecated since DSS 5.12. Use {@code #setMimeType(MimeType.getMimeTypeString())}
      */
+    @Deprecated
     public void setMimeType(MimeType mimeType) {
+        setMimeType(mimeType.getMimeTypeString());
+    }
+
+    /**
+     * Sets the value for the "MimeType" attribute
+     *
+     * @param mimeType {@link String}
+     */
+    public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
     }
 
@@ -130,6 +142,12 @@ public class DSSObject implements Serializable {
      */
     public void setEncodingAlgorithm(String encodingAlgorithm) {
         this.encodingAlgorithm = encodingAlgorithm;
+    }
+
+    @Override
+    public String toString() {
+        return "DSSObject{" + "content=" + content + ", id='" + id + '\'' + ", mimeType=" + mimeType +
+                ", encodingAlgorithm='" + encodingAlgorithm + '\'' + '}';
     }
 
 }

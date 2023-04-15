@@ -144,6 +144,15 @@ public interface IUtils {
 	boolean endsWithIgnoreCase(String text, String expected);
 
 	/**
+	 * This method returns an extension for the given filename
+	 * Ex. "file.xml" = "xml"; "document.pdf" = "pdf"
+	 *
+	 * @param filename {@link String} representing a filename extracted from a file
+	 * @return {@link String} extension
+	 */
+	String getFileNameExtension(String filename);
+
+	/**
 	 * Converts a string to its lower case representation
 	 * Ex. "Nowina" = "nowina"
 	 *
@@ -192,6 +201,22 @@ public interface IUtils {
 	 * @return TRUE if the byte array is not null nor empty, FALSE otherwise
 	 */
 	boolean isArrayNotEmpty(byte[] array);
+
+	/**
+	 * Checks if the char array is null or empty
+	 *
+	 * @param array char array to check
+	 * @return TRUE if the char array is null or empty, FALSE otherwise
+	 */
+	boolean isArrayEmpty(char[] array);
+
+	/**
+	 * Checks if the char array is not null nor empty
+	 *
+	 * @param array char array to check
+	 * @return TRUE if the char array is not null nor empty, FALSE otherwise
+	 */
+	boolean isArrayNotEmpty(char[] array);
 
 	/**
 	 * Returns a subArray, starting from position {@code start} with the defined length {@code length}
@@ -346,6 +371,16 @@ public interface IUtils {
 	 * @throws IOException if an exception occurs
 	 */
 	long getInputStreamSize(InputStream is) throws IOException;
+
+	/**
+	 * Compares content of two {@code InputStream}s
+	 *
+	 * @param stream1 {@link InputStream}
+	 * @param stream2 {@link InputStream}
+	 * @return TRUE if the content of two {@link InputStream} is equal, FALSE otherwise
+	 * @throws IOException if an exception on InputStream read occurs
+	 */
+	boolean compareInputStreams(InputStream stream1, InputStream stream2) throws IOException;
 
 	/**
 	 * Cleans the directory

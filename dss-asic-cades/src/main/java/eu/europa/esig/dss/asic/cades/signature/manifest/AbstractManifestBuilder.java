@@ -33,13 +33,19 @@ import eu.europa.esig.dss.definition.xmldsig.XMLDSigElement;
 import eu.europa.esig.dss.definition.xmldsig.XMLDSigNamespace;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.model.DSSDocument;
-import eu.europa.esig.dss.model.MimeType;
+import eu.europa.esig.dss.enumerations.MimeType;
 import eu.europa.esig.dss.spi.DSSUtils;
 
 /**
  * The abstract class to build a Manifest for ASiC with CAdES
  */
 public abstract class AbstractManifestBuilder {
+
+	/**
+	 * Default constructor
+	 */
+	protected AbstractManifestBuilder() {
+	}
 
 	/**
 	 * Adds a {@code <SigReference>} element

@@ -76,6 +76,13 @@ public class RemoteDocumentSignatureServiceImpl extends AbstractRemoteSignatureS
 	private ASiCWithCAdESService asicWithCAdESService;
 
 	/**
+	 * Default constructor instantiating object with null services
+	 */
+	public RemoteDocumentSignatureServiceImpl() {
+		// empty
+	}
+
+	/**
 	 * Sets the XAdES signature service
 	 *
 	 * @param xadesService {@link XAdESService}

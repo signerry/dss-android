@@ -20,31 +20,18 @@
  */
 package eu.europa.esig.dss.pdf.pdfbox.visible.nativedrawer;
 
-import eu.europa.esig.dss.model.DSSDocument;
-import eu.europa.esig.dss.pades.DSSFileFont;
-import eu.europa.esig.dss.pades.DSSFont;
-import eu.europa.esig.dss.pades.SignatureImageParameters;
-import eu.europa.esig.dss.pades.SignatureImageTextParameters;
-import eu.europa.esig.dss.pdf.pdfbox.visible.AbstractPdfBoxSignatureDrawer;
-import eu.europa.esig.dss.pdf.pdfbox.visible.PdfBoxNativeFont;
-import eu.europa.esig.dss.pdf.visible.DSSFontMetrics;
-import eu.europa.esig.dss.pdf.visible.ImageRotationUtils;
-import eu.europa.esig.dss.pdf.visible.ImageUtils;
-import eu.europa.esig.dss.pdf.visible.SignatureFieldDimensionAndPosition;
-
-import eu.europa.esig.dss.DSSColor;
 import com.tom_roush.pdfbox.cos.COSName;
 import com.tom_roush.pdfbox.io.IOUtils;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.pdmodel.PDPage;
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream;
-import com.tom_roush.pdfbox.pdmodel.PDResources;
 import com.tom_roush.pdfbox.pdmodel.common.PDRectangle;
-import com.tom_roush.pdfbox.pdmodel.common.PDStream;
 import com.tom_roush.pdfbox.pdmodel.font.PDFont;
 import com.tom_roush.pdfbox.pdmodel.font.PDType0Font;
+import com.tom_roush.pdfbox.pdmodel.graphics.color.PDColor;
 import com.tom_roush.pdfbox.pdmodel.graphics.color.PDColorSpace;
-import com.tom_roush.pdfbox.pdmodel.graphics.form.PDFormXObject;
+import com.tom_roush.pdfbox.pdmodel.graphics.color.PDDeviceGray;
+import com.tom_roush.pdfbox.pdmodel.graphics.color.PDDeviceRGB;
 import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import com.tom_roush.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState;
 import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationWidget;
@@ -55,14 +42,30 @@ import com.tom_roush.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import com.tom_roush.pdfbox.pdmodel.interactive.form.PDField;
 import com.tom_roush.pdfbox.pdmodel.interactive.form.PDSignatureField;
 import com.tom_roush.pdfbox.util.Matrix;
+
+import eu.europa.esig.dss.DSSColor;
+import eu.europa.esig.dss.model.DSSDocument;
+import eu.europa.esig.dss.pades.DSSFileFont;
+import eu.europa.esig.dss.pades.DSSFont;
+import eu.europa.esig.dss.pades.PAdESUtils;
+import eu.europa.esig.dss.pades.SignatureImageParameters;
+import eu.europa.esig.dss.pades.SignatureImageTextParameters;
+import eu.europa.esig.dss.pdf.pdfbox.PdfBoxUtils;
+import eu.europa.esig.dss.pdf.pdfbox.visible.AbstractPdfBoxSignatureDrawer;
+import eu.europa.esig.dss.pdf.pdfbox.visible.PdfBoxNativeFont;
+import eu.europa.esig.dss.pdf.visible.DSSFontMetrics;
+import eu.europa.esig.dss.pdf.visible.ImageRotationUtils;
+import eu.europa.esig.dss.pdf.visible.ImageUtils;
+import eu.europa.esig.dss.pdf.visible.SignatureFieldDimensionAndPosition;
+import eu.europa.esig.dss.signature.resources.DSSResourcesHandler;
+import eu.europa.esig.dss.signature.resources.DSSResourcesHandlerBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -76,29 +79,28 @@ public class NativePdfBoxVisibleSignatureDrawer extends AbstractPdfBoxSignatureD
 	/** PDFBox font */
 	private PDFont pdFont;
 
-	/** Defines the default value for a non-transparent alpha layer */
-	private static final float OPAQUE_VALUE = 0xff;
+	/**
+	 * The builder is to be used to create a new {@code DSSResourcesHandler} for visual signature creation,
+	 * defining a way working with internal resources (e.g. in memory or by using temporary files).
+	 * Default : {@code eu.europa.esig.dss.signature.resources.InMemoryResourcesHandler}
+	 */
+	private DSSResourcesHandlerBuilder resourcesHandlerBuilder = PAdESUtils.DEFAULT_RESOURCES_HANDLER_BUILDER;
 
 	/**
-	 * Defines whether only a subset of used glyphs should be embedded to a PDF,
-	 * when a font file is used with a text information defined within a signature field
-	 *
-	 * DEFAULT : FALSE (all glyphs from a font file are embedded to a PDF document)
+	 * Default constructor instantiating object with default parameter values
 	 */
-	private boolean embedFontSubset = false;
+	public NativePdfBoxVisibleSignatureDrawer() {
+		// empty
+	}
 
 	/**
-	 * Sets whether only a subset of used glyphs should be embedded to a PDF, when a {@code DSSFileFont} is used.
+	 * Sets {@code DSSResourcesFactoryBuilder} to be used for a {@code DSSResourcesFactory} creation
+	 * Default : {@code eu.europa.esig.dss.signature.resources.InMemoryResourcesHandler}. Works with data in memory.
 	 *
-	 * When set to TRUE, only the used glyphs will be embedded to a font.
-	 * When set to FALSE, all glyphs from a font will be embedded to a PDF.
-	 *
-	 * DEFAULT : FALSE (the whole font file is embedded to a PDF)
-	 *
-	 * @param embedFontSubset whether only a subset of used glyphs should be embedded to a PDF
+	 * @param resourcesHandlerBuilder {@link DSSResourcesHandlerBuilder}
 	 */
-	public void setEmbedFontSubset(boolean embedFontSubset) {
-		this.embedFontSubset = embedFontSubset;
+	public void setResourcesHandlerBuilder(DSSResourcesHandlerBuilder resourcesHandlerBuilder) {
+		this.resourcesHandlerBuilder = resourcesHandlerBuilder;
 	}
 
 	@Override
@@ -118,11 +120,13 @@ public class NativePdfBoxVisibleSignatureDrawer extends AbstractPdfBoxSignatureD
 		if (dssFont instanceof PdfBoxNativeFont) {
 			PdfBoxNativeFont nativeFont = (PdfBoxNativeFont) dssFont;
 			return nativeFont.getFont();
+
 		} else if (dssFont instanceof DSSFileFont) {
 			DSSFileFont fileFont = (DSSFileFont) dssFont;
 			try (InputStream is = fileFont.getInputStream()) {
-				return PDType0Font.load(document, is, embedFontSubset);
+				return PDType0Font.load(document, is, fileFont.isEmbedFontSubset());
 			}
+
 		} else {
 			return PdfBoxFontMapper.getPDFont(dssFont.getJavaFont());
 		}
@@ -135,7 +139,9 @@ public class NativePdfBoxVisibleSignatureDrawer extends AbstractPdfBoxSignatureD
 
 	@Override
 	public void draw() throws IOException {
-		try (PDDocument doc = new PDDocument(); ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+		try (DSSResourcesHandler resourcesHandler = resourcesHandlerBuilder.createResourcesHandler();
+			 OutputStream os = resourcesHandler.createOutputStream();
+			 PDDocument doc = new PDDocument()) {
 
 			int pageNumber = parameters.getFieldParameters().getPage() - ImageUtils.DEFAULT_FIRST_PAGE;
 			PDPage originalPage = document.getPage(pageNumber);
@@ -156,20 +162,10 @@ public class NativePdfBoxVisibleSignatureDrawer extends AbstractPdfBoxSignatureD
 			PDRectangle rectangle = getPdRectangle(dimensionAndPosition, page);
 			widget.setRectangle(rectangle);
 
-			PDStream stream = new PDStream(doc);
-			PDFormXObject form = new PDFormXObject(stream);
-			PDResources res = new PDResources();
-			form.setResources(res);
-			form.setFormType(1);
-
-			form.setBBox(new PDRectangle(rectangle.getWidth(), rectangle.getHeight()));
-
-			PDAppearanceDictionary appearance = new PDAppearanceDictionary();
-			appearance.getCOSObject().setDirect(true);
-			PDAppearanceStream appearanceStream = new PDAppearanceStream(form.getCOSObject());
-			appearance.setNormalAppearance(appearanceStream);
+			PDAppearanceDictionary appearance = PdfBoxUtils.createSignatureAppearanceDictionary(doc, rectangle);
 			widget.setAppearance(appearance);
 
+			PDAppearanceStream appearanceStream = appearance.getNormalAppearance().getAppearanceStream();
 			try (PDPageContentStream cs = new PDPageContentStream(doc, appearanceStream)) {
 				rotateSignature(cs, rectangle, dimensionAndPosition);
 				setFieldBackground(cs, parameters.getBackgroundColor());
@@ -177,10 +173,11 @@ public class NativePdfBoxVisibleSignatureDrawer extends AbstractPdfBoxSignatureD
 				setImage(cs, doc, dimensionAndPosition, parameters.getImage());
 			}
 
-			doc.save(baos);
+			doc.save(os);
 
-			try (ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray())) {
-				signatureOptions.setVisualSignature(bais);
+			DSSDocument document = resourcesHandler.writeToDSSDocument();
+			try (InputStream is = document.openStream()) {
+				signatureOptions.setVisualSignature(is);
 				signatureOptions.setPage(pageNumber);
 			}
 
@@ -337,8 +334,21 @@ public class NativePdfBoxVisibleSignatureDrawer extends AbstractPdfBoxSignatureD
 
 	private void setNonStrokingColor(PDPageContentStream cs, DSSColor color) throws IOException {
 		if (color != null) {
-			cs.setNonStrokingColor(color.getAwtColor());
+			cs.setNonStrokingColor(toPDColor(color));
 		}
+	}
+
+	private PDColor toPDColor(DSSColor color) {
+		float[] components;
+		PDColorSpace pdColorSpace;
+		if (ImageUtils.isGrayscale(color)) {
+			components = new float[] { color.getRed() / 255f };
+			pdColorSpace = PDDeviceGray.INSTANCE;
+		} else {
+			components = new float[] { color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f };
+			pdColorSpace = PDDeviceRGB.INSTANCE;
+		}
+		return new PDColor(components, pdColorSpace);
 	}
 
 	/**
@@ -352,7 +362,7 @@ public class NativePdfBoxVisibleSignatureDrawer extends AbstractPdfBoxSignatureD
 		if (color != null) {
 			// if alpha value is less then 255 (is transparent)
 			float alpha = color.getAlpha();
-			if (alpha < OPAQUE_VALUE) {
+			if (alpha < ImageUtils.OPAQUE_VALUE) {
 				LOG.warn("Transparency detected and enabled (Be aware: not valid with PDF/A !)");
 				setAlpha(cs, alpha);
 			}
@@ -361,7 +371,7 @@ public class NativePdfBoxVisibleSignatureDrawer extends AbstractPdfBoxSignatureD
 
 	private void setAlpha(PDPageContentStream cs, float alpha) throws IOException {
 		PDExtendedGraphicsState gs = new PDExtendedGraphicsState();
-		gs.setNonStrokingAlphaConstant(alpha / OPAQUE_VALUE);
+		gs.setNonStrokingAlphaConstant(alpha / ImageUtils.OPAQUE_VALUE);
 		cs.setGraphicsStateParameters(gs);
 	}
 
@@ -376,8 +386,8 @@ public class NativePdfBoxVisibleSignatureDrawer extends AbstractPdfBoxSignatureD
 		if (color != null) {
 			// if alpha value is less than 255 (is transparent)
 			float alpha = color.getAlpha();
-			if (alpha < OPAQUE_VALUE) {
-				setAlpha(cs, OPAQUE_VALUE);
+			if (alpha < ImageUtils.OPAQUE_VALUE) {
+				setAlpha(cs, ImageUtils.OPAQUE_VALUE);
 			}
 		}
 	}
@@ -412,8 +422,7 @@ public class NativePdfBoxVisibleSignatureDrawer extends AbstractPdfBoxSignatureD
 				return colorSpace.getName();
 			}
 		} else {
-			// RGB is default for text
-			return COSName.DEVICERGB.getName();
+			return ImageUtils.containRGBColor(parameters) ? COSName.DEVICERGB.getName() : COSName.DEVICEGRAY.getName();
 		}
 	}
 

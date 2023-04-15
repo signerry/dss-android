@@ -22,6 +22,7 @@ package eu.europa.esig.dss.validation;
 
 import eu.europa.esig.dss.diagnostic.jaxb.XmlDiagnosticData;
 import eu.europa.esig.dss.enumerations.TokenExtractionStrategy;
+import eu.europa.esig.dss.exception.IllegalInputException;
 import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.policy.ValidationPolicy;
@@ -29,7 +30,10 @@ import eu.europa.esig.dss.policy.ValidationPolicyFacade;
 import eu.europa.esig.dss.validation.executor.certificate.CertificateProcessExecutor;
 import eu.europa.esig.dss.validation.executor.certificate.DefaultCertificateProcessExecutor;
 import eu.europa.esig.dss.validation.reports.CertificateReports;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.InputStream;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -38,6 +42,8 @@ import java.util.Objects;
  * Validates a CertificateToken
  */
 public class CertificateValidator implements ProcessExecutorProvider<CertificateProcessExecutor> {
+
+	private static final Logger LOG = LoggerFactory.getLogger(CertificateValidator.class);
 
 	/** The certificateToken to be validated */
 	private final CertificateToken token;
@@ -145,11 +151,33 @@ public class CertificateValidator implements ProcessExecutorProvider<Certificate
 	public CertificateReports validate() {
 		ValidationPolicy defaultPolicy;
 		try {
-			defaultPolicy = ValidationPolicyFacade.newFacade().getDefaultValidationPolicy();
+			defaultPolicy = ValidationPolicyFacade.newFacade().getCertificateValidationPolicy();
 		} catch (Exception e) {
 			throw new DSSException("Unable to load the default policy", e);
 		}
 		return validate(defaultPolicy);
+	}
+
+	/**
+	 * This method validates a certificate with the given validation policy {@code InputStream}
+	 *
+	 * @param policyDataStream {@link InputStream} representing the XML Validation Policy file
+	 * @return {@link CertificateReports}
+	 */
+	public CertificateReports validate(InputStream policyDataStream) {
+		try {
+			if (policyDataStream == null) {
+				LOG.debug("No provided validation policy : use the default policy");
+				return validate();
+
+			} else {
+				ValidationPolicy validationPolicy = ValidationPolicyFacade.newFacade().getValidationPolicy(policyDataStream);
+				return validate(validationPolicy);
+			}
+
+		} catch (Exception e) {
+			throw new IllegalInputException("Unable to load the policy", e);
+		}
 	}
 
 	/**
@@ -184,9 +212,10 @@ public class CertificateValidator implements ProcessExecutorProvider<Certificate
 	/**
 	 * Initializes and fills {@code ValidationContext} for a certificate token validation
 	 *
+	 * @param certificateVerifier {@link CertificateVerifier} to be used
 	 * @return {@link ValidationContext}
 	 */
-	protected ValidationContext prepareValidationContext() {
+	protected ValidationContext prepareValidationContext(CertificateVerifier certificateVerifier) {
 		SignatureValidationContext svc = new SignatureValidationContext();
 		svc.initialize(certificateVerifier);
 		svc.addCertificateTokenForVerification(token);
@@ -200,7 +229,9 @@ public class CertificateValidator implements ProcessExecutorProvider<Certificate
 	 * @return {@link DiagnosticDataBuilder}
 	 */
 	protected DiagnosticDataBuilder prepareDiagnosticDataBuilder() {
-		ValidationContext validationContext = prepareValidationContext();
+		final CertificateVerifier certificateVerifierForValidation =
+				new CertificateVerifierBuilder(certificateVerifier).buildCompleteCopyForValidation();
+		final ValidationContext validationContext = prepareValidationContext(certificateVerifierForValidation);
 		validationContext.validate();
 		return createDiagnosticDataBuilder(validationContext);
 	}

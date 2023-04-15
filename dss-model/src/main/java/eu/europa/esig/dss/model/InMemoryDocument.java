@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.model;
 
+import eu.europa.esig.dss.enumerations.MimeType;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -40,6 +42,7 @@ public class InMemoryDocument extends CommonDocument {
 	 * Empty constructor
 	 */
 	public InMemoryDocument() {
+		// empty
 	}
 
 	/**
@@ -131,9 +134,18 @@ public class InMemoryDocument extends CommonDocument {
 		}
 	}
 
+	/**
+	 * Creates an empty in memory document
+	 *
+	 * @return {@link InMemoryDocument}
+	 */
+	public static InMemoryDocument createEmptyDocument() {
+		return new InMemoryDocument(new byte[0]);
+	}
+
 	@Override
 	public InputStream openStream() {
-		Objects.requireNonNull(bytes, "Bytes are null");
+		Objects.requireNonNull(bytes, "Byte array is not defined!");
 		return new ByteArrayInputStream(bytes);
 	}
 
@@ -161,6 +173,7 @@ public class InMemoryDocument extends CommonDocument {
 	 * @return {@link String} base64 encoded
 	 */
 	public String getBase64Encoded() {
+		Objects.requireNonNull(bytes, "Byte array is not defined!");
 		return Base64.getEncoder().encodeToString(bytes);
 	}
 

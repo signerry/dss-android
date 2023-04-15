@@ -37,19 +37,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import eu.europa.esig.dss.DSSColor;
+import eu.europa.esig.dss.enumerations.MimeType;
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.exception.IllegalInputException;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DSSException;
-import eu.europa.esig.dss.model.InMemoryDocument;
-import eu.europa.esig.dss.model.MimeType;
 import eu.europa.esig.dss.pades.SignatureImageParameters;
 import eu.europa.esig.dss.pdf.AnnotationBox;
+import eu.europa.esig.dss.signature.resources.DSSResourcesHandler;
 import eu.europa.esig.dss.utils.Utils;
 
 /**
@@ -63,6 +65,32 @@ public class ImageUtils {
 
 	/** The default name for a screenshot document */
 	private static final String SCREENSHOT_PNG_NAME = "screenshot.png";
+
+
+	/**
+	 * Defines the default value for a non-transparent alpha layer
+	 * */
+	public static final float OPAQUE_VALUE = 0xff;
+
+	/**
+	 * The CMYK color profile
+	 */
+	public static final String CMYK_PROFILE_NAME = "cmyk";
+
+	/**
+	 * The RGB color profile
+	 */
+	public static final String RGB_PROFILE_NAME = "rgb";
+
+	/**
+	 * The GRAY color profile
+	 */
+	public static final String GRAY_PROFILE_NAME = "gray";
+
+	/**
+	 * Defines the sRGB ICC profile name used in OutputIntent
+	 */
+	public static final String OUTPUT_INTENT_SRGB_PROFILE = "sRGB";
 
 	/**
 	 * Default image DPI
@@ -107,9 +135,9 @@ public class ImageUtils {
 	 * @throws IOException in case of image reading error
 	 */
 	public static ImageResolution readDisplayMetadata(DSSDocument image) throws IOException {
-		if (isImageWithContentType(image, MimeType.JPEG)) {
+		if (isImageWithContentType(image, MimeTypeEnum.JPEG)) {
 			return readAndDisplayMetadataJPEG(image);
-		} else if (isImageWithContentType(image, MimeType.PNG)) {
+		} else if (isImageWithContentType(image, MimeTypeEnum.PNG)) {
 			return readAndDisplayMetadataPNG(image);
 		}
 		throw new IllegalInputException("Unsupported image type");
@@ -226,16 +254,24 @@ public class ImageUtils {
 		return zoom / 100f;
 	}
 
+
 	/**
-	 * Transforms a {@code BufferedImage} to {@code DSSDocument}
+	 * Transforms a {@code BufferedImage} to {@code DSSDocument}, using a provided {@code DSSResourcesHandler}
 	 *
-	 * @param bitmap {@link BufferedImage} to convert
+	 * @param bufferedImage {@link BufferedImage} to convert
+	 * @param dssResourcesHandler {@link DSSResourcesHandler}
 	 * @return {@link DSSDocument}
 	 */
-	public static DSSDocument toDSSDocument(Bitmap bitmap) {
-		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-			bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-			return new InMemoryDocument(baos.toByteArray(), SCREENSHOT_PNG_NAME, MimeType.PNG);
+	public static DSSDocument toDSSDocument(Bitmap bitmap,
+											DSSResourcesHandler dssResourcesHandler) {
+		try (DSSResourcesHandler resourcesHandler = dssResourcesHandler;
+			 OutputStream os = resourcesHandler.createOutputStream()) {
+			bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
+			DSSDocument dssDocument = resourcesHandler.writeToDSSDocument();
+			dssDocument.setName(SCREENSHOT_PNG_NAME);
+			dssDocument.setMimeType(MimeTypeEnum.PNG);
+			return dssDocument;
+
 		} catch (IOException e) {
 			throw new DSSException(
 					String.format("Unable to convert BufferedImage to DSSDocument. Reason : %s", e.getMessage()), e);
@@ -243,15 +279,15 @@ public class ImageUtils {
 	}
 
 	/**
-	 * Reads the image document and returns a {@code BufferedImage}
+	 * Reads the image document and returns a {@code Bitmap}
 	 *
 	 * @param imageDocument {@link DSSDocument} image document to read
 	 * @return {@link Bitmap}
 	 * @throws IOException - in case of InputStream reading error
 	 */
-	public static Bitmap toBufferedImage(DSSDocument imageDocument) throws IOException {
+	public static Bitmap toBitmap(DSSDocument imageDocument) throws IOException {
 		try (InputStream is = imageDocument.openStream()) {
-			return toBufferedImage(is);
+			return toBitmap(is);
 		}
 	}
 
@@ -260,10 +296,10 @@ public class ImageUtils {
 	 * needed
 	 * 
 	 * @param is {@link InputStream} to read the image from
-	 * @return {@link BufferedImage}
+	 * @return {@link Bitmap}
 	 * @throws IOException - in case of InputStream reading error
 	 */
-	public static Bitmap toBufferedImage(InputStream is) throws IOException {
+	public static Bitmap toBitmap(InputStream is) throws IOException {
 		Bitmap bitmap = BitmapFactory.decodeStream(is);
 
 		if (isCMYKType(bitmap)) {
@@ -297,7 +333,7 @@ public class ImageUtils {
 	/**
 	 * Checks if the image has a transparent layer
 	 *
-	 * @param bitmap {@link BufferedImage}
+	 * @param bitmap {@link Bitmap}
 	 * @return TRUE if the image has a transparent layer, FALSE otherwise
 	 */
 	public static boolean isTransparent(Bitmap bitmap) {
@@ -307,13 +343,15 @@ public class ImageUtils {
 	/**
 	 * Checks if the two given images are equal
 	 * 
-	 * @param img1 {@link BufferedImage}
-	 * @param img2 {@link BufferedImage}
+	 * @param img1 {@link Bitmap}
+	 * @param img2 {@link Bitmap}
 	 * @return TRUE if the two images are equal, FALSE otherwise
 	 */
 	public static boolean imagesEqual(Bitmap img1, Bitmap img2) {
 		if (imageDimensionsEqual(img1, img2)) {
+
 			int diffAmount = drawSubtractionImage(img1, img2, null);
+			System.out.println("diffAmount: " + diffAmount);
 			return diffAmount == 0;
 		}
 		return false;
@@ -322,8 +360,8 @@ public class ImageUtils {
 	/**
 	 * Checks if the dimensions of the provided images is equal
 	 * 
-	 * @param img1 {@link BufferedImage}
-	 * @param img2 {@link BufferedImage}
+	 * @param img1 {@link Bitmap}
+	 * @param img2 {@link Bitmap}
 	 * @return TRUE if the size dimensions of both images is equal, FALSE otherwise
 	 */
 	public static boolean imageDimensionsEqual(Bitmap img1, Bitmap img2) {
@@ -386,6 +424,36 @@ public class ImageUtils {
 			}
 		}
 		return diffAmount;
+	}
+
+	/**
+	 * This method verifies if the provided color lies in the grayscale color space (e.g. WHITE, GRAY, BLACK)
+	 *
+	 * @param color {@link Color} to check
+	 * @return TRUE if the color is a grayscale, FALSE otherwise
+	 */
+	public static boolean isGrayscale(DSSColor color) {
+		return color != null && color.getAlpha() == OPAQUE_VALUE &&
+				color.getRed() == color.getGreen() && color.getRed() == color.getBlue();
+	}
+
+	/**
+	 * This method verifies whether the {@code parameters} contain at least one RGB color
+	 *
+	 * @param parameters {@link SignatureImageParameters} to check
+	 * @return TRUE if the given parameters contains at least one RGB color, FALSE otherwise
+	 */
+	public static boolean containRGBColor(SignatureImageParameters parameters) {
+		if (parameters.getBackgroundColor() != null && !ImageUtils.isGrayscale(parameters.getBackgroundColor())) {
+			return true;
+		}
+		if (parameters.getTextParameters().getTextColor() != null && !ImageUtils.isGrayscale(parameters.getTextParameters().getTextColor())) {
+			return true;
+		}
+		if (parameters.getTextParameters().getBackgroundColor() != null && !ImageUtils.isGrayscale(parameters.getTextParameters().getBackgroundColor())) {
+			return true;
+		}
+		return false;
 	}
 
 }

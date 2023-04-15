@@ -20,19 +20,20 @@
  */
 package eu.europa.esig.dss.spi.x509;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.File;
-import java.util.List;
-
+import eu.europa.esig.dss.enumerations.KeyUsageBit;
+import eu.europa.esig.dss.model.x509.CertificateToken;
+import eu.europa.esig.dss.spi.DSSUtils;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.europa.esig.dss.enumerations.KeyUsageBit;
-import eu.europa.esig.dss.model.x509.CertificateToken;
-import eu.europa.esig.dss.spi.DSSUtils;
+import java.io.File;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.signerry.dss.test.TestUtils;
 
 public class CertificateTokenTest {
@@ -45,14 +46,17 @@ public class CertificateTokenTest {
 		List<KeyUsageBit> keyUsageBits = certificate.getKeyUsageBits();
 		LOG.info("Key usage citizen_ca : " + keyUsageBits);
 		assertTrue(keyUsageBits.contains(KeyUsageBit.CRL_SIGN));
+		assertTrue(certificate.isCA());
+		assertEquals(0, certificate.getPathLenConstraint());
 
 		certificate = DSSUtils.loadCertificate(TestUtils.getResourceAsFile("TSP_Certificate_2014.crt"));
 		keyUsageBits = certificate.getKeyUsageBits();
 		LOG.info("Key usage tsp cert : " + keyUsageBits);
 		assertFalse(keyUsageBits.contains(KeyUsageBit.CRL_SIGN));
+		assertFalse(certificate.isCA());
+		assertEquals(-1, certificate.getPathLenConstraint());
 		
 		LOG.info(certificate.getDSSIdAsString());
-		
 	}
 
 }

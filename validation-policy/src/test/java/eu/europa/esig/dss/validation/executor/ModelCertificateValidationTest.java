@@ -52,6 +52,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 /**
  * JUnit test implementation for model based certificate validation.
  *
@@ -80,20 +82,20 @@ public class ModelCertificateValidationTest extends ModelAbstractValidation {
 		data.add( Arguments.of( new TestCase( TestData.DATA_1, Model.HYBRID, sdf.parse("01-05-2016"), CertificateQualification.QCERT_FOR_ESIG_QSCD, "47F7:" + Indication.INDETERMINATE, "D569:" + Indication.PASSED ) ) );
 
 		
-		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.SHELL, sdf.parse("22-05-2016"), CertificateQualification.NA, "9532:" + Indication.PASSED,        "B729:" + Indication.PASSED ) ) );
-		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.SHELL, sdf.parse("18-06-2017"), CertificateQualification.NA, "9532:" + Indication.PASSED,        "B729:" + Indication.INDETERMINATE ) ) );
-		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.SHELL, sdf.parse("18-11-2020"), CertificateQualification.NA, "9532:" + Indication.INDETERMINATE, "B729:" + Indication.INDETERMINATE) ) );
-		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.SHELL, sdf.parse("01-05-2016"), CertificateQualification.NA, "9532:" + Indication.INDETERMINATE, "B729:" + Indication.PASSED ) ) );
+		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.SHELL, sdf.parse("22-05-2016"), CertificateQualification.CERT_FOR_UNKNOWN, "9532:" + Indication.PASSED,        "B729:" + Indication.PASSED ) ) );
+		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.SHELL, sdf.parse("18-06-2017"), CertificateQualification.CERT_FOR_UNKNOWN, "9532:" + Indication.PASSED,        "B729:" + Indication.INDETERMINATE ) ) );
+		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.SHELL, sdf.parse("18-11-2020"), CertificateQualification.CERT_FOR_UNKNOWN, "9532:" + Indication.INDETERMINATE, "B729:" + Indication.INDETERMINATE) ) );
+		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.SHELL, sdf.parse("01-05-2016"), CertificateQualification.CERT_FOR_UNKNOWN, "9532:" + Indication.INDETERMINATE, "B729:" + Indication.PASSED ) ) );
 
-		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.CHAIN, sdf.parse("22-05-2016"), CertificateQualification.NA, "9532:" + Indication.PASSED,		   "B729:" + Indication.PASSED ) ) );
-		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.CHAIN, sdf.parse("18-06-2017"), CertificateQualification.NA, "9532:" + Indication.PASSED,		   "B729:" + Indication.PASSED ) ) );
-		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.CHAIN, sdf.parse("18-11-2020"), CertificateQualification.NA, "9532:" + Indication.INDETERMINATE, "B729:" + Indication.PASSED ) ) );
-		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.CHAIN, sdf.parse("01-05-2016"), CertificateQualification.NA, "9532:" + Indication.INDETERMINATE, "B729:" + Indication.PASSED ) ) );
+		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.CHAIN, sdf.parse("22-05-2016"), CertificateQualification.CERT_FOR_UNKNOWN, "9532:" + Indication.PASSED,		   "B729:" + Indication.PASSED ) ) );
+		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.CHAIN, sdf.parse("18-06-2017"), CertificateQualification.CERT_FOR_UNKNOWN, "9532:" + Indication.PASSED,		   "B729:" + Indication.PASSED ) ) );
+		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.CHAIN, sdf.parse("18-11-2020"), CertificateQualification.CERT_FOR_UNKNOWN, "9532:" + Indication.INDETERMINATE, "B729:" + Indication.PASSED ) ) );
+		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.CHAIN, sdf.parse("01-05-2016"), CertificateQualification.CERT_FOR_UNKNOWN, "9532:" + Indication.INDETERMINATE, "B729:" + Indication.PASSED ) ) );
 		
-		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.HYBRID, sdf.parse("22-05-2016"), CertificateQualification.NA, "9532:" + Indication.PASSED,		"B729:" + Indication.PASSED ) ) );
-		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.HYBRID, sdf.parse("18-06-2017"), CertificateQualification.NA, "9532:" + Indication.PASSED,		"B729:" + Indication.PASSED ) ) );
-		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.HYBRID, sdf.parse("18-11-2020"), CertificateQualification.NA, "9532:" + Indication.INDETERMINATE, "B729:" + Indication.PASSED ) ) );
-		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.HYBRID, sdf.parse("01-05-2016"), CertificateQualification.NA, "9532:" + Indication.INDETERMINATE, "B729:" + Indication.PASSED ) ) );
+		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.HYBRID, sdf.parse("22-05-2016"), CertificateQualification.CERT_FOR_UNKNOWN, "9532:" + Indication.PASSED,		"B729:" + Indication.PASSED ) ) );
+		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.HYBRID, sdf.parse("18-06-2017"), CertificateQualification.CERT_FOR_UNKNOWN, "9532:" + Indication.PASSED,		"B729:" + Indication.PASSED ) ) );
+		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.HYBRID, sdf.parse("18-11-2020"), CertificateQualification.CERT_FOR_UNKNOWN, "9532:" + Indication.INDETERMINATE, "B729:" + Indication.PASSED ) ) );
+		data.add( Arguments.of( new TestCase( TestData.DATA_2, Model.HYBRID, sdf.parse("01-05-2016"), CertificateQualification.CERT_FOR_UNKNOWN, "9532:" + Indication.INDETERMINATE, "B729:" + Indication.PASSED ) ) );
 
 		
 		data.add( Arguments.of( new TestCase( TestData.DATA_3, Model.SHELL, sdf.parse("22-05-2017"), CertificateQualification.CERT_FOR_ESIG, "DBCF:" + Indication.PASSED,        "0504:" + Indication.PASSED       , "BA85:" + Indication.INDETERMINATE ) ) );
@@ -121,14 +123,14 @@ public class ModelCertificateValidationTest extends ModelAbstractValidation {
 	@MethodSource("data")
 	public void testModelBasedCertificateChain(final TestCase testCase) throws Exception {
 		
-		ConstraintsParameters policyJaxB = ValidationPolicyFacade.newFacade().unmarshall(new File(testCase.getTestData().getPolicy()));
+		ConstraintsParameters policyJaxB = ValidationPolicyFacade.newFacade().unmarshall(TestUtils.getResourceAsStream(testCase.getTestData().getPolicy()));
 
 		ModelConstraint mc = new ModelConstraint();
 		mc.setValue(testCase.getModel());
 		policyJaxB.setModel(mc);
 		ValidationPolicy policy = new EtsiValidationPolicy(policyJaxB);
 
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(new File(testCase.getTestData().getDiagnosticData()));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsStream(testCase.getTestData().getDiagnosticData()));
 		assertNotNull(diagnosticData);
 		assertNotNull(diagnosticData.getSignatures());
 		assertFalse(diagnosticData.getSignatures().isEmpty());

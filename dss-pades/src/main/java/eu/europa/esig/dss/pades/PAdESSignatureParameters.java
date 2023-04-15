@@ -26,6 +26,7 @@ import eu.europa.esig.dss.enumerations.CertificationPermission;
 import eu.europa.esig.dss.enumerations.SignatureForm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.pdf.PAdESConstants;
+import eu.europa.esig.dss.pdf.PdfSignatureCache;
 
 import java.util.Date;
 import java.util.TimeZone;
@@ -37,14 +38,26 @@ public class PAdESSignatureParameters extends CAdESSignatureParameters implement
 
 	private static final long serialVersionUID = -1632557456487796227L;
 
-	/** The signature creation reason */
+	/**
+	 * The signature creation reason
+	 */
 	private String reason;
 
-	/** The contact info */
+	/**
+	 * The contact info
+	 */
 	private String contactInfo;
 
-	/** The signer's location */
+	/**
+	 * The signer's location
+	 */
 	private String location;
+
+	/**
+	 * This attribute allows to explicitly specify the SignerName (name for the Signature).
+	 * The person or authority signing the document.
+	 */
+	private String signerName;
 
 	/**
 	 * Defines the preserved space for a signature context
@@ -68,10 +81,9 @@ public class PAdESSignatureParameters extends CAdESSignatureParameters implement
 	private String signatureSubFilter = PAdESConstants.SIGNATURE_DEFAULT_SUBFILTER;
 
 	/**
-	 * This attribute allows to explicitly specify the SignerName (name for the Signature).
-	 * The person or authority signing the document.
+	 * The signing app name
 	 */
-	private String signerName;
+	private String appName;
 
 	/**
 	 * This attribute is used to create visible signature in PAdES form
@@ -87,7 +99,7 @@ public class PAdESSignatureParameters extends CAdESSignatureParameters implement
 	/**
 	 * Password used to encrypt a PDF
 	 */
-	private String passwordProtection;
+	private char[] passwordProtection;
 
 	/**
 	 * The time-zone used for signature creation
@@ -95,6 +107,21 @@ public class PAdESSignatureParameters extends CAdESSignatureParameters implement
 	 * Default: TimeZone.getDefault()
 	 */
 	private TimeZone signingTimeZone = TimeZone.getDefault();
+
+	/**
+	 * Defines whether the VRI dictionary should be included to a PAdES signature on extension within
+	 * its LT-level revision (DSS-revision)
+	 *
+	 * Default: FALSE (VRI dictionary is not included)
+	 */
+	private boolean includeVRIDictionary;
+
+	/**
+	 * Default constructor instantiating object with default parameters
+	 */
+	public PAdESSignatureParameters() {
+		// empty
+	}
 
 	@Override
 	public void setSignatureLevel(SignatureLevel signatureLevel) {
@@ -142,6 +169,42 @@ public class PAdESSignatureParameters extends CAdESSignatureParameters implement
 		this.contactInfo = contactInfo;
 	}
 
+	/**
+	 * Gets location
+	 *
+	 * @return {@link String}
+	 */
+	public String getLocation() {
+		return this.location;
+	}
+
+	/**
+	 * Sets location (The CPU host name or physical location of the signing)
+	 *
+	 * @param location {@link String}
+	 */
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	/**
+	 * Returns the Signer Name
+	 *
+	 * @return {@link String}
+	 */
+	public String getSignerName() {
+		return signerName;
+	}
+
+	/**
+	 * Sets the name of the signed
+	 *
+	 * @param signerName {@link String}
+	 */
+	public void setSignerName(final String signerName) {
+		this.signerName = signerName;
+	}
+
 	@Override
 	public String getFilter() {
 		return signatureFilter;
@@ -170,22 +233,26 @@ public class PAdESSignatureParameters extends CAdESSignatureParameters implement
 		this.signatureSubFilter = signatureSubFilter;
 	}
 
-	/**
-	 * Returns the Signer Name
-	 *
-	 * @return {@link String}
-	 */
-	public String getSignerName() {
-		return signerName;
+	@Override
+	public String getAppName() {
+		return appName;
 	}
 
 	/**
-	 * Sets the name of the signed
+	 * Sets signing application name
 	 *
-	 * @param signerName {@link String}
+	 * @param appName {@link String}
 	 */
-	public void setSignerName(final String signerName) {
-		this.signerName = signerName;
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+
+	@Override
+	public PAdESProfileParameters getContext() {
+		if (context == null) {
+			context = new PAdESProfileParameters();
+		}
+		return (PAdESProfileParameters) context;
 	}
 
 	@Override
@@ -203,24 +270,6 @@ public class PAdESSignatureParameters extends CAdESSignatureParameters implement
 	 */
 	public void setImageParameters(SignatureImageParameters signatureImageParameters) {
 		this.signatureImageParameters = signatureImageParameters;
-	}
-
-	/**
-	 * Gets location
-	 * 
-	 * @return {@link String}
-	 */
-	public String getLocation() {
-		return this.location;
-	}
-
-	/**
-	 * Sets location (The CPU host name or physical location of the signing)
-	 * 
-	 * @param location {@link String}
-	 */
-	public void setLocation(String location) {
-		this.location = location;
 	}
 
 	@Override
@@ -257,17 +306,28 @@ public class PAdESSignatureParameters extends CAdESSignatureParameters implement
 		this.permission = permission;
 	}
 
-	@Override
-	public String getPasswordProtection() {
-		return passwordProtection;
-	}
-
 	/**
 	 * Sets a password string
 	 * 
 	 * @param passwordProtection {@link String} password to set
+	 * @deprecated since DSS 5.12. Use {@code #setPasswordBinaries(passwordProtection.toCharArray())}
 	 */
+	@Deprecated
 	public void setPasswordProtection(String passwordProtection) {
+		this.passwordProtection = passwordProtection != null ? passwordProtection.toCharArray() : null;
+	}
+
+	@Override
+	public char[] getPasswordProtection() {
+		return passwordProtection;
+	}
+
+	/**
+	 * Sets password to the document
+	 *
+	 * @param passwordProtection char array representing a password of the document
+	 */
+	public void setPasswordProtection(char[] passwordProtection) {
 		this.passwordProtection = passwordProtection;
 	}
 
@@ -295,6 +355,27 @@ public class PAdESSignatureParameters extends CAdESSignatureParameters implement
 	 */
 	public TimeZone getSigningTimeZone() {
 		return signingTimeZone;
+	}
+
+	/**
+	 * Returns whether the VRI dictionary should be included to the PAdES Signature on extension within
+	 * LT-level revision (DSS revision)
+	 *
+	 * @return whether the corresponding VRI dictionary should be included on signature extension
+	 */
+	public boolean isIncludeVRIDictionary() {
+		return includeVRIDictionary;
+	}
+
+	/**
+	 * Sets whether corresponding VRI dictionary should be included to the PAdES signature on extension to LT-level
+	 *
+	 * Default: FALSE (VRI dictionary is not included to PAdES signature)
+	 *
+	 * @param includeVRIDictionary whether corresponding VRI dictionary should be included to the PAdES signature on extension
+	 */
+	public void setIncludeVRIDictionary(boolean includeVRIDictionary) {
+		this.includeVRIDictionary = includeVRIDictionary;
 	}
 
 	@Override
@@ -346,6 +427,11 @@ public class PAdESSignatureParameters extends CAdESSignatureParameters implement
 		} else {
 			this.archiveTimestampParameters = new PAdESTimestampParameters(archiveTimestampParameters);
 		}
+	}
+
+	@Override
+	public PdfSignatureCache getPdfSignatureCache() {
+		return getContext().getPdfToBeSignedCache();
 	}
 
 }

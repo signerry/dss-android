@@ -23,6 +23,7 @@ package eu.europa.esig.dss.asic.common;
 import eu.europa.esig.dss.enumerations.ASiCContainerType;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * This class regroups the signature parameters related to ASiC form.
@@ -53,6 +54,13 @@ public class ASiCParameters implements Serializable {
 	private String signatureFileName;
 
 	/**
+	 * Default constructor instantiating object with null values
+	 */
+	public ASiCParameters() {
+		// empty
+	}
+
+	/**
 	 * Indicates if the ZIP comment must include the mime-type.
 	 *
 	 * @return {@code boolean}
@@ -62,7 +70,7 @@ public class ASiCParameters implements Serializable {
 	}
 
 	/**
-	 * This method allows to indicate if the zip comment will contain the mime type.
+	 * This method sets if the zip comment will contain the mime type.
 	 *
 	 * @param zipComment
 	 *            true if a zip comment needs to be added
@@ -108,23 +116,36 @@ public class ASiCParameters implements Serializable {
 		this.containerType = containerType;
 	}
 
-	/**
-	 * This method returns the name of the signature file to use with ASiC-E container.
-	 *
-	 * @return signature file name
-	 */
-	public String getSignatureFileName() {
-		return signatureFileName;
+	@Override
+	public String toString() {
+		return "ASiCParameters{" +
+				"zipComment=" + zipComment +
+				", mimeType='" + mimeType + '\'' +
+				", containerType=" + containerType +
+				", signatureFileName='" + signatureFileName + '\'' +
+				'}';
 	}
 
-	/**
-	 * This method allows to set the signature file name to use with ASiC-E container.
-	 *
-	 * @param signatureFileName
-	 *            signature file name
-	 */
-	public void setSignatureFileName(final String signatureFileName) {
-		this.signatureFileName = signatureFileName;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof ASiCParameters)) return false;
+
+		ASiCParameters that = (ASiCParameters) o;
+
+		if (zipComment != that.zipComment) return false;
+		if (!Objects.equals(mimeType, that.mimeType)) return false;
+		if (containerType != that.containerType) return false;
+		return Objects.equals(signatureFileName, that.signatureFileName);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = (zipComment ? 1 : 0);
+		result = 31 * result + (mimeType != null ? mimeType.hashCode() : 0);
+		result = 31 * result + (containerType != null ? containerType.hashCode() : 0);
+		result = 31 * result + (signatureFileName != null ? signatureFileName.hashCode() : 0);
+		return result;
 	}
 
 }

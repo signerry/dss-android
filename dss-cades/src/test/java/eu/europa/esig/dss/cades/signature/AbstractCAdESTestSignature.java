@@ -25,10 +25,11 @@ import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.diagnostic.TimestampWrapper;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlSignerInfo;
+import eu.europa.esig.dss.enumerations.MimeType;
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
-import eu.europa.esig.dss.model.MimeType;
 import eu.europa.esig.dss.test.signature.AbstractPkiFactoryTestDocumentSignatureService;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.reports.Reports;
@@ -155,6 +156,26 @@ public abstract class AbstractCAdESTestSignature extends AbstractPkiFactoryTestD
 	}
 
 	@Override
+	protected void checkMimeType(DSSDocument signedDocument) {
+		super.checkMimeType(signedDocument);
+		checkFileExtension(signedDocument);
+	}
+
+	protected void checkFileExtension(DSSDocument document) {
+		String documentName = document.getName();
+		assertNotNull(documentName);
+
+		String extension = Utils.getFileNameExtension(documentName);
+		assertNotNull(extension);
+
+		if (SignaturePackaging.DETACHED.equals(getSignatureParameters().getSignaturePackaging())) {
+			assertEquals("p7s", extension);
+		} else {
+			assertEquals("p7m", extension);
+		}
+	}
+
+	@Override
 	protected void checkMimeType(DiagnosticData diagnosticData) {
 		super.checkMimeType(diagnosticData);
 
@@ -169,7 +190,7 @@ public abstract class AbstractCAdESTestSignature extends AbstractPkiFactoryTestD
 
 	@Override
 	protected MimeType getExpectedMime() {
-		return MimeType.PKCS7;
+		return MimeTypeEnum.PKCS7;
 	}
 
 	@Override

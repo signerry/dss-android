@@ -48,6 +48,13 @@ public class DefaultSignatureProcessExecutor extends AbstractProcessExecutor imp
 	/** Defines if the semantics information shall be included (default: false) */
 	protected boolean includeSemantics = false;
 
+	/**
+	 * Default constructor instantiating object with default configuration
+	 */
+	public DefaultSignatureProcessExecutor() {
+		// empty
+	}
+
 	@Override
 	public void setValidationLevel(ValidationLevel validationLevel) {
 		this.validationLevel = validationLevel;

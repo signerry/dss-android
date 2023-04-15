@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.xades.merge.asice;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.asic.xades.ASiCWithXAdESSignatureParameters;
 import eu.europa.esig.dss.asic.xades.merge.AbstractWithXAdESTestMerge;
 import eu.europa.esig.dss.asic.xades.signature.ASiCWithXAdESService;
@@ -49,10 +51,10 @@ public class ASiCEWithXAdESLevelBContainerMergerDifferentMultipleDocumentsTest e
 
     @BeforeEach
     public void init() {
-        documentsToSignOne = Arrays.asList(new FileDocument("src/test/resources/signable/test.txt"),
+        documentsToSignOne = Arrays.asList(new FileDocument(TestUtils.getResourceAsFile("signable/test.txt")),
                 new InMemoryDocument("Hello World!".getBytes(), "hello.txt", MimeTypeEnum.TEXT));
 
-        documentsToSignTwo = Arrays.asList(new FileDocument("src/test/resources/signable/test.txt"),
+        documentsToSignTwo = Arrays.asList(new FileDocument(TestUtils.getResourceAsFile("signable/test.txt")),
                 new InMemoryDocument("Bye World!".getBytes(), "bye.txt", MimeTypeEnum.TEXT));
 
         service = new ASiCWithXAdESService(getCompleteCertificateVerifier());

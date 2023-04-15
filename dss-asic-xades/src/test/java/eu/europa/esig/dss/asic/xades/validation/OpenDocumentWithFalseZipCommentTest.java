@@ -27,11 +27,13 @@ import eu.europa.esig.dss.model.FileDocument;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public class OpenDocumentWithFalseZipCommentTest extends AbstractOpenDocumentTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new FileDocument("src/test/resources/validation/false-zip-comment.odp");
+        return new FileDocument(TestUtils.getResourceAsFile("validation/false-zip-comment.odp"));
     }
 
     @Override

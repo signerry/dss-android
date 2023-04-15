@@ -64,7 +64,7 @@ public class ASiCSXAdESMultiFilesLevelBDoubleSignatureTest extends AbstractASiCS
         service = new ASiCWithXAdESService(getOfflineCertificateVerifier());
 
         ORIGINAL_DOCS.add(new InMemoryDocument("Hello World !".getBytes(), "test.text", MimeTypeEnum.TEXT));
-        ORIGINAL_DOCS.add(new FileDocument("src/test/resources/manifest-sample.xml"));
+        ORIGINAL_DOCS.add(new FileDocument(TestUtils.getResourceAsFile("manifest-sample.xml")));
         ORIGINAL_DOCS.add(new InMemoryDocument(DSSUtils.EMPTY_BYTE_ARRAY, "emptyByteArray"));
 
         signatureParameters = new ASiCWithXAdESSignatureParameters();

@@ -55,21 +55,23 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCEWithXAdESContainerMergerTest extends
         AbstractPkiFactoryTestValidation<ASiCWithXAdESSignatureParameters, XAdESTimestampParameters> {
 
     @Test
     public void isSupportedTest() {
         ASiCEWithXAdESContainerMerger merger = new ASiCEWithXAdESContainerMerger();
-        assertTrue(merger.isSupported(new FileDocument("src/test/resources/validation/onefile-ok.asice")));
-        assertTrue(merger.isSupported(new FileDocument("src/test/resources/validation/multifiles-ok.asice")));
-        assertTrue(merger.isSupported(new FileDocument("src/test/resources/signable/test.zip"))); // simple container
-        assertTrue(merger.isSupported(new FileDocument("src/test/resources/signable/asic_xades.zip"))); // ASiC-E
-        assertTrue(merger.isSupported(new FileDocument("src/test/resources/signable/open-document.odt")));
-        assertFalse(merger.isSupported(new FileDocument("src/test/resources/validation/onefile-ok.asics")));
-        assertFalse(merger.isSupported(new FileDocument("src/test/resources/validation/multifiles-ok.asics")));
-        assertFalse(merger.isSupported(new FileDocument("src/test/resources/signable/asic_cades.zip")));
-        assertFalse(merger.isSupported(new FileDocument("src/test/resources/signable/test.txt")));
+        assertTrue(merger.isSupported(new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice"))));
+        assertTrue(merger.isSupported(new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asice"))));
+        assertTrue(merger.isSupported(new FileDocument(TestUtils.getResourceAsFile("signable/test.zip")))); // simple container
+        assertTrue(merger.isSupported(new FileDocument(TestUtils.getResourceAsFile("signable/asic_xades.zip")))); // ASiC-E
+        assertTrue(merger.isSupported(new FileDocument(TestUtils.getResourceAsFile("signable/open-document.odt"))));
+        assertFalse(merger.isSupported(new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics"))));
+        assertFalse(merger.isSupported(new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asics"))));
+        assertFalse(merger.isSupported(new FileDocument(TestUtils.getResourceAsFile("signable/asic_cades.zip"))));
+        assertFalse(merger.isSupported(new FileDocument(TestUtils.getResourceAsFile("signable/test.txt"))));
     }
 
     @Test
@@ -159,8 +161,8 @@ public class ASiCEWithXAdESContainerMergerTest extends
 
     @Test
     public void mergeTwoNotSignedZipTest() {
-        DSSDocument firstContainer = new FileDocument("src/test/resources/signable/test.zip");
-        DSSDocument secondContainer = new FileDocument("src/test/resources/signable/document.odt");
+        DSSDocument firstContainer = new FileDocument(TestUtils.getResourceAsFile("signable/test.zip"));
+        DSSDocument secondContainer = new FileDocument(TestUtils.getResourceAsFile("signable/document.odt"));
 
         ASiCContent firstAsicContent = new ASiCWithXAdESContainerExtractor(firstContainer).extract();
         ASiCContent secondAsicContent = new ASiCWithXAdESContainerExtractor(secondContainer).extract();
@@ -229,8 +231,8 @@ public class ASiCEWithXAdESContainerMergerTest extends
     @Test
     public void mergeWithSignedManifestTest() {
         ASiCEWithXAdESContainerMerger merger = new ASiCEWithXAdESContainerMerger(
-                new FileDocument("src/test/resources/validation/onefile-ok.asice"),
-                new FileDocument("src/test/resources/validation/asic-xades-lta-signed-manifest.sce"));
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice")),
+                new FileDocument(TestUtils.getResourceAsFile("validation/asic-xades-lta-signed-manifest.sce")));
         Exception exception = assertThrows(UnsupportedOperationException.class, () -> merger.merge());
         assertEquals("Unable to merge ASiC-E with XAdES containers. " +
                 "manifest.xml is signed and the signer data does not match between containers!", exception.getMessage());
@@ -239,8 +241,8 @@ public class ASiCEWithXAdESContainerMergerTest extends
     @Test
     public void mergeWithSignedSignatureFileTest() {
         ASiCEWithXAdESContainerMerger merger = new ASiCEWithXAdESContainerMerger(
-                new FileDocument("src/test/resources/validation/onefile-ok.asice"),
-                new FileDocument("src/test/resources/validation/asic-xades-signed-signature.sce"));
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice")),
+                new FileDocument(TestUtils.getResourceAsFile("validation/asic-xades-signed-signature.sce")));
         Exception exception = assertThrows(UnsupportedOperationException.class, () -> merger.merge());
         assertEquals("Unable to merge ASiC-E with XAdES containers. " +
                 "A signature covers another signature file, while having same signature names in both containers!", exception.getMessage());
@@ -329,7 +331,7 @@ public class ASiCEWithXAdESContainerMergerTest extends
 
     @Test
     public void mergeOneFileTest() {
-        DSSDocument document = new FileDocument("src/test/resources/validation/onefile-ok.asice");
+        DSSDocument document = new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice"));
 
         ASiCEWithXAdESContainerMerger merger = new ASiCEWithXAdESContainerMerger(document);
         DSSDocument mergedDocument = merger.merge();

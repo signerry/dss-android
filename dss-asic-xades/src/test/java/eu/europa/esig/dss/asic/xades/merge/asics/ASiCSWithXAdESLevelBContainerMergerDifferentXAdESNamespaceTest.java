@@ -20,6 +20,8 @@
  */
 package eu.europa.esig.dss.asic.xades.merge.asics;
 
+import com.signerry.dss.test.TestUtils;
+
 import eu.europa.esig.dss.asic.xades.ASiCWithXAdESSignatureParameters;
 import eu.europa.esig.dss.asic.xades.merge.AbstractWithXAdESTestMerge;
 import eu.europa.esig.dss.asic.xades.signature.ASiCWithXAdESService;
@@ -49,7 +51,7 @@ public class ASiCSWithXAdESLevelBContainerMergerDifferentXAdESNamespaceTest exte
 
     @BeforeEach
     public void init() {
-        documentToSign = new FileDocument("src/test/resources/signable/test.txt");
+        documentToSign = new FileDocument(TestUtils.getResourceAsFile("signable/test.txt"));
 
         service = new ASiCWithXAdESService(getCompleteCertificateVerifier());
 

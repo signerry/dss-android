@@ -138,7 +138,7 @@ public class SecureContainerHandlerTest {
 
 	@Test
 	public void extractContainerContentTest() {
-		DSSDocument document = new FileDocument("src/test/resources/validation/multifiles-ok.asice");
+		DSSDocument document = new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asice"));
 
 		SecureContainerHandler secureContainerHandler = new SecureContainerHandler();
 		List<DSSDocument> entries = secureContainerHandler.extractContainerContent(document);

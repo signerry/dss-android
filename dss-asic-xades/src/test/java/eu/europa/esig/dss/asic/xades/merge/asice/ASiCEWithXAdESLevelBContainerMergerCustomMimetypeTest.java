@@ -42,6 +42,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCEWithXAdESLevelBContainerMergerCustomMimetypeTest extends AbstractWithXAdESTestMerge {
 
     private List<DSSDocument> documentsToSign;
@@ -53,7 +55,7 @@ public class ASiCEWithXAdESLevelBContainerMergerCustomMimetypeTest extends Abstr
 
     @BeforeEach
     public void init() {
-        documentsToSign = Arrays.asList(new FileDocument("src/test/resources/signable/test.txt"),
+        documentsToSign = Arrays.asList(new FileDocument(TestUtils.getResourceAsFile("signable/test.txt")),
                 new InMemoryDocument("Hello World!".getBytes(), "hello.txt", MimeTypeEnum.TEXT));
 
         service = new ASiCWithXAdESService(getCompleteCertificateVerifier());

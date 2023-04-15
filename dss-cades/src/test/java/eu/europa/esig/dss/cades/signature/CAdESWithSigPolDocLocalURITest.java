@@ -60,6 +60,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.signerry.dss.test.TestUtils;
+
 public class CAdESWithSigPolDocLocalURITest extends AbstractCAdESTestSignature {
 
     private static final String HTTP_SPURI_TEST = "http://spuri.test";

@@ -308,7 +308,7 @@ public class CertificateValidatorTest {
 	@Test
 	public void policyConstraintsTest() {
 		CertificateValidator cv = CertificateValidator
-				.fromCertificate(DSSUtils.loadCertificate(new File("src/test/resources/certificates/policyConstraintsCACert.crt")));
+				.fromCertificate(DSSUtils.loadCertificate(TestUtils.getResourceAsStream("certificates/policyConstraintsCACert.crt")));
 		cv.setCertificateVerifier(new CommonCertificateVerifier());
 
 		CertificateReports reports = cv.validate();
@@ -325,7 +325,7 @@ public class CertificateValidatorTest {
 	@Test
 	public void nameConstraintsCertificateTest() {
 		CertificateValidator cv = CertificateValidator
-				.fromCertificate(DSSUtils.loadCertificate(new File("src/test/resources/certificates/nameConstraintsCACert.crt")));
+				.fromCertificate(DSSUtils.loadCertificate(TestUtils.getResourceAsStream("certificates/nameConstraintsCACert.crt")));
 		cv.setCertificateVerifier(new CommonCertificateVerifier());
 
 		CertificateReports reports = cv.validate();

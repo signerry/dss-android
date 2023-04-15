@@ -44,6 +44,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import com.signerry.dss.test.TestUtils;
+
 public class SignatureValidationContextTest {
 
 	@Test
@@ -198,10 +200,10 @@ public class SignatureValidationContextTest {
 
 	@Test
 	public void successfulAiaRequestTest() {
-		CertificateToken certToken = DSSUtils.loadCertificate(new File("src/test/resources/certificates/CZ.cer"));
+		CertificateToken certToken = DSSUtils.loadCertificate(TestUtils.getResourceAsStream("certificates/CZ.cer"));
 
 		Map<String, byte[]> dataMap = new HashMap<>();
-		dataMap.put("http://q.ica.cz/ca_nbusr09.p7c", DSSUtils.toByteArray(new File("src/test/resources/certificates/CZ_CA.cer")));
+		dataMap.put("http://q.ica.cz/ca_nbusr09.p7c", DSSUtils.toByteArray(TestUtils.getResourceAsStream("certificates/CZ_CA.cer")));
 
 		DataLoader dataLoader = new MemoryDataLoader(dataMap);
 		MockAIASource aiaSource = new MockAIASource(dataLoader);
@@ -226,7 +228,7 @@ public class SignatureValidationContextTest {
 
 	@Test
 	public void unsuccessfulAiaRequestTest() {
-		CertificateToken certToken = DSSUtils.loadCertificate(new File("src/test/resources/certificates/CZ.cer"));
+		CertificateToken certToken = DSSUtils.loadCertificate(TestUtils.getResourceAsStream("certificates/CZ.cer"));
 
 		DataLoader dataLoader = new IgnoreDataLoader();
 		MockAIASource aiaSource = new MockAIASource(dataLoader);

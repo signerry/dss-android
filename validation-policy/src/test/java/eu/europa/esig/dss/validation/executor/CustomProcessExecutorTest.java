@@ -166,7 +166,6 @@ import org.junit.jupiter.api.Test;
 
 import jakarta.xml.bind.JAXB;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -201,7 +200,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void skipRevocationDataValidation() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("it.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/it.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -222,7 +221,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void outOfBoundNotRevoked() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("out-of-bound-not-revoked.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/out-of-bound-not-revoked.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -291,7 +290,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void test() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("algo.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/algo.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -317,7 +316,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void test2() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("algo2.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/algo2.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -339,7 +338,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void testDSS1344() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("dss-1344.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/dss-1344.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -358,7 +357,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testDSS1344CryptoWarn() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("dss-1344.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/dss-1344.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -873,7 +872,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testAllFilesCovered() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("all-files-present.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/all-files-present.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -896,7 +895,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void testNotAllFilesCovered() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("all-files-present.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/all-files-present.xml"));
 		assertNotNull(diagnosticData);
 		
 		XmlContainerInfo containerInfo = diagnosticData.getContainerInfo();
@@ -1018,7 +1017,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testArchiveCutOff() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("archiveCutOff.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/archiveCutOff.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1043,7 +1042,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void signedDataNotFound() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("signed_data_not_found.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/signed_data_not_found.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1076,7 +1075,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void universign() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("universign.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/universign.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1096,7 +1095,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void expiredRevocAndNoCheck() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("expiredRevocAndNoCheck.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/expiredRevocAndNoCheck.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1118,7 +1117,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void expiredRevocAndNoCheckWithCRL() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("expiredOcspWithNoCheckAndCRL.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/expiredOcspWithNoCheckAndCRL.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1141,7 +1140,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void expiredRevocAndNoCheckWithCRLWarn() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("expiredOcspWithNoCheckAndCRL.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/expiredOcspWithNoCheckAndCRL.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1164,7 +1163,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void expiredRevocAndNoCheckWithCRLAcceptRevocationSha1() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("expiredOcspWithNoCheckAndCRL.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/expiredOcspWithNoCheckAndCRL.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1195,7 +1194,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void noPoeRevokedNoTimestamp() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("no_poe_revoked_no_timestamp.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/no_poe_revoked_no_timestamp.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1229,7 +1228,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void revokedValidationInPast() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("no_poe_revoked_no_timestamp.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/no_poe_revoked_no_timestamp.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1247,7 +1246,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void passedRevokedWithTimestamp() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("passed_revoked_with_timestamp.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/passed_revoked_with_timestamp.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1280,7 +1279,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void passedOutOfBoundsWithTimestamps() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("passed_out_of_bounds_with_timestamps.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/passed_out_of_bounds_with_timestamps.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1360,7 +1359,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void revokedWithNotTrustedOCSP() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("revoked_ocsp_not_trusted.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/revoked_ocsp_not_trusted.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1405,7 +1404,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void revokedCATest() throws Exception {
-		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("ca-revoked.xml"));
+		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/ca-revoked.xml"));
 		assertNotNull(xmlDiagnosticData);
 		
 		ConstraintsParameters constraintsParameters = getConstraintsParameters(TestUtils.getResourceAsFile("policy/default-only-constraint-policy.xml"));
@@ -1492,7 +1491,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void revokedCAChainModelTest() throws Exception {
-		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("ca-revoked.xml"));
+		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/ca-revoked.xml"));
 		assertNotNull(xmlDiagnosticData);
 		
 		ConstraintsParameters constraintsParameters = getConstraintsParameters(TestUtils.getResourceAsFile("policy/default-only-constraint-policy.xml"));
@@ -1514,7 +1513,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void revokedCAHybridModelTest() throws Exception {
-		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("ca-revoked.xml"));
+		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/ca-revoked.xml"));
 		assertNotNull(xmlDiagnosticData);
 		
 		ConstraintsParameters constraintsParameters = getConstraintsParameters(TestUtils.getResourceAsFile("policy/default-only-constraint-policy.xml"));
@@ -1536,7 +1535,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void timestampsSameSecond() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("timestamps_same_second.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/timestamps_same_second.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1573,7 +1572,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void timestampsIncorrectOrder() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("timestamps_same_second_incorrect_order.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/timestamps_same_second_incorrect_order.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1607,7 +1606,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void hashFailure() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("hash_failure.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/hash_failure.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1647,7 +1646,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void sigConstraintFailure() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("sig_constraint_failure.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/sig_constraint_failure.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1680,7 +1679,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void signingCertificateNotFoundWithFailLevel() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("signing_certificate_not_found.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/signing_certificate_not_found.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -1722,7 +1721,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void signingCertificateNotFoundWithCryptoCheck() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("signing_certificate_not_found.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/signing_certificate_not_found.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1774,7 +1773,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testDSS956AllValidationLevels() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("passed_revoked_with_timestamp.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/passed_revoked_with_timestamp.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1809,7 +1808,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void qualification() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("preEIDAS.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/preEIDAS.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1827,7 +1826,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void qualificationQESig() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("qualifQESig.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/qualifQESig.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1845,7 +1844,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void qualificationQESigBrexit() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("qualifQESigBrexit.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/qualifQESigBrexit.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1871,7 +1870,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void rsa1023() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("rsa1023.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/rsa1023.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -1959,7 +1958,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void ocspRevocationMessage() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("ocspRevocationMessage.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/ocspRevocationMessage.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2004,7 +2003,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void notTrustedOcspTest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("lt-level-with-not-trusted-ocsp.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/lt-level-with-not-trusted-ocsp.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2021,7 +2020,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void qualificationNA() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("qualifNA.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/qualifNA.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2047,7 +2046,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void noSigningTime() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("no-signing-date.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/no-signing-date.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2067,7 +2066,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testCertChain() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("qualifNA.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/qualifNA.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2092,7 +2091,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testWithoutCertChain() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("qualifNAWithoutCertChain.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/qualifNAWithoutCertChain.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2114,7 +2113,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testMultiSigs() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("multi-sign.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/multi-sign.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2136,7 +2135,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testCounterSignature() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("counter-signature-diag-data.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/counter-signature-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2166,7 +2165,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testValidCounterSignature() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("counter-signature-valid-diag-data.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/counter-signature-valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2191,7 +2190,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testSAVWithSignatureConstraints() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("counter-signature-valid-diag-data.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/counter-signature-valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 		
 		LevelConstraint levelConstraint = new LevelConstraint();
@@ -2227,7 +2226,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testSAVWithCounterSignatureConstraints() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("counter-signature-valid-diag-data.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/counter-signature-valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 		
 		LevelConstraint levelConstraint = new LevelConstraint();
@@ -2263,7 +2262,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void multiFiles() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("asic-e-multi-files-diag-data.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/asic-e-multi-files-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2282,7 +2281,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void multiFilesNoManifest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("asic-e-multi-files-no-manifest-diag-data.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/asic-e-multi-files-no-manifest-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2301,7 +2300,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void asicEXades() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("asic-e-xades-diag-data.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/asic-e-xades-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2320,7 +2319,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void webSiteAuth() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diag_data_WSA.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/diag_data_WSA.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2347,7 +2346,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void doubleAsieAndQCType() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diag_data_double_ASIE_qctype.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/diag_data_double_ASIE_qctype.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2367,7 +2366,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void doubleAsie() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diag_data_double_ASIE.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/diag_data_double_ASIE.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2393,7 +2392,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void asicSXades() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("asic-s-xades-diag-data.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/asic-s-xades-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2412,7 +2411,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void commisign() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("commisign.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/commisign.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2438,7 +2437,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testDSS1330() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("DSS-1330-diag-data.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/DSS-1330-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2475,7 +2474,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testDSS1330CryptoWarn() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("DSS-1330-diag-data.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/DSS-1330-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2493,7 +2492,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testTLOK() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("tl-ok.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/tl-ok.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2510,7 +2509,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testTLKO() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("tl-ko.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/tl-ko.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2530,7 +2529,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void structureValidationFailureTest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("xades-structure-failure.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/xades-structure-failure.xml"));
 
 		List<String> messages = diagnosticData.getSignatures().get(0).getStructuralValidation().getMessages();
 		assertTrue(Utils.isCollectionNotEmpty(messages));
@@ -2568,7 +2567,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void structuralValidationFailLevelTest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("xades-structure-failure.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/xades-structure-failure.xml"));
 		
 		List<String> messages = diagnosticData.getSignatures().get(0).getStructuralValidation().getMessages();
 		assertTrue(Utils.isCollectionNotEmpty(messages));
@@ -2597,7 +2596,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void signedPropertiesMissedTest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("signedProperties_missed.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/signedProperties_missed.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2623,7 +2622,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void signedPropertiesMissedNotStrictPolicyTest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("signedProperties_missed.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/signedProperties_missed.xml"));
 		assertNotNull(diagnosticData);
 		
 		LevelConstraint passLevel = new LevelConstraint();
@@ -2659,7 +2658,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testTLNoSigCertEmptyPolicy() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("tl-no-signing-cert.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/tl-no-signing-cert.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2678,7 +2677,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void LTAandAIAforTrustAnchor() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("LTAandAIAforTrustAnchor.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/LTAandAIAforTrustAnchor.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2702,7 +2701,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void revocInfoOutOfBoundsTest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("revoc-info-out-of-bounds.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/revoc-info-out-of-bounds.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2723,7 +2722,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void expiredCertsRevocationInfoTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("expired-certs-revocation-info.xml"));
+				TestUtils.getResourceAsFile("diagnostic/expired-certs-revocation-info.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2778,7 +2777,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void expiredCertsOnCRLExtension() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("expired-certs-on-crl-extension.xml"));
+				TestUtils.getResourceAsFile("diagnostic/expired-certs-on-crl-extension.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2833,7 +2832,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void expiredCertsRevocationInfoAndExpiredCertsOnCRLTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("expired-certs-revocation-info-with-expired-certs-on-crl.xml"));
+				TestUtils.getResourceAsFile("diagnostic/expired-certs-revocation-info-with-expired-certs-on-crl.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2888,7 +2887,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testPdfSignatureDictionary() throws Exception {
-		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diag_data_pdfsigdict.xml"));
+		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/diag_data_pdfsigdict.xml"));
 		assertNotNull(xmlDiagnosticData);
 		
 		List<eu.europa.esig.dss.diagnostic.jaxb.XmlSignature> xmlSignatures = xmlDiagnosticData.getSignatures();
@@ -2930,7 +2929,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testDSS1647() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("dss-1647.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/dss-1647.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2949,7 +2948,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testDSS1469() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("dss-1469-diag-data.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/dss-1469-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2966,7 +2965,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testDSS1670() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("dss-1670-diag-data.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/dss-1670-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -2984,7 +2983,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void testDSS1670CryptoWarn() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("dss-1670-diag-data.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/dss-1670-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -3001,7 +3000,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void cryptoNoPOETest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diag_data_crypto_no_poe.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/diag_data_crypto_no_poe.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -3022,7 +3021,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void dss1635Test() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("dss-1635-diag-data.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/dss-1635-diag-data.xml"));
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
 		executor.setDiagnosticData(diagnosticData);
 		ValidationPolicy defaultPolicy = ValidationPolicyFacade.newFacade().getDefaultValidationPolicy();
@@ -3122,7 +3121,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void dss1988Test() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("dss-1988.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/dss-1988.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -3205,7 +3204,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void padesMultiSignerInfoPresentTest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("pades-multi-signer-info.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/pades-multi-signer-info.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -3241,7 +3240,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void padesMultiSignerInfoPresentWarnTest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("pades-multi-signer-info.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/pades-multi-signer-info.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -3265,7 +3264,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void padesFieldsOverlappingFailTest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diag_data_pdf_fields_overlap.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/diag_data_pdf_fields_overlap.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -3292,7 +3291,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void padesFieldsOverlappingWarnTest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diag_data_pdf_fields_overlap.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/diag_data_pdf_fields_overlap.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -3318,7 +3317,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void padesVisualDifferenceFailTest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diag_data_pdf_visual_difference.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/diag_data_pdf_visual_difference.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -3345,7 +3344,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void padesVisualDifferenceWarnTest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diag_data_pdf_visual_difference.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/diag_data_pdf_visual_difference.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -3371,7 +3370,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void signatureNotIntactTest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("signature-not-intact.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/signature-not-intact.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -3534,7 +3533,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void md5Test() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("md5-diag-data.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/md5-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -3552,7 +3551,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void md5ValidTest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("md5-diag-data.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/md5-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -3574,7 +3573,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void certNotBeforeAndCRLSameTimeTest() throws Exception {
 		// DSS-1932
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("cert-and-revoc-same-time.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/cert-and-revoc-same-time.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -3590,7 +3589,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	
 	@Test
 	public void sigTSTAtCertExpirationTime() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("sig-tst-at-sign-cert-expiration.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/sig-tst-at-sign-cert-expiration.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -3735,7 +3734,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void certHashNotPresentWithWarnLevel() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -3797,7 +3796,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void certHashNotPresentWithFailLevel() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -3822,7 +3821,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void certHashDoesNotMatchWithFailLevel() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -3848,7 +3847,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void certHashPresentAndDoesNotMatchWithFailLevel() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 		
 		XmlSignature xmlSignature = diagnosticData.getSignatures().get(0);
@@ -3881,7 +3880,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void tLevelSigWithSignCertExpiredTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("dss-2070.xml"));
+				TestUtils.getResourceAsFile("diagnostic/dss-2070.xml"));
 		assertNotNull(diagnosticData);
 		
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -4011,7 +4010,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void noRevocationAccessPointsTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("no-revoc-access-points.xml"));
+				TestUtils.getResourceAsFile("diagnostic/no-revoc-access-points.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -4039,7 +4038,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void countryNameValidTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -4064,7 +4063,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void countryNameInvalidTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -4094,7 +4093,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void noAIATest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 		
 		XmlSigningCertificate signingCertificate = diagnosticData.getSignatures().get(0).getSigningCertificate();
@@ -4127,7 +4126,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void digestMatcherCryptoTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 		
 		XmlSignature xmlSignature = diagnosticData.getSignatures().get(0);
@@ -4164,7 +4163,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void tstDigestMatcherCryptoTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 		
 		XmlTimestamp xmlTimestamp = diagnosticData.getUsedTimestamps().get(0);
@@ -4200,7 +4199,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void messageDigestWithSha1WithTstTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("message-digest-sha1-with-tst.xml"));
+				TestUtils.getResourceAsFile("diagnostic/message-digest-sha1-with-tst.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -4223,7 +4222,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void messageDigestWithSha1WithBrokenTstTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("message-digest-sha1-with-tst.xml"));
+				TestUtils.getResourceAsFile("diagnostic/message-digest-sha1-with-tst.xml"));
 		assertNotNull(diagnosticData);
 		
 		XmlTimestamp xmlTimestamp = diagnosticData.getUsedTimestamps().get(0);
@@ -4252,7 +4251,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void signaturePolicyStoreTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_signature_policy_store.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_signature_policy_store.xml"));
 		assertNotNull(diagnosticData);
 		
 		ValidationPolicy policy = loadDefaultPolicy();
@@ -4278,7 +4277,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void signaturePolicyStoreNotFoundTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_signature_policy_store.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_signature_policy_store.xml"));
 		assertNotNull(diagnosticData);
 		
 		XmlSignature xmlSignature = diagnosticData.getSignatures().get(0);
@@ -4324,7 +4323,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void zeroHashPolicyCheckTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_zero_hash_policy.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_zero_hash_policy.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -4359,7 +4358,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void referenceDuplicateTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(TestUtils.getResourceAsFile("diag_data_xsw_attack.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("diagnostic/diag_data_xsw_attack.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -4393,7 +4392,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void selfIssuedOcspWarnTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(TestUtils.getResourceAsFile("diag_data_self_issued_ocsp.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("diagnostic/diag_data_self_issued_ocsp.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -4418,7 +4417,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void selfIssuedOcspFailTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(TestUtils.getResourceAsFile("diag_data_self_issued_ocsp.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("diagnostic/diag_data_self_issued_ocsp.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -4444,7 +4443,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void selfIssuedCaOcspWarnTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(TestUtils.getResourceAsFile("diag_data_self_issued_ca_ocsp.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("diagnostic/diag_data_self_issued_ca_ocsp.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -4469,7 +4468,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void selfIssuedWithOcspLoopTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(TestUtils.getResourceAsFile("diag_data_with_ocsp_loop.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("diagnostic/diag_data_with_ocsp_loop.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -4494,7 +4493,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void padesDoubleLtaTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(TestUtils.getResourceAsFile("diag_data_pades_double_lta.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("diagnostic/diag_data_pades_double_lta.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -4524,7 +4523,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void padesDocSigTstTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(TestUtils.getResourceAsFile("diag_data_pades_doc_sig_tst.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("diagnostic/diag_data_pades_doc_sig_tst.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -4554,7 +4553,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void padesDocMissingRevocDataTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(TestUtils.getResourceAsFile("diag_data_pades_doc_sig_tst.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("diagnostic/diag_data_pades_doc_sig_tst.xml"));
 		assertNotNull(diagnosticData);
 
 		// remove revocations
@@ -4710,7 +4709,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void oneFailedRacTest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diag-data-one-failed-revocation.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/diag-data-one-failed-revocation.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -4753,7 +4752,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 
 	@Test
 	public void failedRacTest() throws Exception {
-		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diag-data-failed-revocation.xml"));
+		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(TestUtils.getResourceAsFile("diagnostic/diag-data-failed-revocation.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -4837,7 +4836,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void counterSignatureReplaceAttackTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_counter_sig_replace_attack.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_counter_sig_replace_attack.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -4882,7 +4881,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	public void expiredOCSPResponderTest() throws Exception {
 		// see DSS-2338
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_expired_ocsp_responder.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_expired_ocsp_responder.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -4960,7 +4959,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	public void expiredOCSPResponderWithInformLevelTest() throws Exception {
 		// see DSS-2338
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_expired_ocsp_responder.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_expired_ocsp_responder.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -5042,7 +5041,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void skipRevocationCheckTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_expired_ocsp_responder.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_expired_ocsp_responder.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -5083,7 +5082,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void notYetValidCRLIssuerTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_not_yet_valid_ca.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_not_yet_valid_ca.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -5163,7 +5162,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void brokenRevocationDataTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_with_broken_revocation.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_with_broken_revocation.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -5221,7 +5220,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void brokenRevocationDataWithWarnSigIntactTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_with_broken_revocation.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_with_broken_revocation.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -5269,7 +5268,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void certificatePolicyIdsTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate signingCertificate = xmlDiagnosticData.getSignatures().get(0)
@@ -5312,7 +5311,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void certificatePolicyQualifiedIdsTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate signingCertificate = xmlDiagnosticData.getSignatures().get(0)
@@ -5355,7 +5354,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void certificatePolicySupportedByQSCDIdsTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate signingCertificate = xmlDiagnosticData.getSignatures().get(0)
@@ -5397,7 +5396,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void qcComplianceTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -5436,7 +5435,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void qcEuLimitValueCurrencyTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate signingCertificate = xmlDiagnosticData.getSignatures().get(0)
@@ -5478,7 +5477,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void minQcEuLimitValueTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate signingCertificate = xmlDiagnosticData.getSignatures().get(0)
@@ -5521,7 +5520,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void minQcEuRetentionPeriodTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate signingCertificate = xmlDiagnosticData.getSignatures().get(0)
@@ -5561,7 +5560,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void qcSSCDTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate signingCertificate = xmlDiagnosticData.getSignatures().get(0)
@@ -5602,7 +5601,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void qcEuPDSLocationTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate signingCertificate = xmlDiagnosticData.getSignatures().get(0)
@@ -5645,7 +5644,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void qcTypeTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate signingCertificate = xmlDiagnosticData.getSignatures().get(0)
@@ -5689,7 +5688,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void qcCCLegislationTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate signingCertificate = xmlDiagnosticData.getSignatures().get(0)
@@ -5743,7 +5742,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void semanticsIdentifierForLegalPersonTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate signingCertificate = xmlDiagnosticData.getSignatures().get(0)
@@ -5787,7 +5786,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void semanticsIdentifierForNaturalPersonTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate signingCertificate = xmlDiagnosticData.getSignatures().get(0)
@@ -5832,7 +5831,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void semanticsIdentifierForEIDASLegalPersonTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate signingCertificate = xmlDiagnosticData.getSignatures().get(0)
@@ -5877,7 +5876,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void semanticsIdentifierForEIDASNaturalPersonTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate signingCertificate = xmlDiagnosticData.getSignatures().get(0)
@@ -5921,7 +5920,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void ps2dQcRolesOfPSPTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate signingCertificate = xmlDiagnosticData.getSignatures().get(0)
@@ -5969,7 +5968,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void ps2dQcCANameTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate signingCertificate = xmlDiagnosticData.getSignatures().get(0)
@@ -6011,7 +6010,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void ps2dQcCAIdTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate signingCertificate = xmlDiagnosticData.getSignatures().get(0)
@@ -6053,7 +6052,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void nextUpdateCheckTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -6126,7 +6125,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void nextUpdateCheckOCSPFailTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -6201,7 +6200,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void signatureWithFailedContentTstTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("sig-with-content-tst.xml"));
+				TestUtils.getResourceAsFile("diagnostic/sig-with-content-tst.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		xmlDiagnosticData.getUsedTimestamps().get(0).getDigestMatchers().get(0).setDataIntact(false);
@@ -6228,7 +6227,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void signatureWithFailedContentTstFailSAVTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("sig-with-content-tst.xml"));
+				TestUtils.getResourceAsFile("diagnostic/sig-with-content-tst.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlTimestamp xmlContentTimestamp = xmlDiagnosticData.getUsedTimestamps().get(0);
@@ -6274,7 +6273,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void validBLevelBestSignatureTimeTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data-lta.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data-lta.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlTimestamp signatureTst = xmlDiagnosticData.getUsedTimestamps().get(0);
@@ -6296,7 +6295,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void validBLevelBrokenSigTstBestSignatureTimeTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data-lta.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data-lta.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlTimestamp signatureTst = xmlDiagnosticData.getUsedTimestamps().get(0);
@@ -6320,7 +6319,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void validBLevelTwoBrokenTstsBestSignatureTimeTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data-lta.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data-lta.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlTimestamp signatureTst = xmlDiagnosticData.getUsedTimestamps().get(0);
@@ -6345,7 +6344,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void multipleBBBErrorMessagesTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlSignature xmlSignature = xmlDiagnosticData.getSignatures().get(0);
@@ -6401,7 +6400,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void tstInfoTsaFieldOrderDoesNotMatchTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("dss-2155.xml"));
+				TestUtils.getResourceAsFile("diagnostic/dss-2155.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -6438,7 +6437,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void tstInfoTsaFieldValueDoesNotMatchFailLevelTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("dss-2155.xml"));
+				TestUtils.getResourceAsFile("diagnostic/dss-2155.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlTimestamp xmlTimestamp = xmlDiagnosticData.getUsedTimestamps().get(0);
@@ -6479,7 +6478,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void tstInfoTsaFieldValueNotPresentFailLevelTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("dss-2155.xml"));
+				TestUtils.getResourceAsFile("diagnostic/dss-2155.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlTimestamp xmlTimestamp = xmlDiagnosticData.getUsedTimestamps().get(0);
@@ -6519,7 +6518,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void tstInfoTsaFieldValueNotPresentSkipTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("dss-2155.xml"));
+				TestUtils.getResourceAsFile("diagnostic/dss-2155.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlTimestamp xmlTimestamp = xmlDiagnosticData.getUsedTimestamps().get(0);
@@ -6554,7 +6553,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	public void openDocumentCoverageTest() throws Exception {
 		// see DSS-2448
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_open_document.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_open_document.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -6583,7 +6582,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void pkcs7Test() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_pkcs7.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_pkcs7.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -6611,7 +6610,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void certificateOnHoldWithTimestampBeforeSuspensionTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_cert_on_hold_with_tst_before.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_cert_on_hold_with_tst_before.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -6662,7 +6661,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void certificateOnHoldWithTimestampAfterSuspensionTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_cert_on_hold_with_tst_after.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_cert_on_hold_with_tst_after.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -6720,7 +6719,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void multipleRevocationDataTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_multiple_revocation.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_multiple_revocation.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -6746,7 +6745,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void multipleRevocationDataWithBrokenArcTstTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_multiple_revocation.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_multiple_revocation.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		List<XmlTimestamp> usedTimestamps = xmlDiagnosticData.getUsedTimestamps();
@@ -6837,7 +6836,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void multipleRevocationDataWithRevocationIssuerWarnTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_multiple_revocation.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_multiple_revocation.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		List<XmlTimestamp> usedTimestamps = xmlDiagnosticData.getUsedTimestamps();
@@ -6871,7 +6870,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void ojWithExpiredTstRevocationTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("oj-diag-data-with-tsts.xml"));
+				TestUtils.getResourceAsFile("diagnostic/oj-diag-data-with-tsts.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -6926,7 +6925,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void xadesAWithValidInvalidAndInconsistentRevocationDataTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_xades_a_with_two_revocation.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_xades_a_with_two_revocation.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -6973,7 +6972,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void failedRacWithinRacTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_failed_rac_within_rac.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_failed_rac_within_rac.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -7066,7 +7065,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void dsaWith2048KeySizeTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_dsa_signature.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_dsa_signature.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -7083,7 +7082,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void dsaWith1024KeySizeTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_dsa_signature.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_dsa_signature.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlSignature xmlSignature = xmlDiagnosticData.getSignatures().get(0);
@@ -7108,7 +7107,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void docMDPTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_with_object_modifications.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_with_object_modifications.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlSignature xmlSignature = xmlDiagnosticData.getSignatures().get(0);
@@ -7152,7 +7151,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void fieldMDPTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_with_object_modifications.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_with_object_modifications.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlSignature xmlSignature = xmlDiagnosticData.getSignatures().get(0);
@@ -7196,7 +7195,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void sigFieldLockTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_with_object_modifications.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_with_object_modifications.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlSignature xmlSignature = xmlDiagnosticData.getSignatures().get(0);
@@ -7240,7 +7239,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void undefinedChangesTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_with_object_modifications.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_with_object_modifications.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlSignature xmlSignature = xmlDiagnosticData.getSignatures().get(0);
@@ -7285,7 +7284,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void undefinedChangesTimestampTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_pades_lta_mod_tst.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_pades_lta_mod_tst.xml"));
 		assertNotNull(xmlDiagnosticData);
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
 		LevelConstraint levelConstraint = new LevelConstraint();
@@ -7347,7 +7346,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void noUndefinedChangesTimestampTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_pades_lta_mod_tst.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_pades_lta_mod_tst.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlTimestamp xmlTimestamp = xmlDiagnosticData.getUsedTimestamps().get(1);
@@ -7405,7 +7404,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void signCertRefWithSHA1Test() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		XmlSignature xmlSignature = diagnosticData.getSignatures().get(0);
@@ -7468,7 +7467,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void signCertRefWithSHA1WithPOETest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("universign.xml"));
+				TestUtils.getResourceAsFile("diagnostic/universign.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = ValidationPolicyFacade.newFacade().getValidationPolicy(
@@ -7525,7 +7524,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void signCertRefWithSHA1AcceptSignCertPolicyTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("universign.xml"));
+				TestUtils.getResourceAsFile("diagnostic/universign.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = ValidationPolicyFacade.newFacade().getValidationPolicy(
@@ -7616,7 +7615,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void thisUpdateBeforeBestSignatureTimeNoRevocationFreshnessCheckTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_thisUpdate_before_sigTst.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_thisUpdate_before_sigTst.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -7643,7 +7642,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void thisUpdateBeforeBestSignatureTimeWithRevocationFreshnessCheckTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_thisUpdate_before_sigTst.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_thisUpdate_before_sigTst.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -7707,7 +7706,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void oldAndFreshOCSPsRevocationFreshnessCheckTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_with_old_and_fresh_ocsp.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_with_old_and_fresh_ocsp.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -7766,7 +7765,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void failTimestampDelayTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("universign.xml"));
+				TestUtils.getResourceAsFile("diagnostic/universign.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -7788,7 +7787,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void signBeforeBestSignatureTimeTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_sign_before_sig_tst.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_sign_before_sig_tst.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -7829,7 +7828,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void checkJAdESKidValidSigTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_jades_valid.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_jades_valid.xml"));
 		assertNotNull(diagnosticData);
 
 		LevelConstraint levelConstraint = new LevelConstraint();
@@ -7855,7 +7854,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void checkJAdESNoKidTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_jades_valid.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_jades_valid.xml"));
 		assertNotNull(diagnosticData);
 
 		XmlSignature xmlSignature = diagnosticData.getSignatures().get(0);
@@ -7915,7 +7914,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void checkJAdESKidDoesNotMatchTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_jades_valid.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_jades_valid.xml"));
 		assertNotNull(diagnosticData);
 
 		XmlSignature xmlSignature = diagnosticData.getSignatures().get(0);
@@ -7975,7 +7974,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void counterSignatureFailedFormatTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("counter-signature-valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/counter-signature-valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		String counterSigId = null;
@@ -8015,7 +8014,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void counterSignatureNoPolicyPresentTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("counter-signature-valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/counter-signature-valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		String counterSigId = null;
@@ -8052,7 +8051,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void checkMinAndMaxUpdateValidLTTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_xades_level_lta_revo_freshness.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_xades_level_lta_revo_freshness.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -8098,7 +8097,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void checkMinAndMaxUpdateValidTrustedCATest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_xades_level_lta_revo_freshness.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_xades_level_lta_revo_freshness.xml"));
 		assertNotNull(diagnosticData);
 
 		List<XmlSignature> signatures = diagnosticData.getSignatures();
@@ -8154,7 +8153,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void checkMinAndMaxUpdateValidTrustedCAAndTstIssuerTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_xades_level_lta_revo_freshness.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_xades_level_lta_revo_freshness.xml"));
 		assertNotNull(diagnosticData);
 
 		List<XmlSignature> signatures = diagnosticData.getSignatures();
@@ -8205,7 +8204,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void checkMinAndMaxNoTstTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_xades_level_lta_revo_freshness.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_xades_level_lta_revo_freshness.xml"));
 		assertNotNull(diagnosticData);
 
 		diagnosticData.setUsedTimestamps(Collections.emptyList());
@@ -8243,7 +8242,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void checkMinAndMaxUpdateValidAtSignTimeTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_xades_level_lta_revo_freshness.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_xades_level_lta_revo_freshness.xml"));
 		assertNotNull(diagnosticData);
 
 		List<XmlSignature> signatures = diagnosticData.getSignatures();
@@ -8283,7 +8282,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void checkMinAndMaxUpdateValidTrustedCATstAtSignTimeTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_xades_level_lta_revo_freshness.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_xades_level_lta_revo_freshness.xml"));
 		assertNotNull(diagnosticData);
 
 		List<XmlSignature> signatures = diagnosticData.getSignatures();
@@ -8320,7 +8319,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void revocationFreshnessSigningCertificateTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -8417,7 +8416,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void revocationFreshnessSigningCertificateWithTimeTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -8509,7 +8508,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void revocationFreshnessCACertificateTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -8608,7 +8607,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void revocationFreshnessCACertificateNextUpdateCheckTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -8710,7 +8709,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void signatureWithMD2Test() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		XmlSignature xmlSignature = diagnosticData.getSignatures().get(0);
@@ -8783,7 +8782,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void signatureWithMD2AndContentTstTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		XmlSignature xmlSignature = diagnosticData.getSignatures().get(0);
@@ -8856,7 +8855,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void signatureWithMD2AndSHA3with224ContentTstTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		XmlSignature xmlSignature = diagnosticData.getSignatures().get(0);
@@ -8962,7 +8961,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void jadesEcdsaTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_jades_valid.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_jades_valid.xml"));
 		assertNotNull(diagnosticData);
 
 		XmlSignature xmlSignature = diagnosticData.getSignatures().get(0);
@@ -9012,7 +9011,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void jadesEcdsaInvalidKeySizeTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_jades_valid.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_jades_valid.xml"));
 		assertNotNull(diagnosticData);
 
 		XmlSignature xmlSignature = diagnosticData.getSignatures().get(0);
@@ -9072,7 +9071,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void jadesEcdsaUnauthorizedDigestAlgoTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_jades_valid.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_jades_valid.xml"));
 		assertNotNull(diagnosticData);
 
 		XmlSignature xmlSignature = diagnosticData.getSignatures().get(0);
@@ -9132,7 +9131,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void jadesRsaTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_jades_valid.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_jades_valid.xml"));
 		assertNotNull(diagnosticData);
 
 		XmlSignature xmlSignature = diagnosticData.getSignatures().get(0);
@@ -9180,7 +9179,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void xadesEcdsaTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		XmlSignature xmlSignature = diagnosticData.getSignatures().get(0);
@@ -9227,7 +9226,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void asicNoMimetypeSkipCheckTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("asic-s-xades-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/asic-s-xades-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		XmlContainerInfo containerInfo = diagnosticData.getContainerInfo();
@@ -9263,7 +9262,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void asicNoMimetypeFailLevelTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("asic-s-xades-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/asic-s-xades-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		XmlContainerInfo containerInfo = diagnosticData.getContainerInfo();
@@ -9302,7 +9301,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void asicNotAcceptableMimeTypeTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("asic-s-xades-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/asic-s-xades-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		XmlContainerInfo containerInfo = diagnosticData.getContainerInfo();
@@ -9341,7 +9340,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void asicZipCommentSkipCheckTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("asic-s-xades-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/asic-s-xades-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		XmlContainerInfo containerInfo = diagnosticData.getContainerInfo();
@@ -9376,7 +9375,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void asicZipCommentFailLevelTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("asic-s-xades-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/asic-s-xades-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		XmlContainerInfo containerInfo = diagnosticData.getContainerInfo();
@@ -9414,7 +9413,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void asicNotAcceptableZipCommentTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("asic-s-xades-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/asic-s-xades-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		XmlContainerInfo containerInfo = diagnosticData.getContainerInfo();
@@ -9452,7 +9451,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void dss2214NoRevocationDataTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_no_revocation_data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_no_revocation_data.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -9533,7 +9532,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void dss2214NoRevocationDataAvailableCheckSkippedTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_no_revocation_data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_no_revocation_data.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -9614,7 +9613,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void dss2214BadRevocationDataTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_bad_revocation_data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_bad_revocation_data.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -9693,7 +9692,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void dss2824PassedValidationWithArchiveCutoffTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_ocsp_with_archivecutoff.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_ocsp_with_archivecutoff.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -9751,7 +9750,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void dss2824RevocationValidAtValidationTimeTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -9808,7 +9807,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void dss2214BadRevocationDataNoPresenceCheckTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_bad_revocation_data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_bad_revocation_data.xml"));
 		assertNotNull(diagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -10386,7 +10385,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void invalidByteRangeTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_pkcs7.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_pkcs7.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		List<eu.europa.esig.dss.diagnostic.jaxb.XmlSignature> xmlSignatures = xmlDiagnosticData.getSignatures();
@@ -10448,7 +10447,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void invalidByteRangeWarnTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_pkcs7.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_pkcs7.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		List<eu.europa.esig.dss.diagnostic.jaxb.XmlSignature> xmlSignatures = xmlDiagnosticData.getSignatures();
@@ -10509,7 +10508,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void byteRangeCollisionTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_pades_lta_mod_tst.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_pades_lta_mod_tst.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlTimestamp xmlTimestamp = xmlDiagnosticData.getUsedTimestamps().get(1);
@@ -10560,7 +10559,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void byteRangeAllDocumentTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_pades_lta_mod_tst.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_pades_lta_mod_tst.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlTimestamp xmlTimestamp = xmlDiagnosticData.getUsedTimestamps().get(1);
@@ -10610,7 +10609,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void pdfaValidTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_pdfa.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_pdfa.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -10665,7 +10664,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void pdfaWrongFormatTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_pdfa.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_pdfa.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -10722,7 +10721,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void pdfaInvalidTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_pdfa.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_pdfa.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		xmlDiagnosticData.getPDFAInfo().setCompliant(false);
@@ -10782,7 +10781,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void pdfaValidIndependentTstTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_tst_pdfa_invalid.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_tst_pdfa_invalid.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		xmlDiagnosticData.getPDFAInfo().setCompliant(true);
@@ -10828,7 +10827,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void pdfaInvalidIndependentTstTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_tst_pdfa_invalid.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_tst_pdfa_invalid.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		xmlDiagnosticData.getPDFAInfo().setCompliant(false);
@@ -10880,7 +10879,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void pdfaInvalidEnclosedTstWithUndefinedChangesWarnTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_pades_lta_mod_tst.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_pades_lta_mod_tst.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlPDFAInfo xmlPDFAInfo = new XmlPDFAInfo();
@@ -10958,7 +10957,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void pdfSignatureDictionaryInvalidTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_pdfa.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_pdfa.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlSignature xmlSignature = xmlDiagnosticData.getSignatures().get(0);
@@ -11011,7 +11010,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void signCertKeyUsageValidTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -11062,7 +11061,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void signCertKeyUsageInvalidTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -11122,7 +11121,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void caCertKeyUsageInvalidTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlSigningCertificate caCertificate = xmlDiagnosticData.getSignatures().get(0).getSigningCertificate()
@@ -11187,7 +11186,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void signCertExtendedKeyUsageValidTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		String timestampId = xmlDiagnosticData.getUsedTimestamps().get(0).getId();
@@ -11240,7 +11239,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void signCertExtendedKeyUsageInvalidTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlTimestamp xmlTimestamp = xmlDiagnosticData.getUsedTimestamps().get(0);
@@ -11306,7 +11305,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void unknownRevocationTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_unknown_revocation.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_unknown_revocation.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
@@ -11382,7 +11381,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void noExtendedKeyUsageTimestampingTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data-lta.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data-lta.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlTimestamp xmlTimestamp = xmlDiagnosticData.getUsedTimestamps().get(0);
@@ -11443,7 +11442,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void fakeCAFailTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_fake_ca.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_fake_ca.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -11502,7 +11501,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void maxPathLengthFailTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_fake_ca.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_fake_ca.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -11574,7 +11573,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void ocspWithWrongResponderIdTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_wrong_responderid.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_wrong_responderid.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -11676,7 +11675,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void ocspWithWrongResponderIdWarnTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_wrong_responderid.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_wrong_responderid.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -11739,7 +11738,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void forbiddenCertificateExtensionTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate xmlCertificate = xmlDiagnosticData.getSignatures().get(0).getSigningCertificate().getCertificate();
@@ -11805,7 +11804,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void forbiddenCertificateExtensionWarnTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate xmlCertificate = xmlDiagnosticData.getSignatures().get(0).getSigningCertificate().getCertificate();
@@ -11866,7 +11865,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void supportedCriticalCertificateExtensionsTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate xmlCertificate = xmlDiagnosticData.getSignatures().get(0).getSigningCertificate().getCertificate();
@@ -11925,7 +11924,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void supportedCriticalCertificateExtensionsInvalidTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("valid-diag-data.xml"));
+				TestUtils.getResourceAsFile("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate xmlCertificate = xmlDiagnosticData.getSignatures().get(0).getSigningCertificate().getCertificate();
@@ -11992,7 +11991,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void policyTreeValidTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_policy_constraints.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_policy_constraints.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -12041,7 +12040,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void policyTreeInvalidTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_policy_constraints.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_policy_constraints.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate xmlCertificate = xmlDiagnosticData.getSignatures().get(0).getSigningCertificate().getCertificate();
@@ -12109,7 +12108,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void nameConstraintsValidTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_name_constraints.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_name_constraints.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		ValidationPolicy validationPolicy = loadDefaultPolicy();
@@ -12158,7 +12157,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void nameConstraintsInvalidTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				TestUtils.getResourceAsFile("diag_data_name_constraints.xml"));
+				TestUtils.getResourceAsFile("diagnostic/diag_data_name_constraints.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate xmlCertificate = xmlDiagnosticData.getSignatures().get(0).getSigningCertificate().getCertificate();
@@ -12235,7 +12234,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void validationPolicyNotNull() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(TestUtils.getResourceAsFile("DSS-1330-diag-data.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("diagnostic/DSS-1330-diag-data.xml"));
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
 		executor.setDiagnosticData(diagnosticData);
@@ -12249,7 +12248,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void currentDateNotNull() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(TestUtils.getResourceAsFile("DSS-1330-diag-data.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("diagnostic/DSS-1330-diag-data.xml"));
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
 		executor.setDiagnosticData(diagnosticData);
@@ -12262,7 +12261,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void validationLevelNotNull() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(TestUtils.getResourceAsFile("DSS-1330-diag-data.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("diagnostic/DSS-1330-diag-data.xml"));
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();
 		executor.setDiagnosticData(diagnosticData);
@@ -12277,7 +12276,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void getCertQualificationTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(TestUtils.getResourceAsFile("DSS-1330-diag-data.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("diagnostic/DSS-1330-diag-data.xml"));
 		assertNotNull(diagnosticData);
 
 		DefaultSignatureProcessExecutor executor = new DefaultSignatureProcessExecutor();

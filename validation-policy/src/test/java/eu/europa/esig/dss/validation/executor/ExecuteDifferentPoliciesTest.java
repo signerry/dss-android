@@ -45,10 +45,10 @@ import com.signerry.dss.test.TestUtils;
 public class ExecuteDifferentPoliciesTest {
 
 	public static Stream<Arguments> data() throws Exception {
-		File folderPolicy = TestUtils.getResourceAsFile("policy");
-		File[] policyFiles = folderPolicy.listFiles();
-		File folderDiagnosticData = new File("src/test/resources");
-		File[] diagDataFiles = folderDiagnosticData.listFiles();
+		Collection<File> policyFiles = TestUtils.listFiles("policy", null, false);
+		Collection<File> diagDataFiles = TestUtils.listFiles("diagnostic", null, false);
+
+
 		Collection<Arguments> dataToRun = new ArrayList<>();
 		for (File diagData : diagDataFiles) {
 			if (diagData.isFile()) {

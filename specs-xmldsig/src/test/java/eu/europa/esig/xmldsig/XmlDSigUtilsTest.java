@@ -46,6 +46,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class XmlDSigUtilsTest {
 	
 	private static XmlDSigUtils xmlDSigUtils;
@@ -59,7 +61,7 @@ public class XmlDSigUtilsTest {
 	@SuppressWarnings("unchecked")
 	public void test() throws JAXBException, SAXException {
 
-		File xmldsigFile = new File("src/test/resources/XmlAliceSig.xml");
+		File xmldsigFile = TestUtils.getResourceAsFile("resources/XmlAliceSig.xml");
 
 		JAXBContext jc = xmlDSigUtils.getJAXBContext();
 		assertNotNull(jc);
@@ -101,10 +103,10 @@ public class XmlDSigUtilsTest {
 
 	@Test
 	public void validateTest() throws IOException, SAXException {
-		StreamSource aliceFile = new StreamSource(new File("src/test/resources/XmlAliceSig.xml"));
+		StreamSource aliceFile = new StreamSource(TestUtils.getResourceAsStream("resources/XmlAliceSig.xml"));
 		xmlDSigUtils.validate(aliceFile, xmlDSigUtils.getSchema(), true);
 
-		StreamSource bobFile = new StreamSource(new File("src/test/resources/XmlBobSig.xml"));
+		StreamSource bobFile = new StreamSource(TestUtils.getResourceAsStream("resources/XmlBobSig.xml"));
 		XSDValidationException exception = assertThrows(XSDValidationException.class,
 				() -> xmlDSigUtils.validate(bobFile, xmlDSigUtils.getSchema(), true));
 		assertNotNull(exception.getMessage());

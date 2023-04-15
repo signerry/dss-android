@@ -20,11 +20,13 @@
  */
 package eu.europa.esig.dss.asic.common;
 
-import eu.europa.esig.dss.model.DSSDocument;
-import eu.europa.esig.dss.model.FileDocument;
-import eu.europa.esig.dss.model.InMemoryDocument;
-import eu.europa.esig.dss.spi.DSSUtils;
-import eu.europa.esig.dss.utils.Utils;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import com.signerry.dss.test.TestUtils;
+
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -36,10 +38,11 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import eu.europa.esig.dss.model.DSSDocument;
+import eu.europa.esig.dss.model.FileDocument;
+import eu.europa.esig.dss.model.InMemoryDocument;
+import eu.europa.esig.dss.spi.DSSUtils;
+import eu.europa.esig.dss.utils.Utils;
 
 public class FileArchiveEntryTest {
 
@@ -49,10 +52,10 @@ public class FileArchiveEntryTest {
         DSSDocument zipArchive = ZipUtils.getInstance().
                 createZipArchive(Collections.singletonList(document), new Date(), null);
 
-        String zipArchiveFilePath = "target/archive.zip";
-        zipArchive.save(zipArchiveFilePath);
+        File zipArchiveFilePath = TestUtils.getTmpFile( "archive.zip");
+        zipArchive.save(zipArchiveFilePath.getAbsolutePath());
 
-        File zipArchiveFile = new File(zipArchiveFilePath);
+        File zipArchiveFile = new File(zipArchiveFilePath.getAbsolutePath());
         assertTrue(zipArchiveFile.exists());
 
         FileDocument archive = new FileDocument(zipArchiveFilePath);

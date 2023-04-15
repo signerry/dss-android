@@ -22,6 +22,8 @@ package eu.europa.esig.xades;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.signerry.dss.test.TestUtils;
+
 import java.io.File;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -58,7 +60,7 @@ public class XAdESUtilsTest {
 	@SuppressWarnings("unchecked")
 	public void test() throws JAXBException, SAXException {
 
-		File xmldsigFile = new File("src/test/resources/xades-lta.xml");
+		File xmldsigFile = TestUtils.getResourceAsFile("resources/xades-lta.xml");
 
 		JAXBContext jc = xadesUtils.getJAXBContext();
 		assertNotNull(jc);

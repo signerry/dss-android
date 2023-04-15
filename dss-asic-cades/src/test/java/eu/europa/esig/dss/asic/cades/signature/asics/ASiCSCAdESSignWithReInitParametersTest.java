@@ -43,6 +43,8 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 @Tag("slow")
 public class ASiCSCAdESSignWithReInitParametersTest extends AbstractASiCSCAdESTestSignature {
 
@@ -67,8 +69,8 @@ public class ASiCSCAdESSignWithReInitParametersTest extends AbstractASiCSCAdESTe
         SignatureLevel[] levels = { SignatureLevel.CAdES_BASELINE_B, SignatureLevel.CAdES_BASELINE_T,
                 SignatureLevel.CAdES_BASELINE_LT, SignatureLevel.CAdES_BASELINE_LTA };
         String[] signers = { GOOD_USER, RSA_SHA3_USER };
-        DSSDocument[] documents = { new FileDocument("src/test/resources/signable/test.txt"),
-                new FileDocument("src/test/resources/signable/test.zip") };
+        DSSDocument[] documents = { new FileDocument(TestUtils.getResourceAsFile("signable/test.txt")),
+                new FileDocument(TestUtils.getResourceAsFile("signable/test.zip")) };
         return random(levels, signers, documents);
     }
 

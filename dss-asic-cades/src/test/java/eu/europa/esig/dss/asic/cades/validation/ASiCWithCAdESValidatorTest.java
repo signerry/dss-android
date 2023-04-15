@@ -72,14 +72,14 @@ public class ASiCWithCAdESValidatorTest extends AbstractTestValidator {
 
 	@Test
 	public void validateEmptyContainer() {
-		DSSDocument document = new FileDocument("src/test/resources/signable/empty.zip");
+		DSSDocument document = new FileDocument(TestUtils.getResourceAsFile("signable/empty.zip"));
 		SignedDocumentValidator validator = initValidator(document);
 		validate(validator, false);
 	}
 
 	@Test
 	public void validateZipContainer() {
-		DSSDocument document = new FileDocument("src/test/resources/signable/test.zip");
+		DSSDocument document = new FileDocument(TestUtils.getResourceAsFile("signable/test.zip"));
 		SignedDocumentValidator validator = initValidator(document);
 		validate(validator, false);
 	}

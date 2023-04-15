@@ -64,20 +64,22 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCSWithCAdESContainerMergerTest extends
         AbstractPkiFactoryTestValidation<ASiCWithCAdESSignatureParameters, ASiCWithCAdESTimestampParameters> {
 
     @Test
     public void isSupportedTest() {
         ASiCSWithCAdESContainerMerger merger = new ASiCSWithCAdESContainerMerger();
-        assertTrue(merger.isSupported(new FileDocument("src/test/resources/validation/onefile-ok.asics")));
-        assertTrue(merger.isSupported(new FileDocument("src/test/resources/validation/multifiles-ok.asics")));
-        assertTrue(merger.isSupported(new FileDocument("src/test/resources/signable/test.zip"))); // simple container
-        assertFalse(merger.isSupported(new FileDocument("src/test/resources/validation/onefile-ok.asice")));
-        assertFalse(merger.isSupported(new FileDocument("src/test/resources/validation/multifiles-ok.asice")));
-        assertFalse(merger.isSupported(new FileDocument("src/test/resources/validation/open-document.odp")));
-        assertFalse(merger.isSupported(new FileDocument("src/test/resources/signable/asic_cades.zip"))); // ASiC-E
-        assertFalse(merger.isSupported(new FileDocument("src/test/resources/signable/test.txt")));
+        assertTrue(merger.isSupported(new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics"))));
+        assertTrue(merger.isSupported(new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asics"))));
+        assertTrue(merger.isSupported(new FileDocument(TestUtils.getResourceAsFile("signable/test.zip")))); // simple container
+        assertFalse(merger.isSupported(new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice"))));
+        assertFalse(merger.isSupported(new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asice"))));
+        assertFalse(merger.isSupported(new FileDocument(TestUtils.getResourceAsFile("validation/open-document.odp"))));
+        assertFalse(merger.isSupported(new FileDocument(TestUtils.getResourceAsFile("signable/asic_cades.zip")))); // ASiC-E
+        assertFalse(merger.isSupported(new FileDocument(TestUtils.getResourceAsFile("signable/test.txt"))));
     }
 
     @Test
@@ -168,8 +170,8 @@ public class ASiCSWithCAdESContainerMergerTest extends
 
     @Test
     public void mergeTwoNotSignedZipTest() {
-        DSSDocument firstContainer = new FileDocument("src/test/resources/signable/test.zip");
-        DSSDocument secondContainer = new FileDocument("src/test/resources/signable/document.odt");
+        DSSDocument firstContainer = new FileDocument(TestUtils.getResourceAsFile("signable/test.zip"));
+        DSSDocument secondContainer = new FileDocument(TestUtils.getResourceAsFile("signable/document.odt"));
 
         ASiCContent firstAsicContent = new ASiCWithCAdESContainerExtractor(firstContainer).extract();
         ASiCContent secondAsicContent = new ASiCWithCAdESContainerExtractor(secondContainer).extract();
@@ -279,7 +281,7 @@ public class ASiCSWithCAdESContainerMergerTest extends
     public void mergeTimestampedMultipleDocsAsicWithZipTest() {
         List<DSSDocument> toSignDocuments = Arrays.asList(
                 new InMemoryDocument("Hello World !".getBytes(), "test.text", MimeTypeEnum.TEXT),
-                new FileDocument("src/test/resources/signable/test.txt"));
+                new FileDocument(TestUtils.getResourceAsFile("signable/test.txt")));
         ASiCWithCAdESTimestampService timestampService = new ASiCWithCAdESTimestampService(getGoodTsa());
 
         ASiCWithCAdESTimestampParameters timestampParameters = new ASiCWithCAdESTimestampParameters();
@@ -514,7 +516,7 @@ public class ASiCSWithCAdESContainerMergerTest extends
 
     @Test
     public void mergeOneFileTest() {
-        DSSDocument document = new FileDocument("src/test/resources/validation/onefile-ok.asics");
+        DSSDocument document = new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics"));
 
         ASiCSWithCAdESContainerMerger merger = new ASiCSWithCAdESContainerMerger(document);
         DSSDocument mergedDocument = merger.merge();

@@ -61,8 +61,8 @@ public class ASiCECAdESMultiFilesLevelBDoubleSignatureTest extends AbstractASiCE
         service = new ASiCWithCAdESService(getOfflineCertificateVerifier());
 
         ORIGINAL_DOCS.add(new InMemoryDocument("Hello World !".getBytes(), "test.text", MimeTypeEnum.TEXT));
-        ORIGINAL_DOCS.add(new FileDocument("src/test/resources/signable/test.zip"));
-        ORIGINAL_DOCS.add(new FileDocument("src/test/resources/signable/test.txt"));
+        ORIGINAL_DOCS.add(new FileDocument(TestUtils.getResourceAsFile("signable/test.zip")));
+        ORIGINAL_DOCS.add(new FileDocument(TestUtils.getResourceAsFile("signable/test.txt")));
         ORIGINAL_DOCS.add(new InMemoryDocument(DSSUtils.EMPTY_BYTE_ARRAY, "emptyByteArray"));
 
         signatureParameters = new ASiCWithCAdESSignatureParameters();

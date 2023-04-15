@@ -48,6 +48,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCEWithCAdESLevelLTContainerMergerTest extends AbstractWithCAdESTestMerge {
 
     private DSSDocument documentToSign;
@@ -59,7 +61,7 @@ public class ASiCEWithCAdESLevelLTContainerMergerTest extends AbstractWithCAdEST
 
     @BeforeEach
     public void init() {
-        documentToSign = new FileDocument("src/test/resources/signable/test.txt");
+        documentToSign = new FileDocument(TestUtils.getResourceAsFile("signable/test.txt"));
 
         service = new ASiCWithCAdESService(getCompleteCertificateVerifier());
         service.setTspSource(getGoodTsa());

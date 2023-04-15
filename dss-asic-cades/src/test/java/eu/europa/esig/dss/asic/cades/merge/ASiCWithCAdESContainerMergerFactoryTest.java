@@ -33,73 +33,75 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCWithCAdESContainerMergerFactoryTest {
 
     @Test
     public void isSupportedDSSDocumentTest() {
         ASiCWithCAdESContainerMergerFactory factory = new ASiCWithCAdESContainerMergerFactory();
-        assertTrue(factory.isSupported(new FileDocument("src/test/resources/validation/onefile-ok.asics")));
-        assertTrue(factory.isSupported(new FileDocument("src/test/resources/validation/multifiles-ok.asics")));
-        assertTrue(factory.isSupported(new FileDocument("src/test/resources/signable/test.zip"))); // simple container
-        assertTrue(factory.isSupported(new FileDocument("src/test/resources/validation/onefile-ok.asice")));
-        assertTrue(factory.isSupported(new FileDocument("src/test/resources/validation/multifiles-ok.asice")));
-        assertTrue(factory.isSupported(new FileDocument("src/test/resources/signable/asic_cades.zip"))); // ASiC-E
-        assertFalse(factory.isSupported(new FileDocument("src/test/resources/signable/document.odt")));
-        assertFalse(factory.isSupported(new FileDocument("src/test/resources/signable/asic_xades.zip")));
-        assertFalse(factory.isSupported(new FileDocument("src/test/resources/signable/test.txt")));
+        assertTrue(factory.isSupported(new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics"))));
+        assertTrue(factory.isSupported(new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asics"))));
+        assertTrue(factory.isSupported(new FileDocument(TestUtils.getResourceAsFile("signable/test.zip")))); // simple container
+        assertTrue(factory.isSupported(new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice"))));
+        assertTrue(factory.isSupported(new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asice"))));
+        assertTrue(factory.isSupported(new FileDocument(TestUtils.getResourceAsFile("signable/asic_cades.zip")))); // ASiC-E
+        assertFalse(factory.isSupported(new FileDocument(TestUtils.getResourceAsFile("signable/document.odt"))));
+        assertFalse(factory.isSupported(new FileDocument(TestUtils.getResourceAsFile("signable/asic_xades.zip"))));
+        assertFalse(factory.isSupported(new FileDocument(TestUtils.getResourceAsFile("signable/test.txt"))));
     }
 
     @Test
     public void isSupportedMultipleDSSDocumentTest() {
         ASiCWithCAdESContainerMergerFactory factory = new ASiCWithCAdESContainerMergerFactory();
         assertTrue(factory.isSupported(
-                new FileDocument("src/test/resources/validation/onefile-ok.asics"),
-                new FileDocument("src/test/resources/validation/multifiles-ok.asics")));
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics")),
+                new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asics"))));
         assertTrue(factory.isSupported(
-                new FileDocument("src/test/resources/validation/onefile-ok.asics"),
-                new FileDocument("src/test/resources/signable/test.zip")));
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics")),
+                new FileDocument(TestUtils.getResourceAsFile("signable/test.zip"))));
         assertTrue(factory.isSupported(
-                new FileDocument("src/test/resources/validation/onefile-ok.asics"),
-                new FileDocument("src/test/resources/validation/multifiles-ok.asics"),
-                new FileDocument("src/test/resources/signable/test.zip")));
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics")),
+                new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asics")),
+                new FileDocument(TestUtils.getResourceAsFile("signable/test.zip"))));
         assertFalse(factory.isSupported(
-                new FileDocument("src/test/resources/validation/onefile-ok.asics"),
-                new FileDocument("src/test/resources/signable/asic_xades.zip")));
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics")),
+                new FileDocument(TestUtils.getResourceAsFile("signable/asic_xades.zip"))));
         assertFalse(factory.isSupported(
-                new FileDocument("src/test/resources/signable/test.txt"),
-                new FileDocument("src/test/resources/signable/asic_xades.zip")));
+                new FileDocument(TestUtils.getResourceAsFile("signable/test.txt")),
+                new FileDocument(TestUtils.getResourceAsFile("signable/asic_xades.zip"))));
     }
 
     @Test
     public void isSupportedASiCContentTest() {
         ASiCWithCAdESContainerMergerFactory factory = new ASiCWithCAdESContainerMergerFactory();
         assertTrue(factory.isSupported(new ASiCWithCAdESContainerExtractor(
-                new FileDocument("src/test/resources/validation/onefile-ok.asics")).extract()));
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics"))).extract()));
         assertTrue(factory.isSupported(new ASiCWithCAdESContainerExtractor(
-                new FileDocument("src/test/resources/validation/multifiles-ok.asics")).extract()));
+                new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asics"))).extract()));
         assertTrue(factory.isSupported(new ASiCWithCAdESContainerExtractor(
-                new FileDocument("src/test/resources/signable/test.zip")).extract()));
+                new FileDocument(TestUtils.getResourceAsFile("signable/test.zip"))).extract()));
         assertTrue(factory.isSupported(new ASiCWithCAdESContainerExtractor(
-                new FileDocument("src/test/resources/validation/onefile-ok.asice")).extract()));
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice"))).extract()));
         assertFalse(factory.isSupported(new ASiCWithCAdESContainerExtractor(
-                new FileDocument("src/test/resources/signable/document.odt")).extract()));
+                new FileDocument(TestUtils.getResourceAsFile("signable/document.odt"))).extract()));
         assertFalse(factory.isSupported(new ASiCWithCAdESContainerExtractor(
-                new FileDocument("src/test/resources/signable/asic_xades.zip")).extract()));
+                new FileDocument(TestUtils.getResourceAsFile("signable/asic_xades.zip"))).extract()));
     }
 
     @Test
     public void isSupportedMultipleASiCContentTest() {
         ASiCWithCAdESContainerMergerFactory factory = new ASiCWithCAdESContainerMergerFactory();
         assertTrue(factory.isSupported(
-                new ASiCWithCAdESContainerExtractor(new FileDocument("src/test/resources/validation/onefile-ok.asics")).extract(),
-                new ASiCWithCAdESContainerExtractor(new FileDocument("src/test/resources/validation/multifiles-ok.asics")).extract()));
+                new ASiCWithCAdESContainerExtractor(new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics"))).extract(),
+                new ASiCWithCAdESContainerExtractor(new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asics"))).extract()));
         assertTrue(factory.isSupported(
-                new ASiCWithCAdESContainerExtractor(new FileDocument("src/test/resources/validation/onefile-ok.asics")).extract(),
-                new ASiCWithCAdESContainerExtractor(new FileDocument("src/test/resources/validation/multifiles-ok.asics")).extract(),
-                new ASiCWithCAdESContainerExtractor(new FileDocument("src/test/resources/signable/test.zip")).extract()));
+                new ASiCWithCAdESContainerExtractor(new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics"))).extract(),
+                new ASiCWithCAdESContainerExtractor(new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asics"))).extract(),
+                new ASiCWithCAdESContainerExtractor(new FileDocument(TestUtils.getResourceAsFile("signable/test.zip"))).extract()));
         assertFalse(factory.isSupported(
-                new ASiCWithCAdESContainerExtractor(new FileDocument("src/test/resources/validation/onefile-ok.asics")).extract(),
-                new ASiCWithCAdESContainerExtractor(new FileDocument("src/test/resources/signable/asic_xades.zip")).extract()));
+                new ASiCWithCAdESContainerExtractor(new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics"))).extract(),
+                new ASiCWithCAdESContainerExtractor(new FileDocument(TestUtils.getResourceAsFile("signable/asic_xades.zip"))).extract()));
     }
 
     @Test
@@ -126,71 +128,71 @@ public class ASiCWithCAdESContainerMergerFactoryTest {
         ASiCWithCAdESContainerMergerFactory factory = new ASiCWithCAdESContainerMergerFactory();
 
         ASiCContainerMerger merger = factory.create(
-                new FileDocument("src/test/resources/validation/onefile-ok.asics"));
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics")));
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCSWithCAdESContainerMerger);
 
         merger = factory.create(
-                new FileDocument("src/test/resources/validation/onefile-ok.asics"),
-                new FileDocument("src/test/resources/validation/multifiles-ok.asics"));
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics")),
+                new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asics")));
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCSWithCAdESContainerMerger);
 
         merger = factory.create(
-                new FileDocument("src/test/resources/validation/onefile-ok.asics"),
-                new FileDocument("src/test/resources/signable/test.zip"));
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics")),
+                new FileDocument(TestUtils.getResourceAsFile("signable/test.zip")));
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCSWithCAdESContainerMerger);
 
         merger = factory.create(
-                new FileDocument("src/test/resources/validation/onefile-ok.asics"),
-                new FileDocument("src/test/resources/validation/multifiles-ok.asics"),
-                new FileDocument("src/test/resources/signable/test.zip"));
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics")),
+                new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asics")),
+                new FileDocument(TestUtils.getResourceAsFile("signable/test.zip")));
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCSWithCAdESContainerMerger);
 
         merger = factory.create(
-                new FileDocument("src/test/resources/signable/test.zip"),
-                new FileDocument("src/test/resources/validation/onefile-ok.asics"),
-                new FileDocument("src/test/resources/validation/multifiles-ok.asics"));
+                new FileDocument(TestUtils.getResourceAsFile("signable/test.zip")),
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics")),
+                new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asics")));
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCSWithCAdESContainerMerger);
 
         merger = factory.create(
-                new FileDocument("src/test/resources/validation/onefile-ok.asice"));
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice")));
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCEWithCAdESContainerMerger);
 
         merger = factory.create(
-                new FileDocument("src/test/resources/validation/onefile-ok.asice"),
-                new FileDocument("src/test/resources/validation/multifiles-ok.asice"));
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice")),
+                new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asice")));
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCEWithCAdESContainerMerger);
 
         merger = factory.create(
-                new FileDocument("src/test/resources/validation/onefile-ok.asice"),
-                new FileDocument("src/test/resources/validation/multifiles-ok.asice"),
-                new FileDocument("src/test/resources/signable/test.zip"));
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice")),
+                new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asice")),
+                new FileDocument(TestUtils.getResourceAsFile("signable/test.zip")));
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCEWithCAdESContainerMerger);
 
         merger = factory.create(
-                new FileDocument("src/test/resources/signable/test.zip"),
-                new FileDocument("src/test/resources/validation/onefile-ok.asice"),
-                new FileDocument("src/test/resources/validation/multifiles-ok.asice"));
+                new FileDocument(TestUtils.getResourceAsFile("signable/test.zip")),
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice")),
+                new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asice")));
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCEWithCAdESContainerMerger);
 
         Exception exception = assertThrows(UnsupportedOperationException.class, () -> factory.create(
-                new FileDocument("src/test/resources/validation/onefile-ok.asice"),
-                new FileDocument("src/test/resources/validation/onefile-ok.asics")));
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice")),
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics"))));
         assertEquals("Unable to create an ASiCContainerMerger for documents of different ASiCContainer types!",
                 exception.getMessage());
 
         exception = assertThrows(UnsupportedOperationException.class, () -> factory.create(
-                new FileDocument("src/test/resources/validation/onefile-ok.asics"),
-                new FileDocument("src/test/resources/signable/test.zip"),
-                new FileDocument("src/test/resources/validation/onefile-ok.asice")));
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics")),
+                new FileDocument(TestUtils.getResourceAsFile("signable/test.zip")),
+                new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice"))));
         assertEquals("Unable to create an ASiCContainerMerger for documents of different ASiCContainer types!",
                 exception.getMessage());
     }
@@ -201,95 +203,95 @@ public class ASiCWithCAdESContainerMergerFactoryTest {
 
         ASiCContainerMerger merger = factory.create(
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/onefile-ok.asics")).extract());
+                        new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics"))).extract());
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCSWithCAdESContainerMerger);
 
         merger = factory.create(
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/onefile-ok.asics")).extract(),
+                        new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics"))).extract(),
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/multifiles-ok.asics")).extract());
+                        new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asics"))).extract());
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCSWithCAdESContainerMerger);
 
         merger = factory.create(
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/onefile-ok.asics")).extract(),
+                        new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics"))).extract(),
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/signable/test.zip")).extract());
+                        new FileDocument(TestUtils.getResourceAsFile("signable/test.zip"))).extract());
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCSWithCAdESContainerMerger);
 
         merger = factory.create(
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/onefile-ok.asics")).extract(),
+                        new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics"))).extract(),
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/multifiles-ok.asics")).extract(),
+                        new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asics"))).extract(),
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/signable/test.zip")).extract());
+                        new FileDocument(TestUtils.getResourceAsFile("signable/test.zip"))).extract());
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCSWithCAdESContainerMerger);
 
         merger = factory.create(
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/signable/test.zip")).extract(),
+                        new FileDocument(TestUtils.getResourceAsFile("signable/test.zip"))).extract(),
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/onefile-ok.asics")).extract(),
+                        new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics"))).extract(),
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/multifiles-ok.asics")).extract());
+                        new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asics"))).extract());
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCSWithCAdESContainerMerger);
 
         merger = factory.create(
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/onefile-ok.asice")).extract());
+                        new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice"))).extract());
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCEWithCAdESContainerMerger);
 
         merger = factory.create(
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/onefile-ok.asice")).extract(),
+                        new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice"))).extract(),
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/multifiles-ok.asice")).extract());
+                        new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asice"))).extract());
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCEWithCAdESContainerMerger);
 
         merger = factory.create(
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/onefile-ok.asice")).extract(),
+                        new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice"))).extract(),
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/multifiles-ok.asice")).extract(),
+                        new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asice"))).extract(),
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/signable/test.zip")).extract());
+                        new FileDocument(TestUtils.getResourceAsFile("signable/test.zip"))).extract());
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCEWithCAdESContainerMerger);
 
         merger = factory.create(
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/signable/test.zip")).extract(),
+                        new FileDocument(TestUtils.getResourceAsFile("signable/test.zip"))).extract(),
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/onefile-ok.asice")).extract(),
+                        new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice"))).extract(),
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/multifiles-ok.asice")).extract());
+                        new FileDocument(TestUtils.getResourceAsFile("validation/multifiles-ok.asice"))).extract());
         assertNotNull(merger);
         assertTrue(merger instanceof ASiCEWithCAdESContainerMerger);
 
         Exception exception = assertThrows(UnsupportedOperationException.class, () -> factory.create(
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/onefile-ok.asice")).extract(),
+                        new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice"))).extract(),
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/onefile-ok.asics")).extract()));
+                        new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics"))).extract()));
         assertEquals("Unable to create an ASiCContainerMerger for documents of different ASiCContainer types!",
                 exception.getMessage());
 
         exception = assertThrows(UnsupportedOperationException.class, () -> factory.create(
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/onefile-ok.asics")).extract(),
+                        new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asics"))).extract(),
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/signable/test.zip")).extract(),
+                        new FileDocument(TestUtils.getResourceAsFile("signable/test.zip"))).extract(),
                 new ASiCWithCAdESContainerExtractor(
-                        new FileDocument("src/test/resources/validation/onefile-ok.asice")).extract()));
+                        new FileDocument(TestUtils.getResourceAsFile("validation/onefile-ok.asice"))).extract()));
         assertEquals("Unable to create an ASiCContainerMerger for documents of different ASiCContainer types!",
                 exception.getMessage());
     }

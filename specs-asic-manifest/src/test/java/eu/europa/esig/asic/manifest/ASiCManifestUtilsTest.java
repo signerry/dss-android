@@ -39,6 +39,8 @@ import java.io.StringWriter;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.signerry.dss.test.TestUtils;
+
 public class ASiCManifestUtilsTest {
 	
 	private static ASiCManifestUtils asicManifestUtils;
@@ -52,7 +54,7 @@ public class ASiCManifestUtilsTest {
 	@SuppressWarnings("unchecked")
 	public void test() throws JAXBException, SAXException {
 
-		File xmldsigFile = new File("src/test/resources/ASiCManifest.xml");
+		File xmldsigFile = TestUtils.getResourceAsFile("resources/ASiCManifest.xml");
 
 		JAXBContext jc = asicManifestUtils.getJAXBContext();
 		assertNotNull(jc);
@@ -81,7 +83,7 @@ public class ASiCManifestUtilsTest {
 	@Test
 	public void testInvalidFile() throws JAXBException, SAXException {
 
-		File xmldsigFile = new File("src/test/resources/ASiCManifestInvalid.xml");
+		File xmldsigFile = TestUtils.getResourceAsFile("resources/ASiCManifestInvalid.xml");
 
 		JAXBContext jc = asicManifestUtils.getJAXBContext();
 		assertNotNull(jc);

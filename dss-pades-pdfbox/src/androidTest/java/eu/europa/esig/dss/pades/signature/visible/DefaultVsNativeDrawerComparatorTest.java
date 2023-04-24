@@ -1277,7 +1277,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	@Test
@@ -1297,12 +1297,12 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		SignatureImageTextParameters textParameters = new SignatureImageTextParameters();
 		textParameters.setText("My Signature");
-		textParameters.setTextColor(Color.GRAY);
+		textParameters.setTextColor(DSSColor.GRAY);
 		imageParameters.setTextParameters(textParameters);
 
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	@Test
@@ -1328,7 +1328,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	@Test
@@ -1354,17 +1354,17 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		signatureParameters.setImageParameters(imageParameters);
 
-		Exception exception = assertThrows(IllegalArgumentException.class, () -> drawAndCompareVisually());
+		Exception exception = assertThrows(IllegalArgumentException.class, () -> drawAndCompareVisually(1));
 		assertTrue(exception.getMessage().contains("ImageScaling 'STRETCH' is not applicable with text wrapping 'FILL_BOX' option!"));
 
 		textParameters.setTextWrapping(TextWrapping.FILL_BOX_AND_LINEBREAK);
 
-		exception = assertThrows(IllegalArgumentException.class, () -> drawAndCompareVisually());
+		exception = assertThrows(IllegalArgumentException.class, () -> drawAndCompareVisually(2));
 		assertTrue(exception.getMessage().contains("ImageScaling 'STRETCH' is not applicable with text wrapping 'FILL_BOX_AND_LINEBREAK' option!"));
 
 		textParameters.setTextWrapping(TextWrapping.FONT_BASED);
 
-		drawAndCompareVisually();
+		drawAndCompareVisually(3);
 	}
 
 	@Test
@@ -1390,7 +1390,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 
 		signatureParameters.setImageParameters(imageParameters);
 
-		drawAndCompareVisually();
+		drawAndCompareVisually(1);
 	}
 
 	@Test

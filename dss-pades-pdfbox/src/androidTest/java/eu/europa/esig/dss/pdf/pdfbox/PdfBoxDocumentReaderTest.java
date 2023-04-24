@@ -46,7 +46,7 @@ import com.tom_roush.pdfbox.pdmodel.encryption.AccessPermission;
 
 public class PdfBoxDocumentReaderTest extends PKIFactoryAccess {
 
-	private static final String FILE = "/validation/doc-firmado-LT.pdf";
+	private static final String FILE = "validation/doc-firmado-LT.pdf";
 
 	@Test
 	public void testPdfBoxUtils() throws Exception {

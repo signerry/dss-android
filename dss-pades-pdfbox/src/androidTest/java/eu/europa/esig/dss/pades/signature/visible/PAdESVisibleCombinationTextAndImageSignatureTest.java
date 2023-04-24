@@ -223,11 +223,11 @@ public class PAdESVisibleCombinationTextAndImageSignatureTest extends AbstractTe
 	}
 
 	private DSSDocument getSmallRedJPG() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/small-red.jpg"), "small-red.jpg", MimeTypeEnum.JPEG);
+		return new InMemoryDocument(TestUtils.getResourceAsStream("small-red.jpg"), "small-red.jpg", MimeTypeEnum.JPEG);
 	}
 
 	private DSSDocument getPngPicture() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/signature-image.png"), "signature-image.png", MimeTypeEnum.PNG);
+		return new InMemoryDocument(TestUtils.getResourceAsStream("signature-image.png"), "signature-image.png", MimeTypeEnum.PNG);
 	}
 
 	@Override

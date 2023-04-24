@@ -103,7 +103,7 @@ public class PAdESVisibleDocRotationTest extends AbstractTestVisualComparator {
 	}
 
 	private DSSDocument getPngPicture() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/signature-image.png"), "signature-image.png", MimeTypeEnum.PNG);
+		return new InMemoryDocument(TestUtils.getResourceAsStream("signature-image.png"), "signature-image.png", MimeTypeEnum.PNG);
 	}
 
 	@Override

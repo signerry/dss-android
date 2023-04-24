@@ -34,11 +34,13 @@ import eu.europa.esig.dss.validation.SignedDocumentValidator;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import com.signerry.dss.test.TestUtils;
+
 public abstract class DSS2236HideDisableValidationsTest extends AbstractPAdESTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new InMemoryDocument(getClass().getResourceAsStream("/validation/dss-2236/hide.pdf"));
+        return new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-2236/hide.pdf"));
     }
 
     @Override

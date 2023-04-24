@@ -43,6 +43,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import android.graphics.Bitmap;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PdfBoxUtilsTest {
 
 	private final char[] correctProtectionPhrase = new char[] { ' ' };
@@ -54,10 +56,10 @@ public class PdfBoxUtilsTest {
 
 	@BeforeEach
 	public void init() {
-		sampleDocument = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
-		protectedDocument = new InMemoryDocument(getClass().getResourceAsStream("/protected/open_protected.pdf"),
+		sampleDocument = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
+		protectedDocument = new InMemoryDocument(TestUtils.getResourceAsStream("protected/open_protected.pdf"),
 				"sample.pdf", MimeTypeEnum.PDF);
-		twoPagesDocument = new InMemoryDocument(getClass().getResourceAsStream("/empty-two-pages.pdf"));
+		twoPagesDocument = new InMemoryDocument(TestUtils.getResourceAsStream("empty-two-pages.pdf"));
 	}
 
 	@Test
@@ -111,7 +113,7 @@ public class PdfBoxUtilsTest {
 	@Test
 	public void generateScreenshotWithTempFileTest() throws IOException  {
 		TempFileResourcesHandlerBuilder tempFileResourcesHandlerBuilder = new TempFileResourcesHandlerBuilder();
-		tempFileResourcesHandlerBuilder.setTempFileDirectory(new File("target"));
+		tempFileResourcesHandlerBuilder.setTempFileDirectory(TestUtils.getTmpDirectory());
 
 		DSSDocument fileScreenshot = PdfBoxUtils.generateScreenshot(sampleDocument, (char[]) null, 1,
 				tempFileResourcesHandlerBuilder.createResourcesHandler());

@@ -33,11 +33,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public abstract class AnnotationAndVisualChangeTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/dss-2236/annotation-and-visible-change.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-2236/annotation-and-visible-change.pdf"));
 	}
 	
 	@Override

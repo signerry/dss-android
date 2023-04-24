@@ -39,10 +39,10 @@
 //
 //	@Test
 //	public void testAddCMYKImageToRGBDoc() throws IOException {
-//		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/pdfa2a-rgb.pdf"));
+//		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("pdfa2a-rgb.pdf"));
 //
 //		SignatureImageParameters imageParameters = new SignatureImageParameters();
-//		imageParameters.setImage(new InMemoryDocument(getClass().getResourceAsStream("/cmyk.jpg"), "cmyk.jpg", MimeTypeEnum.JPEG));
+//		imageParameters.setImage(new InMemoryDocument(TestUtils.getResourceAsStream("cmyk.jpg"), "cmyk.jpg", MimeTypeEnum.JPEG));
 //
 //		SignatureFieldParameters fieldParameters = new SignatureFieldParameters();
 //		fieldParameters.setOriginX(100);
@@ -56,11 +56,11 @@
 //
 //	@Test
 //	public void testAddGrayscalePNGImageToGrayColorSpaceDoc() throws IOException {
-//		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/pdfa2a-gray.pdf"));
+//		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("pdfa2a-gray.pdf"));
 //
 //		SignatureImageParameters imageParameters = new SignatureImageParameters();
 //		// iText does not support PNG-grayscale images
-//		imageParameters.setImage(new InMemoryDocument(getClass().getResourceAsStream("/grayscale_image.png"), "grayscale_image.png", MimeTypeEnum.PNG));
+//		imageParameters.setImage(new InMemoryDocument(TestUtils.getResourceAsStream("grayscale_image.png"), "grayscale_image.png", MimeTypeEnum.PNG));
 //
 //		SignatureFieldParameters fieldParameters = new SignatureFieldParameters();
 //		fieldParameters.setOriginX(100);

@@ -63,7 +63,7 @@ public class PerformanceManySignaturesTest {
     @Test
     @Disabled
     void getSignatures() {
-        InMemoryDocument inMemoryDocument = new InMemoryDocument(getClass().getResourceAsStream("/validation/51sigs.pdf"));
+        InMemoryDocument inMemoryDocument = new InMemoryDocument(TestUtils.getResourceAsStream("validation/51sigs.pdf"));
         initClasses(inMemoryDocument);
 
         PDFDocumentValidator validator = new PDFDocumentValidator(inMemoryDocument);

@@ -23,6 +23,8 @@ package eu.europa.esig.dss.pades.signature;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 import org.bouncycastle.cms.CMSProcessableByteArray;
 import org.bouncycastle.cms.CMSSignedData;
 import org.bouncycastle.cms.CMSSignedDataGenerator;
@@ -57,7 +59,7 @@ public abstract class AbstractPAdESWithExternalCMSServiceTest extends AbstractPA
 	@BeforeEach
 	public void init() throws Exception {
 		signingTime = new Date();
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/sample.pdf"));
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));
 	}
 
 	@Override

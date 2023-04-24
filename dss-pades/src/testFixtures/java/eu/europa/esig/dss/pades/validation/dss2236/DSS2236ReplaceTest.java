@@ -31,11 +31,13 @@ import eu.europa.esig.dss.utils.Utils;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public abstract class DSS2236ReplaceTest extends AbstractPAdESTestValidation {
 
 	@Override
 	protected DSSDocument getSignedDocument() {
-		return new InMemoryDocument(getClass().getResourceAsStream("/validation/dss-2236/replace.pdf"));
+		return new InMemoryDocument(TestUtils.getResourceAsStream("validation/dss-2236/replace.pdf"));
 	}
 	
 	@Override

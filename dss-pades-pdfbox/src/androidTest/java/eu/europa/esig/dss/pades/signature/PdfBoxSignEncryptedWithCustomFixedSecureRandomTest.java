@@ -53,7 +53,7 @@ public class PdfBoxSignEncryptedWithCustomFixedSecureRandomTest extends Abstract
 
 	@BeforeEach
 	public void init() throws Exception {
-		documentToSign = new InMemoryDocument(getClass().getResourceAsStream("/protected/open_protected.pdf"), "sample.pdf", MimeTypeEnum.PDF);
+		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream("protected/open_protected.pdf"), "sample.pdf", MimeTypeEnum.PDF);
 
 		signatureParameters = new PAdESSignatureParameters();
 		signatureParameters.setSigningCertificate(getSigningCert());

@@ -69,8 +69,12 @@ Fix this.
 2023-04-14 
 1.XAdESLevelBEnvelopingManifestReferenceCanonicalizationTest not passing. Reason unknown.
 2. XAdESLevelBReSignOJManifestTest
-3. DSS2058QCLTATest, DSS1443Test - The test has been disabled because it failed even when using the standard "dss" library.
-
+3. DSS2058QCLTATest, DSS1443Test - The test has been disabled because it failed even when using the standard "dss" library. 
+4. PADES-PDFBOX. Visual textFullyTransparentTest()
+5. PADES-PDFBOX. Visual multilinesWithDpiTest()
+6. PADES-PDFBOX. Visual testWithCMYKImage()
+7. PADES-PDFBOX. Visual rotationTest();
+8. PAPES-PDFBOX. Visual rotationTest();
 
 Android test runner does not support junit5
 

@@ -89,9 +89,8 @@ public class InfiniteLoopDSS621Test {
 	private static final String FILE_PATH = "validation/pades-5-signatures-and-1-document-timestamp.pdf";
 
 	@Test
-	@Disabled
 	public void testReadTimestamp1() throws Exception {
-        assertTimeout(ofMillis(5000), () -> {
+        assertTimeout(ofMillis(25000), () -> {
         	DSSDocument signDocument = new InMemoryDocument(TestUtils.getResourceAsStream(FILE_PATH));
     		final CommonCertificateVerifier certificateVerifier = new CommonCertificateVerifier();
 			certificateVerifier.setAIASource(null); // Error 404 on DER policy

@@ -49,6 +49,7 @@ import com.signerry.dss.test.TestUtils;
 import eu.europa.esig.dss.DSSColor;
 import com.tom_roush.pdfbox.pdmodel.font.PDType1Font;
 
+import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
@@ -653,7 +654,7 @@ public class DefaultVsNativeDrawerComparatorTest extends AbstractTestVisualCompa
 	
 	private void compareDoc(String docPath) throws IOException {
 		documentToSign = new InMemoryDocument(TestUtils.getResourceAsStream(docPath));
-		drawAndCompareVisually(1);
+		drawAndCompareVisually(FilenameUtils.getBaseName(docPath));
 	}
 	
 	@Test

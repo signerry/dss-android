@@ -260,7 +260,6 @@ public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualCompara
 	}
 
 	@Test
-	@Disabled
 	public void rotateSun90Test() throws Exception {
 	
 		try (PDDocument inputPDF = PDDocument.load(TestUtils.getResourceAsStream("visualSignature/sun_90.pdf"))) {
@@ -295,7 +294,7 @@ public class PAdESVisibleSignaturePositionTest extends AbstractTestVisualCompara
 			
 			documentToSign = signablePdfs.get("minoltaScan90");
 			testName = "rotateSun90TestAUTOMATIC";
-			drawAndCompareVisually(23);
+			drawAndCompareVisually(2);
 	
 			/**
 			 * minolta scanner normal(not rotated) pdf and rotation none.

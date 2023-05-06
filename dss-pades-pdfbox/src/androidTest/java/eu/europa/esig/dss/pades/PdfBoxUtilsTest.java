@@ -67,13 +67,13 @@ public class PdfBoxUtilsTest {
 		DSSDocument screenshot = PdfBoxUtils.generateScreenshot(sampleDocument, 1);
 		assertNotNull(screenshot);
 
-		Exception exception = assertThrows(IndexOutOfBoundsException.class,
+		Exception exception = assertThrows(IllegalStateException.class,
 				() -> PdfBoxUtils.generateScreenshot(sampleDocument, 0));
-		assertEquals("Index out of bounds: 0", exception.getMessage());
+		assertEquals("cannot load page", exception.getMessage());
 
-		exception = assertThrows(IndexOutOfBoundsException.class,
+		exception = assertThrows(IllegalStateException.class,
 				() -> PdfBoxUtils.generateScreenshot(sampleDocument, 2));
-		assertEquals("1-based index out of bounds: 2", exception.getMessage());
+		assertEquals("cannot load page", exception.getMessage());
 
 		exception = assertThrows(NullPointerException.class, () -> PdfBoxUtils.generateScreenshot(null, 1));
 		assertEquals("pdfDocument shall be defined!", exception.getMessage());
@@ -105,9 +105,9 @@ public class PdfBoxUtilsTest {
 		subtractionImage = PdfBoxUtils.generateSubtractionImage(sampleDocument, twoPagesDocument, 1);
 		assertNotNull(subtractionImage);
 
-		Exception exception = assertThrows(IndexOutOfBoundsException.class,
+		Exception exception = assertThrows(IllegalStateException.class,
 				() -> PdfBoxUtils.generateSubtractionImage(sampleDocument, twoPagesDocument, 2));
-		assertEquals("1-based index out of bounds: 2", exception.getMessage());
+		assertEquals("cannot load page", exception.getMessage());
 	}
 
 	@Test

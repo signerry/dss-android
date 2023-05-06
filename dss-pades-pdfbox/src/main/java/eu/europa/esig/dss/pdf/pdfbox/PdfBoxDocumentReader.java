@@ -20,6 +20,7 @@
  */
 package eu.europa.esig.dss.pdf.pdfbox;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import eu.europa.esig.dss.enumerations.CertificationPermission;
@@ -42,6 +43,9 @@ import eu.europa.esig.dss.pdf.SingleDssDict;
 import eu.europa.esig.dss.pdf.visible.ImageUtils;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.utils.Utils;
+
+import com.shockwave.pdfium.PdfDocument;
+import com.shockwave.pdfium.PdfiumCore;
 import com.tom_roush.pdfbox.cos.COSArray;
 import com.tom_roush.pdfbox.cos.COSBase;
 import com.tom_roush.pdfbox.cos.COSDictionary;
@@ -55,10 +59,10 @@ import com.tom_roush.pdfbox.pdmodel.encryption.AccessPermission;
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException;
 import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotation;
 import com.tom_roush.pdfbox.pdmodel.interactive.form.PDSignatureField;
-import com.tom_roush.pdfbox.rendering.PDFRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -73,10 +77,13 @@ import java.util.Objects;
  */
 public class PdfBoxDocumentReader implements PdfDocumentReader {
 
+	private static Context androidContext;
+
 	private static final Logger LOG = LoggerFactory.getLogger(PdfBoxDocumentReader.class);
 
 	/** The PDFBox implementation of the document */
 	private final PDDocument pdDocument;
+	private String passwordProtection;
 
 	/** The PDF document */
 	private DSSDocument dssDocument;
@@ -112,6 +119,7 @@ public class PdfBoxDocumentReader implements PdfDocumentReader {
 		this.dssDocument = dssDocument;
 		try (InputStream is = dssDocument.openStream()) {
 			this.pdDocument = PDDocument.load(is, passwordProtection);
+			this.passwordProtection = passwordProtection;
 		} catch (InvalidPasswordException e) {
 			throw new eu.europa.esig.dss.pades.exception.InvalidPasswordException(
 					String.format("Encrypted document : %s", e.getMessage()));
@@ -147,6 +155,10 @@ public class PdfBoxDocumentReader implements PdfDocumentReader {
 	 */
 	public PdfBoxDocumentReader(final PDDocument pdDocument) {
 		this.pdDocument = pdDocument;
+	}
+
+	public static void setAndroidContext(Context androidContext) {
+		PdfBoxDocumentReader.androidContext = androidContext;
 	}
 
 	/**
@@ -303,8 +315,35 @@ public class PdfBoxDocumentReader implements PdfDocumentReader {
 
 	@Override
 	public Bitmap generateImageScreenshot(int page) throws IOException {
-		PDFRenderer renderer = new PDFRenderer(pdDocument);
-		return renderer.renderImage(page - ImageUtils.DEFAULT_FIRST_PAGE);
+		return getBitmap(page, DSSUtils.toByteArray(dssDocument.openStream()));
+	}
+
+	private Bitmap getBitmap(int page, byte[] content) {
+		PdfiumCore pdfiumCore = new PdfiumCore(androidContext);
+
+		int pageNum = page - ImageUtils.DEFAULT_FIRST_PAGE;
+		try {
+			PdfDocument pdfDocument = pdfiumCore.newDocument(content, this.passwordProtection);
+
+			pdfiumCore.openPage(pdfDocument, pageNum);
+
+			int width = pdfiumCore.getPageWidthPoint(pdfDocument, pageNum);
+			int height = pdfiumCore.getPageHeightPoint(pdfDocument, pageNum);
+
+			// ARGB_8888 - best quality, high memory usage, higher possibility of OutOfMemoryError
+			// RGB_565 - little worse quality, twice less memory usage
+			Bitmap bitmap = Bitmap.createBitmap(width, height,
+					Bitmap.Config.RGB_565);
+			pdfiumCore.renderPageBitmap(pdfDocument, bitmap, pageNum, 0, 0,
+					width, height, true);
+
+			pdfiumCore.closeDocument(pdfDocument);
+
+			return bitmap;
+
+		} catch(IOException ex) {
+			throw new RuntimeException(ex);
+		}
 	}
 
 	@Override
@@ -314,7 +353,9 @@ public class PdfBoxDocumentReader implements PdfDocumentReader {
 		pdAnnotations = getMatchingPDAnnotations(pdAnnotations, annotations);
 		List<PDAnnotation> hiddenList = changeVisibility(pdAnnotations, true);
 		try {
-			return generateImageScreenshot(page);
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			this.pdDocument.save(byteArrayOutputStream);
+			return getBitmap(page, byteArrayOutputStream.toByteArray());
 		} finally {
 			// restore the original state
 			changeVisibility(hiddenList, false);

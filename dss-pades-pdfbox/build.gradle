@@ -13,6 +13,8 @@ dependencies {
     testImplementation testFixtures(project(':dss-pades'))
     androidTestImplementation testFixtures(project(':dss-pades'))
     implementation 'com.github.barteksc:pdfium-android:1.9.0'
+    androidTestImplementation 'commons-io:commons-io:2.11.0'
+
 
 
     androidTestImplementation (

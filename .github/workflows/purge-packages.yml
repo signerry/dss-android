@@ -1,6 +1,6 @@
 name: "Purge old packages"
 on:
-  pull_request:
+  push:
     branches:
       - master
 jobs:

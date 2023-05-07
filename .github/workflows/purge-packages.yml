@@ -1,0 +1,190 @@
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-xades'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-document'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-service'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-i18n'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-alert'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-android-compatibility'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-token'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.validation-policy'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.specs-validation-report'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-crl-parser'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-simple-certificate-report-jaxb'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-simple-report-jaxb'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-policy-jaxb'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-spi'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-diagnostic-jaxb'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-jaxb-common'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-detailed-report-jaxb'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-model'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-utils'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-enumerations'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.specs-xades'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.specs-xmldsig'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.specs-trusted-list'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-cades'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-pades-pdfbox'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-utils-google-guava'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-jaxb-parsers'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.specs-asic-manifest'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-asic-common'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-pades'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-tsl-validation'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-crl-parser-stream'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-test-unit'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-test-instrumented'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-test'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-asic-cades'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-asic-xades'
+    package-type: 'maven'
+    min-versions-to-keep: 2
+- uses: actions/delete-package-versions@v4
+  with:
+    package-name: 'com.signerry.dss-android.dss-crl-parser-x509crl'
+    package-type: 'maven'
+    min-versions-to-keep: 2

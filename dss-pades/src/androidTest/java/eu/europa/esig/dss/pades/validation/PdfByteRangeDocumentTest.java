@@ -42,6 +42,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PdfByteRangeDocumentTest {
 
     private static DSSDocument pdfDocument;
@@ -50,7 +52,7 @@ public class PdfByteRangeDocumentTest {
 
     @BeforeAll
     public static void init() {
-        pdfDocument = new FileDocument("src/test/resources/validation/PAdES-LT.pdf");
+        pdfDocument = new FileDocument(TestUtils.getResourceAsFile("validation/PAdES-LT.pdf"));
         byteRange = new ByteRange(new int[]{0, 92856, 111802, 50376});
         signatureValueByteRange = new ByteRange(new int[] { 92857, 18944, 111801, 0 });
     }

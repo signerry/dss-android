@@ -69,11 +69,12 @@ Fix this.
 2023-04-14 
 1.XAdESLevelBEnvelopingManifestReferenceCanonicalizationTest not passing. Reason unknown.
 2. XAdESLevelBReSignOJManifestTest
-4. PADES-PDFBOX. Visual textFullyTransparentTest()
-5. PADES-PDFBOX. Visual multilinesWithDpiTest()
-6. PADES-PDFBOX. Visual testWithCMYKImage()
-7. PADES-PDFBOX. Visual rotationTest();
-8. PADES. PAdESSignatureDigestRefPresenceTest(); Need to be fixed !!
+3. PADES-PDFBOX. Visual textFullyTransparentTest()
+4. PADES-PDFBOX. Visual multilinesWithDpiTest()
+5. PADES-PDFBOX. Visual testWithCMYKImage()
+6. PADES-PDFBOX. Visual rotationTest();
+7. PADES. PAdESSignatureDigestRefPresenceTest(); Need to be fixed !!
+8. Disabled skTLTest
 
 Android test runner does not support junit5
 

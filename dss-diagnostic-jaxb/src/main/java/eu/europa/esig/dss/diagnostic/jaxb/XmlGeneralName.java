@@ -12,20 +12,23 @@ import java.io.Serializable;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.XmlValue;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import eu.europa.esig.dss.enumerations.GeneralNameType;
 
 
 /**
- * <p>Java class for DistinguishedName complex type.
+ * <p>Java class for GeneralName complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="DistinguishedName"&gt;
+ * &lt;complexType name="GeneralName"&gt;
  *   &lt;simpleContent&gt;
  *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;string"&gt;
- *       &lt;attribute name="Format" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;attribute name="type" type="{http://dss.esig.europa.eu/validation/diagnostic}GeneralNameType" /&gt;
  *     &lt;/extension&gt;
  *   &lt;/simpleContent&gt;
  * &lt;/complexType&gt;
@@ -34,17 +37,21 @@ import jakarta.xml.bind.annotation.XmlValue;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DistinguishedName", propOrder = {
+@XmlType(name = "GeneralName", propOrder = {
     "value"
 })
-public class XmlDistinguishedName implements Serializable
+@XmlSeeAlso({
+    XmlGeneralSubtree.class
+})
+public class XmlGeneralName implements Serializable
 {
 
     private final static long serialVersionUID = 1L;
     @XmlValue
     protected String value;
-    @XmlAttribute(name = "Format")
-    protected String format;
+    @XmlAttribute(name = "type")
+    @XmlJavaTypeAdapter(Adapter6 .class)
+    protected GeneralNameType type;
 
     /**
      * Gets the value of the value property.
@@ -71,27 +78,27 @@ public class XmlDistinguishedName implements Serializable
     }
 
     /**
-     * Gets the value of the format property.
+     * Gets the value of the type property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getFormat() {
-        return format;
+    public GeneralNameType getType() {
+        return type;
     }
 
     /**
-     * Sets the value of the format property.
+     * Sets the value of the type property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setFormat(String value) {
-        this.format = value;
+    public void setType(GeneralNameType value) {
+        this.type = value;
     }
 
 }

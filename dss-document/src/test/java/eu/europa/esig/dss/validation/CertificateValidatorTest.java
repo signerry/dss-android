@@ -347,7 +347,7 @@ public class CertificateValidatorTest {
 		Exception exception = assertThrows(NullPointerException.class, () -> CertificateValidator.fromCertificate(null));
 		assertEquals("The certificate is missing", exception.getMessage());
 
-		CertificateValidator certificateValidator = CertificateValidator.fromCertificate(DSSUtils.loadCertificate(new File("src/test/resources/certificates/CZ.cer")));
+		CertificateValidator certificateValidator = CertificateValidator.fromCertificate(DSSUtils.loadCertificate(TestUtils.getResourceAsStream("certificates/CZ.cer")));
 		exception = assertThrows(NullPointerException.class, () -> certificateValidator.validate());
 		assertEquals("CertificateVerifier is not defined", exception.getMessage());
 	}

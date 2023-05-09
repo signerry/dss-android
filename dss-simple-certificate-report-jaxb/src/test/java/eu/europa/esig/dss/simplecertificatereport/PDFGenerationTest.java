@@ -37,6 +37,8 @@ import java.io.FileOutputStream;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.signerry.dss.test.TestUtils;
+
 public class PDFGenerationTest {
 
 	private static FopFactory fopFactory;
@@ -72,16 +74,17 @@ public class PDFGenerationTest {
 	private void createAndValidate(String filename) throws Exception {
 		SimpleCertificateReportFacade facade = SimpleCertificateReportFacade.newFacade();
 
-		File file = new File("src/test/resources/" + filename);
+		File file = TestUtils.getResourceAsFile(filename);
 		XmlSimpleCertificateReport simpleReport = facade.unmarshall(file);
 
-		try (FileOutputStream fos = new FileOutputStream("target/report.pdf")) {
+		File pdfReport = TestUtils.getTmpFile("report.pdf");
+
+		try (FileOutputStream fos = new FileOutputStream(pdfReport)) {
 			Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, fos);
 			Result result = new SAXResult(fop.getDefaultHandler());
 			facade.generatePdfReport(simpleReport, result);
 		}
 		
-		File pdfReport = new File("target/report.pdf");
 		assertTrue(pdfReport.exists());
 		assertTrue(pdfReport.delete(), "Cannot delete PDF document (IO error)");
 		assertFalse(pdfReport.exists());

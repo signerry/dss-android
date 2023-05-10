@@ -167,6 +167,7 @@ import org.junit.jupiter.api.Test;
 
 import jakarta.xml.bind.JAXB;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -12224,7 +12225,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void nameConstraintsSubjectAltNameInvalidTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				new File("src/test/resources/diag_data_name_constraints.xml"));
+				TestUtils.getResourceAsStream("diagnostic/diag_data_name_constraints.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		XmlCertificate xmlCertificate = xmlDiagnosticData.getSignatures().get(0).getSigningCertificate().getCertificate();
@@ -12291,7 +12292,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void notTrustedCertChainTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				new File("src/test/resources/valid-diag-data.xml"));
+				TestUtils.getResourceAsStream("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		for (XmlCertificate certificate : xmlDiagnosticData.getUsedCertificates()) {
@@ -12341,7 +12342,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 	@Test
 	public void notTrustedCertChainInformTest() throws Exception {
 		XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
-				new File("src/test/resources/valid-diag-data.xml"));
+				TestUtils.getResourceAsStream("diagnostic/valid-diag-data.xml"));
 		assertNotNull(xmlDiagnosticData);
 
 		for (XmlCertificate certificate : xmlDiagnosticData.getUsedCertificates()) {

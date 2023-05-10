@@ -953,7 +953,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 	@Test
 	public void untrustedChainOkTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(new File("src/test/resources/cert-validation/qcCompliance-tl-overrule.xml"));
+				.unmarshall(TestUtils.getResourceAsFile("cert-validation/qcCompliance-tl-overrule.xml"));
 		assertNotNull(diagnosticData);
 
 		String certId = "C-7DA9241EC8BBAE3FAB9A29AE06C7B185B62C6FDE319DD985E5AA2E6F780C4EAA";
@@ -986,7 +986,7 @@ public class CertificateProcessExecutorTest extends AbstractTestValidationExecut
 	@Test
 	public void untrustedChainKeyUsageFailureTest() throws Exception {
 		XmlDiagnosticData diagnosticData = DiagnosticDataFacade.newFacade()
-				.unmarshall(new File("src/test/resources/cert-validation/untrusted-chain-failure.xml"));
+				.unmarshall(TestUtils.getResourceAsStream("cert-validation/untrusted-chain-failure.xml"));
 		assertNotNull(diagnosticData);
 
 		String certId = "C-3E82BCE56A90B50E81C7C1325A4B1243B44FBC6539AAF26B85D794CCEB97040B";

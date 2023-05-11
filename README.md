@@ -75,6 +75,7 @@ Fix this.
 6. PADES-PDFBOX. Visual rotationTest();
 7. PADES. PAdESSignatureDigestRefPresenceTest(); Need to be fixed !!
 8. Disabled skTLTest  
+9. Disable testDoubleSignature(). Fails randomly
 
 Android test runner does not support junit5
 

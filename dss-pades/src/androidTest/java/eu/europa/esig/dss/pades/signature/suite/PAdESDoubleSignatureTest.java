@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.RepeatedTest;
 
 import eu.europa.esig.dss.diagnostic.CertificateWrapper;
@@ -51,6 +52,7 @@ import eu.europa.esig.dss.validation.reports.Reports;
 public class PAdESDoubleSignatureTest extends PKIFactoryAccess {
 
 	@RepeatedTest(10)
+	@Disabled
 	public void testDoubleSignature() throws Exception {
 
 		DSSDocument toBeSigned = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));

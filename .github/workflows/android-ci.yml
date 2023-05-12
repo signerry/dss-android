@@ -17,8 +17,9 @@ jobs:
         cores: 
           - 4
         api-level: [26,32]
+        ram-size: 2048M
         heap-size:
-          - 192M
+          - 128M
 
     steps:
       - name: Fetch Source

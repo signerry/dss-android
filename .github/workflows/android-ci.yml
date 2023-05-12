@@ -17,7 +17,8 @@ jobs:
         cores: 
           - 4
         api-level: [26,32]
-        ram-size: 2048M
+        ram-size:
+          - 2048M
         heap-size:
           - 128M
 

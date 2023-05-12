@@ -871,7 +871,7 @@ public class CommonsDataLoader implements DataLoader {
 				}
 				return new DataAndUrl(urlString, bytes);
 			} catch (Exception e) {
-				LOG.warn("Cannot obtain data using '{}' : {}", urlString, e.getMessage());
+				LOG.error("Cannot obtain data using '{}' : {}", urlString, e.getMessage());
 				exceptions.put(urlString, e);
 			}
 		}

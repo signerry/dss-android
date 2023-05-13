@@ -18,7 +18,7 @@ jobs:
           - 4
         api-level: [26,32]
         ram-size:
-          - 2560M
+          - 2048M
         heap-size:
           - 128M
 
@@ -39,6 +39,8 @@ jobs:
             GPR_API_KEY: ${{ secrets.GPR_API_KEY }}
         with:
           api-level: ${{ matrix.api-level }}
+          ram-size: ${{ matrix.ram-size }}
+          heap-size: ${{ matrix.heap-size }}
           target: google_apis
           arch: x86_64
           script: adb logcat *:S TestRunner:V & ./gradlew connectedCheck --no-build-cache --no-daemon --stacktrace

@@ -17,8 +17,6 @@ jobs:
         cores: 
           - 4
         api-level: [26,32]
-        ram-size:
-          - 3072M
         heap-size:
           - 128M
 
@@ -39,7 +37,6 @@ jobs:
             GPR_API_KEY: ${{ secrets.GPR_API_KEY }}
         with:
           api-level: ${{ matrix.api-level }}
-          ram-size: ${{ matrix.ram-size }}
           cores: ${{ matrix.cores }}
           heap-size: ${{ matrix.heap-size }}
           target: google_apis

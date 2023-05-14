@@ -322,8 +322,9 @@ public class PdfBoxDocumentReader implements PdfDocumentReader {
 		PdfiumCore pdfiumCore = new PdfiumCore(androidContext);
 
 		int pageNum = page - ImageUtils.DEFAULT_FIRST_PAGE;
+		PdfDocument pdfDocument = null;
 		try {
-			PdfDocument pdfDocument = pdfiumCore.newDocument(content, this.passwordProtection);
+			pdfDocument = pdfiumCore.newDocument(content, this.passwordProtection);
 
 			pdfiumCore.openPage(pdfDocument, pageNum);
 
@@ -343,6 +344,11 @@ public class PdfBoxDocumentReader implements PdfDocumentReader {
 
 		} catch(IOException ex) {
 			throw new RuntimeException(ex);
+		}
+		finally {
+			if(pdfDocument != null) {
+				pdfiumCore.closeDocument(pdfDocument);
+			}
 		}
 	}
 

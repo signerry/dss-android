@@ -338,8 +338,6 @@ public class PdfBoxDocumentReader implements PdfDocumentReader {
 			pdfiumCore.renderPageBitmap(pdfDocument, bitmap, pageNum, 0, 0,
 					width, height, true);
 
-			pdfiumCore.closeDocument(pdfDocument);
-
 			return bitmap;
 
 		} catch(IOException ex) {

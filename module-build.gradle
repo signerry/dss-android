@@ -19,6 +19,8 @@ android {
         }
 
         testOptions {
+            execution 'ANDROIDX_TEST_ORCHESTRATOR'
+
             unitTests.all {
                 systemProperty "file.encoding", "utf-8"
                 systemProperty "projectDir", project.rootDir
@@ -31,6 +33,8 @@ android {
         multiDexEnabled true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["runnerBuilder"] = "de.mannodermaus.junit5.AndroidJUnit5Builder"
+        testInstrumentationRunnerArguments["clearPackageData"] = 'true'
+
     }
 
     packagingOptions {

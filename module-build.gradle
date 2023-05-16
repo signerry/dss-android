@@ -19,7 +19,6 @@ android {
         }
 
         testOptions {
-            execution 'ANDROIDX_TEST_ORCHESTRATOR'
 
             unitTests.all {
                 systemProperty "file.encoding", "utf-8"

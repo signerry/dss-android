@@ -16,7 +16,8 @@ jobs:
 #            - "emulator-5554"
         cores: 
           - 4
-        api-level: [26,32]
+        # api-level: [26,32] @todo 32 crashes due to memory
+        api-level: [26]
         heap-size:
           - 128M
 

@@ -69,22 +69,48 @@ Fix this.
 2023-04-14 
 1.XAdESLevelBEnvelopingManifestReferenceCanonicalizationTest not passing. Reason unknown.
 2. XAdESLevelBReSignOJManifestTest
-3. PADES-PDFBOX. Visual textFullyTransparentTest()
-4. PADES-PDFBOX. Visual multilinesWithDpiTest()
-5. PADES-PDFBOX. Visual testWithCMYKImage()
-6. PADES-PDFBOX. Visual rotationTest();
-7. PADES. PAdESSignatureDigestRefPresenceTest(); Need to be fixed !!
+3. PADES-PDFBOX. Visual textFullyTransparentTest() Low priority
+4. PADES-PDFBOX. Visual multilinesWithDpiTest() Low priority
+5. PADES-PDFBOX. Visual testWithCMYKImage() Low priority
+6. PADES-PDFBOX. Visual rotationTest(); Low priority
+7. PADES. PAdESSignatureDigestRefPresenceTest(); Stock DSS 5.12.RC1 has same issue.
 8. Disabled skTLTest  
-9. Disable testDoubleSignature(). Fails randomly
-
-Android test runner does not support junit5
-
-BC security provider implementation much slower than than "AndroidOpenSSL" security provider.
-Especially hashing functions are much slower.
-
-But AndroidOpenSSL does not support all needed algorithms and algorithm support differens between android api versions.
-
-CryptoProvider was introduced which purpose at runtime time select which java security provider to use.
-Most prefered is AndroidOpenSSL, because hardware accelerated crypto functions.
-If specific function not available, then fallback bouncy caste provider is used.
-
+9. Disable testDoubleSignature(). Fails randomly. Time shift issue
+10. 2023-05-13T09:51:59.8618644Z 05-13 12:51:58.920 20625 20642 E TestRunner: failed: init(SignatureLevel, SignaturePackaging, String, DSSDocument) - Sign XAdES 126 : XAdES-A - INTERNALLY_DETACHED - good-user - Name: sample-with-different-id.xml / MimeType: text/xml(eu.europa.esig.dss.xades.signature.XAdESSignDocumentsConsequentlyTest)
+    2023-05-13T09:51:59.8619461Z 05-13 12:51:58.920 20625 20642 E TestRunner: ----- begin exception -----
+    2023-05-13T09:51:59.8775017Z 05-13 12:51:58.933 20625 20642 E TestRunner: org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+    2023-05-13T09:51:59.8775688Z 05-13 12:51:58.933 20625 20642 E TestRunner: 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+    2023-05-13T09:51:59.8776684Z 05-13 12:51:58.933 20625 20642 E TestRunner: 	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+    2023-05-13T09:51:59.8777470Z 05-13 12:51:58.933 20625 20642 E TestRunner: 	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+    2023-05-13T09:51:59.8777998Z 05-13 12:51:58.933 20625 20642 E TestRunner: 	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+    2023-05-13T09:51:59.8778516Z 05-13 12:51:58.933 20625 20642 E TestRunner: 	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:31)
+    2023-05-13T09:51:59.8779039Z 05-13 12:51:58.933 20625 20642 E TestRunner: 	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:179)
+    2023-05-13T09:51:59.8779871Z 05-13 12:51:58.933 20625 20642 E TestRunner: 	at eu.europa.esig.dss.test.AbstractPkiFactoryTestValidation.checkOrphanTokens(AbstractPkiFactoryTestValidation.java:1259)
+    2023-05-13T09:51:59.8780829Z 05-13 12:51:58.933 20625 20642 E TestRunner: 	at eu.europa.esig.dss.xades.signature.XAdESSignDocumentsConsequentlyTest.checkOrphanTokens(XAdESSignDocumentsConsequentlyT
+11. started: signAndVerify(eu.europa.esig.dss.xades.signature.XAdESLevelXLv2Test)
+    2023-05-12T16:29:43.8871160Z 05-12 19:29:43.708 20811 20828 E TestRunner: failed: signAndVerify(eu.europa.esig.dss.xades.signature.XAdESLevelXLv2Test)
+    2023-05-12T16:29:43.8871723Z 05-12 19:29:43.708 20811 20828 E TestRunner: ----- begin exception -----
+    2023-05-12T16:29:43.8881890Z 05-12 19:29:43.709 20811 20828 E TestRunner: org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+    2023-05-12T16:29:43.8882610Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+    2023-05-12T16:29:43.8883466Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+    2023-05-12T16:29:43.8884552Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+    2023-05-12T16:29:43.8885318Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+    2023-05-12T16:29:43.8885870Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:31)
+    2023-05-12T16:29:43.8886398Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:179)
+    2023-05-12T16:29:43.8887123Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at eu.europa.esig.dss.test.AbstractPkiFactoryTestValidation.checkOrphanTokens(AbstractPkiFactoryTestValidation.java:1259)
+    2023-05-12T16:29:43.8888055Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at eu.europa.esig.dss.test.AbstractPkiFactoryTestValidation.verifySourcesAndDiagnosticData(AbstractPkiFactoryTestValidation.java:410)
+    2023-05-12T16:29:43.8888922Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at eu.europa.esig.dss.test.AbstractPkiFactoryTestValidation.verify(AbstractPkiFactoryTestValidation.java:234)
+    2023-05-12T16:29:43.8890597Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at eu.europa.esig.dss.test.signature.AbstractPkiFactoryTestSignature.signAndVerify(AbstractPkiFactoryTestSignature.java:134)
+    2023-05-12T16:29:43.8891409Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at java.lang.reflect.Method.invoke(Native Method)
+    2023-05-12T16:29:43.8891989Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:727)
+    2023-05-12T16:29:43.8892853Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+    2023-05-12T16:29:43.8894677Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+    2023-05-12T16:29:43.8895435Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+    2023-05-12T16:29:43.8896455Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+    2023-05-12T16:29:43.8897428Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+    2023-05-12T16:29:43.8898202Z 05-12 19:29:43.709 20811 20828 E TestRunner: 	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor$$ExternalSyntheticLambda3.apply(Unknown Source:0)
+    2023-05-10T18:24:02.2618938Z 05-10 21:24:01.834 14811 14828 I TestRunner: started: testDoubleSignature - repetition 4 of 10(eu.europa.esig.dss.pades.signature.suite.PAdESDoubleSignatureTest)
+    2023-05-10T18:24:10.6999541Z 05-10 21:24:10.270 14811 14828 E TestRunner: failed: testDoubleSignature - repetition 4 of 10(eu.europa.esig.dss.pades.signature.suite.PAdESDoubleSignatureTest)
+    2023-05-10T18:24:10.7000366Z 05-10 21:24:10.270 14811 14828 E TestRunner: ----- begin exception -----
+    2023-05-10T18:24:10.7108087Z 05-10 21:24:10.272 14811 14828 E TestRunner: org.opentest4j.AssertionFailedError: Nb revoc for cert good-user = 2 ==> expected: <1> but was: <2>
+    2023-05-10T18:24:10.7109563Z 05-10 21:24:10.272 14811 14828 E TestRunner: 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)

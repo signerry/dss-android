@@ -197,7 +197,7 @@ afterEvaluate {
                 from components.release
                 artifactId project.name
                 group "com.signerry.dss-android"
-                version "1.01.02"
+                version "1.01.04"
             }
         }
 

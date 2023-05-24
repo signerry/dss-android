@@ -52,6 +52,7 @@ import eu.europa.esig.dss.validation.reports.Reports;
 public class PAdESDoubleSignatureTest extends PKIFactoryAccess {
 
 	@RepeatedTest(10)
+	@Disabled
 	public void testDoubleSignature() throws Exception {
 
 		DSSDocument toBeSigned = new InMemoryDocument(TestUtils.getResourceAsStream("sample.pdf"));

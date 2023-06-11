@@ -791,7 +791,7 @@ public final class ASiCUtils {
 				return comment;
 
 			} catch (ZipException e) {
-				throw new RuntimeException("Failed to read zip comment");
+				return null;
 			}
 		}
 		else {

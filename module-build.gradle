@@ -165,7 +165,7 @@ dependencies {
 
     implementation 'ro.andob.androidawt:androidawt:1.0.4'
     implementation 'org.glassfish.jaxb:jaxb-runtime:3.1.6'
-    api 'net.lingala.zip4j:zip4j:2.11.2'
+    api 'net.lingala.zip4j:zip4j:2.11.5'
     implementation 'xalan:xalan:2.7.2'
 
     api('com.tom-roush:pdfbox-android:2.0.27.0') {

@@ -776,17 +776,25 @@ public final class ASiCUtils {
 	 */
 	public static String getZipComment(DSSDocument archiveContainer) {
 
-		//E.K. Memory optimization for android
+		//E.K. Memory efficient implementation for android
 		if(archiveContainer instanceof FileDocument) {
+
 			ZipFile zipFile = new ZipFile(((FileDocument) archiveContainer).getFile());
 			try {
-				return zipFile.getComment();
+				String comment = zipFile.getComment();
+
+				//Align output to implementation bellow
+				if(comment != null && comment.isEmpty()) {
+					return null;
+				}
+
+				return comment;
+
 			} catch (ZipException e) {
 				throw new RuntimeException("Failed to read zip comment");
 			}
 		}
 		else {
-
 			byte[] buffer = DSSUtils.toByteArray(archiveContainer);
 			if (Utils.isArrayEmpty(buffer)) {
 				LOG.warn("An empty container obtained! Unable to extract zip comment.");

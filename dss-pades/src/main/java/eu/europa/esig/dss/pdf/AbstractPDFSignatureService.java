@@ -352,6 +352,10 @@ public abstract class AbstractPDFSignatureService implements PDFSignatureService
 				List<PdfSignatureField> fields = sigDictEntry.getValue();
 				List<String> fieldNames = toStringNames(fields);
 
+				if(Thread.currentThread().isInterrupted()) {
+					throw new InterruptedException();
+				}
+
 				try {
 					LOG.info("Signature fields: {}", fieldNames);
 

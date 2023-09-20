@@ -199,6 +199,11 @@ public class XAdESSignature extends DefaultAdvancedSignature {
 	 *                          signature
 	 */
 	public XAdESSignature(final Element signatureElement, final List<XAdESPaths> xadesPathsHolders) {
+
+		if(Thread.currentThread().isInterrupted()) {
+			throw new DSSException(new InterruptedException());
+		}
+
 		Objects.requireNonNull(signatureElement, "Signature Element cannot be null");
 		this.signatureElement = signatureElement;
 		this.xadesPathsHolders = xadesPathsHolders;

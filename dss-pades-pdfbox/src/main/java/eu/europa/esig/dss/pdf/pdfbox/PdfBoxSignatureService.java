@@ -806,6 +806,11 @@ public class PdfBoxSignatureService extends AbstractPDFSignatureService {
 	@Override
 	protected PdfDocumentReader loadPdfDocumentReader(DSSDocument dssDocument, char[] passwordProtection)
 			throws IOException, eu.europa.esig.dss.pades.exception.InvalidPasswordException {
+
+		if(Thread.currentThread().isInterrupted()) {
+			throw new DSSException(new InterruptedException());
+		}
+
 		return new PdfBoxDocumentReader(dssDocument, getPasswordString(passwordProtection));
 	}
 

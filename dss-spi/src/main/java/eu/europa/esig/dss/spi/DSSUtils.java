@@ -509,10 +509,6 @@ public final class DSSUtils {
 	 */
 	public static byte[] digest(final DigestAlgorithm digestAlgo, final InputStream inputStream) {
 		try {
-			if(Thread.currentThread().isInterrupted()) {
-				throw new DSSException(new InterruptedException());
-			}
-
 			final MessageDigest messageDigest = getMessageDigest(digestAlgo);
 			final byte[] buffer = new byte[4096];
 			int count = 0;

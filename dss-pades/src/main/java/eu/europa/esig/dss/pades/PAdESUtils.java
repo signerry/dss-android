@@ -258,6 +258,10 @@ public final class PAdESUtils {
 			tempLine = new ByteArrayOutputStream();
 			int b;
 			while ((b = bis.read()) != -1) {
+				if(Thread.currentThread().isInterrupted()) {
+					throw new DSSException(new InterruptedException());
+				}
+
 				++position;
 
 				tempLine.write(b);

@@ -22,6 +22,7 @@ package eu.europa.esig.dss.asic.common;
 
 import eu.europa.esig.dss.exception.IllegalInputException;
 import eu.europa.esig.dss.model.DSSDocument;
+import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,6 +79,10 @@ public abstract class AbstractASiCContainerExtractor {
 
 		for (DSSDocument currentDocument : documents) {
 			String entryName = currentDocument.getName();
+
+			if(Thread.currentThread().isInterrupted()) {
+				throw new DSSException(new InterruptedException());
+			}
 			
 			if (isMetaInfFolder(entryName)) {
 				if (isAllowedSignature(entryName)) {

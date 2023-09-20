@@ -29,6 +29,7 @@ import com.unboundid.ldap.sdk.SearchResult;
 import com.unboundid.ldap.sdk.SearchScope;
 
 import eu.europa.esig.dss.model.DSSDocument;
+import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.service.http.proxy.ProxyConfig;
 import eu.europa.esig.dss.service.http.proxy.ProxyProperties;
 import eu.europa.esig.dss.spi.DSSUtils;
@@ -1068,6 +1069,11 @@ public class CommonsDataLoader implements DataLoader {
 	 * @throws IOException if an exception occurs
 	 */
 	protected byte[] execute(final CloseableHttpClient client, final HttpUriRequest httpRequest) throws IOException {
+
+		if(Thread.currentThread().isInterrupted()) {
+			throw new DSSException(new InterruptedException());
+		}
+
 		final HttpHost targetHost = getHttpHost(httpRequest);
 		final HttpContext localContext = getHttpContext(targetHost);
 		final HttpClientResponseHandler<byte[]> responseHandler = getHttpClientResponseHandler();

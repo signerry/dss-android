@@ -500,6 +500,10 @@ public final class DSSXMLUtils {
 	 */
 	public static byte[] canonicalize(final String canonicalizationMethod, final byte[] toCanonicalizeBytes) throws DSSException {
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+			if(Thread.currentThread().isInterrupted()) {
+				throw new InterruptedException();
+			}
+
 			final Canonicalizer c14n = Canonicalizer.getInstance(getCanonicalizationMethod(canonicalizationMethod));
 			c14n.canonicalize(toCanonicalizeBytes, baos, true);
 			return baos.toByteArray();
@@ -520,6 +524,10 @@ public final class DSSXMLUtils {
 	 */
 	public static byte[] canonicalizeSubtree(final String canonicalizationMethod, final Node node) {
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+
+			if(Thread.currentThread().isInterrupted()) {
+				throw new InterruptedException();
+			}
 			final Canonicalizer c14n = Canonicalizer.getInstance(getCanonicalizationMethod(canonicalizationMethod));
 			c14n.canonicalizeSubtree(node, baos);
 			return baos.toByteArray();

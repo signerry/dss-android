@@ -51,7 +51,7 @@ public class TokenStatus extends ObjectStatus {
      * @param errorMessage {@link String} message
      */
     public void addRelatedTokenAndErrorMessage(Token token, String errorMessage) {
-        super.addRelatedObjectIdentifierAndErrorMessage(token.getAbbreviation(), errorMessage);
+        super.addRelatedObjectIdentifierAndErrorMessage(token.getDSSIdAsString(), errorMessage);
         relatedTokenMap.put(token, errorMessage);
     }
 

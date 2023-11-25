@@ -29,6 +29,7 @@ import eu.europa.esig.dss.pdf.ServiceLoaderPdfObjFactory;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.AdvancedSignature;
 import eu.europa.esig.dss.validation.CertificateVerifier;
+import eu.europa.esig.dss.validation.UserFriendlyIdentifierProvider;
 import eu.europa.esig.dss.validation.timestamp.TimestampToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -178,6 +179,7 @@ public class PAdESExtensionService {
         pdfDocumentValidator.setCertificateVerifier(certificateVerifier);
         pdfDocumentValidator.setPasswordProtection(passwordProtection);
         pdfDocumentValidator.setPdfObjFactory(pdfObjectFactory);
+        pdfDocumentValidator.setTokenIdentifierProvider(new UserFriendlyIdentifierProvider());
         return pdfDocumentValidator;
     }
 

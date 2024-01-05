@@ -168,6 +168,8 @@ public class CommonCertificateVerifier implements CertificateVerifier {
 	 */
 	private boolean extractPOEFromUntrustedChains = false;
 
+	private StatusAlert alertOnExpiredOrNotYetValidCertificate;
+
 	/**
 	 * The default constructor. The {@code DataLoader} is created to allow the
 	 * retrieval of certificates through AIA.
@@ -402,6 +404,17 @@ public class CommonCertificateVerifier implements CertificateVerifier {
 	@Override
 	public boolean isExtractPOEFromUntrustedChains() {
 		return extractPOEFromUntrustedChains;
+	}
+
+	@Override
+	public void setAlertOnExpiredOrNotYetValidCertificate(StatusAlert alertOn) {
+		Objects.requireNonNull(alertOnNoRevocationAfterBestSignatureTime);
+		this.alertOnExpiredOrNotYetValidCertificate = alertOn;
+	}
+
+	@Override
+	public StatusAlert getAlertOnExpiredOrNotYetValidCertificate() {
+		return alertOnExpiredOrNotYetValidCertificate;
 	}
 
 	@Override

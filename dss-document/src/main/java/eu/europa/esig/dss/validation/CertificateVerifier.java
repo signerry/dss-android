@@ -376,4 +376,8 @@ public interface CertificateVerifier {
 	 */
 	boolean isExtractPOEFromUntrustedChains();
 
+	void setAlertOnExpiredOrNotYetValidCertificate(StatusAlert alertOn);
+
+	StatusAlert getAlertOnExpiredOrNotYetValidCertificate();
+
 }

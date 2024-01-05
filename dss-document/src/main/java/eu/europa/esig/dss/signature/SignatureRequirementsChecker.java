@@ -21,6 +21,7 @@
 package eu.europa.esig.dss.signature;
 
 import eu.europa.esig.dss.AbstractSignatureParameters;
+import eu.europa.esig.dss.alert.StatusAlert;
 import eu.europa.esig.dss.exception.IllegalInputException;
 import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.spi.DSSUtils;
@@ -28,6 +29,8 @@ import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.AdvancedSignature;
 import eu.europa.esig.dss.validation.CertificateVerifier;
 import eu.europa.esig.dss.validation.SignatureValidationContext;
+import eu.europa.esig.dss.validation.status.TokenStatus;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -135,10 +138,20 @@ public class SignatureRequirementsChecker {
         final Date notAfter = certificateToken.getNotAfter();
         final Date signingDate = signatureParameters.bLevel().getSigningDate();
         if (signingDate.after(notAfter)) {
-            throw new IllegalArgumentException(String.format("The signing certificate (notBefore : %s, notAfter : %s) " +
-                            "is expired at signing time %s! Change signing certificate or use method " +
-                            "setSignWithExpiredCertificate(true).",
-                    DSSUtils.formatDateToRFC(notBefore), DSSUtils.formatDateToRFC(notAfter), DSSUtils.formatDateToRFC(signingDate)));
+            StatusAlert alertOnExpiredOrNotYetValidCertificate = certificateVerifier.getAlertOnExpiredOrNotYetValidCertificate();
+
+
+            if(alertOnExpiredOrNotYetValidCertificate == null) {
+                throw new IllegalArgumentException(String.format("The signing certificate (notBefore : %s, notAfter : %s) " +
+                                "is expired at signing time %s! Change signing certificate or use method " +
+                                "setSignWithExpiredCertificate(true).",
+                        DSSUtils.formatDateToRFC(notBefore), DSSUtils.formatDateToRFC(notAfter), DSSUtils.formatDateToRFC(signingDate)));
+            }
+            else {
+                TokenStatus status = new TokenStatus();
+                status.addRelatedTokenAndErrorMessage(certificateToken, "Expired or not valid yet certificate");
+                alertOnExpiredOrNotYetValidCertificate.alert(status);
+            }
         }
     }
 

@@ -24,7 +24,6 @@ import eu.europa.esig.dss.asic.common.ASiCContent;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.validation.DocumentValidatorFactory;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
-import eu.europa.esig.dss.validation.UserFriendlyIdentifierProvider;
 
 /**
  * This class returns a relevant validator for an ASiC with XAdES container validation
@@ -58,10 +57,7 @@ public class ASiCContainerWithXAdESValidatorFactory implements DocumentValidator
 
 	@Override
 	public SignedDocumentValidator create(DSSDocument document) {
-		ASiCContainerWithXAdESValidator aSiCContainerWithXAdESValidator = new ASiCContainerWithXAdESValidator(document);
-		aSiCContainerWithXAdESValidator.setTokenIdentifierProvider(new UserFriendlyIdentifierProvider());
-
-		return aSiCContainerWithXAdESValidator;
+		return new ASiCContainerWithXAdESValidator(document);
 	}
 
 	/**
@@ -71,10 +67,7 @@ public class ASiCContainerWithXAdESValidatorFactory implements DocumentValidator
 	 * @return {@link SignedDocumentValidator}
 	 */
 	public SignedDocumentValidator create(ASiCContent asicContent) {
-		ASiCContainerWithXAdESValidator aSiCContainerWithXAdESValidator = new ASiCContainerWithXAdESValidator(asicContent);
-		aSiCContainerWithXAdESValidator.setTokenIdentifierProvider(new UserFriendlyIdentifierProvider());
-
-		return aSiCContainerWithXAdESValidator;
+		return new ASiCContainerWithXAdESValidator(asicContent);
 	}
 
 }

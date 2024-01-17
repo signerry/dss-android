@@ -693,16 +693,26 @@ public class SignatureValidationContext implements ValidationContext {
 	protected boolean isTimestampValid(TimestampToken timestampToken) {
 		if (!extractPOEFromUntrustedChains && !containsTrustAnchor(getCertChain(timestampToken))) {
 			LOG.warn("POE extraction is skipped for untrusted timestamp : {}.", timestampToken.getDSSIdAsString());
+			TokenStatus status = new TokenStatus();
+			status.addRelatedTokenAndErrorMessage(timestampToken, "untrusted_timestamp");
+			certificateVerifier.getAlertOnMissingRevocationData().alert(status);
 			return false;
 		}
 		if (!timestampToken.isMessageImprintDataIntact()) {
 			LOG.warn("POE extraction is skipped for timestamp : {}. The message-imprint is not intact!",
 					timestampToken.getDSSIdAsString());
+			TokenStatus status = new TokenStatus();
+			status.addRelatedTokenAndErrorMessage(timestampToken, "message_imprint_not_intact");
+			certificateVerifier.getAlertOnMissingRevocationData().alert(status);
 			return false;
 		}
 		if (!timestampToken.isSignatureIntact()) {
 			LOG.warn("POE extraction is skipped for timestamp : {}. The signature is not intact!",
 					timestampToken.getDSSIdAsString());
+
+			TokenStatus status = new TokenStatus();
+			status.addRelatedTokenAndErrorMessage(timestampToken, "signature_not_intact");
+			certificateVerifier.getAlertOnMissingRevocationData().alert(status);
 			return false;
 		}
 		return true;

@@ -168,7 +168,9 @@ public class CommonCertificateVerifier implements CertificateVerifier {
 	 */
 	private boolean extractPOEFromUntrustedChains = false;
 
-	private StatusAlert alertOnExpiredOrNotYetValidCertificate;
+	private StatusAlert alertOnExpiredOrNotYetValidCertificate = new LogOnStatusAlert(Level.WARN);
+
+	private StatusAlert alertInvalidTimestampExtension = new LogOnStatusAlert(Level.WARN);
 
 	/**
 	 * The default constructor. The {@code DataLoader} is created to allow the
@@ -415,6 +417,16 @@ public class CommonCertificateVerifier implements CertificateVerifier {
 	@Override
 	public StatusAlert getAlertOnExpiredOrNotYetValidCertificate() {
 		return alertOnExpiredOrNotYetValidCertificate;
+	}
+
+	@Override
+	public void setAlertInvalidTimestampExtension(StatusAlert alertOn) {
+		this.alertInvalidTimestampExtension = alertOn;
+	}
+
+	@Override
+	public StatusAlert getAlertInvalidTimestampExtension() {
+		return this.alertInvalidTimestampExtension;
 	}
 
 	@Override

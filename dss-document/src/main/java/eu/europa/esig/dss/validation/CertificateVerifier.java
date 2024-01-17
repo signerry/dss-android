@@ -380,4 +380,12 @@ public interface CertificateVerifier {
 
 	StatusAlert getAlertOnExpiredOrNotYetValidCertificate();
 
+
+	/**
+	 * Additional alert to detect invalid timestamp on signature extension
+	 */
+	void setAlertInvalidTimestampExtension(StatusAlert alertOn);
+
+	StatusAlert getAlertInvalidTimestampExtension();
+
 }

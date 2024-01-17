@@ -211,6 +211,14 @@ public class PAdESService extends AbstractSignatureService<PAdESSignatureParamet
 		final PDFSignatureService pdfSignatureService = getPAdESSignatureService();
 		DSSDocument signature = pdfSignatureService.sign(toSignDocument, cmsSignedData, parameters);
 
+		if(parameters.getExtendDelay() > 0) {
+			try {
+				Thread.sleep(parameters.getExtendDelay());
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
 		final SignatureExtension<PAdESSignatureParameters> extension = getExtensionProfile(signatureLevel);
 		if ((signatureLevel != SignatureLevel.PAdES_BASELINE_B) && (signatureLevel != SignatureLevel.PAdES_BASELINE_T) && (extension != null)) {
 			signature = extension.extendSignatures(signature, parameters);

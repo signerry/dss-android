@@ -76,6 +76,11 @@ public abstract class AbstractSignatureParameters<TP extends SerializableTimesta
 	private List<TimestampToken> contentTimestamps;
 
 	/**
+	 * Delay between signing and extension to keep freshness of revocations
+	 */
+	private int extendDelay = 0;
+
+	/**
 	 * Default constructor instantiating object with null values
 	 */
 	protected AbstractSignatureParameters() {
@@ -240,4 +245,11 @@ public abstract class AbstractSignatureParameters<TP extends SerializableTimesta
 		context = null;
 	}
 
+	public int getExtendDelay() {
+		return extendDelay;
+	}
+
+	public void setExtendDelay(int extendDelay) {
+		this.extendDelay = extendDelay;
+	}
 }

@@ -143,6 +143,15 @@ public class XAdESService extends AbstractSignatureService<XAdESSignatureParamet
 				detachedContents.add(toSignDocument);
 				parameters.getContext().setDetachedContents(detachedContents);
 			}
+
+			if(parameters.getExtendDelay() > 0) {
+				try {
+					Thread.sleep(parameters.getExtendDelay());
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+			}
+
 			result = extension.extendSignatures(result, parameters);
 		}
 

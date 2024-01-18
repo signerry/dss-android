@@ -90,6 +90,17 @@ public class XAdESLevelBaselineLT extends XAdESLevelBaselineT {
 			return;
 		}
 
+		/* 2024-01-18 E.Kuzma. Wait some time before extending to T-> LTA to
+		* ensure revocation data freshness */
+
+		if(params.getExtendDelay() > 0) {
+			try {
+				Thread.sleep(params.getExtendDelay());
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
 		// Perform signature validation
 		ValidationDataContainer validationDataContainer = documentValidator.getValidationData(signatures);
 

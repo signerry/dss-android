@@ -144,14 +144,6 @@ public class XAdESService extends AbstractSignatureService<XAdESSignatureParamet
 				parameters.getContext().setDetachedContents(detachedContents);
 			}
 
-			if(parameters.getExtendDelay() > 0) {
-				try {
-					Thread.sleep(parameters.getExtendDelay());
-				} catch (InterruptedException e) {
-					throw new RuntimeException(e);
-				}
-			}
-
 			result = extension.extendSignatures(result, parameters);
 		}
 
@@ -181,7 +173,8 @@ public class XAdESService extends AbstractSignatureService<XAdESSignatureParamet
 		Objects.requireNonNull(toExtendDocument, "toExtendDocument cannot be null!");
 		Objects.requireNonNull(parameters, "Cannot extend the signature. SignatureParameters are not defined!");
 		Objects.requireNonNull(parameters.getSignatureLevel(), "SignatureLevel must be defined!");
-		
+
+		System.out.println("extend_kurva");
 		parameters.getContext().setOperationKind(SigningOperation.EXTEND);
 		final SignatureExtension<XAdESSignatureParameters> extension = getExtensionProfile(parameters);
 		if (extension != null) {

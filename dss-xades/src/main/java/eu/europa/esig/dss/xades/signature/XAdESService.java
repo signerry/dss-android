@@ -174,7 +174,6 @@ public class XAdESService extends AbstractSignatureService<XAdESSignatureParamet
 		Objects.requireNonNull(parameters, "Cannot extend the signature. SignatureParameters are not defined!");
 		Objects.requireNonNull(parameters.getSignatureLevel(), "SignatureLevel must be defined!");
 
-		System.out.println("extend_kurva");
 		parameters.getContext().setOperationKind(SigningOperation.EXTEND);
 		final SignatureExtension<XAdESSignatureParameters> extension = getExtensionProfile(parameters);
 		if (extension != null) {

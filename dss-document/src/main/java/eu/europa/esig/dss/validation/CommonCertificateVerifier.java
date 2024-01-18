@@ -168,7 +168,7 @@ public class CommonCertificateVerifier implements CertificateVerifier {
 	 */
 	private boolean extractPOEFromUntrustedChains = false;
 
-	private StatusAlert alertOnExpiredOrNotYetValidCertificate = new LogOnStatusAlert(Level.WARN);
+	private StatusAlert alertOnExpiredOrNotYetValidCertificate;
 
 	private StatusAlert alertInvalidTimestampExtension = new LogOnStatusAlert(Level.WARN);
 

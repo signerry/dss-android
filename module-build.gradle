@@ -74,9 +74,6 @@ android {
 }
 
 repositories {
-    maven {
-        url = uri("https://maven.pkg.github.com/signerry/packages")
-    }
     mavenCentral()
     google()
     maven { url "file://${project.rootDir}/dependencies/" }
@@ -84,6 +81,9 @@ repositories {
     maven { url "https://jitpack.io" }
     maven { url "https://ec.europa.eu/digital-building-blocks/artifact/content/repositories/esignaturedss" }
     maven {url "https://repository.aspose.com/repo/" }
+    maven {
+        url = uri("https://maven.pkg.github.com/signerry/packages")
+    }
 
 }
 

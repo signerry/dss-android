@@ -76,10 +76,6 @@ android {
 repositories {
     maven {
         url = uri("https://maven.pkg.github.com/signerry/packages")
-        credentials {
-            username = System.getenv("GPR_USER")
-            password = System.getenv("GPR_API_KEY")
-        }
     }
     mavenCentral()
     google()
@@ -197,7 +193,7 @@ afterEvaluate {
                 from components.release
                 artifactId project.name
                 group "com.signerry.dss-android"
-                version "1.01.18"
+                version "1.01.20"
             }
         }
 

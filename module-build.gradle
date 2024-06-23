@@ -74,6 +74,13 @@ android {
 }
 
 repositories {
+    maven {
+        url = uri("https://maven.pkg.github.com/signerry/packages")
+        credentials {
+            username = System.getenv("GPR_USER")
+            password = System.getenv("GPR_API_KEY")
+        }
+    }
     mavenCentral()
     google()
     maven { url "file://${project.rootDir}/dependencies/" }
@@ -125,8 +132,7 @@ dependencies {
     implementation 'com.h2database:h2:2.1.210'
 
     implementation "org.apache.httpcomponents.client5:httpclient5:5.2.1"
-    implementation "com.github.signerry:santuario-xml-security-java:${xmlsec_version}"
-
+    implementation "com.signerry.santuario:xmlsec:${xmlsec_version}"
     api "org.bouncycastle:bcprov-jdk15on:${bouncycastle_version}"
     api "org.bouncycastle:bcpkix-jdk15on:${bouncycastle_version}"
     implementation 'xerces:xercesImpl:2.12.2'

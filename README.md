@@ -23,9 +23,13 @@ To include this port in your project, add the following to your `build.gradle` f
 
 ```groovy
 repositories {
-    maven {
-        url = uri("https://maven.pkg.github.com/signerry/packages")
-    }
+   maven {
+      url = uri("https://maven.pkg.github.com/signerry/packages")
+      credentials {
+         username = System.getenv("GPR_USER")
+         password = System.getenv("GPR_API_KEY")
+      }
+   }
 }
 
 dependencies {
@@ -61,15 +65,14 @@ and have been disabled:
 
 Due to the unavailability of certain standard Java SDK functionalities on Android, the following third-party libraries are used as substitutes:
 
-| Original Library                            | Substitution                                                                         |
-|---------------------------------------------|--------------------------------------------------------------------------------------|
-| [Apache PDFBox](https://pdfbox.apache.org/) | [PdfBox-Android](https://github.com/TomRoush/PdfBox-Android)                         |
-| LDAP                                        | [UnboundID LDAP SDK](https://ldap.com/unboundid-ldap-sdk-for-java/)                  |
-| Java AWT                                    | [android-awt](https://github.com/andob/android-awt/)                                 |
-| javax.xml.bind                              | jakarta.xml.bind                                                                     |
+| Original Library                            | Substitution                                                                             |
+|---------------------------------------------|------------------------------------------------------------------------------------------|
+| [Apache PDFBox](https://pdfbox.apache.org/) | [PdfBox-Android](https://github.com/TomRoush/PdfBox-Android)                             |
+| LDAP                                        | [UnboundID LDAP SDK](https://ldap.com/unboundid-ldap-sdk-for-java/)                      |
+| Java AWT                                    | [android-awt](https://github.com/andob/android-awt/)                                     |
+| javax.xml.bind                              | jakarta.xml.bind                                                                         |
 | org.apache.santuario:xmlsec                 | [com.signerry.santuario:xmlsec](https://github.com/signerry/santuario-xml-security-java) |
-
-
+| jaxb-ri                                     | [jaxb-ri](https://github.com/signerry/jaxb-ri)                                           |
 --- 
 
 # Ported modules

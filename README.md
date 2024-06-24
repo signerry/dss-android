@@ -2,8 +2,8 @@
 ### [Digital Signature Service (DSS)](https://github.com/esig/dss) 5.12.RC1 library port for android
 
 ![](.readme/android-logo.png)
-![](https://github.com/signerry/dss-android/actions/workflows/android-ci.yml/badge.svg)
-
+[![UNIT CI](https://github.com/signerry/dss-android/actions/workflows/unit-ci.yml/badge.svg)](https://github.com/signerry/dss-android/actions/workflows/unit-ci.yml)
+[![Android CI](https://github.com/signerry/dss-android/actions/workflows/android-ci.yml/badge.svg)](https://github.com/signerry/dss-android/actions/workflows/android-ci.yml)
 
 ### Supported API Levels
 
@@ -65,14 +65,14 @@ and have been disabled:
 
 Due to the unavailability of certain standard Java SDK functionalities on Android, the following third-party libraries are used as substitutes:
 
-| Original Library                            | Substitution                                                                             |
+| Original Library/Functionality              | Substitution                                                                             |
 |---------------------------------------------|------------------------------------------------------------------------------------------|
 | [Apache PDFBox](https://pdfbox.apache.org/) | [PdfBox-Android](https://github.com/TomRoush/PdfBox-Android)                             |
 | LDAP                                        | [UnboundID LDAP SDK](https://ldap.com/unboundid-ldap-sdk-for-java/)                      |
-| Java AWT                                    | [android-awt](https://github.com/andob/android-awt/)                                     |
+| Java AWT                                    | [com.signerry:androidawt](https://github.com/signerry/android-awt)                       |
 | javax.xml.bind                              | jakarta.xml.bind                                                                         |
 | org.apache.santuario:xmlsec                 | [com.signerry.santuario:xmlsec](https://github.com/signerry/santuario-xml-security-java) |
-| jaxb-ri                                     | [jaxb-ri](https://github.com/signerry/jaxb-ri)                                           |
+| jaxb-ri                                     | [signerry-jaxb-ri](https://github.com/signerry/jaxb-ri)                                  |
 --- 
 
 # Ported modules

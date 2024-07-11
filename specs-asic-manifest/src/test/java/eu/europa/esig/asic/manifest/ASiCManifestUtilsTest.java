@@ -54,7 +54,7 @@ public class ASiCManifestUtilsTest {
 	@SuppressWarnings("unchecked")
 	public void test() throws JAXBException, SAXException {
 
-		File xmldsigFile = TestUtils.getResourceAsFile("resources/ASiCManifest.xml");
+		File xmldsigFile = TestUtils.getResourceAsFile("ASiCManifest.xml");
 
 		JAXBContext jc = asicManifestUtils.getJAXBContext();
 		assertNotNull(jc);
@@ -83,7 +83,7 @@ public class ASiCManifestUtilsTest {
 	@Test
 	public void testInvalidFile() throws JAXBException, SAXException {
 
-		File xmldsigFile = TestUtils.getResourceAsFile("resources/ASiCManifestInvalid.xml");
+		File xmldsigFile = TestUtils.getResourceAsFile("ASiCManifestInvalid.xml");
 
 		JAXBContext jc = asicManifestUtils.getJAXBContext();
 		assertNotNull(jc);

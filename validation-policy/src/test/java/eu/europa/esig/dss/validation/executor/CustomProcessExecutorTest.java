@@ -3035,7 +3035,7 @@ public class CustomProcessExecutorTest extends AbstractTestValidationExecutor {
 			}
 		}
 		executor.setValidationPolicy(defaultPolicy);
-		executor.setCurrentTime(new Date());
+		executor.setCurrentTime(new Date("2022/02/02"));
 
 		Reports reports = executor.execute();
 		

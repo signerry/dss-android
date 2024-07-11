@@ -60,7 +60,7 @@ public class XAdESUtilsTest {
 	@SuppressWarnings("unchecked")
 	public void test() throws JAXBException, SAXException {
 
-		File xmldsigFile = TestUtils.getResourceAsFile("resources/xades-lta.xml");
+		File xmldsigFile = TestUtils.getResourceAsFile("xades-lta.xml");
 
 		JAXBContext jc = xadesUtils.getJAXBContext();
 		assertNotNull(jc);

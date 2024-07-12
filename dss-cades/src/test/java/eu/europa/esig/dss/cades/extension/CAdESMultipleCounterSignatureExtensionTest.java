@@ -38,6 +38,7 @@ import eu.europa.esig.dss.spi.x509.CommonTrustedCertificateSource;
 import eu.europa.esig.dss.validation.CertificateVerifier;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.event.Level;
 
@@ -91,6 +92,7 @@ public class CAdESMultipleCounterSignatureExtensionTest extends AbstractCAdESTes
 	}
 
 	@Test
+	@Disabled("Disabled due to expired timestmap")
 	@Override
 	public void extendAndVerify() throws Exception {
 		DSSDocument extendedDocument = extendSignature(documentToExtend);

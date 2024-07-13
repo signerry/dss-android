@@ -2,8 +2,8 @@
 ### [Digital Signature Service (DSS)](https://github.com/esig/dss) 5.12.RC1 library port for android
 
 ![](.readme/android-logo.png)
-[![UNIT CI](https://github.com/signerry/dss-android/actions/workflows/unit-ci.yml/badge.svg)](https://github.com/signerry/dss-android/actions/workflows/unit-ci.yml)
-[![Android CI](https://github.com/signerry/dss-android/actions/workflows/android-ci.yml/badge.svg)](https://github.com/signerry/dss-android/actions/workflows/android-ci.yml)
+[![Unit tests](https://github.com/signerry/dss-android/actions/workflows/unit-ci.yml/badge.svg)](https://github.com/signerry/dss-android/actions/workflows/unit-ci.yml)
+[![Instrumented tests](https://github.com/signerry/dss-android/actions/workflows/android-ci.yml/badge.svg)](https://github.com/signerry/dss-android/actions/workflows/android-ci.yml)
 
 ### Supported API Levels
 
@@ -40,9 +40,14 @@ dependencies {
 }
 ```
 
+* **GPR_USER**: Your GitHub username
+* **GPR_API_KEY**: Your GitHub personal access token with read:packages scope
+
 --- 
 
 ### Known Issues
+Tests are performed for both unit and instrumented levels. 
+Instrumented tests are executed on an Android emulator.
 All stock DSS tests pass with a few exceptions, mostly related to visual signatures. The following tests are not passing
 and have been disabled:
 
@@ -56,14 +61,16 @@ and have been disabled:
     - Visual rotationTest
 3. **dss-pades**:
     - PAdESSignatureDigestRefPresenceTest (Same issue in stock DSS 5.12.RC1)
-    - testDoubleSignature (Fails randomly due to time shift issue)
+    - testDoubleSignature (Fails randomly due emulator to time shift issue)
 4. **dss-tsl-validation**
    - skTLTest
+5. **dss-cades**
+   - CAdESMultipleCounterSignatureExtensionTest (Disabled due to expired timestamp)
 ---
 
 # Substitutions
 
-Due to the unavailability of certain standard Java SDK functionalities on Android, the following third-party libraries are used as substitutes:
+Because certain standard Java SDK functionalities are unavailable on Android, the following third-party libraries are used as substitutes:
 
 | Original Library/Functionality              | Substitution                                                                             |
 |---------------------------------------------|------------------------------------------------------------------------------------------|
@@ -157,7 +164,7 @@ This DSS project consists of several modules. The table below indicates which mo
 --- 
 
 ### Demo Application
-A sample signature validation [application](https://play.google.com/store/apps/details?id=com.signerry.android) is available on the Google Play Store, supporting Android 8.0 (API level 26) to Android 13 (API level 33).
+A sample signature validation [application](https://play.google.com/store/apps/details?id=com.signerry.android) is available on the Google Play Store.
 
 Simple report                    |  Detailed report
 :-------------------------------:|:-------------------------:

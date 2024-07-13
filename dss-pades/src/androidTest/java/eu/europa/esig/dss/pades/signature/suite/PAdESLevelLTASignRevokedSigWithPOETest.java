@@ -20,6 +20,7 @@
  */
 package eu.europa.esig.dss.pades.signature.suite;
 
+import eu.europa.esig.dss.alert.LogOnStatusAlert;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
@@ -38,6 +39,7 @@ import eu.europa.esig.dss.spi.x509.CommonTrustedCertificateSource;
 import eu.europa.esig.dss.validation.CertificateVerifier;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -65,9 +67,13 @@ public class PAdESLevelLTASignRevokedSigWithPOETest extends AbstractPAdESTestVal
         CertificateVerifier certificateVerifier = getCompleteCertificateVerifier();
         certificateVerifier.addTrustedCertSources(getTrustedCertSource());
         certificateVerifier.setRevocationFallback(true);
+        certificateVerifier.setAlertOnExpiredSignature(new LogOnStatusAlert());
 
         service = new PAdESService(certificateVerifier);
-        service.setTspSource(getGoodTsa());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2024, Calendar.JANUARY, 1);
+        service.setTspSource(getGoodTsaByTime(calendar.getTime()));
     }
 
     private CertificateSource getTrustedCertSource() {

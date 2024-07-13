@@ -84,11 +84,6 @@ repositories {
     mavenCentral()
     google()
     maven { url "file://${project.rootDir}/dependencies/" }
-    maven { url "https://maven.andob.info/repository/open_source" }
-    maven { url "https://jitpack.io" }
-    maven { url "https://ec.europa.eu/digital-building-blocks/artifact/content/repositories/esignaturedss" }
-    maven {url "https://repository.aspose.com/repo/" }
-
 }
 
 ext {
@@ -133,8 +128,6 @@ dependencies {
     implementation 'com.h2database:h2:2.1.210'
 
     implementation "org.apache.httpcomponents.client5:httpclient5:5.2.1"
-
-
     implementation "com.signerry.santuario:xmlsec:${xmlsec_version}"
     api "org.bouncycastle:bcprov-jdk15on:${bouncycastle_version}"
     api "org.bouncycastle:bcpkix-jdk15on:${bouncycastle_version}"
@@ -163,7 +156,7 @@ dependencies {
     androidTestImplementation "com.fasterxml.jackson.core:jackson-databind:${jackson_databind_version}"
     androidTestImplementation 'org.json:json:20220320'
 
-    implementation 'ro.andob.androidawt:androidawt:1.0.4'
+    implementation 'com.signerry:androidawt:1.0.4'
     implementation 'org.glassfish.jaxb:jaxb-runtime:3.1.6'
     api 'net.lingala.zip4j:zip4j:2.11.5'
     implementation 'xalan:xalan:2.7.2'
@@ -197,7 +190,7 @@ afterEvaluate {
                 from components.release
                 artifactId project.name
                 group "com.signerry.dss-android"
-                version "1.01.18"
+                version "1.01.20"
             }
         }
 

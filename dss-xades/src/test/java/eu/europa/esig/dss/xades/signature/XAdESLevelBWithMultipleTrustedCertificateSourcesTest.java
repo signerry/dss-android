@@ -87,7 +87,7 @@ public class XAdESLevelBWithMultipleTrustedCertificateSourcesTest extends PKIFac
 		DSSDocument signedDocument = sign();
 		certificateVerifier = getCertificateVerifierWithoutTrustSources();
 		CommonTrustedCertificateSource trusted = new CommonTrustedCertificateSource();
-		trusted.importAsTrusted(getBelgiumTrustAnchors());
+		trusted.importAsTrusted(getTrustedCertificateSource());
 		certificateVerifier.setTrustedCertSources(trusted);
 		expectedResult = Indication.TOTAL_PASSED;
 		trustedStoreExpectedResult = true;
@@ -99,7 +99,7 @@ public class XAdESLevelBWithMultipleTrustedCertificateSourcesTest extends PKIFac
 		DSSDocument signedDocument = sign();
 		certificateVerifier = getCertificateVerifierWithoutTrustSources();
 		CommonTrustedCertificateSource trusted = new CommonTrustedCertificateSource();
-		trusted.importAsTrusted(getBelgiumTrustAnchors());
+		trusted.importAsTrusted(getTrustedCertificateSource());
 		certificateVerifier.setTrustedCertSources(trusted);
 		
 		CertificateSource cs = new CommonCertificateSource();
@@ -139,7 +139,7 @@ public class XAdESLevelBWithMultipleTrustedCertificateSourcesTest extends PKIFac
 		assertEquals(1, trustedCertSources.getNumberOfSources());
 
 		CommonTrustedCertificateSource trustedSource2 = new CommonTrustedCertificateSource();
-		trustedSource2.importAsTrusted(getBelgiumTrustAnchors());
+		trustedSource2.importAsTrusted(getTrustedCertificateSource());
 		certificateVerifier.addTrustedCertSources(trustedSource2);
 		
 		trustedCertSources = certificateVerifier.getTrustedCertSources();
@@ -157,7 +157,7 @@ public class XAdESLevelBWithMultipleTrustedCertificateSourcesTest extends PKIFac
 		CommonTrustedCertificateSource trustedSource1 = new CommonTrustedCertificateSource();
 		trustedSource1.importAsTrusted(getSHA3PKITrustAnchors());
 		CommonTrustedCertificateSource trustedSource2 = new CommonTrustedCertificateSource();
-		trustedSource2.importAsTrusted(getBelgiumTrustAnchors());
+		trustedSource2.importAsTrusted(getTrustedCertificateSource());
 		certificateVerifier.setTrustedCertSources(trustedSource1, trustedSource2);
 		expectedResult = Indication.TOTAL_PASSED;
 		trustedStoreExpectedResult = true;
@@ -169,7 +169,7 @@ public class XAdESLevelBWithMultipleTrustedCertificateSourcesTest extends PKIFac
 		DSSDocument signedDocument = sign();
 		certificateVerifier = getCertificateVerifierWithoutTrustSources();
 		CommonTrustedCertificateSource trustedSource1 = new CommonTrustedCertificateSource();
-		trustedSource1.importAsTrusted(getBelgiumTrustAnchors());
+		trustedSource1.importAsTrusted(getTrustedCertificateSource());
 		certificateVerifier.setTrustedCertSources(trustedSource1, trustedSource1);
 		expectedResult = Indication.TOTAL_PASSED;
 		trustedStoreExpectedResult = true;

@@ -65,7 +65,7 @@ public class XAdESLevelLTAXPath2FilterEnvelopingWithContentTstTest extends Abstr
 		
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 		sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-		Date date = sdf.parse("2020-08-01 12:00");
+		Date date = sdf.parse("2023-08-01 12:00");
 
 		service = new XAdESService(getCompleteCertificateVerifier());
 		service.setTspSource(getGoodTsaByTime(date));

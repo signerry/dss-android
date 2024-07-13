@@ -60,7 +60,7 @@ public class PAdESLevelTNotTrustedTSPTest extends AbstractPAdESTestSignature {
         certificateVerifier.setOcspSource(new OnlineOCSPSource());
 
         CommonTrustedCertificateSource trustedCertificateSource = new CommonTrustedCertificateSource();
-        trustedCertificateSource.importAsTrusted(getBelgiumTrustAnchors());
+        trustedCertificateSource.importAsTrusted(getTrustedCertificateSource());
         certificateVerifier.setTrustedCertSources(trustedCertificateSource);
 
         service = new PAdESService(certificateVerifier);

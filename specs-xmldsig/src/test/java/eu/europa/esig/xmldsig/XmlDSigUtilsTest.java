@@ -61,7 +61,7 @@ public class XmlDSigUtilsTest {
 	@SuppressWarnings("unchecked")
 	public void test() throws JAXBException, SAXException {
 
-		File xmldsigFile = TestUtils.getResourceAsFile("resources/XmlAliceSig.xml");
+		File xmldsigFile = TestUtils.getResourceAsFile("XmlAliceSig.xml");
 
 		JAXBContext jc = xmlDSigUtils.getJAXBContext();
 		assertNotNull(jc);
@@ -103,10 +103,10 @@ public class XmlDSigUtilsTest {
 
 	@Test
 	public void validateTest() throws IOException, SAXException {
-		StreamSource aliceFile = new StreamSource(TestUtils.getResourceAsStream("resources/XmlAliceSig.xml"));
+		StreamSource aliceFile = new StreamSource(TestUtils.getResourceAsFile("XmlAliceSig.xml"));
 		xmlDSigUtils.validate(aliceFile, xmlDSigUtils.getSchema(), true);
 
-		StreamSource bobFile = new StreamSource(TestUtils.getResourceAsStream("resources/XmlBobSig.xml"));
+		StreamSource bobFile = new StreamSource(TestUtils.getResourceAsFile("XmlBobSig.xml"));
 		XSDValidationException exception = assertThrows(XSDValidationException.class,
 				() -> xmlDSigUtils.validate(bobFile, xmlDSigUtils.getSchema(), true));
 		assertNotNull(exception.getMessage());

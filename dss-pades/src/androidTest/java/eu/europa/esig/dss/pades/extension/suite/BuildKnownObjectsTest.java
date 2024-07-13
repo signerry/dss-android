@@ -84,6 +84,7 @@ public class BuildKnownObjectsTest extends PKIFactoryAccess {
 		CertificateVerifier certificateVerifier = getOfflineCertificateVerifier();
 		certificateVerifier.setAlertOnMissingRevocationData(new LogOnStatusAlert());
 		certificateVerifier.setAlertOnUncoveredPOE(new LogOnStatusAlert());
+		certificateVerifier.setAlertOnExpiredSignature(new LogOnStatusAlert());
 
 		CertificateSource trustedCertSource = new CommonTrustedCertificateSource();
 		trustedCertSource.addCertificate(DSSUtils.loadCertificateFromBase64EncodedString(

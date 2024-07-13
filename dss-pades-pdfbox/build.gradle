@@ -15,19 +15,6 @@ dependencies {
     implementation 'com.github.mhiew:pdfium-android:1.9.2'
     androidTestImplementation 'commons-io:commons-io:2.11.0'
 
-
-
-    androidTestImplementation (
-            group: 'com.aspose',
-            name: 'aspose-pdf',
-            version: '20.11',
-            classifier: 'android.via.java')
-
-    testImplementation (
-            group: 'com.aspose',
-            name: 'aspose-pdf',
-            version: '20.11',
-            classifier: 'android.via.java')
 }
 
 
